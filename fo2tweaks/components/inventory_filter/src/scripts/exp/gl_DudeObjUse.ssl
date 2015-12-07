@@ -1,0 +1,135 @@
+/*******************************************************************************
+        Name: Dude Used Object on Map
+        Location: Russia-Novorossia
+        Description: Script created for inventory filter
+*******************************************************************************/
+
+/* Include Files */
+#include "..\m_headers\define.h"
+#include "..\m_headers\command.h"
+#include "..\m_headers\sfall\sfall.h"
+
+/* Standard Script Procedures */
+procedure start;
+
+/* Defines */
+//#define Setting_ini       "./data/PCX/inv_filter/InvenFilter.ini|CONTAINER|"
+
+/*****************************************************************
+   Local Variables which are saved.
+   All Local Variables need to be prepended by LVAR_
+*****************************************************************/
+variable object_array;
+//variable cont_array;
+variable used, uSkill;
+
+/*******************************************************************
+   Imported variables from the Map scripts. These should only be
+   pointers and variables that need not be saved. If a variable
+   Needs to be saved, make it a map variable (MVAR_)
+*******************************************************************/
+
+/*******************************************************************
+   Local variables which do not need to be saved between map changes.
+*******************************************************************/
+
+/*******************************************************************
+*******                         PROCEDURES                   *******
+*******************************************************************/
+procedure UseSkills;
+
+procedure start begin
+
+variable m, objtype;
+//variable n, check_open, exitDo;
+
+      if game_loaded then begin
+        register_hook_proc(HOOK_USESKILL, UseSkills);
+        set_global_script_type(1);
+        set_global_script_repeat(10);
+        object_array:=create_array_map;
+/*
+        cont_array:=create_array_list(100);
+        while (get_ini_setting(Setting_ini + n)!=(-1)) do begin
+          cont_array[n]:=get_ini_setting(Setting_ini + n);
+          n+=1;
+        end
+        resize_array(cont_array, n);
+*/
+      end else begin
+          if not(used) and anim_busy(dude_obj) and art_anim(obj_art_fid(dude_obj))==11 /*or art_anim(obj_art_fid(dude_obj))==10*/ then begin
+              set_sfall_global("CNTR_USE",dude_tile);
+              used:=true;
+              uSkill:=false;
+          end else if used==true then begin
+//              debug_msg("loop 0");
+              if get_sfall_global_int("CNTR_USE")==dude_tile and not(anim_busy(dude_obj)) and not(uSkill) then begin
+//              debug_msg("loop 1");
+                object_array:=tile_get_objs(tile_num_in_direction(dude_tile, dude_cur_rot, 1), dude_elevation);
+                   m:=0;
+                   while objtype!=1 and object_array[m] > 0 do begin
+//                      debug_msg("value: "+object_array[m]);
+//                      debug_msg("pid: "+obj_pid(object_array[m]));
+//                      debug_msg("type: "+obj_item_subtype(object_array[m]));
+                      objtype:=obj_item_subtype(object_array[m]);
+                      m+=1;
+                   end
+                   if objtype==1 then begin
+                      if obj_pid(object_array[m-1])==PID_CAR_TRUNK  /*or get_script(object_array[m-1])==(-1)*/ then begin
+                          set_sfall_global("CNTR_PTR",object_array[m-1]);
+                          set_sfall_global("CNTR_USE",-1);
+                      end else begin
+                          set_sfall_global("CNTR_PTR",0);
+                          set_sfall_global("CNTR_USE",0);
+                      end
+/*
+                        if is_in_array(obj_pid(object_array[m-1]), cont_array) then check_open:=true;
+//old
+//                      n:=0;
+//                      while n < len_array(cont_array) and exitDo==false do begin
+//                       debug_msg("pid: "+cont_array[n]);
+//                         if cont_array[n]==obj_pid(object_array[m-1]) then begin
+//                            check_open:=true;
+//                            exitDo:=true;
+//                         end
+//                         n+=1;
+//---                   end
+                      if not(obj_is_locked(object_array[m-1])) then begin
+                          set_sfall_global("CNTR_PTR",object_array[m-1]);
+                          if check_open then begin
+                              if obj_is_open(object_array[m-1]) then begin
+                                  if get_sfall_global_int("CNTR_USE")==dude_tile then set_sfall_global("CNTR_USE",-1);
+                              end else begin
+                                  set_sfall_global("CNTR_PTR",0);
+                                  set_sfall_global("CNTR_USE",0);
+                              end
+                          end else if get_sfall_global_int("CNTR_USE")==dude_tile then set_sfall_global("CNTR_USE",-1);
+                      end else begin
+                          set_sfall_global("CNTR_PTR",0);
+                          set_sfall_global("CNTR_USE",0);
+                      end
+*/
+                   end else set_sfall_global("CNTR_PTR",0);
+                   objtype:=0;
+                   used:=false;
+              end else if get_sfall_global_int("CNTR_USE")!=dude_tile then used:=false;
+              if uSkill then used:=false;
+          end
+      end
+
+end
+
+procedure UseSkills begin
+
+   //Critter arg1 - The user critter
+   //Obj     arg2 - The target object
+   //int     arg3 - skill being used
+   //int     arg4 - skill bonus from items such as first aid kits
+   //int     ret1 - overrides hard-coded handler (-1 - use engine handler, any other value - override)
+
+   variable Crtr:=get_sfall_arg;
+   variable Obj:=get_sfall_arg;
+   if get_sfall_arg!=SKILL_STEAL then uSkill:=true;
+
+end
+

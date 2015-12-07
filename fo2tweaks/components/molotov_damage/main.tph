@@ -1,0 +1,17 @@
+OUTER_SPRINT data_dir ~data~
+OUTER_SPRINT comp_dir ~%MOD_FOLDER%/components/molotov_damage~
+OUTER_SPRINT items_dir ~%data_dir%/proto/items~
+OUTER_SPRINT filename ~00000159.pro~ //molotov
+
+ACTION_IF NOT FILE_EXISTS ~%items_dir%/%filename%~ BEGIN
+  COPY ~%comp_dir%/%filename%~ ~%items_dir%/%filename%~ //vanilla file
+END
+COPY ~%items_dir%/%filename%~ ~%items_dir%/%filename%~
+  WRITE_LONG 0x45 0x02000000 //fire is 2, Weidu uses little endian, and PRO is big endian
+BUT_ONLY
+
+ACTION_IF flameboy == 1 BEGIN
+  COPY ~%items_dir%/%filename%~ ~%items_dir%/%filename%~
+    WRITE_LONG 0x65 0x43000000 //same endian shit
+  BUT_ONLY
+END

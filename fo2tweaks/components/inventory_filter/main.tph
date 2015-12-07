@@ -1,0 +1,19 @@
+OUTER_SPRINT data_dir ~data~
+OUTER_SPRINT comp_dir ~%MOD_FOLDER%/components/inventory_filter~
+OUTER_SPRINT pcx_src_dir ~%comp_dir%/data/pcx/inv_filter~
+OUTER_SPRINT pcx_dst_dir ~%data_dir%/pcx/inv_filter~
+OUTER_SPRINT scripts_src_dir ~%comp_dir%/data/scripts~
+OUTER_SPRINT scripts_dst_dir ~%data_dir%/scripts~
+
+MKDIR ~%pcx_dst_dir%~
+ACTION_BASH_FOR ~%pcx_src_dir%~ ~.*~  BEGIN
+  COPY ~%BASH_FOR_FILESPEC%~ ~%pcx_dst_dir%~
+END
+
+COPY ~%scripts_src_dir%/gl_invenfilter.int~ ~%scripts_dst_dir%~
+ACTION_IF FILE_EXISTS ~olympus.exe~ BEGIN
+  OUTER_SPRINT main_script ~devinfo.int~
+END ELSE BEGIN
+  OUTER_SPRINT main_script ~test0.int~
+END
+COPY ~%scripts_src_dir%/%main_script%~ ~%scripts_dst_dir%~

@@ -1,0 +1,5 @@
+Binaries are not included to avoid repo bloating.
+
+compile.exe  a3b485d991adf141ffde0f1dc72f218f  http://www.nma-fallout.com/showthread.php?201526-Useful-Scripting-Libraries
+int2ssl.exe  0c697a902f4afa3a493f9d3bfc431834  http://www.nma-fallout.com/showthread.php?201526-Useful-Scripting-Libraries
+weidu.exe    0419fc4e0ae986f639e7ed3ea7ab6472  http://weidu.org/~thebigg/

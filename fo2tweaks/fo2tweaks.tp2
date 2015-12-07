@@ -1,0 +1,46 @@
+BACKUP ~fo2tweaks/backup~
+AUTHOR ~http://github.com/burner1024/fo2tweaks/issues~
+//MODDER
+README ~%MOD_FOLDER%/readme.txt~
+VERSION ~v1~
+LANGUAGE ~English~ ~ENGLISH~ ~%MOD_FOLDER%/tra/english/install.tra~
+
+BEGIN ~Fire damage~ DESIGNATED 0
+SUBCOMPONENT ~Molotov cocktail~
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+OUTER_SET flameboy = 0
+INCLUDE ~%MOD_FOLDER%/components/molotov_damage/main.tph~
+
+BEGIN ~Fire damage and burning death animation~ DESIGNATED 1
+SUBCOMPONENT ~Molotov cocktail~ 
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+OUTER_SET flameboy = 1
+INCLUDE ~%MOD_FOLDER%/components/molotov_damage/main.tph~
+
+BEGIN ~Grenades ignore armor class~ DESIGNATED 2
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+INCLUDE ~%MOD_FOLDER%/components/grenades_chance/main.tph~
+
+BEGIN ~Level 5 after temple of trials~ DESIGNATED 3
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+INCLUDE ~%MOD_FOLDER%/components/level5_temple/main.tph~
+
+BEGIN ~Max carry weight~ DESIGNATED 4
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+INCLUDE ~%MOD_FOLDER%/components/carry_weight/main.tph~
+
+BEGIN ~Unlimited trunk~ DESIGNATED 5
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+INCLUDE ~%MOD_FOLDER%/components/trunk_space/main.tph~
+
+BEGIN ~Silence idle fake reload animation for SMG and rifles~ DESIGNATED 6
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+INCLUDE ~%MOD_FOLDER%/components/reload_sound/main.tph~
+
+BEGIN ~Armor doesn't slow dude's run speed~ DESIGNATED 7
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+INCLUDE ~%MOD_FOLDER%/components/run_speed/main.tph~
+
+BEGIN ~Inventory filter~ DESIGNATED 8
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+INCLUDE ~%MOD_FOLDER%/components/inventory_filter/main.tph~

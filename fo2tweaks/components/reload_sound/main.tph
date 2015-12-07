@@ -1,0 +1,5 @@
+OUTER_SPRINT data_dir ~data~
+OUTER_SPRINT sfx_dir ~%data_dir%/sound/sfx~
+OUTER_SPRINT comp_dir ~%MOD_FOLDER%/components/reload_sound~
+COPY ~%comp_dir%/empty.acm~ ~%sfx_dir%/hmxxxxia.acm~ //smg
+COPY ~%comp_dir%/empty.acm~ ~%sfx_dir%/hmxxxxja.acm~ //rifle

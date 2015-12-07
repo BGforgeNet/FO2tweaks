@@ -1,0 +1,11 @@
+OUTER_SPRINT data_dir ~data~
+OUTER_SPRINT items_dir ~%data_dir%/proto/items~
+OUTER_SPRINT filename ~00000455.pro~ //trunk
+
+ACTION_IF NOT FILE_EXISTS ~%items_dir%/%filename%~ BEGIN
+  COPY ~%MOD_FOLDER%/components/trunk_space/%filename%~ ~%items_dir%/%filename%~ //vanilla file
+END
+COPY ~%items_dir%/%filename%~ ~%items_dir%/%filename%~
+  WRITE_LONG 0x39 0x0000ff00 //some million units
+BUT_ONLY
+

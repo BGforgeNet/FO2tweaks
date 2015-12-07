@@ -1,0 +1,36 @@
+// hs_tohit.ssl
+
+procedure start;
+#include ".\headers\DEFINE.H"
+#include ".\_sfall37_headers\sfall.h"
+#include ".\!pbs_rebalance_sources\_pbs_main\mod.h"
+
+#define usewpn(PID)(obj_pid(critter_inven_obj(attacker, INVEN_TYPE_RIGHT_HAND)) == PID)
+#define useammo(PID)(get_weapon_ammo_pid(critter_inven_obj(attacker, INVEN_TYPE_RIGHT_HAND)) == PID)
+#define usewpn_dude(PID) (active_hand==0 and (obj_pid(critter_inven_obj(attacker, INVEN_TYPE_LEFT_HAND)) == PID)) or (active_hand==1 and (obj_pid(critter_inven_obj(attacker, INVEN_TYPE_RIGHT_HAND)) == PID))
+#define useammo_dude(PID) (active_hand==0 and (get_weapon_ammo_pid(critter_inven_obj(attacker, INVEN_TYPE_LEFT_HAND)) == PID)) or (active_hand==1 and (get_weapon_ammo_pid(critter_inven_obj(attacker, INVEN_TYPE_RIGHT_HAND)) == PID))
+
+procedure start begin
+    variable tohit;
+    variable attacker;
+    variable target;
+    if not init_hook then begin
+        tohit := get_sfall_arg;
+        attacker := get_sfall_arg;
+        target := get_sfall_arg;
+
+        if (obj_pid(attacker)==obj_pid(dude_obj)) then begin
+          if (usewpn_dude(PID_MOLOTOV_COCKTAIL) or usewpn_dude(PID_FRAG_GRENADE) or usewpn_dude(PID_PULSE_GRENADE) or usewpn_dude(PID_PLASMA_GRENADE) or usewpn_dude(PID_PBS_HOMEMADE_GRENADE) or usewpn_dude(PID_PBS_M79) or usewpn_dude(PID_PBS_MGL) or (usewpn_dude(PID_ROCKET_LAUNCHER) and useammo_dude(PID_EXPLOSIVE_ROCKET))) then begin
+            tohit := tohit + get_critter_stat(target, STAT_ac);
+          end
+        end else if (usewpn(PID_MOLOTOV_COCKTAIL) or usewpn(PID_FRAG_GRENADE) or usewpn(PID_PULSE_GRENADE) or usewpn(PID_PLASMA_GRENADE) or usewpn(PID_PBS_HOMEMADE_GRENADE) or usewpn(PID_PBS_M79) or usewpn(PID_PBS_MGL) or (usewpn(PID_ROCKET_LAUNCHER) and useammo(PID_EXPLOSIVE_ROCKET))) then begin
+          tohit := tohit + get_critter_stat(target, STAT_ac);
+        end
+
+        if (tohit > 95) then begin
+            set_sfall_return(95);
+        end else begin
+            set_sfall_return(tohit);
+        end
+    end
+end

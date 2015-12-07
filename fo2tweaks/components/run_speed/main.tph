@@ -1,0 +1,27 @@
+OUTER_SPRINT src_dir ~%MOD_FOLDER%/components/run_speed/bin~
+OUTER_SPRINT dest_dir ~data/art/critters~
+
+ACTION_BASH_FOR ~%src_dir%~ ~.*~  BEGIN
+  OUTER_SPRINT filename ~%BASH_FOR_FILE%~
+  ACTION_IF NOT FILE_EXISTS ~%dest_dir%/%filename%~ BEGIN
+    COPY ~%src_dir%/%filename%~ ~%dest_dir%/%filename%~ //vanilla file
+  END
+  COPY ~%dest_dir%/%filename%~ ~%dest_dir%/%filename%~
+    WRITE_SHORT 0x4 0x1600 //2-byte 20 FPS
+  BUT_ONLY
+END
+
+ACTION_FOR_EACH model IN //RP player models
+hfr00s00
+hfr00s01
+hfr00s02
+hmr00s00
+hmr00s01
+hmr00s02
+BEGIN
+  ACTION_BASH_FOR ~appearance/%model%/art/critters~ ~.*at\.frm~ BEGIN
+    COPY ~%BASH_FOR_FILESPEC%~ ~%BASH_FOR_FILESPEC%~
+      WRITE_SHORT 0x4 0x1600 //2-byte 20 FPS
+    BUT_ONLY
+  END
+END
