@@ -65,8 +65,7 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 - It's provided as is, without any guarantee. Feel free to use it in any way that you see fit.
 
 ### Used software
-* [Noid's compiler](http://www.nirran.com/Fallout2moddingTools.php)
-* [Ruby](http://ruby.org)
+* [SSLC compiler/decompiler](http://www.nma-fallout.com/showthread.php?201526-Useful-Scripting-Libraries)
 * [Gema](http://gema.sourceforge.net)
 * [Weidu](http://weidu.org/~thebigg/)
 
