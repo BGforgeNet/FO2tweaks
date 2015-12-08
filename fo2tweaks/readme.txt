@@ -51,7 +51,7 @@ Tips:
 The mod is tested on Windows XP x86. If you have any issues, reach me on [github](https://github.com/burner1024/fo2tweaks/issues).
 
 ### Installation
-- Download [latest release](https://github.com/burner1024/fo2tweaks/releases/latest)
+- Download the latest [release](https://github.com/burner1024/fo2tweaks/releases/latest)
 - Unzip the archive into the game directory
 - Launch fo2tweaks.bat, answer the questions
 
