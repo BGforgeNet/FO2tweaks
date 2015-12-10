@@ -4,8 +4,8 @@ This mod provides several tweaks for Fallout 2. Some of them may be considered c
 
 - [Components](#components)
   - [Molotov cocktail](#molotov-cocktail)
-  - [Level 5 after temple of trials*](#level-5-after-temple-of-trials)
   - [Grenades ignore armor class](#grenades-ignore-armor-class)
+  - [Level 5 after temple of trials*](#level-5-after-temple-of-trials)
   - [Max carry weight*](#max-carry-weight)
   - [Unlimited trunk*](#unlimited-trunk)
   - [Silence "fake reload" animation](#silence-fake-reload-animation)
@@ -23,10 +23,10 @@ This mod provides several tweaks for Fallout 2. Some of them may be considered c
 ### Components
 #### Molotov cocktail
 Let Molotov coctail do fire damage instead of explosive (and optionally, enable "burning death" animation)
-#### Level 5 after temple of trials
-Nets the Chosen 10000 xp for completing the temple of trials
 #### Grenades ignore armor class
 Removes AC penalty from grenades, since they are actually thrown to target's feet, not "through" armor. This also affects explosive rockets from rocket launcher and grenade launchers from EcCo mod.
+#### Level 5 after temple of trials
+Nets the Chosen 10000 xp for completing the temple of trials
 #### Max carry weight
 AKA inventory pain killer, part 1. Let the Chosen carry up to 999 (max allowed by the engine) pounds. It's nearly unlimited in game terms. Naturally, that obsoletes "Strong back" and makes "Small frame" pure cheat.
 #### Unlimited trunk

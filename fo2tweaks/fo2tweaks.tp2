@@ -1,9 +1,12 @@
 BACKUP ~fo2tweaks/backup~
 AUTHOR ~http://github.com/burner1024/fo2tweaks/issues~
 //MODDER
+AUTO_EVAL_STRINGS
+NO_IF_EVAL_BUG
 README ~%MOD_FOLDER%/readme.txt~
 VERSION ~v1~
 LANGUAGE ~English~ ~ENGLISH~ ~%MOD_FOLDER%/tra/english/install.tra~
+
 
 BEGIN ~Fire damage~ DESIGNATED 0
 SUBCOMPONENT ~Molotov cocktail~
@@ -43,6 +46,7 @@ INCLUDE ~%MOD_FOLDER%/components/run_speed/main.tph~
 
 BEGIN ~Inventory filter~ DESIGNATED 8
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/inventory_filter/main.tph~
 
 BEGIN ~Unlimited party~ DESIGNATED 9

@@ -4,3 +4,4 @@ compile.exe  a3b485d991adf141ffde0f1dc72f218f  http://www.nma-fallout.com/showth
 int2ssl.exe  0c697a902f4afa3a493f9d3bfc431834  http://www.nma-fallout.com/showthread.php?201526-Useful-Scripting-Libraries
 weidu.exe    0419fc4e0ae986f639e7ed3ea7ab6472  http://weidu.org/~thebigg/
 gema.exe     fb0e602593368666d9f0b6b4eb042f1d  http://gema.sourceforge.net/
+components/sfall/ddraw.dll  eca6f6d9690bd0840b7f2c09d98ef93e  https://github.com/phobos2077/sfall/releases
