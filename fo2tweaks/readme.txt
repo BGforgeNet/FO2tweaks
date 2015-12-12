@@ -2,12 +2,12 @@
 
 This mod provides several tweaks for Fallout 2. Some of them may be considered cheats.
 
-- [Components](#components) (***** means that starting a new game is required for the component to take effect)
+- [Components](#components) (__*__ means that starting a new game is required for the component to take effect)
   - [Molotov cocktail](#molotov-cocktail)
   - [Grenades ignore armor class](#grenades-ignore-armor-class)
-  - [Level 5 after temple of trials*](#level-5-after-temple-of-trials)
-  - [Max carry weight*](#max-carry-weight)
-  - [Unlimited trunk*](#unlimited-trunk)
+  - [Level 5 after temple of trials__*__](#level-5-after-temple-of-trials)
+  - [Max carry weight__*__](#max-carry-weight)
+  - [Unlimited trunk__*__](#unlimited-trunk)
   - [Silence "fake reload" animation](#silence-fake-reload-animation)
   - [Armor doesn't slow down chosen](#armor-doesnt-slow-down-chosen)
   - [Inventory filter](#inventory-filter)
