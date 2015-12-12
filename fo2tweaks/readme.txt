@@ -12,7 +12,7 @@ This mod provides several tweaks for Fallout 2. Some of them may be considered c
   - [Armor doesn't reduce run speed](#armor-doesnt-reduce-run-speed)
   - [Inventory filter](#inventory-filter)
   - [Unlimited party](#unlimited-party)
-- [Special notes / compatibility](#special-notes-compatibility)
+- [Special notes / compatibility](#special-notes--compatibility)
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
 - [Reporting issues](#reporting-issues)
