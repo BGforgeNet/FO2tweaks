@@ -1,4 +1,4 @@
 fo2tweaks/tools/*.exe
 fo2tweaks/*.log
 fo2tweaks/backup/*
-fo2tweaks/components/sfall/ddraw.dll
+fo2tweaks/components/sfall/*.dll

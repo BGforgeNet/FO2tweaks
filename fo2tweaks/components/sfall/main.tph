@@ -1,4 +1,6 @@
-ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall BEGIN
+OUTER_SPRINT comp_dir ~%MOD_FOLDER%/components/sfall~
+
+ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall_2k BEGIN
 ~fd8c96fdb00c094e0200c88b419a4e72~ => ~2k_2.11~
 ~b6206050e97b3738f3afb145c607bb4a~ => ~2k_2.12~
 ~d69b742d9a724cf948d72cc0b0fea4ee~ => ~2k_2.13~
@@ -8,7 +10,9 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall BEGIN
 ~d571217ef8d8396fc17aeb0d9819201d~ => ~2k_3.0~
 ~743dd4c8f943e231bfc6b759c7ffb537~ => ~2k_3.1~
 ~580c59b1fd7ece502888b9c36e13607b~ => ~2k_3.4~
+END
 
+ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall BEGIN
 ~c4d86561a98084c540bfccb5750b4876~ => ~2.1~
 ~179d49a5e81935178e442fee87b8fde0~ => ~2.2~
 ~b5ab59dd5f40f2c0dded26a0c47bde32~ => ~2.20~
@@ -39,14 +43,19 @@ END
 
 ACTION_IF FILE_EXISTS ~ddraw.dll~ BEGIN
   ACTION_PHP_EACH sfall AS checksum => version BEGIN
-//  PRINT ~checking %version%: %checksum%~
-    ACTION_IF FILE_MD5 ddraw.dll %checksum% BEGIN
+    ACTION_IF FILE_MD5 ddraw.dll ~%checksum%~ BEGIN
       PRINT ~Updating Sfall~
-      COPY ~%MOD_FOLDER%/components/sfall/ddraw.dll~ ~ddraw.dll~
+      COPY ~%comp_dir%/ddraw.dll~ ~ddraw.dll~
+    END
+  END
+  ACTION_PHP_EACH sfall_2k AS checksum => version BEGIN
+    ACTION_IF FILE_MD5 ddraw.dll ~%checksum%~ BEGIN
+      PRINT ~Updating Sfall~
+      COPY ~%comp_dir%/2k_ddraw.dll~ ~ddraw.dll~
     END
   END
 END ELSE BEGIN
   PRINT ~Installing Sfall~
-  COPY ~%MOD_FOLDER%/components/sfall/ddraw.dll~ ~ddraw.dll~
-  COPY ~%MOD_FOLDER%/components/sfall/ddraw.ini~ ~ddraw.ini~
+  COPY ~%comp_dir%/ddraw.dll~ ~ddraw.dll~
+  COPY ~%comp_dir%/ddraw.ini~ ~ddraw.ini~
 END
