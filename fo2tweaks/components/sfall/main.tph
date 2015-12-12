@@ -43,16 +43,25 @@ END
 
 ACTION_IF FILE_EXISTS ~ddraw.dll~ BEGIN
   ACTION_PHP_EACH sfall AS checksum => version BEGIN
-    ACTION_IF FILE_MD5 ddraw.dll ~%checksum%~ BEGIN
-      PRINT ~Updating Sfall~
-      COPY ~%comp_dir%/ddraw.dll~ ~ddraw.dll~
+
+    ACTION_IF sfall_updated == 0 BEGIN //less md5 calculations
+      ACTION_IF FILE_MD5 ddraw.dll ~%checksum%~ BEGIN
+        PRINT ~Updating Sfall~
+        COPY ~%comp_dir%/ddraw.dll~ ~ddraw.dll~
+        OUTER_SET sfall_updated = 1
+      END
     END
-  END
-  ACTION_PHP_EACH sfall_2k AS checksum => version BEGIN
-    ACTION_IF FILE_MD5 ddraw.dll ~%checksum%~ BEGIN
-      PRINT ~Updating Sfall~
-      COPY ~%comp_dir%/2k_ddraw.dll~ ~ddraw.dll~
+
+    ACTION_PHP_EACH sfall_2k AS checksum => version BEGIN
+      ACTION_IF sfall_updated == 0 BEGIN //less md5 calculations
+        ACTION_IF FILE_MD5 ddraw.dll ~%checksum%~ BEGIN
+          PRINT ~Updating Sfall~
+          COPY ~%comp_dir%/2k_ddraw.dll~ ~ddraw.dll~
+          OUTER_SET sfall_updated = 1
+        END
+      END
     END
+
   END
 END ELSE BEGIN
   PRINT ~Installing Sfall~
