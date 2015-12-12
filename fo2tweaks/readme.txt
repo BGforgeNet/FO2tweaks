@@ -2,7 +2,7 @@
 
 This mod provides several tweaks for Fallout 2. Some of them may be considered cheats.
 
-- [Components](#components) (__*__ means that starting a new game is required for the component to take effect)
+- [Components](#components) (__*__ means that starting a new game is required)
   - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
   - [Grenades ignore armor class](#grenades-ignore-armor-class)
   - [Level 5 after temple of trials](#level-5-after-temple-of-trials)__*__
