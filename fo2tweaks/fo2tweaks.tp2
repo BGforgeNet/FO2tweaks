@@ -40,7 +40,7 @@ BEGIN ~Silence idle fake reload animation for SMG and rifles~ DESIGNATED 6
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 INCLUDE ~%MOD_FOLDER%/components/reload_sound/main.tph~
 
-BEGIN ~Armor doesn't slow dude's run speed~ DESIGNATED 7
+BEGIN ~Armor doesn't reduce run speed~ DESIGNATED 7
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 INCLUDE ~%MOD_FOLDER%/components/run_speed/main.tph~
 

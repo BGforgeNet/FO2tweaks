@@ -9,8 +9,9 @@ This mod provides several tweaks for Fallout 2. Some of them may be considered c
   - [Max carry weight](#max-carry-weight)__*__
   - [Unlimited trunk](#unlimited-trunk)__*__
   - [Silence "fake reload" animation](#silence-fake-reload-animation)
-  - [Armor doesn't slow down chosen](#armor-doesnt-slow-down-chosen)
+  - [Armor doesn't reduce run speed](#armor-doesnt-reduce-run-speed)
   - [Inventory filter](#inventory-filter)
+  - [Unlimited party](#unlimited-party)
 - [Special notes / compatibility](#special-notes-compatibility)
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
@@ -33,15 +34,36 @@ AKA inventory pain killer, part 1. Let the Chosen carry up to 999 (max allowed b
 Inventory pain killer, part 2. Never worry about trunk filling up.
 #### Silence fake reload animation
 Silence really annoying SMG/rifle "reload" sound which the dude does when he's idle (which is every few seconds). The animation itself still plays.
-#### Armor doesn't slow down chosen
+#### Armor doesn't reduce run speed
 In the original game, running becomes slower as armor gets heavier. This component disables that behaviour, so that run speed is constant and fast.
 #### Inventory filter
-Inventory pain killer, part 3. This is the ultimate inventory mod which allows you to *filter* your stuff. The actual author is [Mr.Сталин](http://www.nuclear-city.com/index.php/topic/512-плагин-filter-inventory-для-fallout2-и-модов/page-1)
+Inventory pain killer, part 3. This is the ultimate inventory mod which allows you to *filter* your stuff. The actual author is [Mr.Сталин](http://www.nuclear-city.com/index.php/topic/512-плагин-filter-inventory-для-fallout2-и-модов/page-1). This component requires Sfall version at least 3.5. If Sfall is not found or is too old, a newer version will be installed automatically.
 
 Tips:
 - Press control to activate the second set of buttons
 - Use middle mouse click on weapon/ammo buttons to see both item types
 - You can't use bags (which aren't in original Fallout 2 anyway, but possibly may be added by 3rd party mods)
+
+#### Unlimited party
+This component removes charisma checks upon joining the party. It does not remove other checks (karma, etc). For example, Goris may still decline to join if you're a "bad guy".
+
+The following companions are affected:
+- Brain bot
+- Cassidy
+- Cat Jules
+- Davin
+- Dex
+- Dogmeat
+- Goris
+- Kitsune
+- K-9
+- Lenny
+- Marcus
+- Miria
+- Miron
+- Robodog
+- Sulik
+- Vic
 
 ### Special notes / compatibility
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
