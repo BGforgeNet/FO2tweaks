@@ -2,7 +2,7 @@
 
 This mod provides several tweaks for Fallout 2. Some of them may be considered cheats.
 
-- [Components](#components)
+- [Components](#components) (***** means that starting a new game is required for the component to take effect)
   - [Molotov cocktail](#molotov-cocktail)
   - [Grenades ignore armor class](#grenades-ignore-armor-class)
   - [Level 5 after temple of trials*](#level-5-after-temple-of-trials)
@@ -11,7 +11,7 @@ This mod provides several tweaks for Fallout 2. Some of them may be considered c
   - [Silence "fake reload" animation](#silence-fake-reload-animation)
   - [Armor doesn't slow down chosen](#armor-doesnt-slow-down-chosen)
   - [Inventory filter](#inventory-filter)
-- [Special notes (**don't skip**)](#special-notes)
+- [Special notes / compatibility](#special-notes-compatibility)
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
 - [Reporting issues](#reporting-issues)
@@ -37,15 +37,15 @@ Silence really annoying SMG/rifle "reload" sound which the dude does when he's i
 In the original game, running becomes slower as armor gets heavier. This component disables that behaviour, so that run speed is constant and fast.
 #### Inventory filter
 Inventory pain killer, part 3. This is the ultimate inventory mod which allows you to *filter* your stuff. The actual author is [Mr.Сталин](http://www.nuclear-city.com/index.php/topic/512-плагин-filter-inventory-для-fallout2-и-модов/page-1)
+
 Tips:
 - Press control to activate the second set of buttons
 - Use middle mouse click on weapon/ammo buttons to see both item types
 - You can't use bags (which aren't in original Fallout 2 anyway, but possibly may be added by 3rd party mods)
 
-### Special notes
+### Special notes / compatibility
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
 - It should be **compatible with any other mod** provided that "fo2tweaks" is installed last. It patches files instead of overwriting them.
-- Starting a **new game is required for only components marked by star "*"**.
 
 ### Reporting issues
 The mod is tested on Windows XP x86. If you have any issues, reach me on [github](https://github.com/burner1024/fo2tweaks/issues).
