@@ -12,7 +12,7 @@ This mod provides several tweaks for Fallout 2.
   - [Armor doesn't reduce run speed](#armor-doesnt-reduce-run-speed)
   - [Inventory filter](#inventory-filter)
   - [Unlimited party](#unlimited-party)
-  - [Companions never use burst fire](#companions-never-use burst-fire)
+  - [Companions never use burst fire](#companions-never-use-burst-fire)
 - [Special notes / compatibility](#special-notes--compatibility)
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
