@@ -77,7 +77,7 @@ The following companions are affected:
 The mod is tested on Windows XP x86. If you have any issues, reach me on [github](https://github.com/burner1024/fo2tweaks/issues).
 
 ### Installation
-- Download the latest [release](https://github.com/burner1024/fo2tweaks/releases/latest)
+- Download fo2tweaks.zip from the [latest release page](https://github.com/burner1024/fo2tweaks/releases/latest)
 - Unzip the archive into the game directory
 - Launch fo2tweaks.bat, answer the questions
 
