@@ -44,7 +44,7 @@ Tips:
 - Use middle mouse click on weapon/ammo buttons to see both item types
 - You can't use bags (which aren't in original Fallout 2 anyway, but possibly may be added by 3rd party mods)
 Sample:
-[Sample](fo2tweaks/components/inventory_filter/sample.gif)
+![Sample](fo2tweaks/components/inventory_filter/sample.gif)
 
 #### Unlimited party
 This component removes charisma checks upon joining the party. It does not remove other checks (karma, etc). For example, Goris may still decline to join if you're a "bad guy".
