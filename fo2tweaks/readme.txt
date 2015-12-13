@@ -43,7 +43,9 @@ Tips:
 - Press CTRL to activate the second set of buttons
 - Use middle mouse click on weapon/ammo buttons to see both item types
 - You can't use bags (which aren't in original Fallout 2 anyway, but possibly may be added by 3rd party mods)
+
 Sample:
+
 ![Sample](fo2tweaks/components/inventory_filter/sample.gif)
 
 #### Unlimited party
