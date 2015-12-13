@@ -1,6 +1,6 @@
 ## Fallout 2 tweaks mod
 
-This mod provides several tweaks for Fallout 2. Some of them may be considered cheats.
+This mod provides several tweaks for Fallout 2.
 
 - [Components](#components) (__*__ means that starting a new game is required)
   - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
