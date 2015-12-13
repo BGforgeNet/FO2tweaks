@@ -39,12 +39,12 @@ In the original game, running becomes slower as armor gets heavier. This compone
 #### Inventory filter
 Inventory pain killer, part 3. This is the ultimate inventory mod which allows you to *filter* your stuff. The actual author is [Mr.Сталин](http://www.nuclear-city.com/index.php/topic/512-плагин-filter-inventory-для-fallout2-и-модов/page-1). This component requires Sfall version at least 3.5. If Sfall is not found or is too old, a newer version will be installed automatically.
 
-Tips:
+__Tips:__
 - Press CTRL to activate the second set of buttons
 - Use middle mouse click on weapon/ammo buttons to see both item types
 - You can't use bags (which aren't in original Fallout 2 anyway, but possibly may be added by 3rd party mods)
 
-Sample:
+__Sample:__
 
 ![Sample](fo2tweaks/components/inventory_filter/sample.gif)
 
