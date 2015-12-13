@@ -89,11 +89,13 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 
 ### License
 - It's provided as is, without any guarantee. Feel free to use it in any way that you see fit.
+- Used software have their own licences, refer to the corresponding resources for those.
 
 ### Used software
 * [SSLC compiler/decompiler](http://www.nma-fallout.com/showthread.php?201526-Useful-Scripting-Libraries)
 * [Gema](http://gema.sourceforge.net)
 * [Weidu](http://weidu.org/~thebigg/)
+* [Sfall](https://github.com/phobos2077/sfall)
 
 ### Changelog
 * Version 1: initial release.
