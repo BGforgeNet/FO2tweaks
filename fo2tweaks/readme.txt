@@ -12,6 +12,7 @@ This mod provides several tweaks for Fallout 2.
   - [Armor doesn't reduce run speed](#armor-doesnt-reduce-run-speed)
   - [Inventory filter](#inventory-filter)
   - [Unlimited party](#unlimited-party)
+  - [Companions never use burst fire](#companions-never-use burst-fire)
 - [Special notes / compatibility](#special-notes--compatibility)
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
@@ -69,6 +70,9 @@ The following companions are affected:
 - Sulik
 - Vic
 
+#### Companions never use burst fire
+Give any weapon to your companions, and never be burst in the back. (Well, unless you give them a machine gun which only has burst mode)
+
 ### Special notes / compatibility
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
 - It should be **compatible with any other mod** provided that "fo2tweaks" is installed last. It patches files instead of overwriting them.
@@ -98,5 +102,6 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 * [Sfall](https://github.com/phobos2077/sfall)
 
 ### Changelog
+* Version 2: Added "no burst" component.
 * Version 1: initial release.
 

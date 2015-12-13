@@ -1,0 +1,34 @@
+OUTER_SPRINT data_dir ~data~
+OUTER_SPRINT scripts_dir ~%data_dir%/scripts~
+OUTER_SPRINT tmp_dir ~%MOD_FOLDER%/tmp~
+OUTER_SPRINT bat_log ~%MOD_FOLDER%/fo2tweaks.bat.log~
+
+//Omotting cck9, ecdogmet, ocgoris, scrobo
+ACTION_FOR_EACH ai_script IN
+  dcvic
+  epac10
+  epac11
+  epac12
+  gclenny
+  hcmarcus
+  kcsulik
+  mcdavin
+  mcmiria
+  nhmyron
+  vccasidy
+  wcbrnbot
+BEGIN
+  ACTION_IF FILE_EXISTS ~%scripts_dir%/%ai_script%.int~ BEGIN
+    AT_NOW ~%MOD_FOLDER%/tools/int2ssl.exe -e %scripts_dir%/%ai_script%.int %ai_script%.ssl.tmp >> %bat_log% 2>&1~
+    COPY + ~%ai_script%.ssl.tmp~ ~%ai_script%.ssl.tmp~
+      REPLACE_TEXTUALLY CASE_INSENSITIVE
+        ~procedure start[%LNL%%MNL%]*begin~
+        ~procedure start
+begin
+  set_critter_burst_disable(self_obj,1);~
+    AT_NOW ~%MOD_FOLDER%/tools/compile.exe -p -d %ai_script%.ssl.tmp -o %tmp_dir%/%ai_script%.int >> %bat_log% 2>&1~
+    COPY ~%tmp_dir%/%ai_script%.int~ ~%scripts_dir%/%ai_script%.int~
+    DELETE + ~%ai_script%.ssl.tmp~
+    DELETE + ~%tmp_dir%/%ai_script%.int~
+  END
+END
