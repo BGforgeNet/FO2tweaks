@@ -71,7 +71,7 @@ The following companions are affected:
 - Vic
 
 #### Companions never use burst fire
-Give any weapon to your companions, and never be burst in the back. (Well, unless you give them a machine gun which only has burst mode)
+Give any weapon to your companions, and never be burst in the back. (Well, unless you give them a machine gun which only has burst mode).
 
 ### Special notes / compatibility
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
