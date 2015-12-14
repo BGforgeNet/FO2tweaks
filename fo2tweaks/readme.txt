@@ -2,6 +2,7 @@
 
 This mod provides several tweaks for Fallout 2.
 
+- [Download](https://github.com/burner1024/fo2tweaks/releases/latest)
 - [Components](#components) (__*__ means that starting a new game is required)
   - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
   - [Grenades ignore armor class](#grenades-ignore-armor-class)
@@ -24,7 +25,8 @@ This mod provides several tweaks for Fallout 2.
 
 ### Components
 #### Molotov cocktail: fire damage
-Let Molotov cocktail do fire damage instead of explosive (and optionally, enable "burning death" animation)`
+Let Molotov cocktail do fire damage instead of explosive (and optionally, enable "burning death" animation)
+`
 #### Grenades ignore armor class
 Removes AC penalty from grenades, since they are actually thrown to target's feet, not "through" armor. This also affects explosive rockets from rocket launcher and grenade launchers from EcCo mod.
 #### Level 5 after temple of trials
@@ -38,7 +40,8 @@ Silence really annoying SMG/rifle "reload" sound which the dude does when he's i
 #### Armor doesn't reduce run speed
 In the original game, running becomes slower as armor gets heavier. This component disables that behaviour, so that run speed is constant and fast.
 #### Inventory filter
-Inventory pain killer, part 3. This is the ultimate inventory mod which allows you to *filter* your stuff. The actual author is [Mr.Сталин](http://www.nuclear-city.com/index.php/topic/512-плагин-filter-inventory-для-fallout2-и-модов/page-1). This component requires Sfall version at least 3.5. If Sfall is not found or is too old, a newer version will be installed automatically.
+Inventory pain killer, part 3. This is the ultimate inventory mod which allows you to *filter* your stuff. The actual author is [Mr.Сталин](http://www.nuclear-city.com/index.php/topic/512-плагин-filter-inventory-для-fallout2-и-модов/page-1). This component requires Sfall version at least 3.5. If Sfall is not found or is too old, a newer version will be installed automatically.
+
 
 __Tips:__
 - Press CTRL to activate the second set of buttons
@@ -104,4 +107,4 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 ### Changelog
 * Version 2: Added "no burst" component.
 * Version 1: initial release.
-
+
