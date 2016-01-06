@@ -2,7 +2,7 @@
 
 This mod provides several tweaks for Fallout 2.
 
-- [Download](https://github.com/burner1024/fo2tweaks/releases/latest)
+- [__Download__](https://github.com/burner1024/fo2tweaks/releases/latest)
 - [Components](#components) (__*__ means that starting a new game is required)
   - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
   - [Grenades ignore armor class](#grenades-ignore-armor-class)
@@ -84,7 +84,7 @@ Give any weapon to your companions, and never be burst in the back. (Well, unles
 The mod is tested on Windows XP x86. If you have any issues, reach me on [github](https://github.com/burner1024/fo2tweaks/issues).
 
 ### Installation
-- Download fo2tweaks.zip from the [latest release page](https://github.com/burner1024/fo2tweaks/releases/latest)
+- Download __fo2tweaks.zip__ from the [latest release page](https://github.com/burner1024/fo2tweaks/releases/latest)
 - Unzip the archive into the game directory
 - Launch fo2tweaks.bat, answer the questions
 
