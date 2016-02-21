@@ -5,8 +5,8 @@ procedure start;
 #include ".\_sfall37_headers\sfall.h"
 #include ".\!pbs_rebalance_sources\_pbs_main\mod.h"
 
-#define usewpn(PID)(obj_pid(critter_inven_obj(attacker, INVEN_TYPE_RIGHT_HAND)) == PID)
-#define useammo(PID)(get_weapon_ammo_pid(critter_inven_obj(attacker, INVEN_TYPE_RIGHT_HAND)) == PID)
+#define usewpn(PID)(obj_pid(critter_inven_obj(attacker, INVEN_TYPE_LEFT_HAND)) == PID)
+#define useammo(PID)(get_weapon_ammo_pid(critter_inven_obj(attacker, INVEN_TYPE_LEFT_HAND)) == PID)
 #define usewpn_dude(PID) (active_hand==0 and (obj_pid(critter_inven_obj(attacker, INVEN_TYPE_LEFT_HAND)) == PID)) or (active_hand==1 and (obj_pid(critter_inven_obj(attacker, INVEN_TYPE_RIGHT_HAND)) == PID))
 #define useammo_dude(PID) (active_hand==0 and (get_weapon_ammo_pid(critter_inven_obj(attacker, INVEN_TYPE_LEFT_HAND)) == PID)) or (active_hand==1 and (get_weapon_ammo_pid(critter_inven_obj(attacker, INVEN_TYPE_RIGHT_HAND)) == PID))
 
