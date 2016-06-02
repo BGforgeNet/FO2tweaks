@@ -84,6 +84,7 @@ This component is only a convenience feature, configuring some sfall settings to
 - Combat, dialog and pipboy sleep panel animations are instant
 - Empty weapons are stacked regardless of the ammo
 - Weapon reload dialog with number of ammo boxes is skipped
+- Weapon switch is instant (no animation)
 
 ### Special notes / compatibility
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.

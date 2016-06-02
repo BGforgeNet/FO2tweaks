@@ -7,4 +7,5 @@ COPY ~ddraw.ini~ ~ddraw.ini~
   REPLACE_TEXTUALLY ~^.*PipboyTimeAnimDelay=.*~ ~PipboyTimeAnimDelay=0~
   REPLACE_TEXTUALLY ~^.*StackEmptyWeapons.*~ ~StackEmptyWeapons=1~
   REPLACE_TEXTUALLY ~^.*ReloadReserve=.*~ ~ReloadReserve=0~
+  REPLACE_TEXTUALLY ~^.*InstantWeaponEquip=.*~ ~InstantWeaponEquip=1~
 BUT_ONLY
