@@ -33,7 +33,7 @@ Removes AC penalty from grenades, since they are actually thrown to target's fee
 #### Level 5 after temple of trials
 Nets the Chosen 10000 xp for completing the temple of trials
 #### Max carry weight
-AKA inventory pain killer, part 1. Let the Chosen carry up to 999 (max allowed by the engine) pounds. It's nearly unlimited in game terms. Naturally, that obsoletes "Strong back" and makes "Small frame" pure cheat.
+AKA inventory pain killer, part 1. Let the Chosen carry up to 9999, regardless of strength. This takes effects after the temple of trials.
 #### Unlimited trunk
 Inventory pain killer, part 2. Never worry about trunk filling up.
 #### Silence fake reload animation

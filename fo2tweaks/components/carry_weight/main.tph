@@ -1,3 +1,21 @@
 COPY ~ddraw.ini~ ~ddraw.ini~
   REPLACE_TEXTUALLY ~^.*CarryWeightLimit=.*~ ~CarryWeightLimit=9999~
 BUT_ONLY
+OUTER_SPRINT data_dir ~data~
+OUTER_SPRINT scripts_dir ~%data_dir%/scripts~
+OUTER_SPRINT filename ~arvillag.int~ //arroyo village
+
+AT_NOW ~%MOD_FOLDER%/tools/int2ssl.exe -e %scripts_dir%/%filename% %filename%.ssl~
+
+COPY + ~%filename%.ssl~ ~%filename%.ssl~
+REPLACE_TEXTUALLY CASE_INSENSITIVE
+~display_msg(message_str(14, 1009));~ 
+~display_msg(message_str(14, 1009));
+set_pc_extra_stat(12, 99999);
+~ //12 is STAT_carry_amt
+BUT_ONLY
+
+AT_NOW ~%MOD_FOLDER%/tools/compile.exe -p -d %filename%.ssl -o %MOD_FOLDER%/tmp/%filename%~
+COPY ~%MOD_FOLDER%/tmp/%filename%~ ~%scripts_dir%/%filename%~
+DELETE + ~%filename%.ssl~
+DELETE + ~%MOD_FOLDER%/tmp/%filename%~
