@@ -9,3 +9,10 @@ COPY ~ddraw.ini~ ~ddraw.ini~
   REPLACE_TEXTUALLY ~^.*ReloadReserve=.*~ ~ReloadReserve=0~
   REPLACE_TEXTUALLY ~^.*InstantWeaponEquip=.*~ ~InstantWeaponEquip=1~
 BUT_ONLY
+
+ACTION_IF FILE_EXISTS ~f2_res.ini~ BEGIN
+  COPY ~f2_res.ini~ ~f2_res.ini~
+    REPLACE_TEXTUALLY ~^.*SPLASH_SCRN_TIME=.*~ ~SPLASH_SCRN_TIME=0~
+    REPLACE_TEXTUALLY ~^.*FADE_TIME_MODIFIER=.*~ ~FADE_TIME_MODIFIER=0~
+  BUT_ONLY
+END

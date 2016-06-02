@@ -85,6 +85,8 @@ This component is only a convenience feature, configuring some sfall settings to
 - Empty weapons are stacked regardless of the ammo
 - Weapon reload dialog with number of ammo boxes is skipped
 - Weapon switch is instant (no animation)
+- No splash screen is displayed (when HRP is available)
+- Fade in/out is instance (when HRP is available)
 
 ### Special notes / compatibility
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
@@ -115,6 +117,8 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 * [Sfall](https://github.com/phobos2077/sfall)
 
 ### Changelog
+* Version 5:
+   - enable speed options in HRP as well
 * Version 4:
    - allow carry weight of 9999
    - add "general speedup" component
