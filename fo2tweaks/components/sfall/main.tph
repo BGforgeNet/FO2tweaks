@@ -2,6 +2,10 @@ OUTER_SPRINT comp_dir ~%MOD_FOLDER%/components/sfall~
 OUTER_SET sfall_updated = 0
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall BEGIN
+~4310b5196fd5732beee78e1e27e4673f~ => ~3.7a~
+~eca6f6d9690bd0840b7f2c09d98ef93e~ => ~3.7~
+~abe82a69f38df08e815534e45ed176c1~ => ~3.6~
+~5ef30e921af154c92301f03505da7e6e~ => ~3.5~
 ~68eb52fe8169e94c3ec4451e7c6d9e37~ => ~3.4~
 ~8ab6c110dac5149bf1b9d70116b8a512~ => ~3.3~
 ~ff8d39304b97d0214ced7968b367f623~ => ~3.2~
@@ -31,6 +35,10 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall BEGIN
 END
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall_2k BEGIN
+~d5a9e181c71fe3d6d744c4ae8b8dc83c~ => ~2k_3.7a~
+~531bf91c81658afaaea976b1fe23c3ab~ => ~2k_3.7~
+~9715c54e0b4c13139035e9cbc3e6811a~ => ~2k_3.6~
+~7e5ce1ef6a397e28f21054e8d67f59c7~ => ~2k-3.5~
 ~580c59b1fd7ece502888b9c36e13607b~ => ~2k_3.4~
 ~743dd4c8f943e231bfc6b759c7ffb537~ => ~2k_3.1~
 ~d571217ef8d8396fc17aeb0d9819201d~ => ~2k_3.0~

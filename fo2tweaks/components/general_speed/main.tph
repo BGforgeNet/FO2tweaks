@@ -1,0 +1,10 @@
+COPY ~ddraw.ini~ ~ddraw.ini~
+  REPLACE_TEXTUALLY ~^.*SpeedMultiInitial=.*~ ~SpeedMultiInitial=115~
+  REPLACE_TEXTUALLY ~^.*SpeedInterfaceCounterAnims=.*~ ~SpeedInterfaceCounterAnims=2~
+  REPLACE_TEXTUALLY ~^.*SpeedInventoryPCRotation=.*~ ~SpeedInventoryPCRotation=880~
+  REPLACE_TEXTUALLY ~^.*CombatPanelAnimDelay=.*~ ~CombatPanelAnimDelay=0~
+  REPLACE_TEXTUALLY ~^.*DialogPanelAnimDelay=.*~ ~DialogPanelAnimDelay=0~
+  REPLACE_TEXTUALLY ~^.*PipboyTimeAnimDelay=.*~ ~PipboyTimeAnimDelay=0~
+  REPLACE_TEXTUALLY ~^.*StackEmptyWeapons.*~ ~StackEmptyWeapons=1~
+  REPLACE_TEXTUALLY ~^.*ReloadReserve=.*~ ~ReloadReserve=0~
+BUT_ONLY

@@ -14,6 +14,7 @@ This mod provides several tweaks for Fallout 2.
   - [Inventory filter](#inventory-filter)
   - [Unlimited party](#unlimited-party)
   - [Companions never use burst fire](#companions-never-use-burst-fire)
+  - [General game speedup](#general-game-speedup)
 - [Special notes / compatibility](#special-notes--compatibility)
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
@@ -76,6 +77,14 @@ The following companions are affected:
 #### Companions never use burst fire
 Give any weapon to your companions, and never be burst in the back. (Well, unless you give them a machine gun which only has burst mode).
 
+#### General game speedup
+This component is only a convenience feature, configuring some sfall settings to speedup gameplay. Specifically:
+- Game itself runs at 115% of the original speed
+- Opening movies are skipped
+- Combat, dialog and pipboy sleep panel animations are instant
+- Empty weapons are stacked regardless of the ammo
+- Weapon reload dialog with number of ammo boxes is skipped
+
 ### Special notes / compatibility
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
 - It should be **compatible with any other mod** provided that "fo2tweaks" is installed last. It patches files instead of overwriting them.
@@ -105,6 +114,10 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 * [Sfall](https://github.com/phobos2077/sfall)
 
 ### Changelog
+* Version 4:
+   - allow carry weight of 9999
+   - add "general speedup" component
+   - update sfall to version 3.7b
 * Version 3:
    - fixed bug when enemies didn't receive same grenade CtH boost
    - fixed bug with grenade CtH when Sfall wasn't installed prviously

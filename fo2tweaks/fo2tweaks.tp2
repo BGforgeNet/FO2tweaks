@@ -4,7 +4,7 @@ AUTHOR ~http://github.com/burner1024/fo2tweaks/issues~
 AUTO_EVAL_STRINGS
 NO_IF_EVAL_BUG
 README ~%MOD_FOLDER%/readme.txt~
-VERSION ~v3~
+VERSION ~v4~
 LANGUAGE ~English~ ~ENGLISH~ ~%MOD_FOLDER%/tra/english/install.tra~
 
 
@@ -31,6 +31,7 @@ INCLUDE ~%MOD_FOLDER%/components/level5_temple/main.tph~
 
 BEGIN ~Max carry weight~ DESIGNATED 4
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/carry_weight/main.tph~
 
 BEGIN ~Unlimited trunk~ DESIGNATED 5
@@ -58,3 +59,8 @@ BEGIN ~Companions never use burst fire~ DESIGNATED 10
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/party_no_burst/main.tph~
+
+BEGIN ~General game speedup~ DESIGNATED 11
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
+INCLUDE ~%MOD_FOLDER%/components/general_speed/main.tph~
