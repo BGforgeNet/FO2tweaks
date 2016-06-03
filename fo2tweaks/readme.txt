@@ -20,7 +20,7 @@ This mod provides several tweaks for Fallout 2.
 - [Unistallation](#uninstallation)
 - [Reporting issues](#reporting-issues)
 - [Author](#author)
-- [License](#license)
+- [Licence](#licence)
 - [Used software](#used-software)
 - [Changelog](#changelog)
 
@@ -106,8 +106,8 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 ### Author
 - burner1024 @ github
 
-### License
-- It's provided as is, without any guarantee. Feel free to use it in any way that you see fit.
+### Licence
+- The mod itself is [CC0 v1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 - Used software have their own licences, refer to the corresponding resources for those.
 
 ### Used software
@@ -119,6 +119,7 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 ### Changelog
 * Version 5:
    - enable speed options in HRP as well
+   - specify licence
 * Version 4:
    - allow carry weight of 9999
    - add "general speedup" component
