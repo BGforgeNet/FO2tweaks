@@ -4,7 +4,7 @@ AUTHOR ~http://github.com/burner1024/fo2tweaks/issues~
 AUTO_EVAL_STRINGS
 NO_IF_EVAL_BUG
 README ~%MOD_FOLDER%/readme.txt~
-VERSION ~v4~
+VERSION ~v5~
 LANGUAGE ~English~ ~ENGLISH~ ~%MOD_FOLDER%/tra/english/install.tra~
 
 
