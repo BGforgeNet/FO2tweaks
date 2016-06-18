@@ -85,12 +85,15 @@ This component is only a convenience feature, configuring some sfall settings to
 - Empty weapons are stacked regardless of the ammo
 - Weapon reload dialog with number of ammo boxes is skipped
 - Weapon switch is instant (no animation)
-- No splash screen is displayed (when HRP is available)
-- Fade in/out is instance (when HRP is available)
+- No splash screen is displayed (with HRP)
+- Fade in/out is instant (with HRP)
+
+#### Further conceal vaults
+In terms of roleplay, there's not much sense to visit the cities of the Big Circle: Broken Hills, Redding, New Reno, etc. In Vault City computer, you learn about Vault 15, in Vault 15 - about Vault 13, get the GECK, and it's pretty much non-stop express from there. This component grants you roleplaying justification to visit all those settlements, by removing Vault location information from the computers.
 
 ### Special notes / compatibility
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
-- It should be **compatible with any other mod** provided that "fo2tweaks" is installed last. It patches files instead of overwriting them.
+- It should be **compatible with any other mod** provided that "fo2tweaks" is installed **last**. It patches files instead of overwriting them.
 
 ### Reporting issues
 The mod is tested on Windows XP x86. If you have any issues, reach me on [github](https://github.com/burner1024/fo2tweaks/issues).
@@ -118,6 +121,7 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 
 ### Changelog
 * Version 5:
+   - add component "further conceal vaults"
    - enable speed options in HRP as well
    - specify licence
 * Version 4:

@@ -1,0 +1,27 @@
+OUTER_SPRINT data_dir ~data~
+OUTER_SPRINT scripts_dir ~%data_dir%/scripts~
+OUTER_SPRINT nl ~%MNL%%LNL%%WNL%~
+
+DEFINE_ACTION_FUNCTION g_replace_int_text_nocase
+  STR_VAR
+    script_name = ~~
+    old_text = ~~
+    new_text = ~~
+BEGIN
+  ACTION_IF FILE_EXISTS ~%scripts_dir%/%script_name%.int~ BEGIN
+    AT_NOW ~%MOD_FOLDER%/tools/int2ssl.exe -e %scripts_dir%/%script_name%.int %script_name%.ssl~
+
+    COPY + ~%script_name%.ssl~ ~%script_name%.ssl~
+      REPLACE_TEXTUALLY ~%WNL%~ ~%LNL%~
+      REPLACE_TEXTUALLY CASE_INSENSITIVE EXACT_MATCH ~%old_text%~ ~%new_text%~
+      REPLACE_TEXTUALLY ~%LNL%~ ~%WNL%~
+    BUT_ONLY
+
+    AT_NOW ~%MOD_FOLDER%/tools/compile.exe -p -d %script_name%.ssl -o %MOD_FOLDER%/tmp/%script_name%.int~
+    COPY ~%MOD_FOLDER%/tmp/%script_name%.int~ ~%scripts_dir%/%script_name%.int~
+    DELETE + ~%MOD_FOLDER%/tmp/%script_name%.int~
+
+  END ELSE BEGIN
+    PRINT ~Error: g_replace_int_text_nocase couldn't find file %scripts_dir%/%script_name%.int~
+  END
+END

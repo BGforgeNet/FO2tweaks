@@ -1,0 +1,56 @@
+INCLUDE ~%MOD_FOLDER%/components/lib/main.tph~
+
+
+LAF g_replace_int_text_nocase //circumvent node023, conceal vault 15
+  STR_VAR
+    script_name = ~vicencom~
+    old_text =
+~
+procedure Node023
+begin
+	if (metarule(17, 9) == 0) then begin
+		debug_msg("  mark_on_map(" + 9 + ")");
+		mark_area_known(0, 9, 1);
+	end
+	if (local_var(3) == 0) then begin
+		set_local_var(3, local_var(3) + 1);
+		gsay_reply(838, message_str(838, 234) + " " + message_str(838, 235));
+	end
+	else begin
+		gsay_reply(838, 234);
+	end
+	giq_option(4, 838, 236, Node033a, 50);
+	giq_option(4, 838, 237, Node033b, 50);
+end
+~
+    new_text =
+~
+procedure Node023
+begin
+	gsay_reply(838, 234);
+	giq_option(4, 838, 232, Node021, 50);
+	giq_option(4, 838, 233, Node006a, 50);
+end
+~
+END
+
+
+LAF g_replace_int_text_nocase //conceal vault 15 in "insert pipboy" dialogue option
+  STR_VAR
+    script_name = ~vicencom~
+    old_text =
+~
+	if (metarule(17, 9) == 0) then begin
+		debug_msg("  mark_on_map(" + 9 + ")");
+		mark_area_known(0, 9, 1);
+	end
+~
+    new_text = ~~
+END
+
+
+COPY ~data/text/english/dialog/vicencom.msg~ ~data/text/english/dialog/vicencom.msg~
+  REPLACE_TEXTUALLY
+    ~The archives list only two vaults: Vault 8 (this Vault) and Vault 15, located far to the south.~
+    ~The archives list only two vaults: Vault 8 (this Vault) and Vault 15. Unfortunately, coordinates are not recorded.~
+BUT_ONLY
