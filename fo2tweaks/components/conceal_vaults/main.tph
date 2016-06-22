@@ -1,7 +1,7 @@
 INCLUDE ~%MOD_FOLDER%/components/lib/main.tph~
 
-
-LAF g_replace_int_text_nocase //circumvent node023, conceal vault 15
+//Vault city comp: circumvent node023, conceal vault 15
+LAF g_replace_int_text_nocase
   STR_VAR
     script_name = ~vicencom~
     old_text =
@@ -34,8 +34,8 @@ end
 ~
 END
 
-
-LAF g_replace_int_text_nocase //conceal vault 15 in "insert pipboy" dialogue option
+//Vault city comp: conceal vault 15 in "insert pipboy" dialogue option
+LAF g_replace_int_text_nocase 
   STR_VAR
     script_name = ~vicencom~
     old_text =
@@ -48,9 +48,23 @@ LAF g_replace_int_text_nocase //conceal vault 15 in "insert pipboy" dialogue opt
     new_text = ~~
 END
 
-
+//Vault city comp: replace text to make clear there's no coordinates
 COPY ~data/text/english/dialog/vicencom.msg~ ~data/text/english/dialog/vicencom.msg~
-  REPLACE_TEXTUALLY
+  REPLACE_TEXTUALLY EXACT_MATCH
     ~The archives list only two vaults: Vault 8 (this Vault) and Vault 15, located far to the south.~
     ~The archives list only two vaults: Vault 8 (this Vault) and Vault 15. Unfortunately, coordinates are not recorded.~
+BUT_ONLY
+
+
+//Redding: Lou doesn't talk aobut San Francisco
+LAF g_replace_int_text_nocase //conceal "where's san fran" option
+  STR_VAR
+    script_name = ~rclou~
+    old_text = ~giq_option(6, 682, 115, Node011, 50);~
+    new_text = ~~
+END
+COPY ~data/text/english/dialog/rclou.msg~ ~data/text/english/dialog/rclou.msg~
+  REPLACE_TEXTUALLY EXACT_MATCH
+    ~Hello there. I'm Lou. Owner of the Malamute Saloon, finest house north of San Fran.~
+    ~Hello there. I'm Lou, owner of the Malamute Saloon.~
 BUT_ONLY

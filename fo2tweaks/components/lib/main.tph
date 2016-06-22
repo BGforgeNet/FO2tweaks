@@ -20,6 +20,7 @@ BEGIN
     AT_NOW ~%MOD_FOLDER%/tools/compile.exe -p -d %script_name%.ssl -o %MOD_FOLDER%/tmp/%script_name%.int~
     COPY ~%MOD_FOLDER%/tmp/%script_name%.int~ ~%scripts_dir%/%script_name%.int~
     DELETE + ~%MOD_FOLDER%/tmp/%script_name%.int~
+    DELETE + ~%script_name%.ssl~
 
   END ELSE BEGIN
     PRINT ~Error: g_replace_int_text_nocase couldn't find file %scripts_dir%/%script_name%.int~

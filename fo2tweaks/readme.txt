@@ -27,7 +27,7 @@ This mod provides several tweaks for Fallout 2.
 ### Components
 #### Molotov cocktail: fire damage
 Let Molotov cocktail do fire damage instead of explosive (and optionally, enable "burning death" animation)
-`
+
 #### Grenades ignore armor class
 Removes AC penalty from grenades, since they are actually thrown to target's feet, not "through" armor. This also affects explosive rockets from rocket launcher and grenade launchers from [EcCo mod](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/).
 #### Level 5 after temple of trials
