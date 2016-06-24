@@ -69,7 +69,7 @@ BEGIN ~Stretch game plotline~ DESIGNATED 12
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 INCLUDE ~%MOD_FOLDER%/components/stretch_plot/main.tph~
 
-BEGIN ~Oxygen tank protects from radon in Broken Hills~ DESIGNATED 13
+BEGIN ~Oxygen tank protects from radon in Broken Hills mine~ DESIGNATED 13
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 INCLUDE ~%MOD_FOLDER%/components/oxygen_tank/main.tph~
 

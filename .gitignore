@@ -1,4 +1,5 @@
-fo2tweaks/tools/*.exe
+fo2tweaks/tools/*
+!fo2tweaks/tools/tools.md5.txt
 fo2tweaks/*.log
 fo2tweaks/backup/*
 fo2tweaks/components/sfall/*.dll
