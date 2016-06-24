@@ -1,4 +1,3 @@
-OUTER_SPRINT data_dir ~data~
 OUTER_SPRINT sfx_dir ~%data_dir%/sound/sfx~
 OUTER_SPRINT comp_dir ~%MOD_FOLDER%/components/reload_sound~
 

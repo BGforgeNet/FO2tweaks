@@ -1,4 +1,3 @@
-OUTER_SPRINT data_dir ~data~
 OUTER_SPRINT comp_dir ~%MOD_FOLDER%/components/inventory_filter~
 OUTER_SPRINT pcx_src_dir ~%comp_dir%/data/pcx/inv_filter~
 OUTER_SPRINT pcx_dst_dir ~%data_dir%/pcx/inv_filter~

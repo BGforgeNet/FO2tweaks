@@ -1,7 +1,4 @@
-OUTER_SPRINT data_dir ~data~
 OUTER_SPRINT scripts_dir ~%data_dir%/scripts~
-OUTER_SPRINT tmp_dir ~%MOD_FOLDER%/tmp~
-OUTER_SPRINT bat_log ~%MOD_FOLDER%/fo2tweaks.bat.log~
 
 ACTION_FOR_EACH ai_script IN
   cck9

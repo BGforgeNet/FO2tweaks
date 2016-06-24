@@ -5,6 +5,14 @@ AUTO_EVAL_STRINGS
 NO_IF_EVAL_BUG
 README ~%MOD_FOLDER%/readme.txt~
 VERSION ~v5~
+ALWAYS
+  OUTER_SPRINT tmp_dir ~%MOD_FOLDER%/tmp~
+  OUTER_SPRINT bat_log ~%MOD_FOLDER%/%MOD_FOLDER%.bat.log~
+  OUTER_SPRINT data_dir ~data~
+  OUTER_SPRINT scripts_dir ~%data_dir%/scripts~
+  OUTER_SPRINT critters_dir ~%data_dir%/art/critters~
+  INCLUDE ~%MOD_FOLDER%/components/lib/main.tph~
+END
 LANGUAGE ~English~ ~ENGLISH~ ~fo2tweaks/tra/english/install.tra~
 
 

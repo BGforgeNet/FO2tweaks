@@ -10,7 +10,7 @@ DEFINE_ACTION_FUNCTION g_replace_int_text_nocase
     new_text = ~~
 BEGIN
   ACTION_IF FILE_EXISTS ~%scripts_dir%/%script_name%.int~ BEGIN
-    AT_NOW ~%MOD_FOLDER%/tools/int2ssl.exe -e %scripts_dir%/%script_name%.int %script_name%.ssl >> %MOD_FOLDER%/%MOD_FOLDER%.bat.log~
+    AT_NOW ~%MOD_FOLDER%/tools/int2ssl.exe -e %scripts_dir%/%script_name%.int %script_name%.ssl >> %bat_log% 2>&1~
 
     COPY + ~%script_name%.ssl~ ~%script_name%.ssl~
       REPLACE_TEXTUALLY ~%WNL%~ ~%LNL%~
@@ -18,7 +18,7 @@ BEGIN
       REPLACE_TEXTUALLY ~%LNL%~ ~%WNL%~
     BUT_ONLY
 
-    AT_NOW ~%MOD_FOLDER%/tools/compile.exe -p -d %script_name%.ssl -o %MOD_FOLDER%/tmp/%script_name%.int >> %MOD_FOLDER%/%MOD_FOLDER%.bat.log~
+    AT_NOW ~%MOD_FOLDER%/tools/compile.exe -p -d %script_name%.ssl -o %MOD_FOLDER%/tmp/%script_name%.int >> %bat_log% 2>&1~
     COPY ~%MOD_FOLDER%/tmp/%script_name%.int~ ~%scripts_dir%/%script_name%.int~
     DELETE + ~%MOD_FOLDER%/tmp/%script_name%.int~
     DELETE + ~%script_name%.ssl~
@@ -38,7 +38,7 @@ DEFINE_ACTION_FUNCTION g_dat_extract
 BEGIN
   OUTER_PATCH ~%file_path%~ BEGIN
     PATCH_IF NOT (~%file_path%~ STRING_MATCHES_REGEXP ~.*\\.*~ = 0) BEGIN
-      PATCH_PRINT ~ERROR: g_dat_extract requires file path with BACKWARD slashes. It got %file_path%.~
+      PATCH_PRINT ~ERROR: g_dat_extract requires file path with BACKWARD slashes. It got %file_path% instead.~
     END
     REPLACE_EVALUATE CASE_INSENSITIVE
       ~\(.*\)\\\(.*\)~
@@ -48,15 +48,20 @@ BEGIN
       END
       ~~
   END
+  ACTION_IF ~%file_dir%~ STR_EQ ~art\critters~ BEGIN
+    OUTER_SPRINT dat_file ~critter.dat~
+  END ELSE BEGIN
+    OUTER_SPRINT dat_file ~master.dat~
+  END
   ACTION_IF FILE_EXISTS ~%file_path%~ BEGIN
-    PRINT ~g_dat_extract: %file_path% already exists on the filesystem, not extracting from dat.~
+    PRINT ~g_dat_extract: %file_path% already exists on filesystem, not extracting from dat.~
   END ELSE BEGIN
     OUTER_SPRINT tmp_dir ~%MOD_FOLDER%/tmp~
     MKDIR ~%tmp_dir%~
-    PRINT ~g_dat_extract: %MOD_FOLDER%/tools/dat2.exe x -d %tmp_dir% master.dat %file_path% >> %MOD_FOLDER%/%MOD_FOLDER%.bat.log~
-    AT_NOW ~%MOD_FOLDER%/tools/dat2.exe x -d %tmp_dir% master.dat %file_path% >> %MOD_FOLDER%/%MOD_FOLDER%.bat.log~
+    PRINT ~g_dat_extract: %MOD_FOLDER%\tools\dat2.exe x -d %tmp_dir% %dat_file% %file_path% >> %bat_log% 2>&1~
+    AT_NOW ~%MOD_FOLDER%\tools\dat2.exe x -d %tmp_dir% %dat_file% %file_path% >> %bat_log% 2>&1~
     COPY ~%tmp_dir%/%file_path%~ ~%data_dir%/%file_path%~
     DELETE + ~%tmp_dir%/%file_path%~
-    AT_NOW ~attrib +r %data_dir%\%file_path%~
+    AT_NOW ~attrib +r %data_dir%\%file_path% >> %bat_log% 2>&1~
   END
 END

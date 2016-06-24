@@ -1,6 +1,2 @@
-OUTER_SPRINT data_dir ~data~
-OUTER_SPRINT scripts_dir ~%data_dir%/scripts~
-OUTER_SPRINT comp_name ~grenades_chance~
 OUTER_SPRINT filename ~hs_tohit.int~
-
-COPY ~%MOD_FOLDER%/components/%comp_name%/%filename%~ ~%scripts_dir%/%filename%~
+COPY ~%MOD_FOLDER%/components/grenades_chance/%filename%~ ~%scripts_dir%/%filename%~
