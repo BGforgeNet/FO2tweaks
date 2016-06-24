@@ -1,5 +1,3 @@
-INCLUDE ~%MOD_FOLDER%/components/lib/main.tph~
-
 OUTER_SPRINT filename ~proto\items\00000159.pro~ //scoped hunting rifle
 
 LAF g_dat_extract STR_VAR file_path = ~%filename%~ END

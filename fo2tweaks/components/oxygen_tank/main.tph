@@ -1,5 +1,3 @@
-INCLUDE ~%MOD_FOLDER%/components/lib/main.tph~
-
 LAF g_replace_int_text_nocase //dude
   STR_VAR
     script_name = ~broken2~

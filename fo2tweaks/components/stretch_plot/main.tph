@@ -1,5 +1,3 @@
-INCLUDE ~%MOD_FOLDER%/components/lib/main.tph~
-
 //Vault city comp: circumvent node023, conceal vault 15
 LAF g_replace_int_text_nocase
   STR_VAR
