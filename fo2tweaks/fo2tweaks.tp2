@@ -65,9 +65,9 @@ REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/general_speed/main.tph~
 
-BEGIN ~Further conceal vaults~ DESIGNATED 12
+BEGIN ~Stretch game plotline~ DESIGNATED 12
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-INCLUDE ~%MOD_FOLDER%/components/conceal_vaults/main.tph~
+INCLUDE ~%MOD_FOLDER%/components/stretch_plot/main.tph~
 
 BEGIN ~Oxygen tank protects from radon in Broken Hills~ DESIGNATED 13
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1

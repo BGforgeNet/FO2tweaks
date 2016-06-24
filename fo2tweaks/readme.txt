@@ -78,7 +78,7 @@ The following companions are affected:
 Give any weapon to your companions, and never be burst in the back. (Well, unless you give them a machine gun which only has burst mode).
 
 #### General game speedup
-This component is only a convenience feature, configuring some sfall settings to speedup gameplay. Specifically:
+This component preconfigures some Sfall and HRP settings for faster gameplay. Specifically:
 - Game itself runs at 115% of the original speed
 - Opening movies are skipped
 - Combat, dialog and pipboy sleep panel animations are instant
@@ -88,8 +88,12 @@ This component is only a convenience feature, configuring some sfall settings to
 - No splash screen is displayed (with HRP)
 - Fade in/out is instant (with HRP)
 
-#### Further conceal vaults
-In terms of roleplay, there's not much sense to visit the cities of the Big Circle: Broken Hills, Redding, New Reno, etc. In Vault City computer, you learn about Vault 15, in Vault 15 - about Vault 13, get the GECK, and it's pretty much non-stop express from there. This component grants you roleplaying justification to visit all those settlements, by removing Vault location information from the computers.
+#### Stretch game plotline
+In terms of roleplay, there's not much sense to visit the cities of the Big Circle: Broken Hills, Redding, New Reno, etc. In Vault City computer, you learn about Vault 15, in Vault 15 - about Vault 13, get the GECK, and it's pretty much non-stop express from there.
+This component removes bits of information here and there, so that there are less shortcut paths:
+- Vault City computer won't reveal Vault 15 location
+- Vault 15 computer won't reveal Vault 13 location
+- Lou (owner of Malamute salon in Redding) won't reveal San Francisco location
 
 ### Special notes / compatibility
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
