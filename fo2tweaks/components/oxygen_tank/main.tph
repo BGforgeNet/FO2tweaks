@@ -1,0 +1,42 @@
+INCLUDE ~%MOD_FOLDER%/components/lib/main.tph~
+
+LAF g_replace_int_text_nocase //dude
+  STR_VAR
+    script_name = ~broken2~
+    old_text = ~(obj_pid(critter_inven_obj(dude_obj, 0)) == 3)~
+    new_text = ~(obj_pid(critter_inven_obj(dude_obj, 0)) == 3) or (obj_is_carrying_obj_pid(dude_obj, 417) > 0)~
+END
+
+
+ACTION_FOR_EACH critter_pid IN //party
+16777278
+16777295
+16777305
+16777313
+16777323
+16777352
+16777368
+16777376
+16777377
+16777378
+16777379
+16777380
+16777381
+16777407
+16777411
+16777412
+16777413
+16777481
+16777558
+16777600
+16777718
+16777719
+16777720
+BEGIN
+  LAF g_replace_int_text_nocase
+    STR_VAR
+      script_name = ~broken2~
+      old_text = ~(obj_pid(critter_inven_obj(party_member_obj(%critter_pid%), 0)) == 3)~
+      new_text = ~(obj_pid(critter_inven_obj(party_member_obj(%critter_pid%), 0)) == 3) or (obj_is_carrying_obj_pid(party_member_obj(%critter_pid%), 417) > 0)~
+  END
+END

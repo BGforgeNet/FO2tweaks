@@ -5,7 +5,7 @@ AUTO_EVAL_STRINGS
 NO_IF_EVAL_BUG
 README ~%MOD_FOLDER%/readme.txt~
 VERSION ~v5~
-LANGUAGE ~English~ ~ENGLISH~ ~%MOD_FOLDER%/tra/english/install.tra~
+LANGUAGE ~English~ ~ENGLISH~ ~fo2tweaks/tra/english/install.tra~
 
 
 BEGIN ~Fire damage~ DESIGNATED 0
@@ -68,3 +68,7 @@ INCLUDE ~%MOD_FOLDER%/components/general_speed/main.tph~
 BEGIN ~Further conceal vaults~ DESIGNATED 12
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 INCLUDE ~%MOD_FOLDER%/components/conceal_vaults/main.tph~
+
+BEGIN ~Oxygen tank protects from radon in Broken Hills~ DESIGNATED 13
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+INCLUDE ~%MOD_FOLDER%/components/oxygen_tank/main.tph~
