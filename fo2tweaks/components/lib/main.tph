@@ -2,6 +2,7 @@ OUTER_SPRINT data_dir ~data~
 OUTER_SPRINT scripts_dir ~%data_dir%/scripts~
 OUTER_SPRINT nl ~%MNL%%LNL%%WNL%~
 
+//Decompile an *.int script, replace literally old_text with new_text, and compile it back
 DEFINE_ACTION_FUNCTION g_replace_int_text_nocase
   STR_VAR
     script_name = ~~
@@ -9,7 +10,7 @@ DEFINE_ACTION_FUNCTION g_replace_int_text_nocase
     new_text = ~~
 BEGIN
   ACTION_IF FILE_EXISTS ~%scripts_dir%/%script_name%.int~ BEGIN
-    AT_NOW ~%MOD_FOLDER%/tools/int2ssl.exe -e %scripts_dir%/%script_name%.int %script_name%.ssl~
+    AT_NOW ~%MOD_FOLDER%/tools/int2ssl.exe -e %scripts_dir%/%script_name%.int %script_name%.ssl >> %MOD_FOLDER%/%MOD_FOLDER%.bat.log~
 
     COPY + ~%script_name%.ssl~ ~%script_name%.ssl~
       REPLACE_TEXTUALLY ~%WNL%~ ~%LNL%~
@@ -17,12 +18,45 @@ BEGIN
       REPLACE_TEXTUALLY ~%LNL%~ ~%WNL%~
     BUT_ONLY
 
-    AT_NOW ~%MOD_FOLDER%/tools/compile.exe -p -d %script_name%.ssl -o %MOD_FOLDER%/tmp/%script_name%.int~
+    AT_NOW ~%MOD_FOLDER%/tools/compile.exe -p -d %script_name%.ssl -o %MOD_FOLDER%/tmp/%script_name%.int >> %MOD_FOLDER%/%MOD_FOLDER%.bat.log~
     COPY ~%MOD_FOLDER%/tmp/%script_name%.int~ ~%scripts_dir%/%script_name%.int~
     DELETE + ~%MOD_FOLDER%/tmp/%script_name%.int~
     DELETE + ~%script_name%.ssl~
 
   END ELSE BEGIN
     PRINT ~Error: g_replace_int_text_nocase couldn't find file %scripts_dir%/%script_name%.int~
+  END
+END
+
+// 1. check that file is on filesystem
+// 2. if not, extract it from master.dat
+// 3. set read-only attribute
+// requires file path relative to DATA directory, with BACKWARD slash: ~proto\items\00000287.pro~
+DEFINE_ACTION_FUNCTION g_dat_extract
+  STR_VAR
+    file_path = ~~
+BEGIN
+  OUTER_PATCH ~%file_path%~ BEGIN
+    PATCH_IF NOT (~%file_path%~ STRING_MATCHES_REGEXP ~.*\\.*~ = 0) BEGIN
+      PATCH_PRINT ~ERROR: g_dat_extract requires file path with BACKWARD slashes. It got %file_path%.~
+    END
+    REPLACE_EVALUATE CASE_INSENSITIVE
+      ~\(.*\)\\\(.*\)~
+      BEGIN
+        SPRINT file_dir ~%MATCH1%~
+        SPRINT file_name ~%MATCH2%~
+      END
+      ~~
+  END
+  ACTION_IF FILE_EXISTS ~%file_path%~ BEGIN
+    PRINT ~g_dat_extract: %file_path% already exists on the filesystem, not extracting from dat.~
+  END ELSE BEGIN
+    OUTER_SPRINT tmp_dir ~%MOD_FOLDER%/tmp~
+    MKDIR ~%tmp_dir%~
+    PRINT ~g_dat_extract: %MOD_FOLDER%/tools/dat2.exe x -d %tmp_dir% master.dat %file_path% >> %MOD_FOLDER%/%MOD_FOLDER%.bat.log~
+    AT_NOW ~%MOD_FOLDER%/tools/dat2.exe x -d %tmp_dir% master.dat %file_path% >> %MOD_FOLDER%/%MOD_FOLDER%.bat.log~
+    COPY ~%tmp_dir%/%file_path%~ ~%data_dir%/%file_path%~
+    DELETE + ~%tmp_dir%/%file_path%~
+    AT_NOW ~attrib +r %data_dir%\%file_path%~
   END
 END
