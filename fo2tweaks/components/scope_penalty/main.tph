@@ -3,6 +3,6 @@ OUTER_SPRINT filename ~proto\items\00000287.pro~ //scoped hunting rifle
 LAF g_dat_extract STR_VAR file_path = ~%filename%~ END
 
 COPY ~data/%filename%~ ~data/%filename%~
-  WRITE_LONG 0x65 0x9f000000 //perk weapon_long_range
-  WRITE_LONG 0x49 0x32000000 //range of 50
+  WRITE_LONG 0x65 0x9f000000 //perk weapon_long_range, 4-byte
+  WRITE_LONG 0x49 0x2d000000 //range of 45, 4-byte
 BUT_ONLY
