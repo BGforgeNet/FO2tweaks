@@ -95,6 +95,12 @@ This component removes bits of information here and there, so that there are les
 - Vault 15 computer won't reveal Vault 13 location
 - Lou (owner of Malamute salon in Redding) won't reveal San Francisco location
 
+#### Oxygen tank protects from radon in Broken Hills mine
+Any character having the tank in his inventory won't be damaged by poison gas.
+
+#### No close range penalty for scoped weapons
+You aren't forced to use the scope in close range, are you? Affects only one weapon currently, Scoped Hunting Rifle.
+
 ### Special notes / compatibility
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
 - It should be **compatible with any other mod** provided that "fo2tweaks" is installed **last**. It patches files instead of overwriting them.
@@ -125,13 +131,14 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 
 ### Changelog
 * Version 5:
-   - add component "further conceal vaults"
-   - enable speed options in HRP as well
-   - specify licence
+   - added component "stretch plotline"
+   - added component "oxygen tank protects from radon"
+   - enabled speed options in HRP as well
+   - specified licence
 * Version 4:
-   - allow carry weight of 9999
-   - add "general speedup" component
-   - update sfall to version 3.7b
+   - allowed carry weight of 9999
+   - added "general speedup" component
+   - updated sfall to version 3.7b
 * Version 3:
    - fixed bug when enemies didn't receive same grenade CtH boost
    - fixed bug with grenade CtH when Sfall wasn't installed prviously
