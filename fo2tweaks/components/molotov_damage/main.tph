@@ -4,7 +4,7 @@ LAF g_dat_extract STR_VAR file_path = ~%filename%~ END
 
 COPY ~data/%filename%~ ~data/%filename%~
   WRITE_LONG 0x45 0x02000000 //fire is 2, Weidu uses little endian, and PRO is big endian
-  PATCH_IF flameboy == 1 BEGIN
+  PATCH_IF flameboy = 1 BEGIN
     WRITE_LONG 0x65 0x43000000 //same endian shit
   END
 BUT_ONLY

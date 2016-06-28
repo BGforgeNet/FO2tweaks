@@ -25,21 +25,33 @@ This mod provides several tweaks for Fallout 2.
 - [Changelog](#changelog)
 
 ### Components
+
 #### Molotov cocktail: fire damage
 Let Molotov cocktail do fire damage instead of explosive (and optionally, enable "burning death" animation)
 
 #### Grenades ignore armor class
 Removes AC penalty from grenades, since they are actually thrown to target's feet, not "through" armor. This also affects explosive rockets from rocket launcher and grenade launchers from [EcCo mod](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/).
+
 #### Level 5 after temple of trials
 Nets the Chosen 10000 xp for completing the temple of trials
+
 #### Max carry weight
 AKA inventory pain killer, part 1. Let the Chosen carry up to 9999, regardless of strength. This takes effects after the temple of trials.
+
 #### Unlimited trunk
 Inventory pain killer, part 2. Never worry about trunk filling up.
+
 #### Silence fake reload animation
 Silence really annoying SMG/rifle "reload" sound which the dude does when he's idle (which is every few seconds). The animation itself still plays.
-#### Armor doesn't reduce run speed
+
+#### Increase run speed
+##### Armor doesn't reduce dude run speed
 In the original game, running becomes slower as armor gets heavier. This component disables that behaviour, so that run speed is constant and fast.
+##### Party NPC can run as well as dude
+Are you tired of your party lagging behind? Then this component is for you. All companions will have their run speed increased. Those that don't have run animations (Marcus, Brain bot) will have them created (sped up walking one).
+##### Both of the above options
+Like it says, speed up both the dude and the companions.
+
 #### Inventory filter
 Inventory pain killer, part 3. This is the ultimate inventory mod which allows you to *filter* your stuff. The actual author is [Mr.Сталин](http://www.nuclear-city.com/index.php/topic/512-плагин-filter-inventory-для-fallout2-и-модов/page-1). This component requires Sfall version at least 3.5. If Sfall is not found or is too old, a newer version will be installed automatically.
 
@@ -69,7 +81,7 @@ The following companions are affected:
 - Lenny
 - Marcus
 - Miria
-- Miron
+- Myron
 - Robodog
 - Sulik
 - Vic
@@ -92,8 +104,9 @@ This component preconfigures some Sfall and HRP settings for faster gameplay. Sp
 In terms of roleplay, there's not much sense to visit the cities of the Big Circle: Broken Hills, Redding, New Reno, etc. In Vault City computer, you learn about Vault 15, in Vault 15 - about Vault 13, get the GECK, and it's pretty much non-stop express from there.
 This component removes bits of information here and there, so that there are less shortcut paths:
 - Vault City computer won't reveal Vault 15 location
-- Vault 15 computer won't reveal Vault 13 location
+- Vault 15 computer won't reveal Vault 13 location TBD
 - Lou (owner of Malamute salon in Redding) won't reveal San Francisco location
+- Hakunin won't reveal Navarro location TBD
 
 #### Oxygen tank protects from radon in Broken Hills mine
 Any character having the tank in his inventory won't be damaged by poison gas.
@@ -128,9 +141,12 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 * [Gema](http://gema.sourceforge.net)
 * [Weidu](http://weidu.org/~thebigg/)
 * [Sfall](https://github.com/phobos2077/sfall)
+* [Dat2](https://github.com/falltergeist/datfile)
+* [Zlib](http://www.zlib.net)
 
 ### Changelog
 * Version 5:
+   - expanded component "run speed" to include party
    - added component "stretch plotline"
    - added component "oxygen tank protects from radon"
    - enabled speed options in HRP as well
@@ -144,4 +160,4 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
    - fixed bug with grenade CtH when Sfall wasn't installed prviously
 * Version 2: Added "no burst" component.
 * Version 1: initial release.
-
+

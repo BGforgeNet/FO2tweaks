@@ -1,22 +1,22 @@
 ACTION_FOR_EACH frm IN //vanilla armors
-  hanpwrat
-  hapowrat
-  harobeat
-  hfcmbtat
-  hfjmpsat
-  hflthrat
-  hfmaxxat
-  hfmetlat
-  hfprimat
-  hmcmbtat
-  hmjmpsat
-  hmlthrat
-  hmmaxxat
-  hmmetlat
-  hmwarrat
+  hanpwr
+  hapowr
+  harobe
+  hfcmbt
+  hfjmps
+  hflthr
+  hfmaxx
+  hfmetl
+  hfprim
+  hmcmbt
+  hmjmps
+  hmlthr
+  hmmaxx
+  hmmetl
+  hmwarr
 BEGIN
-  LAF g_dat_extract STR_VAR file_path = ~art\critters\%frm%.frm~ END
-  COPY ~%critters_dir%/%frm%.frm~ ~%critters_dir%/%frm%.frm~
+  LAF g_dat_extract STR_VAR file_path = ~art\critters\%frm%at.frm~ END
+  COPY ~%critters_dir%/%frm%at.frm~ ~%critters_dir%/%frm%at.frm~
     WRITE_SHORT 0x4 0x1600 //2-byte 20 FPS
   BUT_ONLY
 END

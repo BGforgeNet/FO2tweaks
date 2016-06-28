@@ -24,7 +24,7 @@ BEGIN
     DELETE + ~%script_name%.ssl~
 
   END ELSE BEGIN
-    PRINT ~Error: g_replace_int_text_nocase couldn't find file %scripts_dir%/%script_name%.int~
+    PRINT ~ERROR: g_replace_int_text_nocase couldn't find file %scripts_dir%/%script_name%.int~
   END
 END
 
@@ -60,8 +60,12 @@ BEGIN
     MKDIR ~%tmp_dir%~
     PRINT ~g_dat_extract: %MOD_FOLDER%\tools\dat2.exe x -d %tmp_dir% %dat_file% %file_path% >> %bat_log% 2>&1~
     AT_NOW ~%MOD_FOLDER%\tools\dat2.exe x -d %tmp_dir% %dat_file% %file_path% >> %bat_log% 2>&1~
-    COPY ~%tmp_dir%/%file_path%~ ~%data_dir%/%file_path%~
-    DELETE + ~%tmp_dir%/%file_path%~
-    AT_NOW ~attrib +r %data_dir%\%file_path% >> %bat_log% 2>&1~
+
+    ACTION_IF FILE_EXISTS ~%tmp_dir%/%file_path%~ BEGIN
+      COPY ~%tmp_dir%/%file_path%~ ~%data_dir%/%file_path%~
+    END ELSE BEGIN
+      PRINT ~WARNING: g_dat_extract couldn't find %file_path% in %dat_file%~
+    END
+
   END
 END
