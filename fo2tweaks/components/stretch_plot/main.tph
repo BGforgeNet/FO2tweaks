@@ -54,6 +54,17 @@ COPY ~data/text/english/dialog/vicencom.msg~ ~data/text/english/dialog/vicencom.
 BUT_ONLY
 
 
+//Tandi: reveal Vault 15 location
+LAF g_replace_int_text_nocase 
+  STR_VAR
+    script_name = ~shtandi~
+    old_text = ~gsay_reply(172, 116);~
+    new_text = ~gsay_reply(172, 116);
+                mark_area_known(0, 9, 1);
+               ~
+END
+
+
 //Redding: Lou doesn't talk aobut San Francisco
 LAF g_replace_int_text_nocase //conceal "where's san fran" option
   STR_VAR
@@ -65,4 +76,30 @@ COPY ~data/text/english/dialog/rclou.msg~ ~data/text/english/dialog/rclou.msg~
   REPLACE_TEXTUALLY EXACT_MATCH
     ~Hello there. I'm Lou. Owner of the Malamute Saloon, finest house north of San Fran.~
     ~Hello there. I'm Lou, owner of the Malamute Saloon.~
+BUT_ONLY
+
+
+//Vault 15 comp: don't reveal Vault 13
+LAF g_dat_extract STR_VAR file_path = ~scripts\bscomp1.int~ END
+LAF g_replace_int_text_nocase
+  STR_VAR
+    script_name = ~bscomp1~
+    old_text = ~mark_area_known(0, 11, 1);~
+    new_text = ~~
+END
+LAF g_replace_int_text_nocase
+  STR_VAR
+    script_name = ~bscomp1~
+    old_text = ~debug_msg("  mark_on_map(" + 11 + ")");~
+    new_text = ~~
+END
+OUTER_SPRINT f ~text\english\dialog\bscomp1.msg~
+LAF g_dat_extract STR_VAR file_path = ~%f%~ END
+COPY ~data/%f%~ ~data/%f%~
+  REPLACE_TEXTUALLY EXACT_MATCH
+    ~You access the computer and quickly scan all available files. You find the location of Vault 13%WNL% and copy it to your PIP-Boy.~
+    ~You access the computer and quickly scan all available files. Unfortunately, you can't find location of Vault 13.~
+  REPLACE_TEXTUALLY EXACT_MATCH
+    ~Other than the location of Vault 13, the computer contains no useful information.~
+    ~The computer contains no useful information.~
 BUT_ONLY

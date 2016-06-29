@@ -104,8 +104,8 @@ This component preconfigures some Sfall and HRP settings for faster gameplay. Sp
 #### Stretch game plotline
 In terms of roleplay, there's not much sense to visit the cities of the Big Circle: Broken Hills, Redding, New Reno, etc. In Vault City computer, you learn about Vault 15, in Vault 15 - about Vault 13, get the GECK, and it's pretty much non-stop express from there.
 This component removes bits of information here and there, so that there are less shortcut paths:
-- Vault City computer won't reveal Vault 15 location
-- Vault 15 computer won't reveal Vault 13 location TBD
+- Vault City computer won't reveal Vault 15 location (but Tandi will - if you ask her)
+- Vault 15 computer won't reveal Vault 13 location
 - Lou (owner of Malamute salon in Redding) won't reveal San Francisco location
 - Hakunin won't reveal Navarro location TBD
 
