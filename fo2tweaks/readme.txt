@@ -17,6 +17,7 @@ This mod provides several tweaks for Fallout 2.
   - [General game speedup](#general-game-speedup)
 - [Special notes / compatibility](#special-notes--compatibility)
 - [Installation](#installation)
+- [Troubleshooting](#troubleshooting)
 - [Unistallation](#uninstallation)
 - [Reporting issues](#reporting-issues)
 - [Author](#author)
@@ -125,6 +126,9 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 - Download __fo2tweaks.zip__ from the [latest release page](https://github.com/burner1024/fo2tweaks/releases/latest)
 - Unzip the archive into the game directory
 - Launch fo2tweaks.bat, answer the questions
+
+### Troubleshooting
+If installation gets seemingly stuck (more than a minute without any progress), try disabling your antivirus for a moment. In particular, Avast is known to raise false positives.
 
 ### Uninstallation
 - Launch fo2tweaks.bat, answer the questions
