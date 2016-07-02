@@ -103,3 +103,18 @@ COPY ~data/%f%~ ~data/%f%~
     ~Other than the location of Vault 13, the computer contains no useful information.~
     ~The computer contains no useful information.~
 BUT_ONLY
+
+
+//Hakunin: don't reveal Navarro
+LAF g_replace_int_text_nocase 
+  STR_VAR
+    script_name = ~ahhakun~
+    old_text =
+~
+			if (metarule(17, 15) == 0) then begin
+				debug_msg("  mark_on_map(" + 15 + ")");
+				mark_area_known(0, 15, 1);
+			end
+~
+    new_text = ~~
+END

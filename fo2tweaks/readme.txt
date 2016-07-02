@@ -56,7 +56,6 @@ Like it says, speed up both the dude and the companions.
 #### Inventory filter
 Inventory pain killer, part 3. This is the ultimate inventory mod which allows you to *filter* your stuff. The actual author is [Mr.Сталин](http://www.nuclear-city.com/index.php/topic/512-плагин-filter-inventory-для-fallout2-и-модов/page-1). This component requires Sfall version at least 3.5. If Sfall is not found or is too old, a newer version will be installed automatically.
 
-
 __Tips:__
 - Press CTRL to activate the second set of buttons
 - Use middle mouse click on weapon/ammo buttons to see both item types
@@ -67,7 +66,7 @@ __Sample:__
 ![Sample](fo2tweaks/components/inventory_filter/sample.gif)
 
 #### Unlimited party
-This component removes charisma checks upon joining the party. It does not remove other checks (karma, etc). For example, Goris may still decline to join if you're a "bad guy".
+This component removes charisma checks upon NPC joining the party. It does not remove other checks (karma, etc). For example, Goris may still decline to join if you're a childkiller.
 
 The following companions are affected:
 - Cassidy
@@ -107,7 +106,7 @@ This component removes bits of information here and there, so that there are les
 - Vault City computer won't reveal Vault 15 location (but Tandi will - if you ask her)
 - Vault 15 computer won't reveal Vault 13 location
 - Lou (owner of Malamute salon in Redding) won't reveal San Francisco location
-- Hakunin won't reveal Navarro location TBD
+- Hakunin won't reveal Navarro location
 
 #### Oxygen tank protects from radon in Broken Hills mine
 Any character having the tank in his inventory won't be damaged by poison gas.
