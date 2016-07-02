@@ -112,3 +112,8 @@ INCLUDE ~%MOD_FOLDER%/components/oxygen_tank/main.tph~
 BEGIN ~No close range penalty for scoped weapons~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 INCLUDE ~%MOD_FOLDER%/components/scope_penalty/main.tph~
+
+
+BEGIN ~Open all combat settings for all NPC~
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+INCLUDE ~%MOD_FOLDER%/components/party_ai/main.tph~
