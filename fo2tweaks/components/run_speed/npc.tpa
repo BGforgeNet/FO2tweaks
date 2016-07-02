@@ -11,7 +11,7 @@
   mamtn2 //marcus vanilla
   malieu //marcus RP armor
 
-  marobo //brain bot
+  marobo //skynet
 
   nmfatt //vic
 
@@ -40,7 +40,7 @@ ACTION_FOR_EACH npc_frm IN
   maddog //dogmeat
   marobe //goris
   mamtn2 //marcus
-  marobo //brain bot
+  marobo //skynet
   nmfatt //vic
   nmmyrn //myron
   nmlthr //cassidy
@@ -60,8 +60,20 @@ BEGIN //try to extract run, if it doesn't exist, create one from walk
   END
 END
 
+ACTION_DEFINE_ASSOCIATIVE_ARRAY specific_fps BEGIN
+  maroboat.frm => 0x4800
+END
+
 ACTION_BASH_FOR ~%critters_dir%~ ~.*at\.frm~ BEGIN //set all run animations to 20 FPS
   COPY ~%BASH_FOR_FILESPEC%~ ~%BASH_FOR_FILESPEC%~
-    WRITE_SHORT 0x4 0x1600 //2-byte 20 FPS
+    SPRINT file ~%BASH_FOR_FILE%~
+    TO_LOWER file
+    PATCH_IF VARIABLE_IS_SET $specific_fps(~%file%~) BEGIN
+      fps = $specific_fps(~%file%~)
+    END ELSE BEGIN
+      fps = 0x1600 //2-byte 20 fps
+    END
+    PATCH_PRINT ~%file%: %fps% fps~
+    WRITE_SHORT 0x4 fps
   BUT_ONLY
 END

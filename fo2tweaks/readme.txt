@@ -49,7 +49,7 @@ Silence really annoying SMG/rifle "reload" sound which the dude does when he's i
 ##### Armor doesn't reduce dude run speed
 In the original game, running becomes slower as armor gets heavier. This component disables that behaviour, so that run speed is constant and fast.
 ##### Party NPC can run as well as dude
-Are you tired of your party lagging behind? Then this component is for you. All companions will have their run speed increased. Those that don't have run animations (Marcus, Brain bot) will have them created (sped up walking one).
+Are you tired of your party lagging behind? Then this component is for you. All companions will have their run speed increased. Those that don't have run animations (Marcus, Skynet) will have them created (sped up walking one).
 ##### Both of the above options
 Like it says, speed up both the dude and the companions.
 
@@ -70,7 +70,6 @@ __Sample:__
 This component removes charisma checks upon joining the party. It does not remove other checks (karma, etc). For example, Goris may still decline to join if you're a "bad guy".
 
 The following companions are affected:
-- Brain bot
 - Cassidy
 - Cat Jules
 - Davin
@@ -84,6 +83,7 @@ The following companions are affected:
 - Miria
 - Myron
 - Robodog
+- Skynet
 - Sulik
 - Vic
 
