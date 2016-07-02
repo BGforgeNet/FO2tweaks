@@ -73,7 +73,6 @@ ACTION_BASH_FOR ~%critters_dir%~ ~.*at\.frm~ BEGIN //set all run animations to 2
     END ELSE BEGIN
       fps = 0x1600 //2-byte 20 fps
     END
-    PATCH_PRINT ~%file%: %fps% fps~
     WRITE_SHORT 0x4 fps
   BUT_ONLY
 END
