@@ -61,7 +61,7 @@ BEGIN //try to extract run, if it doesn't exist, create one from walk
 END
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY specific_fps BEGIN
-  maroboat.frm => 0x4800
+  maroboat.frm => 0x4000
 END
 
 ACTION_BASH_FOR ~%critters_dir%~ ~.*at\.frm~ BEGIN //set all run animations to 20 FPS
