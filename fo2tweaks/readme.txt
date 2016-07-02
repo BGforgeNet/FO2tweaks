@@ -15,6 +15,7 @@ This mod provides several tweaks for Fallout 2.
   - [Unlimited party](#unlimited-party)
   - [Companions never use burst fire](#companions-never-use-burst-fire)
   - [General game speedup](#general-game-speedup)
+  - [Unrestricted party combat AI](#unrestricted-party-combat-ai)
 - [Special notes / compatibility](#special-notes--compatibility)
 - [Installation](#installation)
 - [Troubleshooting](#troubleshooting)
@@ -114,6 +115,9 @@ Any character having the tank in his inventory won't be damaged by poison gas.
 #### No close range penalty for scoped weapons
 You aren't forced to use the scope in close range, are you? Affects only one weapon currently, Scoped Hunting Rifle.
 
+#### Unrestricted party combat AI
+Party management in combat is bad enough. But to make it worse, some NPC have various combat behavior settings unavailable to them. This components removes all such restrictions. Now you can order Myron to go berserk, or Marcus to be a coward, or any custom combination.
+
 ### Special notes / compatibility
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
 - It should be **compatible with any other mod** provided that "fo2tweaks" is installed **last**. It patches files instead of overwriting them.
@@ -149,6 +153,7 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 
 ### Changelog
 * Version 5:
+   - added unrestricted party AI component
    - expanded component "run speed" to include party
    - added component "stretch plotline"
    - added component "oxygen tank protects from radon"
