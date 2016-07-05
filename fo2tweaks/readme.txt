@@ -117,7 +117,7 @@ Grenades are actually thrown to target's feet, not "through" armor. Hitting a pe
 It also affects explosive (but not armor piercing) rockets from rocket launcher and grenade launchers from [EcCo mod](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/).
 
 #### Level 5 after temple of trials
-Nets the Chosen 9500 xp right at the beginning of the game, almost leveling him to 5. (The reason for "almost" is that the interface is limited to 99 free skill points max, so a Skilled character will lose point if gone directly to level 5)
+Nets the Chosen 9500 xp right at the beginning of the game, almost leveling him to 5. (The reason for "almost" is that the interface is limited to 99 free skill points max, so a Skilled character will lose many points if gone directly to level 5)
 
 #### Silence fake reload animation
 Silence really annoying SMG/rifle "reload" sound which the dude does when he's idle (which is every few seconds). The animation itself still plays.
