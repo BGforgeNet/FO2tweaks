@@ -4,18 +4,18 @@ This is a collection of convenience tweaks, common sense changes, and cheats for
 
 - [__Download__](https://github.com/burner1024/fo2tweaks/releases/latest)
 - [Components](#components) (__*__ means that starting a new game is required)
-  - Inventory(#inventory)
+  - [Inventory](#inventory)
     - [Unlimited carry weight](#unlimited-carry-weight)__*__
     - [Unlimited trunk](#unlimited-trunk)__*__
     - [Inventory filter](#inventory-filter)
-  - Party(#party)
+  - [Party](#party)
     - [Unlimited party](#unlimited-party)
     - [Companions never use burst fire](#companions-never-use-burst-fire)
     - [Unrestricted party combat AI](#unrestricted-party-combat-ai)
-  - Speed(#speed)
+  - [Speed](#speed)
     - [Increase run speed](#increase-run-speed) (both dude and party)
     - [General game speedup](#general-game-speedup)
-  - Miscellaneous(#miscellaneous)
+  - [Miscellaneous](#miscellaneous)
     - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
     - [Grenades ignore armor class](#grenades-ignore-armor-class)
     - [Level 5 after temple of trials](#level-5-after-temple-of-trials)__*__
