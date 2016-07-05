@@ -1,10 +1,13 @@
 Binaries are not included to avoid repo bloating.
 
-Binary		version		hash					source
+Binary		version		md5 hash				source
 
 compile.exe	2015.02.08	a3b485d991adf141ffde0f1dc72f218f	http://www.nma-fallout.com/showthread.php?201526-Useful-Scripting-Libraries
 int2ssl.exe	2015.02.08	0c697a902f4afa3a493f9d3bfc431834	http://www.nma-fallout.com/showthread.php?201526-Useful-Scripting-Libraries
-weidu.exe	236		0419fc4e0ae986f639e7ed3ea7ab6472	http://weidu.org/~thebigg/
+weidu.exe	239		efb029a48a4ae05a22c9922992d50f9c	http://weidu.org/~thebigg/
 gema.exe	1.4RC		fb0e602593368666d9f0b6b4eb042f1d	http://gema.sourceforge.net/
+zlib1.dll	1.2.2		29ed201bb11400199c117b2cf6e79155	http://www.zlib.net
+dat2.exe	1.0		e42d83d1a9d06fdd1d342582c49a8c4d	https://github.com/falltergeist/datfile, http://www.teamx.ru/site_arc/utils/dat2.rar
+
 components/sfall/ddraw.dll	3.7	eca6f6d9690bd0840b7f2c09d98ef93e	https://github.com/phobos2077/sfall/releases
 components/sfall/2k_ddraw.dll	3.7	531bf91c81658afaaea976b1fe23c3ab	https://github.com/phobos2077/sfall/releases
