@@ -27,7 +27,7 @@ This is a collection of convenience tweaks, common sense changes, and cheats for
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
 - [Update](#update)
-- [Troubleshooting / Reporting issues](#troubleshooting-reporting-issues)
+- [Troubleshooting / Reporting issues](#troubleshooting--reporting-issues)
 - [Author](#author)
 - [Licence](#licence)
 - [Used software](#used-software)
