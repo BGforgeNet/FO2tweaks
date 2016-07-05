@@ -2,10 +2,10 @@ COPY ~ddraw.ini~ ~ddraw.ini~
   REPLACE_TEXTUALLY ~^.*CarryWeightLimit=.*~ ~CarryWeightLimit=9999~
 BUT_ONLY
 
-LAF g_replace_int_text_nocase 
+LAF g_replace_int_text_nocase
   STR_VAR
-    script_name = ~arvillag~ //arroyo village
-    old_text = ~display_msg(message_str(14, 1009));~
-    new_text = ~display_msg(message_str(14, 1009));
+    script_name = ~artemple~
+    old_text = ~add_mult_objs_to_inven(dude_obj, LVar0, 1);~
+    new_text = ~add_mult_objs_to_inven(dude_obj, LVar0, 1);
                 set_pc_extra_stat(12, 99999);~
 END
