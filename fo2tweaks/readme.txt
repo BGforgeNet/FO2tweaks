@@ -185,6 +185,7 @@ If installation gets seemingly stuck (more than a minute without any progress), 
    - ensure ensure proto files get read-only attribute
    - fixed installation on non-RP environments
    - removed binary files from original game, instead implement a routine to extract them at install time
+   - moved level 5 and carry weight right at game's beginning
 * Version 4:
    - allowed carry weight of 9999
    - added "general speedup" component
