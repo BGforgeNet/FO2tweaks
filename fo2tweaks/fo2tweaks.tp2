@@ -21,21 +21,21 @@ LANGUAGE ~English~ ~ENGLISH~ ~fo2tweaks/tra/english/install.tra~
 
 BEGIN ~Unlimited carry weight~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @3
 INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/carry_weight/main.tph~
 
 BEGIN ~Inventory filter~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @3
 INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/inventory_filter/main.tph~
 
 BEGIN ~Unlimited trunk~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @3
 INCLUDE ~%MOD_FOLDER%/components/trunk_space/main.tph~
 
@@ -43,20 +43,20 @@ INCLUDE ~%MOD_FOLDER%/components/trunk_space/main.tph~
 
 BEGIN ~Unlimited party~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @2
 INCLUDE ~%MOD_FOLDER%/components/party_charisma/main.tph~
 
 BEGIN ~Companions never use burst fire~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @2
 INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/party_no_burst/main.tph~
 
 BEGIN ~Unrestricted party combat AI~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @2
 INCLUDE ~%MOD_FOLDER%/components/party_ai/main.tph~
 
@@ -65,28 +65,28 @@ INCLUDE ~%MOD_FOLDER%/components/party_ai/main.tph~
 BEGIN ~Armor doesn't reduce dude run speed~
 SUBCOMPONENT ~Increased run speed~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @5
 INCLUDE ~%MOD_FOLDER%/components/run_speed/dude.tpa~
 
 BEGIN ~Party NPC can run as well as dude~
 SUBCOMPONENT ~Increased run speed~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @5
 INCLUDE ~%MOD_FOLDER%/components/run_speed/npc.tpa~
 
 BEGIN ~Both of the above options~
 SUBCOMPONENT ~Increased run speed~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @5
 INCLUDE ~%MOD_FOLDER%/components/run_speed/dude.tpa~
 INCLUDE ~%MOD_FOLDER%/components/run_speed/npc.tpa~
 
 BEGIN ~General game speedup~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @5
 INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/general_speed/main.tph~
@@ -96,7 +96,7 @@ INCLUDE ~%MOD_FOLDER%/components/general_speed/main.tph~
 BEGIN ~Fire damage~
 SUBCOMPONENT ~Molotov cocktail~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @4
 OUTER_SET flameboy = 0
 INCLUDE ~%MOD_FOLDER%/components/molotov_damage/main.tph~
@@ -104,44 +104,44 @@ INCLUDE ~%MOD_FOLDER%/components/molotov_damage/main.tph~
 BEGIN ~Fire damage and burning death animation~
 SUBCOMPONENT ~Molotov cocktail~ 
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @4
 OUTER_SET flameboy = 1
 INCLUDE ~%MOD_FOLDER%/components/molotov_damage/main.tph~
 
 BEGIN ~Grenades ignore armor class~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @4
 INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/grenades_chance/main.tph~
 
 BEGIN ~Level 5 after temple of trials~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @4
 INCLUDE ~%MOD_FOLDER%/components/level5_temple/main.tph~
 
 BEGIN ~Silence idle fake reload animation for SMG and rifles~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @4
 INCLUDE ~%MOD_FOLDER%/components/reload_sound/main.tph~
 
 BEGIN ~Stretch game plotline~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @4
 INCLUDE ~%MOD_FOLDER%/components/stretch_plot/main.tph~
 
 BEGIN ~Oxygen tank protects from radon in Broken Hills mine~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @4
 INCLUDE ~%MOD_FOLDER%/components/oxygen_tank/main.tph~
 
 BEGIN ~No close range penalty for scoped weapons~
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @4
 INCLUDE ~%MOD_FOLDER%/components/scope_penalty/main.tph~
