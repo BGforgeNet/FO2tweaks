@@ -1,1 +1,5 @@
-@1 = ~You must have either Killap's patch or restoration pack installed: http://killap.net/fallout2/web/Downloads.html~
+@1 = ~You must have either Killap's patch OR restoration pack installed before installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html~
+@2 = ~Party~
+@3 = ~Inventory~
+@4 = ~Miscellaneous~
+@5 = ~Speed~
