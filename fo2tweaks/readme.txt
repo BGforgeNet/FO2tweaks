@@ -182,10 +182,10 @@ If installation gets seemingly stuck (more than a minute without any progress), 
    - specified licence
    - added "no scope penalties" component
    - fixed uninstallation procedure to ensure there are no leftovers
-   - ensure ensure proto files get read-only attribute
+   - ensured that proto files get read-only attribute
    - fixed installation on non-RP environments
    - removed binary files from original game, instead implement a routine to extract them at install time
-   - moved level 5 and carry weight right at game's beginning
+   - moved level 5 and carry weight to game's beginning
 * Version 4:
    - allowed carry weight of 9999
    - added "general speedup" component
