@@ -152,7 +152,7 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 - Launch fo2tweaks.bat, answer the questions
 
 ## Update
-- If you're updating from a previous fo2tweaks version, uninstall it full, delete fo2tweaks dir and fo2tweaks.bat, then install new version normally
+- If you're updating from a previous fo2tweaks version, uninstall it completely, delete fo2tweaks dir and fo2tweaks.bat, then install new version normally
 
 ## Troubleshooting
 If installation gets seemingly stuck (more than a minute without any progress), try disabling your antivirus for a moment. In particular, Avast is known to raise false positives.
