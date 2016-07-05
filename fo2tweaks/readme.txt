@@ -1,21 +1,21 @@
-## Fallout 2 tweaks mod
+# FO2tweaks
 
-This mod provides several tweaks for Fallout 2.
+This is a collection of convenience tweaks, common sense changes, and cheats for Fallout 2.
 
 - [__Download__](https://github.com/burner1024/fo2tweaks/releases/latest)
 - [Components](#components) (__*__ means that starting a new game is required)
-  - Inventory
+  - Inventory(#inventory)
     - [Unlimited carry weight](#unlimited-carry-weight)__*__
     - [Unlimited trunk](#unlimited-trunk)__*__
     - [Inventory filter](#inventory-filter)
-  - Party
+  - Party(#party)
     - [Unlimited party](#unlimited-party)
     - [Companions never use burst fire](#companions-never-use-burst-fire)
     - [Unrestricted party combat AI](#unrestricted-party-combat-ai)
-  - Speed
+  - Speed(#speed)
     - [Increase run speed](#increase-run-speed) (both dude and party)
     - [General game speedup](#general-game-speedup)
-  - Miscellaneous
+  - Miscellaneous(#miscellaneous)
     - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
     - [Grenades ignore armor class](#grenades-ignore-armor-class)
     - [Level 5 after temple of trials](#level-5-after-temple-of-trials)__*__
@@ -34,11 +34,12 @@ This mod provides several tweaks for Fallout 2.
 - [Used software](#used-software)
 - [Changelog](#changelog)
 
-### Components
+## Components
 
+### Inventory
 
 #### Unlimited carry weight
-AKA inventory pain killer, part 1. Let the Chosen carry up to 9999, regardless of strength. This takes effects after the temple of trials.
+AKA inventory pain killer, part 1. Let the Chosen one carry up to 9999, regardless of strength.
 
 #### Unlimited trunk
 Inventory pain killer, part 2. Never worry about trunk filling up.
@@ -55,6 +56,7 @@ __Sample:__
 
 ![Sample](fo2tweaks/components/inventory_filter/sample.gif)
 
+### Party
 
 #### Unlimited party
 This component removes charisma checks upon NPC joining the party. It does not remove other checks (karma, etc). For example, Goris may still decline to join if you're a childkiller.
@@ -83,6 +85,7 @@ Give any weapon to your companions, and never be burst in the back. (Well, unles
 #### Unrestricted party combat AI
 Party management in combat is bad enough. But to make it worse, some NPC have various combat behavior settings unavailable to them. This components removes all such restrictions. Now you can order Myron to go berserk, or Marcus to be a coward, or any custom combination.
 
+### Speed
 #### Increase run speed
 ##### Armor doesn't reduce dude run speed
 In the original game, running becomes slower as armor gets heavier. This component disables that behaviour, so that run speed is constant and fast.
@@ -104,7 +107,7 @@ Specifically, it does the following:
 - No splash screen is displayed (with HRP)
 - Fade in/out is instant (with HRP)
 
-
+### Miscellaneous
 #### Molotov cocktail: fire damage
 Let Molotov cocktail do fire damage instead of explosive (and optionally, enable "burning death" animation)
 
@@ -114,7 +117,7 @@ Grenades are actually thrown to target's feet, not "through" armor. Hitting a pe
 It also affects explosive (but not armor piercing) rockets from rocket launcher and grenade launchers from [EcCo mod](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/).
 
 #### Level 5 after temple of trials
-Nets the Chosen 10000 xp for completing the temple of trials
+Nets the Chosen 9500 xp right at the beginning of the game, almost leveling him to 5. (The reason for "almost" is that the interface is limited to 99 free skill points max, so a Skilled character will lose point if gone directly to level 5)
 
 #### Silence fake reload animation
 Silence really annoying SMG/rifle "reload" sound which the dude does when he's idle (which is every few seconds). The animation itself still plays.
@@ -133,35 +136,35 @@ Any character having the tank in his inventory won't be damaged by poison gas.
 #### No close range penalty for scoped weapons
 You aren't forced to use the scope in close range, are you? Affects only one weapon currently: Scoped Hunting Rifle.
 
-### Special notes / compatibility
+## Special notes / compatibility
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
 - It should be **compatible with any other mod** provided that "fo2tweaks" is installed **last**. It patches files instead of overwriting them.
 
-### Reporting issues
+## Reporting issues
 The mod is tested on Windows XP x86. If you have any issues, reach me on [github](https://github.com/burner1024/fo2tweaks/issues).
 
-### Installation
+## Installation
 - Download __fo2tweaks.zip__ from the [latest release page](https://github.com/burner1024/fo2tweaks/releases/latest)
 - Unzip the archive into the game directory
 - Launch fo2tweaks.bat, answer the questions
 
-### Uninstallation
+## Uninstallation
 - Launch fo2tweaks.bat, answer the questions
 
-### Update
+## Update
 - If you're updating from a previous fo2tweaks version, uninstall it full, delete fo2tweaks dir and fo2tweaks.bat, then install new version normally
 
-### Troubleshooting
+## Troubleshooting
 If installation gets seemingly stuck (more than a minute without any progress), try disabling your antivirus for a moment. In particular, Avast is known to raise false positives.
 
-### Author
+## Author
 - burner1024 @ github
 
-### Licence
+## Licence
 - The mod itself is [CC0 v1.0](https://creativecommons.org/publicdomain/zero/1.0/)
 - Used software have their own licences, refer to the corresponding resources for those.
 
-### Used software
+## Used software
 * [SSLC compiler/decompiler](http://www.nma-fallout.com/threads/improved-scripting-tools-ssl-and-script-editor.203003/)
 * [Gema](http://gema.sourceforge.net)
 * [Weidu](http://weidu.org/~thebigg/)
@@ -169,7 +172,7 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 * [Dat2](https://github.com/falltergeist/datfile)
 * [Zlib](http://www.zlib.net)
 
-### Changelog
+## Changelog
 * Version 5:
    - added unrestricted party AI component
    - expanded component "run speed" to include party
