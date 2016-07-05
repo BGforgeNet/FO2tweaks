@@ -91,7 +91,9 @@ The following companions are affected:
 Give any weapon to your companions, and never be burst in the back. (Well, unless you give them a machine gun which only has burst mode).
 
 #### General game speedup
-This component preconfigures some Sfall and HRP settings for faster gameplay. Specifically:
+It's a convenience component. It preconfigures some Sfall and HRP settings for faster gameplay. You can achieve the same by performing manual Sfall and HRP configuration.
+
+Specifically, it does the following:
 - Game itself runs at 115% of the original speed
 - Opening movies are skipped
 - Combat, dialog and pipboy sleep panel animations are instant
@@ -104,16 +106,16 @@ This component preconfigures some Sfall and HRP settings for faster gameplay. Sp
 #### Stretch game plotline
 In terms of roleplay, there's not much sense to visit the cities of the Big Circle: Broken Hills, Redding, New Reno, etc. In Vault City computer, you learn about Vault 15, in Vault 15 - about Vault 13, get the GECK, and it's pretty much non-stop express from there.
 This component removes bits of information here and there, so that there are less shortcut paths:
-- Vault City computer won't reveal Vault 15 location (but Tandi will - if you ask her)
-- Vault 15 computer won't reveal Vault 13 location
-- Lou (owner of Malamute salon in Redding) won't reveal San Francisco location
-- Hakunin won't reveal Navarro location
+- Vault City computer **will not** reveal Vault 15 location (but Tandi will - if you ask her)
+- Vault 15 computer **will not** reveal Vault 13 location
+- Lou (owner of Malamute salon in Redding) **will not** reveal San Francisco location
+- Hakunin **will not** reveal Navarro location
 
 #### Oxygen tank protects from radon in Broken Hills mine
 Any character having the tank in his inventory won't be damaged by poison gas.
 
 #### No close range penalty for scoped weapons
-You aren't forced to use the scope in close range, are you? Affects only one weapon currently, Scoped Hunting Rifle.
+You aren't forced to use the scope in close range, are you? Affects only one weapon currently: Scoped Hunting Rifle.
 
 #### Unrestricted party combat AI
 Party management in combat is bad enough. But to make it worse, some NPC have various combat behavior settings unavailable to them. This components removes all such restrictions. Now you can order Myron to go berserk, or Marcus to be a coward, or any custom combination.
@@ -144,7 +146,7 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 - Used software have their own licences, refer to the corresponding resources for those.
 
 ### Used software
-* [SSLC compiler/decompiler](http://www.nma-fallout.com/showthread.php?201526-Useful-Scripting-Libraries)
+* [SSLC compiler/decompiler](http://www.nma-fallout.com/threads/improved-scripting-tools-ssl-and-script-editor.203003/)
 * [Gema](http://gema.sourceforge.net)
 * [Weidu](http://weidu.org/~thebigg/)
 * [Sfall](https://github.com/phobos2077/sfall)
@@ -159,13 +161,18 @@ If installation gets seemingly stuck (more than a minute without any progress), 
    - added component "oxygen tank protects from radon"
    - enabled speed options in HRP as well
    - specified licence
+   - added "no scope penalties" component
+   - fixed uninstallation procedure to ensure there are no leftovers
+   - ensure ensure proto files get read-only attribute
+   - fixed installation on non-RP environments
+   - removed binary files from original game, instead implement a routine to extract them at install time
 * Version 4:
    - allowed carry weight of 9999
    - added "general speedup" component
    - updated sfall to version 3.7b
 * Version 3:
    - fixed bug when enemies didn't receive same grenade CtH boost
-   - fixed bug with grenade CtH when Sfall wasn't installed prviously
-* Version 2: Added "no burst" component.
+   - fixed bug with grenade CtH when Sfall wasn't installed previously
+* Version 2: added "no burst" component.
 * Version 1: initial release.
 
