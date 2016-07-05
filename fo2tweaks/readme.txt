@@ -154,7 +154,7 @@ You aren't forced to use the scope in close range, are you? Affects only one wea
 ## Troubleshooting / Reporting issues
 - The mod is tested on Windows XP and Windows 7 only
 - If installation gets seemingly stuck (more than a minute without any progress), try disabling your antivirus for a moment. In particular, Avast is known to raise false positives
-- If you have any issues, reach me on [github](https://github.com/burner1024/fo2tweaks/issues/new) or at [NMA forums](#http://www.nma-fallout.com/members/burn.64558/)
+- If you have any issues, reach me on [github](https://github.com/burner1024/fo2tweaks/issues/new) or at [NMA forums](http://www.nma-fallout.com/members/burn.64558/)
 
 ## Author
 - burner1024 @ github
