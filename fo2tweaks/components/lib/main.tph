@@ -1,5 +1,6 @@
 OUTER_SPRINT data_dir ~data~
 OUTER_SPRINT scripts_dir ~%data_dir%/scripts~
+OUTER_SPRINT tmp_dir ~%MOD_FOLDER%/tmp~
 OUTER_SPRINT nl ~%MNL%%LNL%%WNL%~
 
 //Decompile an *.int script, replace literally old_text with new_text, and compile it back
@@ -53,10 +54,9 @@ BEGIN
   END ELSE BEGIN
     OUTER_SPRINT dat_file ~master.dat~
   END
-  ACTION_IF FILE_EXISTS ~%file_path%~ BEGIN
+  ACTION_IF FILE_EXISTS ~data/%file_path%~ BEGIN
     PRINT ~g_dat_extract: %file_path% already exists on filesystem, not extracting from dat.~
   END ELSE BEGIN
-    OUTER_SPRINT tmp_dir ~%MOD_FOLDER%/tmp~
     MKDIR ~%tmp_dir%~
     PRINT ~g_dat_extract: %MOD_FOLDER%\tools\dat2.exe x -d %tmp_dir% %dat_file% %file_path% >> %bat_log% 2>&1~
     AT_NOW ~%MOD_FOLDER%\tools\dat2.exe x -d %tmp_dir% %dat_file% %file_path% >> %bat_log% 2>&1~

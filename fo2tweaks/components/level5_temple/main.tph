@@ -1,43 +1,9 @@
-OUTER_SPRINT data_dir ~data~
-OUTER_SPRINT scripts_dir ~%data_dir%/scripts~
-OUTER_SPRINT filename ~arvillag.int~ //arroyo village
+LAF g_dat_extract STR_VAR file_path = ~scripts\artemple.int~ END
 
-AT_NOW ~%MOD_FOLDER%/tools/int2ssl.exe -e %scripts_dir%/%filename% %filename%.ssl >> %bat_log% 2>&1~
-
-COPY + ~%filename%.ssl~ ~%filename%.ssl~
-/*
-  REPLACE_TEXTUALLY CASE_INSENSITIVE
-~		if (global_var(10) == 0) then begin
-			set_global_var(10, 3);
-			LVar0 := 300 + 300;
-			give_exp_points(LVar0);
-			display_msg(message_str(14, 100) + LVar0 + message_str(14, 101));
-		end
-		else
-		if (global_var(10) == 2) then begin
-			LVar0 := 300 + 300;
-			give_exp_points(LVar0);
-			display_msg(message_str(14, 100) + LVar0 + message_str(14, 101));
-		end
-		else begin
-			give_exp_points(300);
-			display_msg(message_str(14, 100) + 300 + message_str(14, 101));
-		end~
-~		give_exp_points(10000);
-		display_msg(message_str(14, 100) + 10000 + message_str(14, 101));~
-
-BUT_ONLY
-*/ //This doesn't work for some reason, so replacing smaller chunks
-
-REPLACE_TEXTUALLY CASE_INSENSITIVE
-~LVar0 :=.*;~ ~LVar0 := 10000;~
-REPLACE_TEXTUALLY CASE_INSENSITIVE
-~give_exp_points(300)~ ~give_exp_points(10000)~
-REPLACE_TEXTUALLY CASE_INSENSITIVE
-~display_msg(message_str(14, 100) \+ 300 ~ ~display_msg(message_str(14, 100) + 10000 ~
-BUT_ONLY
-
-AT_NOW ~%MOD_FOLDER%/tools/compile.exe -d %filename%.ssl -o %MOD_FOLDER%/tmp/%filename% >> %bat_log% 2>&1~
-COPY ~%MOD_FOLDER%/tmp/%filename%~ ~%scripts_dir%/%filename%~
-DELETE + ~%filename%.ssl~
-DELETE + ~%MOD_FOLDER%/tmp/%filename%~
+LAF g_replace_int_text_nocase
+  STR_VAR
+    script_name = ~artemple~
+    old_text = ~add_mult_objs_to_inven(dude_obj, LVar0, 1);~
+    new_text = ~add_mult_objs_to_inven(dude_obj, LVar0, 1);
+                give_exp_points(9500);~
+END
