@@ -25,8 +25,9 @@ This mod provides several tweaks for Fallout 2.
     - [No close range penalty for scoped weapons](#no-close-range-penalty-for-scoped-weapons)
 - [Special notes / compatibility](#special-notes--compatibility)
 - [Installation](#installation)
-- [Troubleshooting](#troubleshooting)
 - [Unistallation](#uninstallation)
+- [Update](#update)
+- [Troubleshooting](#troubleshooting)
 - [Reporting issues](#reporting-issues)
 - [Author](#author)
 - [Licence](#licence)
@@ -144,11 +145,14 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 - Unzip the archive into the game directory
 - Launch fo2tweaks.bat, answer the questions
 
-### Troubleshooting
-If installation gets seemingly stuck (more than a minute without any progress), try disabling your antivirus for a moment. In particular, Avast is known to raise false positives.
-
 ### Uninstallation
 - Launch fo2tweaks.bat, answer the questions
+
+### Update
+- If you're updating from a previous fo2tweaks version, uninstall it full, delete fo2tweaks dir and fo2tweaks.bat, then install new version normally
+
+### Troubleshooting
+If installation gets seemingly stuck (more than a minute without any progress), try disabling your antivirus for a moment. In particular, Avast is known to raise false positives.
 
 ### Author
 - burner1024 @ github
