@@ -27,8 +27,7 @@ This is a collection of convenience tweaks, common sense changes, and cheats for
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
 - [Update](#update)
-- [Troubleshooting](#troubleshooting)
-- [Reporting issues](#reporting-issues)
+- [Troubleshooting / Reporting issues](#troubleshooting-reporting-issues)
 - [Author](#author)
 - [Licence](#licence)
 - [Used software](#used-software)
@@ -140,8 +139,6 @@ You aren't forced to use the scope in close range, are you? Affects only one wea
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
 - It should be **compatible with any other mod** provided that "fo2tweaks" is installed **last**. It patches files instead of overwriting them.
 
-## Reporting issues
-The mod is tested on Windows XP x86. If you have any issues, reach me on [github](https://github.com/burner1024/fo2tweaks/issues).
 
 ## Installation
 - Download __fo2tweaks.zip__ from the [latest release page](https://github.com/burner1024/fo2tweaks/releases/latest)
@@ -154,8 +151,10 @@ The mod is tested on Windows XP x86. If you have any issues, reach me on [github
 ## Update
 - If you're updating from a previous fo2tweaks version, uninstall it completely, delete fo2tweaks dir and fo2tweaks.bat, then install new version normally
 
-## Troubleshooting
-If installation gets seemingly stuck (more than a minute without any progress), try disabling your antivirus for a moment. In particular, Avast is known to raise false positives.
+## Troubleshooting / Reporting issues
+- The mod is tested on Windows XP and Windows 7 only
+- If installation gets seemingly stuck (more than a minute without any progress), try disabling your antivirus for a moment. In particular, Avast is known to raise false positives
+- If you have any issues, reach me on [github](https://github.com/burner1024/fo2tweaks/issues/new) or at [NMA forums](#http://www.nma-fallout.com/members/burn.64558/)
 
 ## Author
 - burner1024 @ github
