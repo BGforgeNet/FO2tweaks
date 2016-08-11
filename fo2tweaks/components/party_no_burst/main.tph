@@ -13,6 +13,7 @@ ACTION_FOR_EACH ai_script IN
   vccasidy
   wcbrnbot
 BEGIN
+  LAF g_dat_extract STR_VAR file_path = ~scripts\%ai_script%.int~ END
   ACTION_IF FILE_EXISTS ~%scripts_dir%/%ai_script%.int~ BEGIN
     AT_NOW ~%MOD_FOLDER%/tools/int2ssl.exe -e %scripts_dir%/%ai_script%.int %ai_script%.ssl.tmp >> %bat_log% 2>&1~
     COPY + ~%ai_script%.ssl.tmp~ ~%ai_script%.ssl.tmp~

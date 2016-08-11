@@ -4,7 +4,7 @@ AUTHOR ~http://github.com/burner1024/fo2tweaks/issues~
 AUTO_EVAL_STRINGS
 NO_IF_EVAL_BUG
 README ~%MOD_FOLDER%/readme.txt~
-VERSION ~v5~
+VERSION ~v6~
 ALWAYS
   OUTER_SPRINT tmp_dir ~%MOD_FOLDER%/tmp~
   OUTER_SPRINT tmp_dir_win ~%MOD_FOLDER%\tmp~
@@ -145,13 +145,13 @@ REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 GROUP @4
 INCLUDE ~%MOD_FOLDER%/components/scope_penalty/main.tph~
-
-//BEGIN ~Allow planting items on Skynet~
-//REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
-//REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
-//GROUP @4
-//INCLUDE ~%MOD_FOLDER%/components/skynet_plant/main.tph~
-
+/*
+BEGIN ~Allow planting items on Skynet~
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
+GROUP @4
+INCLUDE ~%MOD_FOLDER%/components/skynet_plant/main.tph~
+*/
 BEGIN ~Disable Kaga~
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @2
 GROUP @4

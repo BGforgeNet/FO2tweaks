@@ -1,4 +1,5 @@
 //Vault city comp: circumvent node023, conceal vault 15
+LAF g_dat_extract STR_VAR file_path = ~scripts\vicencom.int~ END
 LAF g_replace_int_text_nocase
   STR_VAR
     script_name = ~vicencom~
@@ -55,6 +56,7 @@ BUT_ONLY
 
 
 //Tandi: reveal Vault 15 location
+LAF g_dat_extract STR_VAR file_path = ~scripts\shtandi.int~ END
 LAF g_replace_int_text_nocase 
   STR_VAR
     script_name = ~shtandi~
@@ -66,6 +68,7 @@ END
 
 
 //Redding: Lou doesn't talk aobut San Francisco
+LAF g_dat_extract STR_VAR file_path = ~scripts\rclou.int~ END
 LAF g_replace_int_text_nocase //conceal "where's san fran" option
   STR_VAR
     script_name = ~rclou~
@@ -106,6 +109,7 @@ BUT_ONLY
 
 
 //Hakunin: don't reveal Navarro
+LAF g_dat_extract STR_VAR file_path = ~scripts\ahhakun.int~ END
 LAF g_replace_int_text_nocase 
   STR_VAR
     script_name = ~ahhakun~

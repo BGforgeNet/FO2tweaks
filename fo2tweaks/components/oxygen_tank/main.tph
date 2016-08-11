@@ -1,3 +1,5 @@
+LAF g_dat_extract STR_VAR file_path = ~scripts\broken2.int~ END
+
 LAF g_replace_int_text_nocase //dude
   STR_VAR
     script_name = ~broken2~
