@@ -156,3 +156,7 @@ BEGIN ~Disable Kaga~
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ @2
 GROUP @4
 INCLUDE ~%MOD_FOLDER%/components/no_kaga/main.tph~
+
+BEGIN ~Disable Knockback~
+GROUP @4
+INCLUDE ~%MOD_FOLDER%/components/disable_knockback/main.tph~

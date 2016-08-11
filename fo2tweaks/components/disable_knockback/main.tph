@@ -1,0 +1,11 @@
+ACTION_FOR_EACH item IN
+  00000005 //sledge
+  00000115 //super sledge
+  00000386 //louisville slugger
+BEGIN
+  OUTER_SPRINT filename ~proto\items\%item%.pro~
+  LAF g_dat_extract STR_VAR file_path = ~%filename%~ END
+  COPY ~data/%filename%~ ~data/%filename%~
+    WRITE_LONG 0x65 0xffffffff
+  BUT_ONLY
+END
