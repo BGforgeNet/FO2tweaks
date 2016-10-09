@@ -153,7 +153,7 @@ GROUP @4
 INCLUDE ~%MOD_FOLDER%/components/skynet_plant/main.tph~
 */
 BEGIN ~Disable Kaga~
-REQUIRE_PREDICATE FILE_EXISTS ~rp-readme.txt~ @2
+REQUIRE_PREDICATE FILE_EXISTS ~rp-readme.txt~ @6
 GROUP @4
 INCLUDE ~%MOD_FOLDER%/components/no_kaga/main.tph~
 
