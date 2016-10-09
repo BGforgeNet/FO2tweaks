@@ -1,0 +1,9 @@
+// gl_g_carry_weight
+procedure start;
+#include ".\HEADERS\DEFINE.H"
+#include ".\_sfall37_headers\define_extra.h"
+
+procedure start begin
+  set_pc_stat_max(12, 99999);
+  set_pc_extra_stat(12, 99999);
+end
