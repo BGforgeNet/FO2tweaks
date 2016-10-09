@@ -9,5 +9,4 @@ gema.exe	1.4RC		fb0e602593368666d9f0b6b4eb042f1d	http://gema.sourceforge.net/
 zlib1.dll	1.2.2		29ed201bb11400199c117b2cf6e79155	http://www.zlib.net
 dat2.exe	1.0		e42d83d1a9d06fdd1d342582c49a8c4d	https://github.com/falltergeist/datfile; http://www.teamx.ru/site_arc/utils/dat2.rar
 
-components/sfall/ddraw.dll	3.7b	4ef25c4c6e7fa33a131237ddd93b938f	https://github.com/phobos2077/sfall/releases
-components/sfall/2k_ddraw.dll	3.7b	531bf91c81658afaaea976b1fe23c3ab	https://github.com/phobos2077/sfall/releases
+components/sfall/ddraw.dll	3.7.3	f8619818e89059a908e8c566f8981a90	https://github.com/phobos2077/sfall/releases
