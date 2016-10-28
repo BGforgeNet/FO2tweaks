@@ -158,5 +158,6 @@ GROUP @4
 INCLUDE ~%MOD_FOLDER%/components/no_kaga/main.tph~
 
 BEGIN ~Disable Knockback~
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 GROUP @4
 INCLUDE ~%MOD_FOLDER%/components/disable_knockback/main.tph~
