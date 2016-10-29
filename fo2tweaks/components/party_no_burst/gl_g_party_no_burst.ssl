@@ -1,0 +1,53 @@
+// gl_g_party_no_burst.ssl
+#include ".\HEADERS\DEFINE.H"
+
+procedure start;
+
+procedure start begin
+    if (game_loaded) then begin
+        set_global_script_repeat(60);
+    end else begin
+        if (party_size > 1) then begin
+            if (Sulik_In_Party) then begin
+                set_critter_burst_disable(Sulik_Ptr, 1);
+            end
+            if (Vic_In_Party) then begin
+                set_critter_burst_disable(Vic_Ptr, 1);
+            end
+            if (Miria_In_Party) then begin
+                set_critter_burst_disable(Miria_Ptr, 1);
+            end
+            if (Davin_In_Party) then begin
+                set_critter_burst_disable(Davin_Ptr, 1);
+            end
+            if (MacRae_In_Party) then begin
+                set_critter_burst_disable(MacRae_Ptr, 1);
+            end
+            if (Lenny_In_Party) then begin
+                set_critter_burst_disable(Lenny_Ptr, 1);
+            end
+            if (Marcus_In_Party) then begin
+                set_critter_burst_disable(Marcus_Ptr, 1);
+            end
+            if (Myron_In_Party) then begin
+                set_critter_burst_disable(Myron_Ptr, 1);
+            end
+            if (Robobrain_In_Party) then begin
+                set_critter_burst_disable(Robobrain_Ptr, 1);
+            end
+            if (Robobrain_Human_In_Party) then begin
+                set_critter_burst_disable(Robobrain_Human_Ptr, 1);
+            end
+        // RP 2.x new NPCs
+            if (Kitsune_In_Party) then begin
+                set_critter_burst_disable(Kitsune_Ptr, 1);
+            end
+            if (Cat_Jules_In_Party) then begin
+                set_critter_burst_disable(Cat_Jules_Ptr, 1);
+            end
+            if (Dex_In_Party) then begin
+                set_critter_burst_disable(Dex_Ptr, 1);
+            end
+        end
+    end
+end
