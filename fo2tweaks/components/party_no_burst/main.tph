@@ -1,2 +1,2 @@
 OUTER_SPRINT filename ~gl_g_party_no_burst.int~
-COPY ~%MOD_FOLDER%/components/carry_weight/%filename%~ ~%scripts_dir%/%filename%~
+COPY ~%MOD_FOLDER%/components/party_no_burst/%filename%~ ~%scripts_dir%/%filename%~
