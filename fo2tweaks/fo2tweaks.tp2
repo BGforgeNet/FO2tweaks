@@ -19,63 +19,63 @@ LANGUAGE ~English~ ~ENGLISH~ ~fo2tweaks/tra/english/install.tra~
 
 
 
-BEGIN ~Unlimited carry weight~
+BEGIN @8 /* Unlimited carry weight */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/carry_weight/main.tph~
 
-BEGIN ~Inventory filter~
+BEGIN @9 /* Inventory filter */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/inventory_filter/main.tph~
 
-BEGIN ~Unlimited trunk~
+BEGIN @10 /* Unlimited trunk */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/trunk_space/main.tph~
 
 
 
-BEGIN ~Unlimited party~
+BEGIN @11 /* Unlimited party */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/party_charisma/main.tph~
 
-BEGIN ~Companions never use burst fire~
+BEGIN @12 /* Companions never use burst fire */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/party_no_burst/main.tph~
 
-BEGIN ~Unrestricted party combat AI~
+BEGIN @13 /* Unrestricted party combat AI */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/party_ai/main.tph~
 
 
 
-BEGIN ~Armor doesn't reduce dude run speed~
-SUBCOMPONENT ~Increased run speed~
+BEGIN @14 /* Armor doesn't reduce dude run speed */
+SUBCOMPONENT @15 /* Increased run speed */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/run_speed/dude.tpa~
 
-BEGIN ~Party NPC can run as well as dude~
-SUBCOMPONENT ~Increased run speed~
+BEGIN @16 /* Party NPC can run as well as dude */
+SUBCOMPONENT @15 /* Increased run speed */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/run_speed/npc.tpa~
 
-BEGIN ~Both of the above options~
-SUBCOMPONENT ~Increased run speed~
+BEGIN @17 /* Both of the above options */
+SUBCOMPONENT @15 /* Increased run speed */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/run_speed/dude.tpa~
 INCLUDE ~%MOD_FOLDER%/components/run_speed/npc.tpa~
 
-BEGIN ~General game speedup~
+BEGIN @18 /* General game speedup */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
@@ -83,47 +83,47 @@ INCLUDE ~%MOD_FOLDER%/components/general_speed/main.tph~
 
 
 
-BEGIN ~Fire damage~
-SUBCOMPONENT ~Molotov cocktail~
+BEGIN @19 /* Fire damage */
+SUBCOMPONENT @20 /* Molotov cocktail */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 OUTER_SET flameboy = 0
 INCLUDE ~%MOD_FOLDER%/components/molotov_damage/main.tph~
 
-BEGIN ~Fire damage and burning death animation~
-SUBCOMPONENT ~Molotov cocktail~ 
+BEGIN @21 /* Fire damage and burning death animation */
+SUBCOMPONENT @20 /* Molotov cocktail */ 
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 OUTER_SET flameboy = 1
 INCLUDE ~%MOD_FOLDER%/components/molotov_damage/main.tph~
 
-BEGIN ~Grenades ignore armor class~
+BEGIN @22 /* Grenades ignore armor class */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/grenades_chance/main.tph~
 
-BEGIN ~Level 5 after temple of trials~
+BEGIN @23 /* Level 5 after temple of trials */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/level5_temple/main.tph~
 
-BEGIN ~Silence idle fake reload animation for SMG and rifles~
+BEGIN @24 /* Silence idle fake reload animation for SMG and rifles */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/reload_sound/main.tph~
 
-BEGIN ~Stretch game plotline~
+BEGIN @25 /* Stretch game plotline */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/stretch_plot/main.tph~
 
-BEGIN ~Oxygen tank protects from radon in Broken Hills mine~
+BEGIN @26 /* Oxygen tank protects from radon in Broken Hills mine */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/oxygen_tank/main.tph~
 
-BEGIN ~No close range penalty for scoped weapons~
+BEGIN @27 /* No close range penalty for scoped weapons */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/scope_penalty/main.tph~
@@ -133,10 +133,10 @@ REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 REQUIRE_PREDICATE FILE_EXISTS ~up-readme.txt~ OR FILE_EXISTS ~rp-readme.txt~ @1
 INCLUDE ~%MOD_FOLDER%/components/skynet_plant/main.tph~
 */
-BEGIN ~Disable Kaga~
+BEGIN @28 /* Disable Kaga */
 REQUIRE_PREDICATE FILE_EXISTS ~rp-readme.txt~ @6
 INCLUDE ~%MOD_FOLDER%/components/no_kaga/main.tph~
 
-BEGIN ~Disable Knockback~
+BEGIN @29 /* Disable Knockback */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 INCLUDE ~%MOD_FOLDER%/components/disable_knockback/main.tph~
