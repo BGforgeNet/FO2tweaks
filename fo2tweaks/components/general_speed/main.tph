@@ -1,3 +1,9 @@
+COPY ~fallout2.cfg~ ~fallout2.cfg~
+  REPLACE_TEXTUALLY ~^combat_speed=.*~ ~combat_speed=50~
+  REPLACE_TEXTUALLY ~^player_speedup=.*~ ~player_speedup=1~
+  REPLACE_TEXTUALLY ~^running=.*~ ~running=1~
+BUT_ONLY
+
 COPY ~ddraw.ini~ ~ddraw.ini~
   REPLACE_TEXTUALLY ~^.*SpeedMultiInitial=.*~ ~SpeedMultiInitial=115~
   REPLACE_TEXTUALLY ~^.*SpeedInterfaceCounterAnims=.*~ ~SpeedInterfaceCounterAnims=2~
