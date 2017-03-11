@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-2-24 19:35+0000\n"
-"PO-Revision-Date: 2017-03-11 21:39+0000\n"
+"PO-Revision-Date: 2017-03-11 23:36+0000\n"
 "Last-Translator: The Magus <weblate@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: russian\n"
@@ -127,7 +127,7 @@ msgstr "Убрать Кагу"
 
 #: fo2tweaks/tra/english/install.tra:29
 msgid "Disable Knockback"
-msgstr ""
+msgstr "Отключить отбрасывание"
 
 #: fo2tweaks/tra/english/install.tra:30
 msgid "Installing Sfall"
