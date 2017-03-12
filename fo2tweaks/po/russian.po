@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-2-24 19:35+0000\n"
-"PO-Revision-Date: 2017-03-11 23:36+0000\n"
+"PO-Revision-Date: 2017-03-12 01:41+0000\n"
 "Last-Translator: The Magus <weblate@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: russian\n"
@@ -39,7 +39,7 @@ msgstr "Скорость"
 
 #: fo2tweaks/tra/english/install.tra:6
 msgid "Requires Killap's restoration pack"
-msgstr "Требует Restoration Project от Киллапа"
+msgstr "Требует Killap's Restoration Project"
 
 #: fo2tweaks/tra/english/install.tra:8
 msgid "Unlimited carry weight"
