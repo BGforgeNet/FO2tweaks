@@ -1,5 +1,9 @@
 # FO2tweaks
 
+<a href="https://tra.bgforge.net/engage/fallout-2-fo2tweaks/ru/?utm_source=widget">
+<img src="https://tra.bgforge.net/widgets/fallout-2-fo2tweaks/ru/svg-badge.svg" alt="Translation status" />
+</a>
+
 This is a collection of convenience tweaks, common sense changes, and cheats for Fallout 2.
 
 - [__Download__](https://github.com/burner1024/fo2tweaks/releases/latest)
