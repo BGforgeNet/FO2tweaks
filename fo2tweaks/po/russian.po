@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-2-24 19:35+0000\n"
-"PO-Revision-Date: 2017-03-12 01:41+0000\n"
+"PO-Revision-Date: 2017-03-21 08:59+0000\n"
 "Last-Translator: The Magus <weblate@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: russian\n"
@@ -107,7 +107,7 @@ msgstr "5 уровень после Храма Испытаний"
 
 #: fo2tweaks/tra/english/install.tra:24
 msgid "Silence idle fake reload animation for SMG and rifles"
-msgstr "Отключить звук фальшивой перезарядки пистолетов-пулеметов и винтовок"
+msgstr "Убрать фальшивый звук перезарядки пистолетов-пулеметов и винтовок"
 
 #: fo2tweaks/tra/english/install.tra:25
 msgid "Stretch game plotline"
