@@ -2,11 +2,12 @@ Binaries are not included to avoid repo bloating.
 
 Binary		version		md5 hash				source
 
-compile.exe	2015.02.08	a3b485d991adf141ffde0f1dc72f218f	http://www.nma-fallout.com/threads/improved-scripting-tools-ssl-and-script-editor.203003/
-int2ssl.exe	2015.02.08	0c697a902f4afa3a493f9d3bfc431834	http://www.nma-fallout.com/threads/improved-scripting-tools-ssl-and-script-editor.203003/
+compile.exe	3.8.3		1fe508081b1fff8d2b25a7b5b8f5e476	https://sourceforge.net/projects/sfall/files/
+int2ssl.exe	3.8.3		8fb5fbe979dd32c69caacd1d0de0cfe6	https://sourceforge.net/projects/sfall/files/
 weidu.exe	239		efb029a48a4ae05a22c9922992d50f9c	http://weidu.org/~thebigg/
 gema.exe	1.4RC		fb0e602593368666d9f0b6b4eb042f1d	http://gema.sourceforge.net/
 zlib1.dll	1.2.2		29ed201bb11400199c117b2cf6e79155	http://www.zlib.net
 dat2.exe	1.0		e42d83d1a9d06fdd1d342582c49a8c4d	https://github.com/falltergeist/datfile; http://www.teamx.ru/site_arc/utils/dat2.rar
 
-components/sfall/ddraw.dll	3.7.4	ae2740c12dbd0c2e88375d13a54133af	https://github.com/phobos2077/sfall/releases
+components/sfall/ddraw.dll	3.7.4	ae2740c12dbd0c2e88375d13a54133af	https://sourceforge.net/projects/sfall/files/
+components/sfall/2k_ddraw.dll	3.7.4	2a66b3a45c4f4b07cd4d61457377d8b2	https://sourceforge.net/projects/sfall/files/

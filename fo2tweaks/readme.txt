@@ -9,7 +9,8 @@
 
 This is a collection of convenience tweaks, common sense changes, and cheats for Fallout 2.
 
-- [__Download__](https://github.com/burner1024/fo2tweaks/releases/latest)
+[__Download__](https://github.com/burner1024/fo2tweaks/releases/latest) | [__Support__](#https://github.com/burner1024/fo2tweaks/issues) | [__Discussion__](#https://forum.bgforge.net/viewtopic.php?f=5&p=31)
+
 - [Components](#components) (__*__ means that starting a new game is required)
   - [Inventory](#inventory)
     - [Unlimited carry weight](#unlimited-carry-weight)__*__
@@ -190,13 +191,14 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 * [Zlib](http://www.zlib.net)
 
 ## Changelog
-* Version 6 (WIP):
+* Version 6:
   - added "Disable Kaga" component
   - added "Disable Knockback" component
   - upgraded sfall to 3.7.4
   - various under-the-hood changes for stability and reliability
   - added combat speed increase to "general speedup" component
   - added Russian translation for installation routine
+  - fixed Miria shotgun wedding/rape getting stuck
 * Version 5:
    - added unrestricted party AI component
    - expanded component "run speed" to include party
