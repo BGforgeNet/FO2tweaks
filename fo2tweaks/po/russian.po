@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-3-22 14:28+0000\n"
-"PO-Revision-Date: 2017-04-03 23:06+0000\n"
+"PO-Revision-Date: 2017-04-05 05:53+0000\n"
 "Last-Translator: The Magus <weblate@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: russian\n"
@@ -13,13 +13,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
 "4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.11\n"
+"X-Generator: Weblate 2.12\n"
 
 #: fo2tweaks/tra/english/install.tra:1
-#, fuzzy
-#| msgid "You must have either Killap's patch OR restoration pack installed before installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
 msgid "You must have either Killap's patch OR restoration project installed before installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
-msgstr "Вы должны установить патч Киллапа или Restoration project перед установкой FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
+msgstr ""
+"Вы должны установить Killap's patch или Restoration Project перед установкой "
+"FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
 
 #: fo2tweaks/tra/english/install.tra:2
 msgid "Party"
@@ -135,7 +135,7 @@ msgstr "Установка Sfall"
 
 #: fo2tweaks/tra/english/install.tra:31
 msgid "Updating Sfall"
-msgstr ""
+msgstr "Обновление Sfall"
 
 #~ msgid "You must have either Killap's patch OR restoration pack installed before installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
 #~ msgstr "Вы должны установить патч Киллапа или Restoration project перед установкой FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
