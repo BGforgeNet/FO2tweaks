@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-3-22 14:28+0000\n"
+"POT-Creation-Date: 2017-4-5 7:55+0000\n"
 "PO-Revision-Date: 2017-04-05 05:53+0000\n"
 "Last-Translator: The Magus <weblate@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -11,15 +11,12 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.12\n"
 
 #: fo2tweaks/tra/english/install.tra:1
 msgid "You must have either Killap's patch OR restoration project installed before installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
-msgstr ""
-"Вы должны установить Killap's patch или Restoration Project перед установкой "
-"FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
+msgstr "Вы должны установить Killap's patch или Restoration Project перед установкой FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
 
 #: fo2tweaks/tra/english/install.tra:2
 msgid "Party"
@@ -122,8 +119,8 @@ msgid "No close range penalty for scoped weapons"
 msgstr "Убрать штрафы при использовании оружия с прицелом в ближнем бою"
 
 #: fo2tweaks/tra/english/install.tra:28
-msgid "Disable Kaga"
-msgstr "Убрать Кагу"
+msgid "Remove Kaga"
+msgstr ""
 
 #: fo2tweaks/tra/english/install.tra:29
 msgid "Disable Knockback"
@@ -136,6 +133,9 @@ msgstr "Установка Sfall"
 #: fo2tweaks/tra/english/install.tra:31
 msgid "Updating Sfall"
 msgstr "Обновление Sfall"
+
+#~ msgid "Disable Kaga"
+#~ msgstr "Убрать Кагу"
 
 #~ msgid "You must have either Killap's patch OR restoration pack installed before installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
 #~ msgstr "Вы должны установить патч Киллапа или Restoration project перед установкой FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
