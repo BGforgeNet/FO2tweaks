@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-4-5 8:47+0000\n"
-"PO-Revision-Date: 2017-04-05 09:20+0000\n"
+"POT-Creation-Date: 2017-4-5 10:22+0000\n"
+"PO-Revision-Date: 2017-04-05 10:25+0000\n"
 "Last-Translator: The Magus <weblate@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: russian\n"
@@ -64,16 +64,16 @@ msgid "Unrestricted party combat AI"
 msgstr "Снятие ограничений на поведение членов группы в бою"
 
 #: fo2tweaks/tra/english/install.tra:14
-msgid "Armor doesn't reduce dude run speed"
-msgstr "Броня не замедляет скитальца"
+msgid "Armor doesn't reduce Chosen's run speed"
+msgstr "Броня не замедляет Избранного"
 
 #: fo2tweaks/tra/english/install.tra:15
 msgid "Increased run speed"
 msgstr "Увеличенная скорость бега"
 
 #: fo2tweaks/tra/english/install.tra:16
-msgid "Party NPC can run as well as dude"
-msgstr "Члены группы бегают не хуже скитальца"
+msgid "Party NPC can run as well as Chosen"
+msgstr "Члены группы бегают не хуже Избранного"
 
 #: fo2tweaks/tra/english/install.tra:17
 msgid "Both of the above options"
@@ -100,8 +100,8 @@ msgid "Grenades ignore armor class"
 msgstr "Гранаты игнорируют класс брони"
 
 #: fo2tweaks/tra/english/install.tra:23
-msgid "Level 5 after temple of trials"
-msgstr "5 уровень после Храма Испытаний"
+msgid "Start at level 4"
+msgstr "Начать с 4 уровня"
 
 #: fo2tweaks/tra/english/install.tra:24
 msgid "Silence idle fake reload animation for SMG and rifles"
@@ -134,6 +134,9 @@ msgstr "Установка Sfall 3.7.4"
 #: fo2tweaks/tra/english/install.tra:31
 msgid "Updating Sfall to v3.7.4"
 msgstr "Обновление Sfall до версии 3.7.4"
+
+#~ msgid "Level 5 after temple of trials"
+#~ msgstr "5 уровень после Храма Испытаний"
 
 #~ msgid "Disable Kaga"
 #~ msgstr "Убрать Кагу"

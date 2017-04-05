@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-4-5 8:47+0000\n"
+"POT-Creation-Date: 2017-4-5 10:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63,7 +63,7 @@ msgid "Unrestricted party combat AI"
 msgstr ""
 
 #: fo2tweaks/tra/english/install.tra:14
-msgid "Armor doesn't reduce dude run speed"
+msgid "Armor doesn't reduce Chosen's run speed"
 msgstr ""
 
 #: fo2tweaks/tra/english/install.tra:15
@@ -71,7 +71,7 @@ msgid "Increased run speed"
 msgstr ""
 
 #: fo2tweaks/tra/english/install.tra:16
-msgid "Party NPC can run as well as dude"
+msgid "Party NPC can run as well as Chosen"
 msgstr ""
 
 #: fo2tweaks/tra/english/install.tra:17
@@ -99,7 +99,7 @@ msgid "Grenades ignore armor class"
 msgstr ""
 
 #: fo2tweaks/tra/english/install.tra:23
-msgid "Level 5 after temple of trials"
+msgid "Start at level 4"
 msgstr ""
 
 #: fo2tweaks/tra/english/install.tra:24
