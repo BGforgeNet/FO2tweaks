@@ -21,12 +21,12 @@ This is a collection of convenience tweaks, common sense changes, and cheats for
     - [Companions never use burst fire](#companions-never-use-burst-fire)
     - [Unrestricted party combat AI](#unrestricted-party-combat-ai)
   - [Speed](#speed)
-    - [Increase run speed](#increase-run-speed) (both dude and party)
+    - [Increase run speed](#increase-run-speed) (both Chosen and party)
     - [General game speedup](#general-game-speedup)
   - [Miscellaneous](#miscellaneous)
     - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
     - [Grenades ignore armor class](#grenades-ignore-armor-class)
-    - [Level 5 after temple of trials](#level-5-after-temple-of-trials)__*__
+    - [Start at level 4](#start-at-level-4)__*__
     - [Silence "fake reload" animation](#silence-fake-reload-animation)
     - [Stretch game plotline](#stretch-game-plotline)
     - [Oxygen tank protects from radon in Broken Hills mine](#oxygen-tank-protects-from-radon-in-broken-hills-mine)
@@ -96,12 +96,12 @@ Party management in combat is bad enough. But to make it worse, some NPC have va
 
 ### Speed
 #### Increase run speed
-##### Armor doesn't reduce dude run speed
+##### Armor doesn't reduce Chosen's run speed
 In the original game, running becomes slower as armor gets heavier. This component disables that behaviour, so that run speed is constant and fast.
-##### Party NPC can run as well as dude
+##### Party NPC can run as well as Chosen
 Are you tired of Marcus lagging behind? What about Skynet? Then this component is for you. All companions will have their run speed increased. Those that don't have run animations will have them created (sped up walking one).
 ##### Both of the above options
-Like it says, speed up both the dude and the companions.
+Like it says, speed up both Chosen and his companions.
 
 #### General game speedup
 It's a convenience component. It preconfigures some Sfall and HRP settings for faster gameplay. You can achieve the same by performing manual Sfall and HRP configuration.
@@ -125,8 +125,8 @@ Grenades are actually thrown to target's feet, not "through" armor. Hitting a pe
 
 It also affects explosive (but not armor piercing) rockets from rocket launcher and grenade launchers from [EcCo mod](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/).
 
-#### Level 5 after temple of trials
-Nets the Chosen 9500 xp right at the beginning of the game, almost leveling him to 5. (The reason for "almost" is that the interface is limited to 99 free skill points max, so a Skilled character will lose many points if gone directly to level 5)
+#### Start at level 4
+Nets the Chosen 9500 xp right at the beginning of the game, getting him to level 4. After the Temple of Trials, it will be 5.
 
 #### Silence fake reload animation
 Silence really annoying SMG/rifle "reload" sound which the dude does when he's idle (which is every few seconds). The animation itself still plays.
