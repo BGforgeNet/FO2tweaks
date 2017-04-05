@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-4-5 7:55+0000\n"
-"PO-Revision-Date: 2017-04-05 08:01+0000\n"
+"POT-Creation-Date: 2017-4-5 8:47+0000\n"
+"PO-Revision-Date: 2017-04-05 09:20+0000\n"
 "Last-Translator: The Magus <weblate@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: russian\n"
@@ -128,12 +128,12 @@ msgid "Disable Knockback"
 msgstr "Отключить отбрасывание молотом"
 
 #: fo2tweaks/tra/english/install.tra:30
-msgid "Installing Sfall"
-msgstr "Установка Sfall"
+msgid "Installing Sfall v3.7.4"
+msgstr "Установка Sfall 3.7.4"
 
 #: fo2tweaks/tra/english/install.tra:31
-msgid "Updating Sfall"
-msgstr "Обновление Sfall"
+msgid "Updating Sfall to v3.7.4"
+msgstr "Обновление Sfall до версии 3.7.4"
 
 #~ msgid "Disable Kaga"
 #~ msgstr "Убрать Кагу"
