@@ -3,6 +3,9 @@
 <a href="https://tra.bgforge.net/engage/fallout-2-fo2tweaks/?utm_source=widget">
 <img src="https://tra.bgforge.net/widgets/fallout-2-fo2tweaks/-/svg-badge.svg" alt="Translation status" />
 </a>
+<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img src="https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg" alt="License" />
+</a>
 
 This is a collection of convenience tweaks, common sense changes, and cheats for Fallout 2.
 
@@ -27,6 +30,8 @@ This is a collection of convenience tweaks, common sense changes, and cheats for
     - [Stretch game plotline](#stretch-game-plotline)
     - [Oxygen tank protects from radon in Broken Hills mine](#oxygen-tank-protects-from-radon-in-broken-hills-mine)
     - [No close range penalty for scoped weapons](#no-close-range-penalty-for-scoped-weapons)
+    - [Remove Kaga](#remove-kaga)
+    - [Disable Knockback](#disable-knockback)
 - [Special notes / compatibility](#special-notes--compatibility)
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
@@ -137,7 +142,13 @@ This component removes bits of information here and there, so that there are les
 Any character having the tank in his inventory won't be damaged by poison gas.
 
 #### No close range penalty for scoped weapons
-You aren't forced to use the scope in close range, are you? Affects only one weapon currently: Scoped Hunting Rifle.
+Remove the close range penalty for Scoped Hunting Rifle, change its range to 45. If EcCo mod is installed, it also affects Bozar and Sniper Rifle (without changing range).
+
+#### Remove Kaga
+Remove Kaga, an annoying and overpowered RP addition.
+
+#### Disable Knockback
+Disable knockback from Sledge, Super Sledge and Louisville Slugger.
 
 ## Special notes / compatibility
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
@@ -149,6 +160,10 @@ You aren't forced to use the scope in close range, are you? Affects only one wea
 - Unzip the archive into the game directory
 - Launch fo2tweaks.bat, answer the questions
 
+If installation gets seemingly stuck (more than a minute without any progress), try:
+* Running fo2tweaks as an administrator (right-click > run as ...)
+* Disabling your antivirus for a moment
+
 ## Uninstallation
 - Launch fo2tweaks.bat, answer the questions
 
@@ -157,15 +172,14 @@ You aren't forced to use the scope in close range, are you? Affects only one wea
 
 ## Troubleshooting / Reporting issues
 - The mod is tested on Windows XP and Windows 7 only
-- If installation gets seemingly stuck (more than a minute without any progress), try disabling your antivirus for a moment. In particular, Avast is known to raise false positives
-- If you have any issues, reach me on [github](https://github.com/burner1024/fo2tweaks/issues/new) or at [NMA forums](http://www.nma-fallout.com/members/burn.64558/)
+- If you have any issues, reach me on [github](https://github.com/burner1024/fo2tweaks/issues/new) or [forums](https://forum.bgforge.net/viewtopic.php?f=5&p=31)
 
 ## Author
 - burner1024 @ github
 
-## Licence
-- The mod itself is [CC0 v1.0](https://creativecommons.org/publicdomain/zero/1.0/)
-- Used software have their own licences, refer to the corresponding resources for those.
+## License
+- The mod is [CC BY-NC-SA v4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+- Used software have their own licenses, refer to the corresponding resources for those.
 
 ## Used software
 * [SSLC compiler/decompiler](http://www.nma-fallout.com/threads/improved-scripting-tools-ssl-and-script-editor.203003/)
@@ -176,6 +190,13 @@ You aren't forced to use the scope in close range, are you? Affects only one wea
 * [Zlib](http://www.zlib.net)
 
 ## Changelog
+* Version 6 (WIP):
+  - added "Disable Kaga" component
+  - added "Disable Knockback" component
+  - upgraded sfall to 3.7.4
+  - various under-the-hood changes for stability and reliability
+  - added combat speed increase to "general speedup" component
+  - added Russian translation for installation routine
 * Version 5:
    - added unrestricted party AI component
    - expanded component "run speed" to include party
