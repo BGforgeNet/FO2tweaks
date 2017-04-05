@@ -14,7 +14,7 @@ This is a collection of convenience tweaks, common sense changes, and cheats for
 
 - [Components](#components) (__*__ means that starting a new game is required)
   - [Inventory](#inventory)
-    - [Unlimited carry weight](#unlimited-carry-weight)__*__
+    - [Unlimited carry weight](#unlimited-carry-weight)
     - [Unlimited trunk](#unlimited-trunk)__*__
     - [Inventory filter](#inventory-filter)
   - [Party](#party)
@@ -200,6 +200,7 @@ If installation gets seemingly stuck (more than a minute without any progress), 
   - added combat speed increase to "general speedup" component
   - added Russian translation for installation routine
   - fixed Miria shotgun wedding/rape getting stuck
+  - don't require starting new game for "unlimited carry weight"
 * Version 5:
    - added unrestricted party AI component
    - expanded component "run speed" to include party
