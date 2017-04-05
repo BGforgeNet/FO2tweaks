@@ -6,6 +6,7 @@
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
 <img src="https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg" alt="License" />
 </a>
+
 [__Download__](https://github.com/burner1024/fo2tweaks/releases/latest) | [__Support__](https://github.com/burner1024/fo2tweaks/issues) | [__Discussion__](https://forum.bgforge.net/viewtopic.php?f=5&p=31)
 
 This is a collection of convenience tweaks, common sense changes, and cheats for Fallout 2.
