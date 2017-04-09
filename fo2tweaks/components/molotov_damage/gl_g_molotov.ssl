@@ -1,0 +1,52 @@
+// gl_g_molotov.ssl
+#include ".\HEADERS\DEFINE.H"
+#include ".\HEADERS\COMMAND.H"
+#include ".\_sfall383_headers\define_extra.h"
+#include ".\_sfall383_headers\sfall.h"
+#include ".\_sfall383_headers\dik.h"
+
+//procedure start;
+
+procedure hit_hook begin
+//Runs after fallout has decided if an attack will hit or miss
+variable TypeHit, CritterAttack, CritterTarget;
+variable hslot, item;
+   TypeHit := get_sfall_arg;
+   CritterAttack := get_sfall_arg;
+   CritterTarget := get_sfall_arg;
+
+   if (CritterTarget and CritterAttack) then begin
+      if (obj_type(CritterTarget) == 1) and (TypeHit <= 1) then begin //miss hit
+          hslot:=active_hand;
+          if hslot == 0 then hslot:=2;
+          item:=obj_pid(critter_inven_obj(dude_obj, hslot));
+          if item==159 and get_proto_data(item, 48)==2 then begin //PROTO_WP_DMG_TYPE
+//              display_msg("miss_fire_exp");
+              metarule2_explosions(4, 2, 0);
+          end
+      end
+   end
+   
+end
+
+procedure damage_hook begin
+//Runs when retriving the damage rating of the players used weapon. (Which may be their fists.)
+  variable temp, weapon_obj_used;
+  temp := get_sfall_arg;
+  temp := get_sfall_arg;
+  weapon_obj_used := get_sfall_arg;
+
+  temp:=obj_pid(weapon_obj_used);
+  if (temp == 159) and (get_proto_data(temp, 48) == 2) then begin //PROTO_WP_DMG_TYPE
+//  display_msg("hit_fire_exp");
+    metarule2_explosions(4, 2, 0);
+  end
+end
+
+procedure start begin
+  if game_loaded then begin
+    register_hook_proc(1, hit_hook);     //HOOK_AFTERHITROLL
+    register_hook_proc(16, damage_hook); //HOOK_ITEMDAMAGE
+//    display_msg("molotov");
+  end
+end
