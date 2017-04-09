@@ -192,6 +192,9 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 * [Zlib](http://www.zlib.net)
 
 ## Changelog
+* Version 7:
+  - fixed Molotov cocktail not exploding
+  - upgraded sfall to 3.8.3
 * Version 6:
   - added "Disable Kaga" component
   - added "Disable Knockback" component
