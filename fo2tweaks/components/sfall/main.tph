@@ -2,6 +2,18 @@ OUTER_SPRINT comp_dir ~%MOD_FOLDER%/components/sfall~
 OUTER_SET sfall_updated = 0
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall BEGIN
+
+~36a4a5c9beed11585dafd15f207454fa~ => ~3.8.3~
+~29201e8fbcb2821aec5da5092cb8b963~ => ~3.8.2~
+~3de5b4fbcf4113b41819013ed8d7d98e~ => ~3.8.1~
+~38b30defb7e76edb54e30d9d154f0a6b~ => ~3.8~
+~ae2740c12dbd0c2e88375d13a54133af~ => ~3.7.4~
+~f8619818e89059a908e8c566f8981a90~ => ~3.7.3~
+~9a2d4ad2352cc2da39fdf0f87fd89eb0~ => ~3.7b~
+~4310b5196fd5732beee78e1e27e4673f~ => ~3.7a~
+~eca6f6d9690bd0840b7f2c09d98ef93e~ => ~3.7~
+~abe82a69f38df08e815534e45ed176c1~ => ~3.6~
+~5ef30e921af154c92301f03505da7e6e~ => ~3.5~
 ~68eb52fe8169e94c3ec4451e7c6d9e37~ => ~3.4~
 ~8ab6c110dac5149bf1b9d70116b8a512~ => ~3.3~
 ~ff8d39304b97d0214ced7968b367f623~ => ~3.2~
@@ -31,6 +43,17 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall BEGIN
 END
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall_2k BEGIN
+~2359fcc0c0c982576979a08fa53bae2c~ => ~2k_3.8.3~
+~062837fae0af33cef330267d94e1bbc9~ => ~2k_3.8.2~
+~b4c0a2f0f09371dce3a8dc79b4e24867~ => ~2k_3.8.1~
+~fdf64b59ed13f473bb2871ea19033313~ => ~2k_3.8~
+~2a66b3a45c4f4b07cd4d61457377d8b2~ => ~2k_3.7.4~
+~c5ed8bcab65846f5f193f686724df2aa~ => ~2k_3.7.3~
+~4ef25c4c6e7fa33a131237ddd93b938f~ => ~2k_3.7b~
+~d5a9e181c71fe3d6d744c4ae8b8dc83c~ => ~2k_3.7a~
+~531bf91c81658afaaea976b1fe23c3ab~ => ~2k_3.7~
+~9715c54e0b4c13139035e9cbc3e6811a~ => ~2k_3.6~
+~7e5ce1ef6a397e28f21054e8d67f59c7~ => ~2k_3.5~
 ~580c59b1fd7ece502888b9c36e13607b~ => ~2k_3.4~
 ~743dd4c8f943e231bfc6b759c7ffb537~ => ~2k_3.1~
 ~d571217ef8d8396fc17aeb0d9819201d~ => ~2k_3.0~
