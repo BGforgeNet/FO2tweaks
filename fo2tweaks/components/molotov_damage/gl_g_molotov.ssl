@@ -5,7 +5,7 @@
 #include ".\_sfall383_headers\sfall.h"
 #include ".\_sfall383_headers\dik.h"
 
-//procedure start;
+procedure start;
 
 procedure hit_hook begin
 //Runs after fallout has decided if an attack will hit or miss
@@ -21,7 +21,7 @@ variable hslot, item;
           if hslot == 0 then hslot:=2;
           item:=obj_pid(critter_inven_obj(dude_obj, hslot));
           if item==159 and get_proto_data(item, 48)==2 then begin //PROTO_WP_DMG_TYPE
-//              display_msg("miss_fire_exp");
+//	      display_msg("miss_fire_exp");
               metarule2_explosions(4, 2, 0);
           end
       end
@@ -38,7 +38,7 @@ procedure damage_hook begin
 
   temp:=obj_pid(weapon_obj_used);
   if (temp == 159) and (get_proto_data(temp, 48) == 2) then begin //PROTO_WP_DMG_TYPE
-//  display_msg("hit_fire_exp");
+//    display_msg("hit_fire_exp");
     metarule2_explosions(4, 2, 0);
   end
 end

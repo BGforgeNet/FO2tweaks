@@ -9,4 +9,4 @@ COPY ~data/%filename%~ ~data/%filename%~
   END
 BUT_ONLY
 
-COPY ~%MOD_FOLDER%/components/molotov/gl_g_molotov.int~ ~%scripts_dir%~
+COPY ~%MOD_FOLDER%/components/molotov_damage/gl_g_molotov.int~ ~%scripts_dir%~
