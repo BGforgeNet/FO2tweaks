@@ -1,6 +1,6 @@
 # FO2tweaks
 
-<a href="https://tra.bgforge.net/engage/fallout-2-fo2tweaks/?utm_source=widget">
+<a href="https://tra.bgforge.net/projects/fallout-2-fo2tweaks/main/ru/">
 <img src="https://tra.bgforge.net/widgets/fallout-2-fo2tweaks/-/svg-badge.svg" alt="Translation status" />
 </a>
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
