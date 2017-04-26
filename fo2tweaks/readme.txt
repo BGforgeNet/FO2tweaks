@@ -40,7 +40,7 @@ This is a collection of convenience tweaks, common sense changes, and cheats for
 - [Update](#update)
 - [Troubleshooting / Reporting issues](#troubleshooting--reporting-issues)
 - [Author](#author)
-- [Licence](#licence)
+- [License](#license)
 - [Used software](#used-software)
 - [Changelog](#changelog)
 
@@ -184,7 +184,7 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 - Used software have their own licenses, refer to the corresponding resources for those.
 
 ## Used software
-* [SSLC compiler/decompiler](http://www.nma-fallout.com/threads/improved-scripting-tools-ssl-and-script-editor.203003/)
+* [SSLC compiler/decompiler](https://sourceforge.net/projects/sfall/files/)
 * [Gema](http://gema.sourceforge.net)
 * [Weidu](http://weidu.org/~thebigg/)
 * [Sfall](https://github.com/phobos2077/sfall)
