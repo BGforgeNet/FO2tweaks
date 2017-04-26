@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-4-18 16:11+0000\n"
+"POT-Creation-Date: 1970-1-01 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,4 +128,8 @@ msgstr ""
 
 #: fo2tweaks/tra/english/install.tra:31
 msgid "Updating Sfall to v3.8.3"
+msgstr ""
+
+#: fo2tweaks/tra/english/install.tra:32
+msgid "Map hotkey"
 msgstr ""
