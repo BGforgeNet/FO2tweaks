@@ -1,0 +1,30 @@
+#include ".\HEADERS\DEFINE.H"
+#include ".\HEADERS\COMMAND.H"
+#include ".\_sfall383_headers\define_extra.h"
+#include ".\_sfall383_headers\sfall.h"
+#include ".\_sfall383_headers\dik.h"
+#include ".\!pbs_rebalance_sources\_pbs_main\lib.misc.h"
+
+procedure start;
+procedure keypress_hook_handler;
+
+procedure keypress_hook_handler begin
+  variable world_key;
+//  town_key := 20; //T
+  world_key := parse_hotkey(get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "WorldMapKey"));
+  if (world_key < 0) then begin
+    world_key := 17; //W
+  end
+  if (not(combat_is_initialized) and not(in_world_map)) then begin
+    if (key_pressed(world_key)) then begin
+      world_map;
+//      town_map;
+    end
+  end
+end
+
+procedure start begin
+  if game_loaded then begin
+    register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
+  end
+end
