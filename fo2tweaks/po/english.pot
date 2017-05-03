@@ -34,6 +34,10 @@ msgstr ""
 msgid "Requires Killap's restoration project"
 msgstr ""
 
+#: fo2tweaks/tra/english/install.tra:7
+msgid "Unknown Sfall version, not updating!"
+msgstr ""
+
 #: fo2tweaks/tra/english/install.tra:8
 msgid "Unlimited carry weight"
 msgstr ""
