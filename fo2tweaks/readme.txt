@@ -25,7 +25,6 @@ This is a collection of convenience tweaks, common sense changes, and cheats for
     - [Increase run speed](#increase-run-speed) (both Chosen and party)
     - [General game speedup](#general-game-speedup)
   - [Miscellaneous](#miscellaneous)
-    - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
     - [Grenades ignore armor class](#grenades-ignore-armor-class)
     - [Start at level 4](#start-at-level-4)__*__
     - [Silence "fake reload" animation](#silence-fake-reload-animation)
@@ -117,10 +116,6 @@ Specifically, it does the following:
 - No splash screen is displayed (with HRP)
 - Fade in/out is instant (with HRP)
 
-### Miscellaneous
-#### Molotov cocktail: fire damage
-Let Molotov cocktail do fire damage instead of explosive (and optionally, enable "burning death" animation)
-
 #### Grenades ignore armor class
 Grenades are actually thrown to target's feet, not "through" armor. Hitting a person in power armor should not be any harder than one in leather armor. Thus, this component removes AC penalty from grenades' CtH.
 
@@ -194,6 +189,8 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 ## Changelog
 * Version 8:
   - Added "Map hotkey" component
+* Version 7.1:
+  - Disabled Molotov cocktail temporarily, until sfall 4.0 is out
 * Version 7:
   - fixed Molotov cocktail not exploding
   - upgraded sfall to 3.8.3
