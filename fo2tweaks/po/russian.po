@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: 2017-04-27 02:53+0000\n"
+"PO-Revision-Date: 2017-05-04 07:19+0000\n"
 "Last-Translator: Magus <weblate@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: russian\n"
@@ -34,6 +34,10 @@ msgstr "Скорость"
 #: fo2tweaks/tra/english/install.tra:6
 msgid "Requires Killap's restoration project"
 msgstr "Требует Restoration Project от Киллапа"
+
+#: fo2tweaks/tra/english/install.tra:7
+msgid "Unknown Sfall version, not updating!"
+msgstr "Неизвестная версия Sfall, обновление не будет произведено!"
 
 #: fo2tweaks/tra/english/install.tra:8
 msgid "Unlimited carry weight"
