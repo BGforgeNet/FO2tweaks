@@ -128,7 +128,7 @@ Nets the Chosen 9500 xp right at the beginning of the game, getting him to level
 Silence really annoying SMG/rifle "reload" sound which the dude does when he's idle (which is every few seconds). The animation itself still plays.
 
 #### Stretch game plotline
-In terms of roleplay, there's not much sense to visit the cities of the Big Circle: Broken Hills, Redding, New Reno, etc. In Vault City computer, you learn about Vault 15, in Vault 15 - about Vault 13, get the GECK, and it's pretty much non-stop express from there.
+In terms of roleplay, there's not much sense in visiting the cities of the Big Circle: Broken Hills, Redding, New Reno, etc. In Vault City computer, you learn about Vault 15, in Vault 15 - about Vault 13, get the GECK, and it's pretty much non-stop express from there.
 This component removes bits of information here and there, so that there are less shortcut paths:
 - Vault City computer **will not** reveal Vault 15 location (but Tandi will - if you ask her)
 - Vault 15 computer **will not** reveal Vault 13 location
