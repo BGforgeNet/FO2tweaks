@@ -14,127 +14,127 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.12\n"
 
-#: fo2tweaks/tra/english/install.tra:2
+#: install.tra:2
 msgid "Party"
 msgstr "Группа"
 
-#: fo2tweaks/tra/english/install.tra:3
+#: install.tra:3
 msgid "Inventory"
 msgstr "Инвентарь"
 
-#: fo2tweaks/tra/english/install.tra:4
+#: install.tra:4
 msgid "Miscellaneous"
 msgstr "Разное"
 
-#: fo2tweaks/tra/english/install.tra:5
+#: install.tra:5
 msgid "Speed"
 msgstr "Скорость"
 
-#: fo2tweaks/tra/english/install.tra:6
+#: install.tra:6
 msgid "Requires Killap's restoration project"
 msgstr "Требует Restoration Project от Киллапа"
 
-#: fo2tweaks/tra/english/install.tra:7
+#: install.tra:7
 msgid "Unknown Sfall version, not updating!"
 msgstr "Неизвестная версия Sfall, обновление не будет произведено!"
 
-#: fo2tweaks/tra/english/install.tra:8
+#: install.tra:8
 msgid "Unlimited carry weight"
 msgstr "Неограниченный вес инвентаря"
 
-#: fo2tweaks/tra/english/install.tra:9
+#: install.tra:9
 msgid "Inventory filter"
 msgstr "Фильтр для инвентаря"
 
-#: fo2tweaks/tra/english/install.tra:10
+#: install.tra:10
 msgid "Unlimited trunk"
 msgstr "Бездонный багажник"
 
-#: fo2tweaks/tra/english/install.tra:11
+#: install.tra:11
 msgid "Unlimited party"
 msgstr "Неограниченная группа"
 
-#: fo2tweaks/tra/english/install.tra:12
+#: install.tra:12
 msgid "Companions never use burst fire"
 msgstr "Члены группы никогда не стреляют очередями"
 
-#: fo2tweaks/tra/english/install.tra:13
+#: install.tra:13
 msgid "Unrestricted party combat AI"
 msgstr "Снятие ограничений на поведение членов группы в бою"
 
-#: fo2tweaks/tra/english/install.tra:14
+#: install.tra:14
 msgid "Armor doesn't reduce Chosen's run speed"
 msgstr "Броня не замедляет Избранного"
 
-#: fo2tweaks/tra/english/install.tra:15
+#: install.tra:15
 msgid "Increased run speed"
 msgstr "Увеличенная скорость бега"
 
-#: fo2tweaks/tra/english/install.tra:16
+#: install.tra:16
 msgid "Party NPC can run as well as Chosen"
 msgstr "Члены группы бегают не хуже Избранного"
 
-#: fo2tweaks/tra/english/install.tra:17
+#: install.tra:17
 msgid "Both of the above options"
 msgstr "И то, и другое"
 
-#: fo2tweaks/tra/english/install.tra:18
+#: install.tra:18
 msgid "General game speedup"
 msgstr "Общее ускорение игры"
 
-#: fo2tweaks/tra/english/install.tra:19
+#: install.tra:19
 msgid "Fire damage"
 msgstr "Тип повреждения: огонь"
 
-#: fo2tweaks/tra/english/install.tra:20
+#: install.tra:20
 msgid "Molotov cocktail"
 msgstr "Коктейль Молотова"
 
-#: fo2tweaks/tra/english/install.tra:21
+#: install.tra:21
 msgid "Fire damage and burning death animation"
 msgstr "Тип повреждения: огонь, и анимация горящего существа"
 
-#: fo2tweaks/tra/english/install.tra:22
+#: install.tra:22
 msgid "Grenades ignore armor class"
 msgstr "Гранаты игнорируют класс брони"
 
-#: fo2tweaks/tra/english/install.tra:23
+#: install.tra:23
 msgid "Start at level 4"
 msgstr "Начать с 4 уровня"
 
-#: fo2tweaks/tra/english/install.tra:24
+#: install.tra:24
 msgid "Silence idle fake reload animation for SMG and rifles"
 msgstr "Убрать фальшивый звук перезарядки пистолетов-пулеметов и винтовок"
 
-#: fo2tweaks/tra/english/install.tra:25
+#: install.tra:25
 msgid "Stretch game plotline"
 msgstr "Растянуть сюжет игры"
 
-#: fo2tweaks/tra/english/install.tra:26
+#: install.tra:26
 msgid "Oxygen tank protects from radon in Broken Hills mine"
 msgstr "Кислородный баллон защищает от радона в шахте Сломанных Холмов"
 
-#: fo2tweaks/tra/english/install.tra:27
+#: install.tra:27
 msgid "No close range penalty for scoped weapons"
 msgstr "Убрать штрафы при использовании оружия с прицелом в ближнем бою"
 
-#: fo2tweaks/tra/english/install.tra:28
+#: install.tra:28
 msgid "Remove Kaga"
 msgstr "Убрать Кагу"
 
-#: fo2tweaks/tra/english/install.tra:29
+#: install.tra:29
 msgid "Disable Knockback"
 msgstr "Отключить отбрасывание молотом"
 
-#: fo2tweaks/tra/english/install.tra:30
+#: install.tra:30
 msgid "Installing Sfall v3.8.3"
 msgstr "Установка Sfall 3.8.3"
 
-#: fo2tweaks/tra/english/install.tra:31
+#: install.tra:31
 msgid "Updating Sfall to v3.8.3"
 msgstr "Обновление Sfall до версии 3.8.3"
 
-#: fo2tweaks/tra/english/install.tra:32
+#: install.tra:32
 msgid "Map hotkey"
 msgstr "Горячая клавиша для вызова карты"
 

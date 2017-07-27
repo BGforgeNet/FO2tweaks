@@ -1,5 +1,4 @@
-#. extracted from fo2tweaks/tra/english/install.tra
-#, fuzzy
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
@@ -12,128 +11,128 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: tra2po v.1.0.2\n"
+"X-Generator: bgforge_po v.1.0.0\n"
 
-#: fo2tweaks/tra/english/install.tra:2
+#: install.tra:2
 msgid "Party"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:3
+#: install.tra:3
 msgid "Inventory"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:4
+#: install.tra:4
 msgid "Miscellaneous"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:5
+#: install.tra:5
 msgid "Speed"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:6
+#: install.tra:6
 msgid "Requires Killap's restoration project"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:7
+#: install.tra:7
 msgid "Unknown Sfall version, not updating!"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:8
+#: install.tra:8
 msgid "Unlimited carry weight"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:9
+#: install.tra:9
 msgid "Inventory filter"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:10
+#: install.tra:10
 msgid "Unlimited trunk"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:11
+#: install.tra:11
 msgid "Unlimited party"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:12
+#: install.tra:12
 msgid "Companions never use burst fire"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:13
+#: install.tra:13
 msgid "Unrestricted party combat AI"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:14
+#: install.tra:14
 msgid "Armor doesn't reduce Chosen's run speed"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:15
+#: install.tra:15
 msgid "Increased run speed"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:16
+#: install.tra:16
 msgid "Party NPC can run as well as Chosen"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:17
+#: install.tra:17
 msgid "Both of the above options"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:18
+#: install.tra:18
 msgid "General game speedup"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:19
+#: install.tra:19
 msgid "Fire damage"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:20
+#: install.tra:20
 msgid "Molotov cocktail"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:21
+#: install.tra:21
 msgid "Fire damage and burning death animation"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:22
+#: install.tra:22
 msgid "Grenades ignore armor class"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:23
+#: install.tra:23
 msgid "Start at level 4"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:24
+#: install.tra:24
 msgid "Silence idle fake reload animation for SMG and rifles"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:25
+#: install.tra:25
 msgid "Stretch game plotline"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:26
+#: install.tra:26
 msgid "Oxygen tank protects from radon in Broken Hills mine"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:27
+#: install.tra:27
 msgid "No close range penalty for scoped weapons"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:28
+#: install.tra:28
 msgid "Remove Kaga"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:29
+#: install.tra:29
 msgid "Disable Knockback"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:30
+#: install.tra:30
 msgid "Installing Sfall v3.8.3"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:31
+#: install.tra:31
 msgid "Updating Sfall to v3.8.3"
 msgstr ""
 
-#: fo2tweaks/tra/english/install.tra:32
+#: install.tra:32
 msgid "Map hotkey"
 msgstr ""
