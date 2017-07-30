@@ -4,15 +4,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: 2017-05-04 07:19+0000\n"
-"Last-Translator: Magus <weblate@bgforge.net>\n"
+"PO-Revision-Date: 2017-07-30 18:29+0000\n"
+"Last-Translator: Magus <magus@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: russian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.12\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.15\n"
 
 #: install.tra:2
 msgid "Party"
@@ -127,26 +128,20 @@ msgid "Disable Knockback"
 msgstr "Отключить отбрасывание молотом"
 
 #: install.tra:30
-#, fuzzy
-#| msgid "Installing Sfall v3.8.3"
 msgid "Installing Sfall"
-msgstr "Установка Sfall 3.8.3"
+msgstr "Установка Sfall"
 
 #: install.tra:31
-#, fuzzy
-#| msgid "Updating Sfall to v3.8.3"
 msgid "Updating Sfall"
-msgstr "Обновление Sfall до версии 3.8.3"
+msgstr "Обновление Sfall"
 
 #: install.tra:32
 msgid "Map hotkey"
 msgstr "Горячая клавиша для вызова карты"
 
 #: install.tra:34
-#, fuzzy
-#| msgid "Unknown Sfall version, not updating!"
 msgid "Good Sfall version found!"
-msgstr "Неизвестная версия Sfall, обновление не будет произведено!"
+msgstr "Найдена подходящая версия Sfall!"
 
 #~ msgid ""
 #~ "You must have either Killap's patch OR restoration project installed before "
