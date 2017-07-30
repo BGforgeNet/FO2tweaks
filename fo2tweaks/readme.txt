@@ -33,6 +33,7 @@ This is a collection of convenience tweaks, common sense changes, and cheats for
     - [No close range penalty for scoped weapons](#no-close-range-penalty-for-scoped-weapons)
     - [Remove Kaga](#remove-kaga)
     - [Disable Knockback](#disable-knockback)
+    - [Worldmap hotkey](#worldmap-hotkey)
 - [Special notes / compatibility](#special-notes--compatibility)
 - [Installation](#installation)
 - [Unistallation](#uninstallation)

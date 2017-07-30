@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: 2017-07-30 18:29+0000\n"
+"PO-Revision-Date: 2017-07-30 18:38+0000\n"
 "Last-Translator: Magus <magus@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: russian\n"
@@ -125,7 +125,7 @@ msgstr "Убрать Кагу"
 
 #: install.tra:29
 msgid "Disable Knockback"
-msgstr "Отключить отбрасывание молотом"
+msgstr "Отключить отбрасывание оружием ближнего боя"
 
 #: install.tra:30
 msgid "Installing Sfall"
