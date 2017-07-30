@@ -147,6 +147,11 @@ Remove Kaga, an annoying and overpowered RP addition.
 #### Disable Knockback
 Disable knockback from Sledge, Super Sledge and Louisville Slugger.
 
+#### Worldmap hotkey
+Adds a hotkey to call worldmap at any moment. Yes, that can be used as a cheat at times.
+
+Default is "W", configurable in fo2tweaks.ini.
+
 ## Special notes / compatibility
 - **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
 - It should be **compatible with any other mod** provided that "fo2tweaks" is installed **last**. It patches files instead of overwriting them.
@@ -189,6 +194,9 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 ## Changelog
 * Version 8:
   - Added "Map hotkey" component
+  - Re-enabled Molotov cocktail component
+  - Fixed installation when fallout.cfg is missing
+  - Fixed missing speedup settings when installed on old sfall version
 * Version 7.1:
   - Disabled Molotov cocktail temporarily, until sfall 4.0 is out
 * Version 7:
