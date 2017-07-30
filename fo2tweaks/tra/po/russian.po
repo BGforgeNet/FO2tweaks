@@ -34,7 +34,7 @@ msgstr "Скорость"
 msgid "Requires Killap's restoration project"
 msgstr "Требует Restoration Project от Киллапа"
 
-#: install.tra:7
+#: install.tra:7 install.tra:33
 msgid "Unknown Sfall version, not updating!"
 msgstr "Неизвестная версия Sfall, обновление не будет произведено!"
 
@@ -127,16 +127,26 @@ msgid "Disable Knockback"
 msgstr "Отключить отбрасывание молотом"
 
 #: install.tra:30
-msgid "Installing Sfall v3.8.3"
+#, fuzzy
+#| msgid "Installing Sfall v3.8.3"
+msgid "Installing Sfall"
 msgstr "Установка Sfall 3.8.3"
 
 #: install.tra:31
-msgid "Updating Sfall to v3.8.3"
+#, fuzzy
+#| msgid "Updating Sfall to v3.8.3"
+msgid "Updating Sfall"
 msgstr "Обновление Sfall до версии 3.8.3"
 
 #: install.tra:32
 msgid "Map hotkey"
 msgstr "Горячая клавиша для вызова карты"
+
+#: install.tra:34
+#, fuzzy
+#| msgid "Unknown Sfall version, not updating!"
+msgid "Good Sfall version found!"
+msgstr "Неизвестная версия Sfall, обновление не будет произведено!"
 
 #~ msgid ""
 #~ "You must have either Killap's patch OR restoration project installed before "

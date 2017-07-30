@@ -33,7 +33,7 @@ msgstr ""
 msgid "Requires Killap's restoration project"
 msgstr ""
 
-#: install.tra:7
+#: install.tra:7 install.tra:33
 msgid "Unknown Sfall version, not updating!"
 msgstr ""
 
@@ -126,13 +126,17 @@ msgid "Disable Knockback"
 msgstr ""
 
 #: install.tra:30
-msgid "Installing Sfall v3.8.3"
+msgid "Installing Sfall"
 msgstr ""
 
 #: install.tra:31
-msgid "Updating Sfall to v3.8.3"
+msgid "Updating Sfall"
 msgstr ""
 
 #: install.tra:32
 msgid "Map hotkey"
+msgstr ""
+
+#: install.tra:34
+msgid "Good Sfall version found!"
 msgstr ""
