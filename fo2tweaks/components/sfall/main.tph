@@ -1,6 +1,11 @@
 OUTER_SPRINT comp_dir ~%MOD_FOLDER%/components/sfall~
 OUTER_SET sfall_updated = 0
 
+ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall_current BEGIN
+~67a57bd0da1e66f1b5efff42b66a7515~ => ~2k_3.8.4~
+~162a92f4012b3cd6db6504847237e54a~ => ~3.8.4~
+END
+
 ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall BEGIN
 
 ~36a4a5c9beed11585dafd15f207454fa~ => ~3.8.3~
@@ -67,6 +72,15 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall_2k BEGIN
 END
 
 ACTION_IF FILE_EXISTS ~ddraw.dll~ BEGIN
+
+  ACTION_PHP_EACH sfall_current AS checksum => version BEGIN
+    ACTION_IF sfall_updated == 0 BEGIN //less md5 calculations
+      ACTION_IF FILE_MD5 ddraw.dll ~%checksum%~ BEGIN
+        PRINT @34 //Good Sfall version found!
+        OUTER_SET sfall_updated = 1
+      END
+    END
+  END
 
   ACTION_PHP_EACH sfall AS checksum => version BEGIN
     ACTION_IF sfall_updated == 0 BEGIN //less md5 calculations

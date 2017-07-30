@@ -1,3 +1,9 @@
+OUTER_SPRINT comp_dir ~%MOD_FOLDER%/components/general_speed~
+
+ACTION_IF NOT FILE_EXISTS ~fallout2.cfg~ BEGIN
+  COPY + ~%comp_dir%/fallout2.cfg~ ~fallout2.cfg~
+END
+
 COPY ~fallout2.cfg~ ~fallout2.cfg~
   REPLACE_TEXTUALLY ~^combat_speed=.*~ ~combat_speed=50~
   REPLACE_TEXTUALLY ~^player_speedup=.*~ ~player_speedup=1~
@@ -17,9 +23,43 @@ COPY ~ddraw.ini~ ~ddraw.ini~
   REPLACE_TEXTUALLY ~^.*SkipOpeningMovies.*~ ~SkipOpeningMovies=1~
 BUT_ONLY
 
+
+COPY ~ddraw.ini~ ~ddraw.ini~
+  REPLACE_TEXTUALLY ~^\[Misc\]~ ~[Misc]
+CombatPanelAnimDelay=0~
+  UNLESS ~CombatPanelAnimDelay~
+BUT_ONLY
+COPY ~ddraw.ini~ ~ddraw.ini~
+  REPLACE_TEXTUALLY ~^\[Misc\]~ ~[Misc]
+DialogPanelAnimDelay=0~
+  UNLESS ~DialogPanelAnimDelay~
+BUT_ONLY
+COPY ~ddraw.ini~ ~ddraw.ini~
+  REPLACE_TEXTUALLY ~^\[Misc\]~ ~[Misc]
+PipboyTimeAnimDelay=0~
+  UNLESS ~PipboyTimeAnimDelay~
+BUT_ONLY
+COPY ~ddraw.ini~ ~ddraw.ini~
+  REPLACE_TEXTUALLY ~^\[Misc\]~ ~[Misc]
+CombatPanelAnimDelay=0~
+  UNLESS ~CombatPanelAnimDelay~
+BUT_ONLY
+COPY ~ddraw.ini~ ~ddraw.ini~
+  REPLACE_TEXTUALLY ~^\[Misc\]~ ~[Misc]
+ReloadReserve=0~
+  UNLESS ~ReloadReserve~
+BUT_ONLY
+COPY ~ddraw.ini~ ~ddraw.ini~
+  REPLACE_TEXTUALLY ~^\[Misc\]~ ~[Misc]
+InstantWeaponEquip=1~
+  UNLESS ~InstantWeaponEquip~
+BUT_ONLY
+
+
 ACTION_IF FILE_EXISTS ~f2_res.ini~ BEGIN
   COPY ~f2_res.ini~ ~f2_res.ini~
     REPLACE_TEXTUALLY ~^.*SPLASH_SCRN_TIME=.*~ ~SPLASH_SCRN_TIME=0~
     REPLACE_TEXTUALLY ~^.*FADE_TIME_MODIFIER=.*~ ~FADE_TIME_MODIFIER=0~
   BUT_ONLY
 END
+
