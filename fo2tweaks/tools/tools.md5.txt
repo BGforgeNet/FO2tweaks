@@ -9,5 +9,5 @@ gema.exe	1.4RC		fb0e602593368666d9f0b6b4eb042f1d	http://gema.sourceforge.net/
 zlib1.dll	1.2.2		29ed201bb11400199c117b2cf6e79155	http://www.zlib.net
 dat2.exe	1.0		e42d83d1a9d06fdd1d342582c49a8c4d	https://github.com/falltergeist/datfile; http://www.teamx.ru/site_arc/utils/dat2.rar
 
-components/sfall/ddraw.dll	3.8.3	36a4a5c9beed11585dafd15f207454fa	https://sourceforge.net/projects/sfall/files/
-components/sfall/2k_ddraw.dll	3.8.3	2359fcc0c0c982576979a08fa53bae2c	https://sourceforge.net/projects/sfall/files/
+components/sfall/ddraw.dll	3.8.3	162a92f4012b3cd6db6504847237e54a	https://sourceforge.net/projects/sfall/files/
+components/sfall/2k_ddraw.dll	3.8.3	67a57bd0da1e66f1b5efff42b66a7515	https://sourceforge.net/projects/sfall/files/
