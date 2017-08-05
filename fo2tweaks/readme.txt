@@ -7,7 +7,7 @@
 <img src="https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg" alt="License" />
 </a>
 
-[__Download__](https://github.com/burner1024/fo2tweaks/releases/latest) | [__Support__](https://github.com/burner1024/fo2tweaks/issues) | [__Discussion__](https://forum.bgforge.net/viewtopic.php?f=5&p=31)
+[__Download__](https://github.com/BGforgeNet/fo2tweaks/releases/latest) | [__Support__](#reporting-issues) | [__Discussion__](https://forum.bgforge.net/viewtopic.php?f=5&p=31)
 
 This is a collection of convenience tweaks, common sense changes, and cheats for Fallout 2.
 
@@ -38,7 +38,7 @@ This is a collection of convenience tweaks, common sense changes, and cheats for
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
 - [Update](#update)
-- [Troubleshooting / Reporting issues](#troubleshooting--reporting-issues)
+- [Reporting issues](#reporting-issues)
 - [Author](#author)
 - [License](#license)
 - [Used software](#used-software)
@@ -159,7 +159,7 @@ Default is "W", configurable in fo2tweaks.ini.
 
 
 ## Installation
-- Download __fo2tweaks.zip__ from the [latest release page](https://github.com/burner1024/fo2tweaks/releases/latest)
+- Download __fo2tweaks.zip__ from the [latest release page](https://github.com/BGforgeNet/fo2tweaks/releases/latest)
 - Unzip the archive into the game directory
 - Launch fo2tweaks.bat, answer the questions
 
@@ -173,9 +173,12 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 ## Update
 - If you're updating from a previous fo2tweaks version, uninstall it completely, delete fo2tweaks dir and fo2tweaks.bat, then install new version normally
 
-## Troubleshooting / Reporting issues
-- The mod is tested on Windows XP and Windows 7 only
-- If you have any issues, reach me on [github](https://github.com/burner1024/fo2tweaks/issues/new) or [forums](https://forum.bgforge.net/viewtopic.php?f=5&p=31)
+## Reporting issues
+- Open a new [issue](https://github.com/BGforgeNet/fo2tweaks/issues/new) and describe the problem
+- Attach 3 log files from game directory:
+ - WeiDU.log
+ - fo2tweaks/fo2tweaks.log
+ - fo2tweaks/fo2tweaks.bat.log
 
 ## Author
 - burner1024 @ github
