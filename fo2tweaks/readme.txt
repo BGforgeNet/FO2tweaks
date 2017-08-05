@@ -49,7 +49,7 @@ This is a collection of convenience tweaks, common sense changes, and cheats for
 ### Inventory
 
 #### Unlimited carry weight
-AKA inventory pain killer, part 1. Let the Chosen one carry up to 9999, regardless of strength.
+AKA inventory pain killer, part 1. Let the Chosen one carry up to 99999, regardless of strength.
 
 #### Unlimited trunk
 Inventory pain killer, part 2. Never worry about trunk filling up.
@@ -181,7 +181,7 @@ If installation gets seemingly stuck (more than a minute without any progress), 
   - fo2tweaks/fo2tweaks.bat.log
 
 ## Author
-- burner1024 @ github
+- @burner1024
 
 ## License
 - The mod is [CC BY-NC-SA v4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
@@ -190,7 +190,7 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 ## Used software
 * [SSLC compiler/decompiler](https://sourceforge.net/projects/sfall/files/)
 * [Gema](http://gema.sourceforge.net)
-* [Weidu](http://weidu.org/~thebigg/)
+* [WeiDU](http://weidu.org/~thebigg/)
 * [Sfall](https://github.com/phobos2077/sfall)
 * [Dat2](https://github.com/falltergeist/datfile)
 * [Zlib](http://www.zlib.net)
