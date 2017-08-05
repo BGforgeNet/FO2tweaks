@@ -174,11 +174,11 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 - If you're updating from a previous fo2tweaks version, uninstall it completely, delete fo2tweaks dir and fo2tweaks.bat, then install new version normally
 
 ## Reporting issues
-- Open a new [issue](https://github.com/BGforgeNet/fo2tweaks/issues/new) and describe the problem
-- Attach 3 log files from game directory:
- - WeiDU.log
- - fo2tweaks/fo2tweaks.log
- - fo2tweaks/fo2tweaks.bat.log
+* Open a new [issue](https://github.com/BGforgeNet/fo2tweaks/issues/new) and describe the problem
+* Attach 3 log files from game directory:
+  - WeiDU.log
+  - fo2tweaks/fo2tweaks.log
+  - fo2tweaks/fo2tweaks.bat.log
 
 ## Author
 - burner1024 @ github
