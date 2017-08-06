@@ -4,14 +4,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: 2017-07-30 18:38+0000\n"
+"PO-Revision-Date: 2017-08-06 16:50+0000\n"
 "Last-Translator: Magus <magus@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: russian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.15\n"
 
 #: install.tra:2
@@ -60,11 +61,11 @@ msgstr "Члены группы никогда не стреляют очере�
 
 #: install.tra:13
 msgid "Unrestricted party combat AI"
-msgstr "Снятие ограничений на поведение членов группы в бою"
+msgstr "Снятие ограничения на поведение членов группы в бою"
 
 #: install.tra:14
 msgid "Armor doesn't reduce Chosen's run speed"
-msgstr "Броня не замедляет Избранного"
+msgstr "Броня не замедляет скорость бега Избранного"
 
 #: install.tra:15
 msgid "Increased run speed"
