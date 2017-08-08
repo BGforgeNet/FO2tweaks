@@ -8,6 +8,7 @@ weidu.exe	239		efb029a48a4ae05a22c9922992d50f9c	http://weidu.org/~thebigg/
 gema.exe	1.4RC		fb0e602593368666d9f0b6b4eb042f1d	http://gema.sourceforge.net/
 zlib1.dll	1.2.2		29ed201bb11400199c117b2cf6e79155	http://www.zlib.net
 dat2.exe	1.0		e42d83d1a9d06fdd1d342582c49a8c4d	https://github.com/falltergeist/datfile; http://www.teamx.ru/site_arc/utils/dat2.rar
+msvcr71.dll			ca2f560921b7b8be1cf555a5a18d54c3	https://www.dll-files.com/msvcr71.dll.html
 
 components/sfall/ddraw.dll	3.8.3	162a92f4012b3cd6db6504847237e54a	https://sourceforge.net/projects/sfall/files/
 components/sfall/2k_ddraw.dll	3.8.3	67a57bd0da1e66f1b5efff42b66a7515	https://sourceforge.net/projects/sfall/files/
