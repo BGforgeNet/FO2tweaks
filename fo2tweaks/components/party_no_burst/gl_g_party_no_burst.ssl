@@ -1,53 +1,77 @@
 // gl_g_party_no_burst.ssl
-#include ".\HEADERS\DEFINE.H"
+/* Include Files */
+#include ".\headers\define.h"
+#include ".\headers\command.h"
+#include ".\_sfall383_headers\define_extra.h"
+#include ".\_sfall383_headers\sfall.h"
+#include ".\_sfall383_headers\dik.h"
+#include ".\!pbs_rebalance_sources\_pbs_main\lib.misc.h"
+
 
 procedure start;
+procedure keypress_hook_handler;
+procedure toggle_burst(variable mode, variable manual);
+procedure set_burst(variable manual);
+
+
+procedure toggle_burst(variable mode, variable manual) begin
+  variable new_mode;
+  if (party_size > 1) then begin
+    variable who;
+    foreach who in party_member_list(0) begin
+      if (who != dude_obj) then begin
+        set_critter_burst_disable(who, mode);
+      end
+    end
+    if manual == 1 then begin
+      if (mode == 0) then begin
+        new_mode := 1;
+      end else begin
+        new_mode := 0;
+      end
+    end else begin
+      new_mode := mode;
+    end
+    set_sfall_global("g_burst0", new_mode);
+  end
+end
+
+procedure set_burst(variable manual) begin
+  variable burst_enabled;
+  variable burst_msg;
+  variable noburst_msg;
+  burst_msg := get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "BurstMessage");
+  noburst_msg := get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "NoBurstMessage");
+  burst_enabled := get_sfall_global_int("g_burst0");
+  if (manual == 1) then begin
+    if (burst_enabled == 0) then begin
+      float_msg(dude_obj, burst_msg, FLOAT_MSG_BLUE);
+    end else begin
+      float_msg(dude_obj, noburst_msg, FLOAT_MSG_BLUE);
+    end
+  end
+  debug_msg("g_burst0: " + burst_enabled);
+  call toggle_burst(burst_enabled, manual);
+end
+
+procedure keypress_hook_handler begin
+  variable burst_key;
+  variable burst_enabled;
+  burst_key := parse_hotkey(get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "BurstKey"));
+  if (not(in_world_map)) then begin
+    if (key_pressed(burst_key)) then begin
+      call set_burst(1); //manual
+    end
+  end
+end
 
 procedure start begin
-    if (game_loaded) then begin
-        set_global_script_repeat(60);
-    end else begin
-        if (party_size > 1) then begin
-            if (Sulik_In_Party) then begin
-                set_critter_burst_disable(Sulik_Ptr, 1);
-            end
-            if (Vic_In_Party) then begin
-                set_critter_burst_disable(Vic_Ptr, 1);
-            end
-            if (Miria_In_Party) then begin
-                set_critter_burst_disable(Miria_Ptr, 1);
-            end
-            if (Davin_In_Party) then begin
-                set_critter_burst_disable(Davin_Ptr, 1);
-            end
-            if (MacRae_In_Party) then begin
-                set_critter_burst_disable(MacRae_Ptr, 1);
-            end
-            if (Lenny_In_Party) then begin
-                set_critter_burst_disable(Lenny_Ptr, 1);
-            end
-            if (Marcus_In_Party) then begin
-                set_critter_burst_disable(Marcus_Ptr, 1);
-            end
-            if (Myron_In_Party) then begin
-                set_critter_burst_disable(Myron_Ptr, 1);
-            end
-            if (Robobrain_In_Party) then begin
-                set_critter_burst_disable(Robobrain_Ptr, 1);
-            end
-            if (Robobrain_Human_In_Party) then begin
-                set_critter_burst_disable(Robobrain_Human_Ptr, 1);
-            end
-        // RP 2.x new NPCs
-            if (Kitsune_In_Party) then begin
-                set_critter_burst_disable(Kitsune_Ptr, 1);
-            end
-            if (Cat_Jules_In_Party) then begin
-                set_critter_burst_disable(Cat_Jules_Ptr, 1);
-            end
-            if (Dex_In_Party) then begin
-                set_critter_burst_disable(Dex_Ptr, 1);
-            end
-        end
-    end
+  variable burst_enabled;
+  burst_enabled := get_sfall_global_int("g_burst0");
+  if (game_loaded) then begin
+    set_global_script_repeat(300);
+    register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
+  end else begin
+    call set_burst(0); //not manual
+  end
 end

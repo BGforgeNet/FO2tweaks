@@ -1,4 +1,4 @@
 OUTER_SPRINT comp_dir ~%MOD_FOLDER%/components/map_hotkey~
 
 COPY ~%comp_dir%/gl_g_map_hotkey.int~ ~%scripts_dir%~
-COPY ~%comp_dir%/fo2tweaks.ini~ ~fo2tweaks.ini~
+COPY ~%lib_dir%/fo2tweaks.ini~ ~fo2tweaks.ini~
