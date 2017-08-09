@@ -202,8 +202,12 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 * [Sfall](https://github.com/phobos2077/sfall)
 * [Dat2](https://github.com/falltergeist/datfile)
 * [Zlib](http://www.zlib.net)
+* [msvcr71.dll](https://www.dll-files.com/msvcr71.dll.html)
 
 ## Changelog
+* Version 9:
+  - added hotkey for party burts
+  - fixed installation on Win 8
 * Version 8:
   - Added "Map hotkey" component
   - Re-enabled Molotov cocktail component
