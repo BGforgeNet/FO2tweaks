@@ -25,6 +25,7 @@ This is a collection of convenience tweaks, common sense changes, and cheats for
     - [Increase run speed](#increase-run-speed) (both Chosen and party)
     - [General game speedup](#general-game-speedup)
   - [Miscellaneous](#miscellaneous)
+    - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
     - [Grenades ignore armor class](#grenades-ignore-armor-class)
     - [Start at level 4](#start-at-level-4)__*__
     - [Silence "fake reload" animation](#silence-fake-reload-animation)
