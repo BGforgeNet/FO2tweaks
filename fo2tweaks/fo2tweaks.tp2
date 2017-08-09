@@ -6,6 +6,7 @@ NO_IF_EVAL_BUG
 README ~%MOD_FOLDER%/readme.txt~
 VERSION ~v8~
 ALWAYS
+  OUTER_SPRINT lib_dir ~%MOD_FOLDER%/lib~
   OUTER_SPRINT tmp_dir ~%MOD_FOLDER%/tmp~
   OUTER_SPRINT tmp_dir_win ~%MOD_FOLDER%\tmp~
   OUTER_SPRINT bat_log ~%MOD_FOLDER%/%MOD_FOLDER%.bat.log~
