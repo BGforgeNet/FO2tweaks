@@ -123,7 +123,7 @@ Specifically, it does the following:
 #### Molotov cocktail: fire damage
 Let Molotov cocktail do fire damage instead of explosive (and optionally, enable "burning death" animation)
 
-*NOTE* This will also disallow destroying doors with Molotovs! If you don't like that, skip this component.
+*NOTE:* This will also disallow destroying doors with Molotovs! If you don't like that, skip this component.
 
 #### Grenades ignore armor class
 Grenades are actually thrown to target's feet, not "through" armor. Hitting a person in power armor should not be any harder than one in leather armor. Thus, this component removes AC penalty from grenades' CtH.
