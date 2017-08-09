@@ -32,7 +32,7 @@ This is a collection of convenience tweaks, common sense changes, and cheats for
     - [Oxygen tank protects from radon in Broken Hills mine](#oxygen-tank-protects-from-radon-in-broken-hills-mine)
     - [No close range penalty for scoped weapons](#no-close-range-penalty-for-scoped-weapons)
     - [Remove Kaga](#remove-kaga)
-    - [Disable Knockback](#disable-knockback)
+    - [Disable knockback](#disable-knockback)
     - [Worldmap hotkey](#worldmap-hotkey)
 - [Special notes / compatibility](#special-notes--compatibility)
 - [Installation](#installation)
