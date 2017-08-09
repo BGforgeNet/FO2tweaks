@@ -7,71 +7,73 @@
 #include ".\_sfall383_headers\dik.h"
 #include ".\!pbs_rebalance_sources\_pbs_main\lib.misc.h"
 
+variable burst_msg;
+variable noburst_msg;
+variable burst_key;
 
 procedure start;
 procedure keypress_hook_handler;
-procedure toggle_burst(variable mode, variable manual);
-procedure set_burst(variable manual);
+procedure toggle_burst(variable manual);
+procedure bool_reverse(variable x);
 
-
-procedure toggle_burst(variable mode, variable manual) begin
+procedure toggle_burst(variable manual) begin
+  variable mode;
   variable new_mode;
+  variable burst_enabled;
+  variable msg;
+  burst_enabled := get_sfall_global_int("g_burst0");
+  debug_msg("g_burst0: " + burst_enabled);
+  mode := bool_reverse(burst_enabled);
+  if manual == 1 then begin
+    new_mode := bool_reverse(mode);
+    if (new_mode == 1) then begin
+      msg := noburst_msg;
+    end else begin
+      msg := burst_msg;
+    end
+    float_msg(dude_obj, msg, FLOAT_MSG_BLUE);
+  end else begin
+    new_mode := mode;
+  end
+  debug_msg("mode=" + mode + " new_mode="+new_mode + " manual="+manual);
   if (party_size > 1) then begin
     variable who;
     foreach who in party_member_list(0) begin
       if (who != dude_obj) then begin
-        set_critter_burst_disable(who, mode);
+        set_critter_burst_disable(who, new_mode);
       end
     end
-    if manual == 1 then begin
-      if (mode == 0) then begin
-        new_mode := 1;
-      end else begin
-        new_mode := 0;
-      end
-    end else begin
-      new_mode := mode;
-    end
-    set_sfall_global("g_burst0", new_mode);
+    set_sfall_global("g_burst0", bool_reverse(new_mode));
   end
+  burst_enabled := get_sfall_global_int("g_burst0");
+  debug_msg("g_burst1: " + burst_enabled);
 end
 
-procedure set_burst(variable manual) begin
-  variable burst_enabled;
-  variable burst_msg;
-  variable noburst_msg;
-  burst_msg := get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "BurstMessage");
-  noburst_msg := get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "NoBurstMessage");
-  burst_enabled := get_sfall_global_int("g_burst0");
-  if (manual == 1) then begin
-    if (burst_enabled == 0) then begin
-      float_msg(dude_obj, burst_msg, FLOAT_MSG_BLUE);
-    end else begin
-      float_msg(dude_obj, noburst_msg, FLOAT_MSG_BLUE);
-    end
+procedure bool_reverse(variable x) begin
+  if x == 0 then begin
+    x := 1;
+  end else begin
+    x := 0;
   end
-  debug_msg("g_burst0: " + burst_enabled);
-  call toggle_burst(burst_enabled, manual);
+  return x;
 end
 
 procedure keypress_hook_handler begin
-  variable burst_key;
-  variable burst_enabled;
-  burst_key := parse_hotkey(get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "BurstKey"));
   if (not(in_world_map)) then begin
     if (key_pressed(burst_key)) then begin
-      call set_burst(1); //manual
+      call toggle_burst(1); //manual
     end
   end
 end
 
 procedure start begin
-  variable burst_enabled;
-  burst_enabled := get_sfall_global_int("g_burst0");
   if (game_loaded) then begin
     set_global_script_repeat(300);
+    burst_msg := get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "BurstMessage");
+    noburst_msg := get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "NoBurstMessage");
+    burst_key := parse_hotkey(get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "BurstKey"));
     register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
   end else begin
-    call set_burst(0); //not manual
+    call toggle_burst(0); //not manual
   end
 end
