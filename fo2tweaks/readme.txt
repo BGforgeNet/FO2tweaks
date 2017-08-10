@@ -182,7 +182,7 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 - If you're updating from a previous fo2tweaks version, uninstall it completely, delete fo2tweaks dir and fo2tweaks.bat, then install new version normally
 
 ## Reporting issues
-* Open a new [issue](https://github.com/BGforgeNet/fo2tweaks/issues/new) and describe the problem
+* Open a new [issue](https://github.com/BGforgeNet/fo2tweaks/issues) and describe the problem
 * Attach 3 log files from game directory:
   - WeiDU.log
   - fo2tweaks/fo2tweaks.log
@@ -192,7 +192,7 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 - @burner1024
 
 ## License
-- The mod is [CC BY-NC-SA v4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+- The mod is [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 - Used software have their own licenses, refer to the corresponding resources for those.
 
 ## Used software
