@@ -206,6 +206,7 @@ If installation gets seemingly stuck (more than a minute without any progress), 
 
 ## Changelog
 * Version 9:
+  - disabled Horrigan initial cutscene by default and in general speedup
   - added hotkey for party burts
   - fixed installation on Win 8
 * Version 8:
