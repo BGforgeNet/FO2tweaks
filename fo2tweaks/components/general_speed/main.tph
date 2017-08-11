@@ -21,6 +21,7 @@ COPY ~ddraw.ini~ ~ddraw.ini~
   REPLACE_TEXTUALLY ~^.*ReloadReserve=.*~ ~ReloadReserve=0~
   REPLACE_TEXTUALLY ~^.*InstantWeaponEquip=.*~ ~InstantWeaponEquip=1~
   REPLACE_TEXTUALLY ~^.*SkipOpeningMovies.*~ ~SkipOpeningMovies=1~
+  REPLACE_TEXTUALLY ~^.*DisableHorrigan.*~ ~DisableHorrigan=1~
 BUT_ONLY
 
 
@@ -62,4 +63,3 @@ ACTION_IF FILE_EXISTS ~f2_res.ini~ BEGIN
     REPLACE_TEXTUALLY ~^.*FADE_TIME_MODIFIER=.*~ ~FADE_TIME_MODIFIER=0~
   BUT_ONLY
 END
-
