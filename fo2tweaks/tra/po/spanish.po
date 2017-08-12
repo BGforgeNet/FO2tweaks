@@ -4,136 +4,140 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2017-08-12 18:37+0000\n"
+"Last-Translator: Magus <magus@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Language: spanish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: bgforge_po v.1.0.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.15\n"
 
 #: install.tra:1
 msgid ""
 "You must have either Killap's patch OR restoration project installed before "
 "installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
 msgstr ""
+"Debe tener instalado el parche de Killap o Restoration project antes de "
+"instalar FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
 
 #: install.tra:2
 msgid "Party"
-msgstr ""
+msgstr "Grupo"
 
 #: install.tra:3
 msgid "Inventory"
-msgstr ""
+msgstr "Inventario"
 
 #: install.tra:4
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Misceláneo"
 
 #: install.tra:5
 msgid "Speed"
-msgstr ""
+msgstr "Velocidad"
 
 #: install.tra:6
 msgid "Requires Killap's restoration project"
-msgstr ""
+msgstr "Requiere el Restoration Project de Killap"
 
 #: install.tra:7 install.tra:33
 msgid "Unknown Sfall version, not updating!"
-msgstr ""
+msgstr "¡Desconocido versión de Sfall, no actualizando!"
 
 #: install.tra:8
 msgid "Unlimited carry weight"
-msgstr ""
+msgstr "Peso máximo ilimitado"
 
 #: install.tra:9
 msgid "Inventory filter"
-msgstr ""
+msgstr "Filtro de inventario"
 
 #: install.tra:10
 msgid "Unlimited trunk"
-msgstr ""
+msgstr "Tronco ilimitado"
 
 #: install.tra:11
 msgid "Unlimited party"
-msgstr ""
+msgstr "Grupo ilimitado"
 
 #: install.tra:12
 msgid "Companions never use burst fire"
-msgstr ""
+msgstr "Compañeros nunca uso ráfaga"
 
 #: install.tra:13
 msgid "Unrestricted party combat AI"
-msgstr ""
+msgstr "IA de combate de grupo sin restricciones"
 
 #: install.tra:14
 msgid "Armor doesn't reduce Chosen's run speed"
-msgstr ""
+msgstr "La armadura no reducir la velocidad de correr del Elegido"
 
 #: install.tra:15
 msgid "Increased run speed"
-msgstr ""
+msgstr "Aumento de velocidad de correr"
 
 #: install.tra:16
 msgid "Party NPC can run as well as Chosen"
-msgstr ""
+msgstr "PNJ de grupo pueden correr tanto como el Elegido"
 
 #: install.tra:17
 msgid "Both of the above options"
-msgstr ""
+msgstr "Ambas opciones"
 
 #: install.tra:18
 msgid "General game speedup"
-msgstr ""
+msgstr "Aceleración general del juego"
 
 #: install.tra:19
 msgid "Fire damage"
-msgstr ""
+msgstr "Daño por fuego"
 
 #: install.tra:20
 msgid "Molotov cocktail"
-msgstr ""
+msgstr "Cóctel Molotov"
 
 #: install.tra:21
 msgid "Fire damage and burning death animation"
-msgstr ""
+msgstr "Daño por fuego y animación de muerte ardiente"
 
 #: install.tra:22
 msgid "Grenades ignore armor class"
-msgstr ""
+msgstr "Las granadas ignorar la clase de armadura"
 
 #: install.tra:23
 msgid "Start at level 4"
-msgstr ""
+msgstr "Comenzar en el nivel 4"
 
 #: install.tra:24
 msgid "Silence idle fake reload animation for SMG and rifles"
 msgstr ""
+"Silenciar la animación de recargar falsa para las ametralladoras y los rifles"
 
 #: install.tra:25
 msgid "Stretch game plotline"
-msgstr ""
+msgstr "Estirar la trama del juego"
 
 #: install.tra:26
 msgid "Oxygen tank protects from radon in Broken Hills mine"
-msgstr ""
+msgstr "El tanque de oxígeno protege contra el radón en la mina de Broken Hills"
 
 #: install.tra:27
 msgid "No close range penalty for scoped weapons"
-msgstr ""
+msgstr "No hay penalidad a corta distancia para las armas con mira"
 
 #: install.tra:28
 msgid "Remove Kaga"
-msgstr ""
+msgstr "Quitar Kaga"
 
 #: install.tra:29
 msgid "Disable Knockback"
-msgstr ""
+msgstr "Desactivar Derribo"
 
 #: install.tra:30
 msgid "Installing Sfall"
-msgstr ""
+msgstr "Instalación de Sfall"
 
 #: install.tra:31
 msgid "Updating Sfall"
