@@ -13,6 +13,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: bgforge_po v.1.0.0\n"
 
+#: install.tra:1
+msgid ""
+"You must have either Killap's patch OR restoration project installed before "
+"installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
+msgstr ""
+
 #: install.tra:2
 msgid "Party"
 msgstr ""
@@ -139,6 +145,12 @@ msgstr ""
 
 #: install.tra:34
 msgid "Good Sfall version found!"
+msgstr ""
+
+#: strings.tra:101
+msgid ""
+"The archives list only two vaults: Vault 8 (this Vault) and Vault 15, "
+"located far to the south."
 msgstr ""
 
 #: strings.tra:102
