@@ -15,6 +15,7 @@ ALWAYS
   OUTER_SPRINT proto_dir ~%data_dir%/proto~
   INCLUDE ~%MOD_FOLDER%/components/lib/main.tph~
   OUTER_SPRINT lib_dir ~%MOD_FOLDER%/components/lib~
+  OUTER_SPRINT tra_dir ~%MOD_FOLDER%/tra~
 END
 LANGUAGE ~English~ ~ENGLISH~ ~fo2tweaks/tra/english/install.tra~
 LANGUAGE ~Russian~ ~RUSSIAN~ ~fo2tweaks/tra/russian/install.tra~

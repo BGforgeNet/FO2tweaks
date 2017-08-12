@@ -1,3 +1,5 @@
+LOAD_TRA ~%tra_dir%/%LANGUAGE%/strings.tra~
+
 //Vault city comp: circumvent node023, conceal vault 15
 LAF g_dat_extract STR_VAR file_path = ~scripts\vicencom.int~ END
 LAF g_replace_int_text_nocase
@@ -49,9 +51,9 @@ END
 
 //Vault city comp: replace text to make clear there's no coordinates
 COPY ~data/text/english/dialog/vicencom.msg~ ~data/text/english/dialog/vicencom.msg~
-  REPLACE_TEXTUALLY EXACT_MATCH
-    ~The archives list only two vaults: Vault 8 (this Vault) and Vault 15, located far to the south.~
-    ~The archives list only two vaults: Vault 8 (this Vault) and Vault 15. Unfortunately, coordinates are not recorded.~
+  SPRINT t1 @101
+  SPRINT t2 @102
+  REPLACE_TEXTUALLY EXACT_MATCH ~%t1%~ ~%t2%~
 BUT_ONLY
 
 
@@ -76,9 +78,9 @@ LAF g_replace_int_text_nocase //conceal "where's san fran" option
     new_text = ~~
 END
 COPY ~data/text/english/dialog/rclou.msg~ ~data/text/english/dialog/rclou.msg~
-  REPLACE_TEXTUALLY EXACT_MATCH
-    ~Hello there. I'm Lou. Owner of the Malamute Saloon, finest house north of San Fran.~
-    ~Hello there. I'm Lou, owner of the Malamute Saloon.~
+  SPRINT t1 @103
+  SPRINT t2 @104
+  REPLACE_TEXTUALLY EXACT_MATCH ~%t1%~ ~%t2%~
 BUT_ONLY
 
 
@@ -99,12 +101,12 @@ END
 OUTER_SPRINT f ~text\english\dialog\bscomp1.msg~
 LAF g_dat_extract STR_VAR file_path = ~%f%~ END
 COPY ~data/%f%~ ~data/%f%~
-  REPLACE_TEXTUALLY EXACT_MATCH
-    ~You access the computer and quickly scan all available files. You find the location of Vault 13%WNL% and copy it to your PIP-Boy.~
-    ~You access the computer and quickly scan all available files. Unfortunately, you can't find location of Vault 13.~
-  REPLACE_TEXTUALLY EXACT_MATCH
-    ~Other than the location of Vault 13, the computer contains no useful information.~
-    ~The computer contains no useful information.~
+  SPRINT t1 @105
+  SPRINT t2 @106
+  REPLACE_TEXTUALLY EXACT_MATCH ~%t1%~ ~%t2%~
+  SPRINT t1 @107
+  SPRINT t2 @108
+  REPLACE_TEXTUALLY EXACT_MATCH ~%t1%~ ~%t2%~
 BUT_ONLY
 
 
