@@ -14,6 +14,14 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.15\n"
 
+#: install.tra:1
+msgid ""
+"You must have either Killap's patch OR restoration project installed before "
+"installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
+msgstr ""
+"Вы должны установить Killap's patch или Restoration Project перед установкой"
+" FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
+
 #: install.tra:2
 msgid "Party"
 msgstr "Группа"
@@ -142,6 +150,12 @@ msgstr "Горячая клавиша для вызова карты"
 msgid "Good Sfall version found!"
 msgstr "Найдена подходящая версия Sfall!"
 
+#: strings.tra:101
+msgid ""
+"The archives list only two vaults: Vault 8 (this Vault) and Vault 15, "
+"located far to the south."
+msgstr ""
+
 #: strings.tra:102
 msgid ""
 "The archives list only two vaults: Vault 8 (this Vault) and Vault 15. "
@@ -179,13 +193,6 @@ msgstr ""
 #: strings.tra:108
 msgid "The computer contains no useful information."
 msgstr ""
-
-#~ msgid ""
-#~ "You must have either Killap's patch OR restoration project installed before "
-#~ "installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
-#~ msgstr ""
-#~ "Вы должны установить Killap's patch или Restoration Project перед установкой"
-#~ " FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
 
 #~ msgid "Level 5 after temple of trials"
 #~ msgstr "5 уровень после Храма Испытаний"
