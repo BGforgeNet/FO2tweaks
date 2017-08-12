@@ -142,6 +142,44 @@ msgstr "Горячая клавиша для вызова карты"
 msgid "Good Sfall version found!"
 msgstr "Найдена подходящая версия Sfall!"
 
+#: strings.tra:102
+msgid ""
+"The archives list only two vaults: Vault 8 (this Vault) and Vault 15. "
+"Unfortunately, coordinates are not recorded."
+msgstr ""
+
+#: strings.tra:103
+msgid ""
+"Hello there. I'm Lou. Owner of the Malamute Saloon, finest house north of "
+"San Fran."
+msgstr ""
+
+#: strings.tra:104
+msgid "Hello there. I'm Lou, owner of the Malamute Saloon."
+msgstr ""
+
+#: strings.tra:105
+msgid ""
+"You access the computer and quickly scan all available files. You find the "
+"location of Vault 13%WNL% and copy it to your PIP-Boy."
+msgstr ""
+
+#: strings.tra:106
+msgid ""
+"You access the computer and quickly scan all available files. Unfortunately,"
+" you can't find location of Vault 13."
+msgstr ""
+
+#: strings.tra:107
+msgid ""
+"Other than the location of Vault 13, the computer contains no useful "
+"information."
+msgstr ""
+
+#: strings.tra:108
+msgid "The computer contains no useful information."
+msgstr ""
+
 #~ msgid ""
 #~ "You must have either Killap's patch OR restoration project installed before "
 #~ "installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
