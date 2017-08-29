@@ -113,7 +113,8 @@ msgstr "Comenzar en el nivel 4"
 #: install.tra:24
 msgid "Silence idle fake reload animation for SMG and rifles"
 msgstr ""
-"Silenciar la animación de recargar falsa para las ametralladoras y los rifles"
+"Silenciar la animación de recargar falsa para las ametralladoras y los "
+"rifles"
 
 #: install.tra:25
 msgid "Stretch game plotline"
@@ -121,7 +122,8 @@ msgstr "Estirar la trama del juego"
 
 #: install.tra:26
 msgid "Oxygen tank protects from radon in Broken Hills mine"
-msgstr "El tanque de oxígeno protege contra el radón en la mina de Broken Hills"
+msgstr ""
+"El tanque de oxígeno protege contra el radón en la mina de Broken Hills"
 
 #: install.tra:27
 msgid "No close range penalty for scoped weapons"
