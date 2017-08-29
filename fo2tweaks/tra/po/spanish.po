@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: 2017-08-14 08:34+0000\n"
+"PO-Revision-Date: 2017-08-29 20:55+0000\n"
 "Last-Translator: Magus <magus@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: spanish\n"
@@ -164,35 +164,47 @@ msgid ""
 "The archives list only two vaults: Vault 8 (this Vault) and Vault 15. "
 "Unfortunately, coordinates are not recorded."
 msgstr ""
+"Los archivos sólo muestran dos refugios: el Refugio 8 (este Refugio) y el "
+"Refugio 15. Lamentablemente, no hay coordenadas en los registros."
 
 #: strings.tra:103
 msgid ""
 "Hello there. I'm Lou. Owner of the Malamute Saloon, finest house north of "
 "San Fran."
 msgstr ""
+"Hola. Soy Lou. Propietaria del Salón Malamute, el mejor local al norte de "
+"San Fran."
 
 #: strings.tra:104
 msgid "Hello there. I'm Lou, owner of the Malamute Saloon."
-msgstr ""
+msgstr "Hola. Soy Lou. Propietaria del Salón Malamute."
 
 #: strings.tra:105
 msgid ""
 "You access the computer and quickly scan all available files. You find the "
 "location of Vault 13%WNL% and copy it to your PIP-Boy."
 msgstr ""
+"Accedes a la computadora y rápidamente escaneas todos los archivos "
+"disponibles. Encuentras la localización del Refugio 13 y lo copias en tu "
+"PipBoy."
 
 #: strings.tra:106
 msgid ""
 "You access the computer and quickly scan all available files. Unfortunately,"
 " you can't find location of Vault 13."
 msgstr ""
+"Accedes a la computadora y rápidamente escaneas todos los archivos "
+"disponibles. Lamentablemente, no puedes encontrar las coordenadas del "
+"Refugio 13."
 
 #: strings.tra:107
 msgid ""
 "Other than the location of Vault 13, the computer contains no useful "
 "information."
 msgstr ""
+"Con excepción de la localización del Refugio 13, la computadora no contiene "
+"más información útil."
 
 #: strings.tra:108
 msgid "The computer contains no useful information."
-msgstr ""
+msgstr "La computadora no contiene información útil."
