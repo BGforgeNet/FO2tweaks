@@ -210,6 +210,7 @@ If installation gets seemingly stuck (more than a minute without any progress), 
   - added hotkey for party burts
   - fixed installation on Win 8
   - fixed being able to recruit Sulik before paying
+  - added Spanish translation
 * Version 8:
   - Added "Map hotkey" component
   - Re-enabled Molotov cocktail component
