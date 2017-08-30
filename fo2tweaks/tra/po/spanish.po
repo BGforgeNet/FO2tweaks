@@ -153,6 +153,10 @@ msgstr "Tecla de acceso rápido de mapa"
 msgid "Good Sfall version found!"
 msgstr "Encontrado versión adecuada de Sfall!"
 
+#: install.tra:35
+msgid "Clearer Miria dialog"
+msgstr ""
+
 #: strings.tra:101
 msgid ""
 "The archives list only two vaults: Vault 8 (this Vault) and Vault 15, "
@@ -210,3 +214,11 @@ msgstr ""
 #: strings.tra:108
 msgid "The computer contains no useful information."
 msgstr "La computadora no contiene información útil."
+
+#: strings.tra:109
+msgid "[You smile and start to undress.]"
+msgstr ""
+
+#: strings.tra:110
+msgid "[You smile, then jump at her and start ripping off her clothes.]"
+msgstr ""
