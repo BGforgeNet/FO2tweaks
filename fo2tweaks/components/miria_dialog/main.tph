@@ -1,0 +1,8 @@
+LOAD_TRA ~%tra_dir%/%LANGUAGE%/strings.tra~
+
+LAF g_dat_extract STR_VAR file_path = ~text\english\dialog\mcmiria.msg~ END
+COPY ~data/text/english/dialog/mcmiria.msg~ ~data/text/english/dialog/mcmiria.msg~
+  SPRINT t1 @109
+  SPRINT t2 @110
+  REPLACE_TEXTUALLY EXACT_MATCH ~%t1%~ ~%t2%~
+BUT_ONLY
