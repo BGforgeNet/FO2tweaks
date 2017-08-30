@@ -215,7 +215,7 @@ msgid "[You smile and start to undress.]"
 msgstr ""
 
 #: strings.tra:110
-msgid "[You smile, then jump at her and start ripping off her clothes.]"
+msgid "[You smile, then jump at her and start ripping her clothes off.]"
 msgstr ""
 
 #~ msgid "Level 5 after temple of trials"
