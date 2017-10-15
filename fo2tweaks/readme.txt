@@ -1,13 +1,16 @@
 # FO2tweaks
 
-<a href="https://tra.bgforge.net/projects/fallout-2-fo2tweaks/main/ru/">
-<img src="https://tra.bgforge.net/widgets/fallout-2-fo2tweaks/-/svg-badge.svg" alt="Translation status" />
+<a href="https://tra.bgforge.net/projects/fallout/fo2tweaks/">
+<img src="https://tra.bgforge.net/widgets/fallout/-/fo2tweaks/svg-badge.svg" alt="Translation status" />
 </a>
 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
 <img src="https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg" alt="License" />
 </a>
 
-[__Download__](https://github.com/BGforgeNet/fo2tweaks/releases/latest) | [__Support__](#reporting-issues) | [__Discussion__](https://forum.bgforge.net/viewtopic.php?f=5&p=31)
+[__Download__](https://github.com/BGforgeNet/fo2tweaks/releases/latest)
+ | [__Support__](#reporting-issues)
+ | [__Discussion__](https://forum.bgforge.net/viewtopic.php?f=5&p=31)
+ | [__Help translating__](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
 
 This is a collection of convenience tweaks, common sense changes, and cheats for Fallout 2.
 
