@@ -172,7 +172,7 @@ Default is "W", configurable in fo2tweaks.ini.
 ## Installation
 - Download __fo2tweaks.zip__ from the [latest release page](https://github.com/BGforgeNet/fo2tweaks/releases/latest)
 - Unzip the archive into the game directory
-- Launch fo2tweaks.bat, answer the questions
+- Launch fo2tweaks.bat, select the components by answery the questions
 
 If installation gets seemingly stuck (more than a minute without any progress), try:
 * Running fo2tweaks as an administrator (right-click > run as ...)
