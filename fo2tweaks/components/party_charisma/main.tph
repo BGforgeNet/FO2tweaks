@@ -1,5 +1,6 @@
 OUTER_SPRINT scripts_dir ~%data_dir%/scripts~
 
+//mcmiria and mcdavin join over limit anyway
 ACTION_FOR_EACH ai_script IN
   cck9
   dcvic
@@ -10,8 +11,6 @@ ACTION_FOR_EACH ai_script IN
   gclenny
   hcmarcus
   kcsulik
-  mcdavin
-  mcmiria
   nhmyron
   ocgoris
   vccasidy
