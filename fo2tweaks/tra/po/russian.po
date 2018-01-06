@@ -154,6 +154,10 @@ msgstr "Найдена подходящая версия Sfall!"
 msgid "Clearer Miria dialog"
 msgstr "Более понятный диалог с Мирией"
 
+#: install.tra:36
+msgid "Automatically walk through unlocked doors"
+msgstr ""
+
 #: strings.tra:101
 msgid ""
 "The archives list only two vaults: Vault 8 (this Vault) and Vault 15, "
