@@ -153,3 +153,8 @@ INCLUDE ~%MOD_FOLDER%/components/map_hotkey/main.tph~
 BEGIN @35 /* Clearer Miria dialog */
 REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
 INCLUDE ~%MOD_FOLDER%/components/miria_dialog/main.tph~
+
+BEGIN @36 /* Automatically walk through unlocked doors */
+REQUIRE_PREDICATE NOT FILE_EXISTS ~patch000.dat~ @1
+INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
+INCLUDE ~%MOD_FOLDER%/components/autodoors/main.tph~

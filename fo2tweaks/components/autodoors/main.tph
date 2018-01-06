@@ -1,0 +1,2 @@
+OUTER_SPRINT filename ~gl_g_autodoors.int~
+COPY ~%MOD_FOLDER%/components/autodoors/%filename%~ ~%scripts_dir%/%filename%~
