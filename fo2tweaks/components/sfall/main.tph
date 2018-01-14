@@ -2,12 +2,17 @@ OUTER_SPRINT comp_dir ~%MOD_FOLDER%/components/sfall~
 OUTER_SET sfall_updated = 0
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall_current BEGIN
-~67a57bd0da1e66f1b5efff42b66a7515~ => ~2k_3.8.4~
-~162a92f4012b3cd6db6504847237e54a~ => ~3.8.4~
+  ~9cdc4bdcfc659bf9c6bee8684b35a18b~ => ~4.0.2~
 END
 
 ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall BEGIN
 
+~dcac2d253ecbb79051326d0d2548128f~ => ~4.0.1~
+~6d5bf0de05fa2f518d3c1385a0efa630~ => ~4.0~
+~ad6f663b53f2d411efa185c82096c3b6~ => ~3.8.7~
+~6914b20d4e2b37cb1f47d6740f5b9ab9~ => ~3.8.6~
+~c311f1d7335c476373cbdbbf71ccc7ab~ => ~3.8.5~
+~162a92f4012b3cd6db6504847237e54a~ => ~3.8.4~
 ~36a4a5c9beed11585dafd15f207454fa~ => ~3.8.3~
 ~29201e8fbcb2821aec5da5092cb8b963~ => ~3.8.2~
 ~3de5b4fbcf4113b41819013ed8d7d98e~ => ~3.8.1~
@@ -48,29 +53,6 @@ ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall BEGIN
 ~c4d86561a98084c540bfccb5750b4876~ => ~2.1~
 END
 
-ACTION_DEFINE_ASSOCIATIVE_ARRAY sfall_2k BEGIN
-~2359fcc0c0c982576979a08fa53bae2c~ => ~2k_3.8.3~
-~062837fae0af33cef330267d94e1bbc9~ => ~2k_3.8.2~
-~b4c0a2f0f09371dce3a8dc79b4e24867~ => ~2k_3.8.1~
-~fdf64b59ed13f473bb2871ea19033313~ => ~2k_3.8~
-~2a66b3a45c4f4b07cd4d61457377d8b2~ => ~2k_3.7.4~
-~c5ed8bcab65846f5f193f686724df2aa~ => ~2k_3.7.3~
-~4ef25c4c6e7fa33a131237ddd93b938f~ => ~2k_3.7b~
-~d5a9e181c71fe3d6d744c4ae8b8dc83c~ => ~2k_3.7a~
-~531bf91c81658afaaea976b1fe23c3ab~ => ~2k_3.7~
-~9715c54e0b4c13139035e9cbc3e6811a~ => ~2k_3.6~
-~7e5ce1ef6a397e28f21054e8d67f59c7~ => ~2k_3.5~
-~580c59b1fd7ece502888b9c36e13607b~ => ~2k_3.4~
-~743dd4c8f943e231bfc6b759c7ffb537~ => ~2k_3.1~
-~d571217ef8d8396fc17aeb0d9819201d~ => ~2k_3.0~
-~4db4979f21f805986fa713fb6566d85e~ => ~2k_2.20~
-~867e092ff7f63cc4334f9c93ae592129~ => ~2k_2.18~
-~bf86227d3c88284c65adbcaf47ed4701~ => ~2k_2.17~
-~d69b742d9a724cf948d72cc0b0fea4ee~ => ~2k_2.13~
-~b6206050e97b3738f3afb145c607bb4a~ => ~2k_2.12~
-~fd8c96fdb00c094e0200c88b419a4e72~ => ~2k_2.11~
-END
-
 ACTION_IF FILE_EXISTS ~ddraw.dll~ BEGIN
 
   ACTION_PHP_EACH sfall_current AS checksum => version BEGIN
@@ -87,16 +69,6 @@ ACTION_IF FILE_EXISTS ~ddraw.dll~ BEGIN
       ACTION_IF FILE_MD5 ddraw.dll ~%checksum%~ BEGIN
         PRINT @31 //Updating Sfall
         COPY ~%comp_dir%/ddraw.dll~ ~ddraw.dll~
-        OUTER_SET sfall_updated = 1
-      END
-    END
-  END
-
-  ACTION_PHP_EACH sfall_2k AS checksum => version BEGIN
-    ACTION_IF sfall_updated == 0 BEGIN //less md5 calculations
-      ACTION_IF FILE_MD5 ddraw.dll ~%checksum%~ BEGIN
-        PRINT @31 //Updating Sfall
-        COPY ~%comp_dir%/2k_ddraw.dll~ ~ddraw.dll~
         OUTER_SET sfall_updated = 1
       END
     END

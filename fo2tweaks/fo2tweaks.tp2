@@ -4,7 +4,7 @@ AUTHOR ~http://github.com/burner1024/fo2tweaks/issues~
 AUTO_EVAL_STRINGS
 NO_IF_EVAL_BUG
 README ~%MOD_FOLDER%/readme.txt~
-VERSION ~v8~
+VERSION ~v9~
 ALWAYS
   OUTER_SPRINT tmp_dir ~%MOD_FOLDER%/tmp~
   OUTER_SPRINT tmp_dir_win ~%MOD_FOLDER%\tmp~
