@@ -3,3 +3,4 @@ fo2tweaks/tools/*
 fo2tweaks/*.log
 fo2tweaks/backup/*
 fo2tweaks/components/sfall/*.dll
+.DS_Store
