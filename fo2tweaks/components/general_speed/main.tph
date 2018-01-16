@@ -25,6 +25,7 @@ COPY ~ddraw.ini~ ~ddraw.ini~
 BUT_ONLY
 
 
+//add missing settings to old inis
 COPY ~ddraw.ini~ ~ddraw.ini~
   REPLACE_TEXTUALLY ~^\[Misc\]~ ~[Misc]
 CombatPanelAnimDelay=0~
@@ -56,7 +57,7 @@ InstantWeaponEquip=1~
   UNLESS ~InstantWeaponEquip~
 BUT_ONLY
 
-
+//hires settings
 ACTION_IF FILE_EXISTS ~f2_res.ini~ BEGIN
   COPY ~f2_res.ini~ ~f2_res.ini~
     REPLACE_TEXTUALLY ~^.*SPLASH_SCRN_TIME=.*~ ~SPLASH_SCRN_TIME=0~
