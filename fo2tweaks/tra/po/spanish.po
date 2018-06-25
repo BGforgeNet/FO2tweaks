@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: 2017-08-29 20:55+0000\n"
+"PO-Revision-Date: 2018-06-25 05:52+0000\n"
 "Last-Translator: Magus <magus@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: spanish\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.15\n"
+"X-Generator: Weblate 2.17\n"
 
 #: install.tra:1
 msgid ""
@@ -155,11 +155,11 @@ msgstr "Encontrado versión adecuada de Sfall!"
 
 #: install.tra:35
 msgid "Clearer Miria dialog"
-msgstr ""
+msgstr "Diálogo de Miria más claro"
 
 #: install.tra:36
 msgid "Automatically walk through unlocked doors"
-msgstr ""
+msgstr "Pasar por las puertas desbloqueadas automáticamente"
 
 #: strings.tra:101
 msgid ""
@@ -221,8 +221,8 @@ msgstr "La computadora no contiene información útil."
 
 #: strings.tra:109
 msgid "[You smile and start to undress.]"
-msgstr ""
+msgstr "[Sonríe y comienza a desnudarse.]"
 
 #: strings.tra:110
 msgid "[You smile, then jump at her and start ripping her clothes off.]"
-msgstr ""
+msgstr "[Sonreír, luego saltar a ella y empezar a rasgar su ropa.]"
