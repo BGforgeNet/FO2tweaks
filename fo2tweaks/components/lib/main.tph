@@ -58,8 +58,8 @@ BEGIN
     PRINT ~g_dat_extract: %file_path% already exists on filesystem, not extracting from dat.~
   END ELSE BEGIN
     MKDIR ~%tmp_dir%~
-    PRINT ~g_dat_extract: %MOD_FOLDER%\tools\dat2.exe x -d %tmp_dir% %dat_file% %file_path% >> %bat_log% 2>&1~
-    AT_NOW ~%MOD_FOLDER%\tools\dat2.exe x -d %tmp_dir% %dat_file% %file_path% >> %bat_log% 2>&1~
+    PRINT ~g_dat_extract: %MOD_FOLDER%\tools\dat2.exe x -d %tmp_dir% %dat_file% "%file_path%" >> %bat_log% 2>&1~
+    AT_NOW ~%MOD_FOLDER%\tools\dat2.exe x -d %tmp_dir% %dat_file% "%file_path%" >> %bat_log% 2>&1~
 
     ACTION_IF FILE_EXISTS ~%tmp_dir%/%file_path%~ BEGIN
       COPY ~%tmp_dir%/%file_path%~ ~%data_dir%/%file_path%~

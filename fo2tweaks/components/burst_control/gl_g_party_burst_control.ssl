@@ -1,79 +1,85 @@
-// gl_g_party_no_burst.ssl
-/* Include Files */
-#include ".\headers\define.h"
-#include ".\headers\command.h"
-#include ".\_sfall383_headers\define_extra.h"
-#include ".\_sfall383_headers\sfall.h"
-#include ".\_sfall383_headers\dik.h"
-#include ".\!pbs_rebalance_sources\_pbs_main\lib.misc.h"
+#include "..\headers\define.h"
+#include "..\headers\command.h"
+#include "..\headers\sfall\define_extra.h"
+#include "..\headers\sfall\sfall.h"
+#include "..\headers\sfall\dik.h"
+#include "..\headers\sfall\lib.misc.h"
+
+#define in_combat (get_game_mode bwand COMBAT)
 
 variable burst_msg;
 variable noburst_msg;
 variable burst_key;
+variable burst_mode;
 
 procedure start;
 procedure keypress_hook_handler;
-procedure toggle_burst(variable manual);
-procedure bool_reverse(variable x);
+procedure gamemode_hook_handler;
+procedure toggle_burst;
+procedure set_burst;
 
-procedure toggle_burst(variable manual) begin
-  variable mode;
-  variable new_mode;
-  variable burst_enabled;
-  variable msg;
-  burst_enabled := get_sfall_global_int("g_burst0");
-  debug_msg("g_burst0: " + burst_enabled);
-  mode := bool_reverse(burst_enabled);
-  if manual == 1 then begin
-    new_mode := bool_reverse(mode);
-    if (new_mode == 1) then begin
-      msg := noburst_msg;
+procedure set_burst begin
+  variable who;
+  variable burst_disable;
+  burst_mode := get_sfall_global_int("g_burstv");
+
+  if (true_party_size > 0) then begin
+    debug_msg("gl_g_party_burst_control: setting burst_mode to " + burst_mode);
+
+    if burst_mode == 1 then begin
+      burst_disable := 0;
     end else begin
-      msg := burst_msg;
+      burst_disable := 1;
     end
-    float_msg(dude_obj, msg, FLOAT_MSG_BLUE);
-  end else begin
-    new_mode := mode;
-  end
-  debug_msg("mode=" + mode + " new_mode="+new_mode + " manual="+manual);
-  if (party_size > 1) then begin
-    variable who;
-    foreach who in party_member_list(0) begin
+
+    foreach who in party_member_list_critters begin
       if (who != dude_obj) then begin
-        set_critter_burst_disable(who, new_mode);
+        set_critter_burst_disable(who, burst_disable);
       end
     end
-    set_sfall_global("g_burst0", bool_reverse(new_mode));
+
   end
-  burst_enabled := get_sfall_global_int("g_burst0");
-  debug_msg("g_burst1: " + burst_enabled);
 end
 
-procedure bool_reverse(variable x) begin
-  if x == 0 then begin
-    x := 1;
+procedure toggle_burst begin
+  variable msg;
+  burst_mode := get_sfall_global_int("g_burstv");
+  debug_msg("gl_g_party_burst_control: old g_burstv is " + burst_mode);
+  if burst_mode == 0 then begin
+    msg := burst_msg;
+    burst_mode := 1;
   end else begin
-    x := 0;
+    msg := noburst_msg;
+    burst_mode := 0;
   end
-  return x;
+  float_msg(dude_obj, msg, FLOAT_MSG_BLUE);
+  set_sfall_global("g_burstv", burst_mode);
+  debug_msg("gl_g_party_burst_control: new g_burstv is " + burst_mode);
+  burst_mode := get_sfall_global_int("g_burstv");
+  debug_msg("gl_g_party_burst_control: current g_burstv is " + burst_mode);
+  call set_burst;
 end
 
 procedure keypress_hook_handler begin
-  if (not(in_world_map)) then begin
-    if (key_pressed(burst_key)) then begin
-      call toggle_burst(1); //manual
-    end
+  if (key_pressed(burst_key) and not(in_world_map)) then begin
+    call toggle_burst;
+  end
+end
+
+procedure gamemode_hook_handler begin
+  if in_combat then begin
+    call set_burst;
   end
 end
 
 procedure start begin
   if (game_loaded) then begin
-    set_global_script_repeat(300);
     burst_msg := get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "BurstMessage");
     noburst_msg := get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "NoBurstMessage");
     burst_key := parse_hotkey(get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "BurstKey"));
     register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
-  end else begin
-    call toggle_burst(0); //not manual
+    register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_hook_handler);
+    burst_mode := get_sfall_global_int("g_burstv");
+    debug_msg("gl_g_party_burst_control initialized, current burst mode: " + burst_mode);
   end
 end
