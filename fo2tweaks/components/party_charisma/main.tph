@@ -17,6 +17,7 @@ ACTION_FOR_EACH ai_script IN
   scrobo
   wcbrnbot
 BEGIN
+  LAF g_dat_extract STR_VAR file_path = ~%scripts_dir%\%ai_script%.int~ END
   ACTION_IF FILE_EXISTS ~%scripts_dir%/%ai_script%.int~ BEGIN
     AT_NOW ~%MOD_FOLDER%/tools/int2ssl.exe -e %scripts_dir%/%ai_script%.int %ai_script%.ssl.tmp1 >> %bat_log% 2>&1~
     AT_NOW ~%MOD_FOLDER%/tools/gema.exe -line -nobackup -p "((metarule(16, 0) - 1) \>\= (#))=((metarule(16, 0) - 1) >= 99" -in %ai_script%.ssl.tmp1 -out %ai_script%.ssl.tmp2 >> %bat_log% 2>&1~
