@@ -68,7 +68,7 @@ OUTER_SET flameboy = 0
 INCLUDE ~%MOD_FOLDER%/components/molotov_damage/main.tph~
 
 BEGIN @21 /* Fire damage and burning death animation */
-SUBCOMPONENT @20 /* Molotov cocktail */ 
+SUBCOMPONENT @20 /* Molotov cocktail */
 OUTER_SET flameboy = 1
 INCLUDE ~%MOD_FOLDER%/components/molotov_damage/main.tph~
 
