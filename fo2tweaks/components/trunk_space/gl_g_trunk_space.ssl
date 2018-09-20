@@ -1,0 +1,11 @@
+#include "..\headers\sfall\define_extra.h"
+#include "..\headers\itempid.h"
+#include "..\headers\sfall.h"
+
+procedure start begin
+  set_proto_data(PID_CAR_TRUNK, PROTO_CN_MAX_SIZE, 99999);
+end
+
+procedure map_enter_p_proc begin
+  set_proto_data(PID_CAR_TRUNK, PROTO_CN_MAX_SIZE, 99999);
+end

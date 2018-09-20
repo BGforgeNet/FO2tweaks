@@ -1,7 +1,1 @@
-OUTER_SPRINT filename ~proto\items\00000455.pro~ //trunk
-
-LAF g_dat_extract STR_VAR file_path = ~%filename%~ END
-
-COPY ~data/%filename%~ ~data/%filename%~
-  WRITE_LONG 0x39 0x0000ff00 //some million units, 4-byte
-BUT_ONLY
+COPY ~%MOD_FOLDER%/components/trunk_space/gl_g_trunk_space.int~ ~data/scripts/gl_g_trunk_space.int~
