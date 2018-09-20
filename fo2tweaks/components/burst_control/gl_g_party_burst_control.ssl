@@ -54,10 +54,8 @@ procedure toggle_burst begin
   end
   float_msg(dude_obj, msg, FLOAT_MSG_BLUE);
   set_sfall_global("g_burstv", burst_mode);
-  debug_msg("gl_g_party_burst_control: new g_burstv is " + burst_mode);
-  burst_mode := get_sfall_global_int("g_burstv");
-  debug_msg("gl_g_party_burst_control: current g_burstv is " + burst_mode);
   call set_burst;
+  debug_msg("gl_g_party_burst_control: new g_burstv is " + burst_mode);
 end
 
 procedure keypress_hook_handler begin
