@@ -1,0 +1,67 @@
+#include "..\headers\sfall\sfall.h"
+
+procedure start;
+procedure combat_damage_hook;
+
+procedure start begin
+  if game_loaded then begin
+    register_hook_proc(HOOK_COMBATDAMAGE, combat_damage_hook);
+    debug_msg("gl_g_knockback: initialized");
+  end
+end
+
+procedure combat_damage_hook begin
+  /*
+  Runs when:
+  1) Game calculates how much damage each target will get. This includes primary target as well as all extras (explosions and bursts). This happens BEFORE the actual attack animation.
+  2) AI decides whether it is safe to use area attack (burst, grenades), if he might hit friendlies.
+  Does not run for misses, or non-combat damage like dynamite explosions.
+
+  critter arg1  - The target
+  critter arg2  - The attacker
+  int     arg3  - The amount of damage to the target
+  int     arg4  - The amount of damage to the attacker
+  int     arg5  - The special effect flags for the target
+  int     arg6  - The special effect flags for the attacker
+  int     arg7  - The weapon used in the attack
+  int     arg8  - The bodypart that was struck
+  int     arg9  - Damage Multiplier (this is divided by 2, so a value of 3 does 1.5x damage, and 8 does 4x damage. Usually it's 2, but with Silent Death perk and the corresponding attack conditions, it's 4; for critical hits, the value is taken from the critical table)
+  int     arg10 - Number of bullets actually hit the target (1 for melee attacks)
+  int     arg11 - The amount of knockback to the target
+  int     arg12 - Attack Type (see ATKTYPE_* constants)
+
+  int     ret1 - The damage to the target
+  int     ret2 - The damage to the attacker
+  int     ret3 - The special effect flags for the target
+  int     ret4 - The special effect flags for the attacker
+  int     ret5 - The amount of knockback to the target
+  */
+
+  variable target;
+  variable attacker;
+  variable target_damage;
+  variable attacker_damage;
+  variable target_flags;
+  variable attacker_flags;
+
+  target := get_sfall_arg;
+  attacker := get_sfall_arg;
+  target_damage := get_sfall_arg;
+  attacker_damage := get_sfall_arg;
+  target_flags := get_sfall_arg;
+  attacker_flags := get_sfall_arg;
+
+  set_sfall_return(target_damage);
+  set_sfall_arg(2, target_damage);
+  set_sfall_return(attacker_damage);
+  set_sfall_arg(3, attacker_damage);
+  set_sfall_return(target_flags);
+  set_sfall_arg(4, target_flags);
+  set_sfall_return(attacker_flags);
+  set_sfall_arg(5, attacker_flags);
+  //finally, knockback
+  set_sfall_return(0);
+  set_sfall_arg(10, 0);
+
+  debug_msg("gl_g_knockback: knockback distance set to 0");
+end
