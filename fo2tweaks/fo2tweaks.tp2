@@ -65,11 +65,13 @@ INCLUDE ~%MOD_FOLDER%/components/general_speed/main.tph~
 BEGIN @19 /* Fire damage */
 SUBCOMPONENT @20 /* Molotov cocktail */
 OUTER_SET flameboy = 0
+INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/molotov_damage/main.tph~
 
 BEGIN @21 /* Fire damage and burning death animation */
 SUBCOMPONENT @20 /* Molotov cocktail */
 OUTER_SET flameboy = 1
+INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/molotov_damage/main.tph~
 
 BEGIN @22 /* Grenades ignore armor class */
@@ -77,6 +79,7 @@ INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/grenades_chance/main.tph~
 
 BEGIN @23 /* Level 5 after temple of trials */
+INCLUDE ~%MOD_FOLDER%/components/sfall/main.tph~
 INCLUDE ~%MOD_FOLDER%/components/level5_temple/main.tph~
 
 BEGIN @24 /* Silence idle fake reload animation for SMG and rifles */

@@ -1,9 +1,2 @@
-LAF g_dat_extract STR_VAR file_path = ~scripts\artemple.int~ END
-
-LAF g_replace_int_text_nocase
-  STR_VAR
-    script_name = ~artemple~
-    old_text = ~add_mult_objs_to_inven(dude_obj, LVar0, 1);~
-    new_text = ~add_mult_objs_to_inven(dude_obj, LVar0, 1);
-                give_exp_points(9500);~
-END
+OUTER_SPRINT filename ~gl_g_level5.int~
+COPY ~%MOD_FOLDER%/components/level5_temple/%filename%~ ~%scripts_dir%/%filename%~
