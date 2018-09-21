@@ -1,0 +1,73 @@
+#include "..\headers\define.h"
+#include "..\headers\sfall\sfall.h"
+#include "..\headers\ecco\_pbs_main\mod.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
+
+procedure start;
+procedure tohit_hook;
+
+procedure start begin
+  if game_loaded then begin
+    register_hook_proc(HOOK_TOHIT, tohit_hook);
+    debug_msg("gl_g_grenades_tohit: initialized");
+  end
+end
+
+procedure tohit_hook begin
+  variable tohit;
+  variable attacker;
+  variable target;
+  variable explosive_weapon_pids;
+  variable explosive_ammo_pids;
+  variable pid;
+  variable subtract_ac;
+
+  explosive_weapon_pids := [
+    PID_MOLOTOV_COCKTAIL,
+    PID_FRAG_GRENADE,
+    PID_PULSE_GRENADE,
+    PID_PLASMA_GRENADE,
+    PID_PBS_HOMEMADE_GRENADE,
+    PID_PBS_M79,
+    PID_PBS_MGL
+  ];
+
+  explosive_ammo_pids := [ PID_EXPLOSIVE_ROCKET ];
+  tohit := get_sfall_arg;
+  attacker := get_sfall_arg;
+  target := get_sfall_arg;
+
+  //check weapon
+  foreach pid in explosive_weapon_pids begin
+    if get_active_weapon_pid(attacker) == pid then begin
+      subtract_ac := true;
+      break;
+    end
+  end
+  //check ammo
+  if subtract_ac == false then begin
+    foreach pid in explosive_ammo_pids begin
+      if get_active_ammo_pid(attacker) == pid then begin
+        subtract_ac := true;
+        break;
+      end
+    end
+  end
+
+  //add target ac to hit chance
+  if subtract_ac == true then begin
+    variable ac;
+    ac := get_critter_stat(target, STAT_ac);
+    tohit := tohit + ac;
+    debug_msg("gl_g_grenades_tohit: chance to hit increased by " + ac);
+  end
+
+  //cap chance
+  if (tohit > 95) then begin
+    tohit := 95;
+  end
+
+  set_sfall_return(tohit);
+  set_sfall_arg(0, tohit);
+
+end

@@ -1,2 +1,2 @@
-OUTER_SPRINT filename ~hs_tohit.int~
+OUTER_SPRINT filename ~gl_g_grenades_tohit.int~
 COPY ~%MOD_FOLDER%/components/grenades_chance/%filename%~ ~%scripts_dir%/%filename%~
