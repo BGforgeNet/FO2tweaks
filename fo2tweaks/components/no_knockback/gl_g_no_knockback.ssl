@@ -6,7 +6,7 @@ procedure combat_damage_hook;
 procedure start begin
   if game_loaded then begin
     register_hook_proc(HOOK_COMBATDAMAGE, combat_damage_hook);
-    debug_msg("gl_g_knockback: initialized");
+    debug_msg("gl_g_no_knockback: initialized");
   end
 end
 
@@ -63,5 +63,5 @@ procedure combat_damage_hook begin
   set_sfall_return(0);
   set_sfall_arg(10, 0);
 
-  debug_msg("gl_g_knockback: knockback distance set to 0");
+  debug_msg("gl_g_no_knockback: knockback distance set to 0");
 end
