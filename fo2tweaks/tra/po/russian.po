@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: 2017-12-02 17:32+0000\n"
+"PO-Revision-Date: 2018-06-25 05:47+0000\n"
 "Last-Translator: Magus <magus@bgforge.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: russian\n"
@@ -156,7 +156,7 @@ msgstr "Более понятный диалог с Мирией"
 
 #: install.tra:36
 msgid "Automatically walk through unlocked doors"
-msgstr ""
+msgstr "Автоматически проходить через закрытые двери"
 
 #: strings.tra:101
 msgid ""
@@ -220,7 +220,7 @@ msgstr "[Вы улыбаетесь и начинаете раздеваться.
 
 #: strings.tra:110
 msgid "[You smile, then jump at her and start ripping her clothes off.]"
-msgstr ""
+msgstr "[Улыбнуться, затем прыгнуть на нее и начать срывать одежду]"
 
 #~ msgid "Level 5 after temple of trials"
 #~ msgstr "5 уровень после Храма Испытаний"
