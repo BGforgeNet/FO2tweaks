@@ -12,6 +12,7 @@ NOTE: this script requires compiler from sfall modderspack with -s option
 
 */
 
+
 #include "..\headers\define.h"
 #include "..\headers\command.h"
 #include "..\headers\sfall\sfall.h"
@@ -63,7 +64,6 @@ procedure set_door_flag(variable state) begin
 
       if (proto_data(objPid, sc_type) != PORTAL) or is_in_array(objPid, arrayPid) then
          continue;
-
       arrayPid[i] := objPid;
       i++;
       resize_array(arrayPid, i + 1);

@@ -1,9 +1,9 @@
-#include ".\HEADERS\DEFINE.H"
-#include ".\HEADERS\COMMAND.H"
-#include ".\_sfall383_headers\define_extra.h"
-#include ".\_sfall383_headers\sfall.h"
-#include ".\_sfall383_headers\dik.h"
-#include ".\!pbs_rebalance_sources\_pbs_main\lib.misc.h"
+#include "..\headers\define.h"
+#include "..\headers\command.h"
+#include "..\headers\sfall\define_extra.h"
+#include "..\headers\sfall\sfall.h"
+#include "..\headers\sfall\dik.h"
+#include "..\headers\sfall\lib.misc.h"
 
 procedure start;
 procedure keypress_hook_handler;

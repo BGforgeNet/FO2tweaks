@@ -1,33 +1,62 @@
 procedure start;
-#include ".\headers\define.h"
-#include ".\headers\sfall.h"
-
-variable scrname_maxlevel := {
-  483: 6, //Sulik
-  150: 6, //Vic
-  672: 4, //Cassidy
-  239: 4, //Lenny
-  700: 5, //Marcus
-  537: 4, //Myron
-  267: 5, //Brainbot
-  573: 4, //Robodog
-  647: 6, //Goris
-  1157: 4, //K-9
-  1195: 6, //Dogmeat
-  1506: 5, //Dex
-  1507: 5, //Cat Jules
-  1508: 5, //Kitsune
-};
-
+#include "..\headers\define.h"
+#include "..\headers\sfall.h"
 
 procedure start begin
+  variable scrname_maxlevel;
+  variable scrname;
+  variable maxlevel;
+  variable step;
+  variable finlevel := 24;
+  variable pc_level;
+  variable curlevel;
+  variable startlevel;
+  variable floor1;
+  scrname_maxlevel := {
+    483: 6, //Sulik
+    150: 6, //Vic
+    672: 4, //Cassidy
+    239: 4, //Lenny
+    700: 5, //Marcus
+    537: 4, //Myron
+    267: 5, //Brainbot
+    573: 4, //Robodog
+    647: 6, //Goris
+    1157: 4, //K-9
+    1195: 6, //Dogmeat
+    1506: 5, //Dex
+    1507: 5, //Cat Jules
+    1508: 5 //Kitsune
+  };
   if (game_loaded) then begin
     set_global_script_repeat(60);
     end else begin
-      if (party_size > 1) then begin
+      if (party_size > 0) then begin
 
+        pc_level := get_pc_stat(PCSTAT_level);
         foreach (scrname: maxlevel in scrname_maxlevel) begin
-          if (get_npc_level(mstr_scrname(scrname)) < maxlevel) then begin
+          switch maxlevel begin
+            case 4: //levelup at 14, 18, 22
+              startlevel := 10;
+              step := 4;
+            case 5: //12, 16, 20, 24
+              startlevel := 8;
+              step := 4;
+            default: //case 6
+              startlevel := 4;
+              step := 4; //8, 12, 16, 20, 24
+          end
+          curlevel := get_npc_level(mstr_scrname(scrname));
+          debug_msg("npc is " + mstr_scrname(scrname));
+          debug_msg("curlevel = " + curlevel);
+          debug_msg("pc_level = " + pc_level);
+          debug_msg("startlevel = " + startlevel);
+          debug_msg("step = " + step);
+          floor1 := floor((pc_level - startlevel)/step + 1);
+          debug_msg("floor1 = " + floor1);
+          debug_msg("maxlevel = " + maxlevel);
+//          if ( curlevel < floor((pc_level - startlevel)/step + 1) and curlevel < maxlevel ) then begin
+          if ( curlevel < maxlevel ) then begin
             inc_npc_level(mstr_scrname(scrname));
           end
         end

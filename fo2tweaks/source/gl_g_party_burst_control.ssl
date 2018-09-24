@@ -4,6 +4,7 @@
 #include "..\headers\sfall\sfall.h"
 #include "..\headers\sfall\dik.h"
 #include "..\headers\sfall\lib.misc.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
 
 #define in_combat (get_game_mode bwand COMBAT)
 
@@ -72,9 +73,9 @@ end
 
 procedure start begin
   if (game_loaded) then begin
-    burst_msg := get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "BurstMessage");
-    noburst_msg := get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "NoBurstMessage");
-    burst_key := parse_hotkey(get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "BurstKey"));
+    burst_msg := get_ini_string(fo2tweaks_ini + "|" + sec_burst_control + "|" + set_burst_message_on);
+    noburst_msg := get_ini_string(fo2tweaks_ini + "|" + sec_burst_control + "|" + set_burst_message_off);
+    burst_key := parse_hotkey(get_ini_string(fo2tweaks_ini + "|" + sec_burst_control + "|" + set_burst_key));
     register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
     register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_hook_handler);
     burst_mode := get_sfall_global_int("g_burstv");

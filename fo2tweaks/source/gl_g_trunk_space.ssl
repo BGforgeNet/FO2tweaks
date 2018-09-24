@@ -4,8 +4,10 @@
 
 procedure start begin
   set_proto_data(PID_CAR_TRUNK, PROTO_CN_MAX_SIZE, 99999);
+  debug_msg("g_gl_trunk_space: set to 99999");
 end
 
 procedure map_enter_p_proc begin
   set_proto_data(PID_CAR_TRUNK, PROTO_CN_MAX_SIZE, 99999);
+  debug_msg("g_gl_trunk_space: set to 99999");
 end

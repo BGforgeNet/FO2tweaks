@@ -1,21 +1,42 @@
-/* Include Files */
-#include ".\headers\define.h"
-#include ".\headers\command.h"
-#include ".\_sfall383_headers\define_extra.h"
-#include ".\_sfall383_headers\sfall.h"
-#include ".\_sfall383_headers\dik.h"
+#include "..\headers\define.h"
+#include "..\headers\command.h"
+#include "..\headers\sfall\define_extra.h"
+#include "..\headers\sfall\sfall.h"
+#include "..\headers\sfall\dik.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
+#include "..\headers\ecco\_pbs_main\mod.h"
 
-/* Standard Script Procedures */
 procedure start;
 procedure Hit_Hook;
 procedure Damage_Hook;
 procedure Set_AttackFire;
+procedure enable_flameboy(variable weapon_pid);
+procedure disable_flameboy(variable weapon_pid);
+
+variable flameboy;
 
 procedure start begin
   if game_loaded then begin
-    register_hook_proc(HOOK_AFTERHITROLL, Hit_Hook);
+//    register_hook_proc(HOOK_AFTERHITROLL, Hit_Hook);
     register_hook_proc(HOOK_ITEMDAMAGE, Damage_Hook);
+
+    set_proto_data(PID_MOLOTOV_COCKTAIL, PROTO_WP_DMG_TYPE, DMG_fire);
+    flameboy := get_ini_setting(fo2tweaks_ini + "|" + sec_molotov "|" + set_molotov_flameboy);
+    if flameboy == 1 then begin
+      call enable_flameboy(PID_MOLOTOV_COCKTAIL);
+    end
+
   end
+end
+
+procedure enable_flameboy(variable weapon_pid) begin
+  set_proto_data(weapon_pid, PROTO_WP_PERK, PERK_weapon_flameboy);
+  debug_msg("g_gl_molotov: flameboy enabled for" + weapon_pid);
+end
+
+procedure disable_flameboy(variable weapon_pid) begin
+  set_proto_data(weapon_pid, PROTO_WP_PERK, 0);
+  debug_msg("g_gl_molotov: flameboy disabled for" + weapon_pid);
 end
 
 procedure Hit_Hook begin
@@ -33,18 +54,25 @@ variable hand_slot, item;
   CritterTarget := get_sfall_arg;
 
   if (CritterTarget and CritterAttack) then begin
-    if ((obj_type(CritterTarget) == 1) and (TypeHit <= 1)) 
+    if ((obj_type(CritterTarget) == 1) and (TypeHit <= 1))
     or ((obj_type(CritterTarget) == 2) and  TypeHit) then begin  // miss hit
-      if CritterAttack == dude_obj then begin
-        hand_slot := active_hand;
-        if hand_slot == 0 then hand_slot := INVEN_TYPE_LEFT_HAND; 
-        item := critter_inven_obj(CritterAttack, hand_slot);
-      end 
-      else item := critter_inven_obj(CritterAttack, INVEN_TYPE_RIGHT_HAND);
 
-      if item > 0 and obj_pid(item) == PID_MOLOTOV_COCKTAIL then begin
+      if item > 0 and get_active_weapon_pid(CritterAttack) == PID_MOLOTOV_COCKTAIL then begin
         call Set_AttackFire;
       end
+
+      if item > 0 and get_active_ammo_pid(CritterAttack) == PID_PBS_40MM_IC then begin
+        variable weapon_pid;
+        weapon_pid := get_active_weapon_pid(CritterAttack);
+        if flameboy == 1 then begin
+          call enable_flameboy(weapon_pid);
+        end
+        call Set_AttackFire;
+        if flameboy == 1 then begin
+          call disable_flameboy(weapon_pid);
+        end
+      end
+
    end
   end
 end
@@ -54,25 +82,23 @@ procedure Damage_Hook begin
   Runs when retriving the damage rating of the players used weapon. (Which may be their fists.)
   int     arg1 - The default min damage
   int     arg2 - The default max damage
-  Item    arg3 - The weapin used. (0 if unarmed)
+  Item    arg3 - The weapon used. (0 if unarmed)
 */
 
-variable weapon_obj_used;
+  variable weapon_obj_used;
 
   global_temp := get_sfall_arg;
   global_temp := get_sfall_arg;
   weapon_obj_used := get_sfall_arg;
 
-  if weapon_obj_used > 0 and (obj_pid(weapon_obj_used) == PID_MOLOTOV_COCKTAIL) 
+  if weapon_obj_used > 0 and (obj_pid(weapon_obj_used) == PID_MOLOTOV_COCKTAIL)
   and obj_item_subtype(weapon_obj_used) == item_type_weapon then begin
     call Set_AttackFire;
   end
 end
 
 procedure Set_AttackFire begin
-  if (get_proto_data(PID_MOLOTOV_COCKTAIL, 48) == DMG_fire) then begin //PROTO_WP_DMG_TYPE=48
-    set_attack_explosion_pattern(1, 0);
-    set_attack_is_explosion_fire;
-    debug_msg("Molotov: Set attack is explosion fire.");
-  end
+  set_attack_explosion_pattern(1, 0);
+  set_attack_is_explosion_fire;
+  debug_msg("gl_g_molotov: attack set to fire explosion");
 end

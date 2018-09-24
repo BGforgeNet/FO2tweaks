@@ -22,17 +22,9 @@ procedure tohit_hook begin
   variable pid;
   variable subtract_ac;
 
-  explosive_weapon_pids := [
-    PID_MOLOTOV_COCKTAIL,
-    PID_FRAG_GRENADE,
-    PID_PULSE_GRENADE,
-    PID_PLASMA_GRENADE,
-    PID_PBS_HOMEMADE_GRENADE,
-    PID_PBS_M79,
-    PID_PBS_MGL
-  ];
+  explosive_weapon_pids := load_comsep_ini_setting(fo2tweaks_ini, sec_grenades_chance, set_grenades_weapons);
+  explosive_ammo_pids := load_comsep_ini_setting(fo2tweaks_ini, sec_grenades_chance, set_grenades_ammo);
 
-  explosive_ammo_pids := [ PID_EXPLOSIVE_ROCKET ];
   tohit := get_sfall_arg;
   attacker := get_sfall_arg;
   target := get_sfall_arg;
@@ -56,10 +48,14 @@ procedure tohit_hook begin
 
   //add target ac to hit chance
   if subtract_ac == true then begin
-    variable ac;
-    ac := get_critter_stat(target, STAT_ac);
-    tohit := tohit + ac;
-    debug_msg("gl_g_grenades_tohit: chance to hit increased by " + ac);
+    variable nat_ac, armor, armor_ac;
+//    nat_ac := get_critter_stat(target, STAT_ac);
+    armor := critter_inven_obj(target, INVEN_TYPE_WORN);
+    if obj_item_subtype(armor) == item_type_armor then begin
+      armor_ac := get_proto_data(obj_pid(armor), PROTO_AR_AC);
+      tohit := tohit + armor_ac;
+      debug_msg("gl_g_grenades_tohit: chance to hit increased by " + armor_ac);
+    end
   end
 
   //cap chance
