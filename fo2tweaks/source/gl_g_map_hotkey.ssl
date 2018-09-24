@@ -4,19 +4,15 @@
 #include "..\headers\sfall\sfall.h"
 #include "..\headers\sfall\dik.h"
 #include "..\headers\sfall\lib.misc.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
 
 procedure start;
 procedure keypress_hook_handler;
+variable worldmap_key;
 
 procedure keypress_hook_handler begin
-  variable world_key;
-//  town_key := 20; //T
-  world_key := parse_hotkey(get_ini_string("fo2tweaks.ini|" + "SETTINGS|" + "WorldMapKey"));
-  if (world_key < 0) then begin
-    world_key := 17; //W
-  end
   if (not(combat_is_initialized) and not(in_world_map)) then begin
-    if (key_pressed(world_key)) then begin
+    if (key_pressed(worldmap_key)) then begin
       world_map;
 //      town_map;
     end
@@ -25,6 +21,11 @@ end
 
 procedure start begin
   if game_loaded then begin
+//    town_key := 20; //T
+    worldmap_key := parse_hotkey(get_ini_string(fo2tweaks_ini + "|" + sec_worldmap + "|" + set_worldmap_key));
+    if (worldmap_key < 0) then begin
+      worldmap_key := 17; //W
+    end
     register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
   end
 end

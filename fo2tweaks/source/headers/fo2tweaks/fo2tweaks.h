@@ -18,7 +18,8 @@
 #define sec_molotov "molotov"
 #define set_molotov_flameboy "flameboy"
 
-#define sec_keymap "keymap"
+#define sec_worldmap "worldmap"
+#define set_worldmap_key "hotkey"
 
 #define sec_scope "scope_remove"
 #define set_scope_remove "remove"
