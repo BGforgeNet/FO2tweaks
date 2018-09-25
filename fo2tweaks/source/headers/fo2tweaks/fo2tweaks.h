@@ -11,6 +11,7 @@
 #define set_no_knockback "no_knockback"
 #define set_burst_control "burst_control"
 #define set_trunk_space "trunk_space"
+#define set_autodoors "autodoors"
 
 #define sec_radon "broken_radon"
 #define set_radon_armor "armor"
