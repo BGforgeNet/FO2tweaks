@@ -8,8 +8,11 @@ procedure tohit_hook;
 
 procedure start begin
   if game_loaded then begin
-    register_hook_proc(HOOK_TOHIT, tohit_hook);
-    debug_msg("gl_g_grenades_tohit: initialized");
+    variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_grenades_chance);
+    if enabled then begin
+      register_hook_proc(HOOK_TOHIT, tohit_hook);
+      debug_msg("gl_g_grenades_tohit: initialized");
+    end
   end
 end
 

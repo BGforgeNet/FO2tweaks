@@ -2,8 +2,12 @@
 procedure start;
 #include "..\headers\define.h"
 #include "..\headers\sfall\define_extra.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
 
 procedure start begin
-  set_pc_stat_max(12, 99999);
-  set_pc_extra_stat(12, 99999);
+  variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_carry_weight);
+  if enabled then begin
+    set_pc_stat_max(12, 99999);
+    set_pc_extra_stat(12, 99999);
+  end
 end

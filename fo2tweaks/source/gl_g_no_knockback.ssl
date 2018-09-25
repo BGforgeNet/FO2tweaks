@@ -1,12 +1,16 @@
 #include "..\headers\sfall\sfall.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
 
 procedure start;
 procedure combat_damage_hook;
 
 procedure start begin
   if game_loaded then begin
-    register_hook_proc(HOOK_COMBATDAMAGE, combat_damage_hook);
-    debug_msg("gl_g_no_knockback: initialized");
+    variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_no_knockback);
+    if enabled then begin
+      register_hook_proc(HOOK_COMBATDAMAGE, combat_damage_hook);
+      debug_msg("gl_g_no_knockback: initialized");
+    end
   end
 end
 

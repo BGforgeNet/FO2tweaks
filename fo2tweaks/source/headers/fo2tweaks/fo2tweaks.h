@@ -2,6 +2,16 @@
 
 #define fo2tweaks_ini "fo2tweaks.ini"
 
+#define sec_main "main"
+#define set_carry_weight "carry_weight"
+#define set_grenades_chance "grenades_chance"
+#define set_level5 "level5"
+#define set_worldmap_key "worldmap_key"
+#define set_molotov_fire "molotov_fire"
+#define set_no_knockback "no_knockback"
+#define set_burst_control "burst_control"
+#define set_trunk_space "trunk_space"
+
 #define sec_radon "broken_radon"
 #define set_radon_armor "armor"
 #define set_radon_items "items"
@@ -11,15 +21,15 @@
 #define set_grenades_ammo "ammo"
 
 #define sec_burst_control "burst_control"
-#define set_burst_message_on "BurstMessage"
-#define set_burst_message_off "NoBurstMessage"
-#define set_burst_key "BurstKey"
+#define set_burst_message_on "burst_message"
+#define set_burst_message_off "nonurst_message"
+#define set_burst_key "burst_key"
 
-#define sec_molotov "molotov"
+#define sec_molotov_fire "molotov_fire"
 #define set_molotov_flameboy "flameboy"
 
 #define sec_worldmap "worldmap"
-#define set_worldmap_key "hotkey"
+#define set_worldmap_hotkey "hotkey"
 
 #define sec_scope "scope_remove"
 #define set_scope_remove "remove"

@@ -17,15 +17,18 @@ variable flameboy;
 
 procedure start begin
   if game_loaded then begin
-//    register_hook_proc(HOOK_AFTERHITROLL, Hit_Hook);
-    register_hook_proc(HOOK_ITEMDAMAGE, Damage_Hook);
+    variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_molotov_fire);
+    if enabled then begin
+//      register_hook_proc(HOOK_AFTERHITROLL, Hit_Hook);
+      register_hook_proc(HOOK_ITEMDAMAGE, Damage_Hook);
 
-    set_proto_data(PID_MOLOTOV_COCKTAIL, PROTO_WP_DMG_TYPE, DMG_fire);
-    flameboy := get_ini_setting(fo2tweaks_ini + "|" + sec_molotov "|" + set_molotov_flameboy);
-    if flameboy == 1 then begin
-      call enable_flameboy(PID_MOLOTOV_COCKTAIL);
+      set_proto_data(PID_MOLOTOV_COCKTAIL, PROTO_WP_DMG_TYPE, DMG_fire);
+      flameboy := get_ini_setting(fo2tweaks_ini + "|" + sec_molotov_fire "|" + set_molotov_flameboy);
+      if flameboy == 1 then begin
+        call enable_flameboy(PID_MOLOTOV_COCKTAIL);
+      end
+
     end
-
   end
 end
 

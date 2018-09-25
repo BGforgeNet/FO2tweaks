@@ -21,11 +21,14 @@ end
 
 procedure start begin
   if game_loaded then begin
-//    town_key := 20; //T
-    worldmap_key := parse_hotkey(get_ini_string(fo2tweaks_ini + "|" + sec_worldmap + "|" + set_worldmap_key));
-    if (worldmap_key < 0) then begin
-      worldmap_key := 17; //W
+    variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_worldmap_key);
+    if enabled then begin
+//      town_key := 20; //T
+      worldmap_key := parse_hotkey(get_ini_string(fo2tweaks_ini + "|" + sec_worldmap + "|" + set_worldmap_hotkey));
+      if (worldmap_key < 0) then begin
+        worldmap_key := 17; //W
+      end
+      register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
     end
-    register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
   end
 end

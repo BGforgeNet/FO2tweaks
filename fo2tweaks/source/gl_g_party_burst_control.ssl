@@ -72,13 +72,16 @@ procedure gamemode_hook_handler begin
 end
 
 procedure start begin
-  if (game_loaded) then begin
-    burst_msg := get_ini_string(fo2tweaks_ini + "|" + sec_burst_control + "|" + set_burst_message_on);
-    noburst_msg := get_ini_string(fo2tweaks_ini + "|" + sec_burst_control + "|" + set_burst_message_off);
-    burst_key := parse_hotkey(get_ini_string(fo2tweaks_ini + "|" + sec_burst_control + "|" + set_burst_key));
-    register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
-    register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_hook_handler);
-    burst_mode := get_sfall_global_int("g_burstv");
-    debug_msg("gl_g_party_burst_control initialized, current burst mode: " + burst_mode);
+  if game_loaded then begin
+    variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_burst_control);
+    if enabled then begin
+      burst_msg := get_ini_string(fo2tweaks_ini + "|" + sec_burst_control + "|" + set_burst_message_on);
+      noburst_msg := get_ini_string(fo2tweaks_ini + "|" + sec_burst_control + "|" + set_burst_message_off);
+      burst_key := parse_hotkey(get_ini_string(fo2tweaks_ini + "|" + sec_burst_control + "|" + set_burst_key));
+      register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
+      register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_hook_handler);
+      burst_mode := get_sfall_global_int("g_burstv");
+      debug_msg("gl_g_party_burst_control initialized, current burst mode: " + burst_mode);
+    end
   end
 end

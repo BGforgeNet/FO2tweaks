@@ -1,14 +1,13 @@
 #include "..\headers\define.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
 
 procedure map_enter_p_proc begin
-  if cur_map_index == MAP_ARROYO_VILLAGE then begin
-    variable g_level5;
-    g_level5 := get_sfall_global_int("g_level5");
-    if g_level5 == 0 then begin
+  if map_first_run and cur_map_index == MAP_ARROYO_VILLAGE then begin
+    variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_level5);
+    if enabled then begin
       give_exp_points(9500);
       debug_msg("g_gl_level5: added 9500 XP");
       display_msg("You receive 9500 experience points, because you're a cheating little bastard");
-      set_sfall_global("g_level5", 1);
     end
   end
 end
