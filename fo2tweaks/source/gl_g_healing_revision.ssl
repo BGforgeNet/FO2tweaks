@@ -85,7 +85,8 @@ procedure get_healed_hp(variable target, variable doctor_level, variable fa_leve
   if doctor_level > 100 then doctor_level := 100;
   if fa_level > 100 then fa_level := 100;
   //healed := (fa_level/100.0)*fa_mult + (doctor_level/100.0)*(fa_level/100.0)*(heal_max - doctor_mult);
-  healed := (doctor_level/100.0)*(fa_level/100.0)*doctor_mult;
+  healed := (doctor_level/100.0)*(fa_level/100.0)*doctor_mult  + random(-1, 1);
+  if healed < 0 then healed := 0;
   healed_str := sprintf("%f", healed);
   ndebug("missing " + mhp + " doctor_level " + doctor_level + " fa_level " + fa_level + " healed " + healed_str
     + " max: " + heal_max +" |"+ fa_mult +"|" + doctor_mult);
@@ -100,7 +101,8 @@ procedure get_fa_healed(variable target, variable fa_level) begin
   variable healed_str;
   if fa_level > 100 then fa_level := 100;
   //healed := (fa_level/100.0)*fa_mult + (doctor_level/100.0)*(fa_level/100.0)*(heal_max - doctor_mult);
-  healed := fa_mult * fa_level / 100.0;
+  healed := fa_mult * fa_level / 100.0 + random(-1, 1);
+  if healed < 0 then healed := 0;
   healed_str := sprintf("%f", healed);
   ndebug("missing " + mhp + " fa_level " + fa_level + " healed " + healed_str + " | "+ fa_mult);
   healed := floor2(healed);
