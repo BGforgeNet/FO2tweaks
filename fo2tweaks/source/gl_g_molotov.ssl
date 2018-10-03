@@ -18,7 +18,7 @@ variable flameboy;
 procedure start begin
   if game_loaded then begin
     variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_molotov_fire);
-    if enabled then begin
+    if enabled == 1 then begin
 //      register_hook_proc(HOOK_AFTERHITROLL, Hit_Hook);
       register_hook_proc(HOOK_ITEMDAMAGE, Damage_Hook);
 
@@ -28,18 +28,19 @@ procedure start begin
         call enable_flameboy(PID_MOLOTOV_COCKTAIL);
       end
 
+      debug_msg("gl_g_molotov: initialized");
     end
   end
 end
 
 procedure enable_flameboy(variable weapon_pid) begin
   set_proto_data(weapon_pid, PROTO_WP_PERK, PERK_weapon_flameboy);
-  debug_msg("g_gl_molotov: flameboy enabled for" + weapon_pid);
+  debug_msg("gl_g_molotov: flameboy enabled for " + weapon_pid);
 end
 
 procedure disable_flameboy(variable weapon_pid) begin
   set_proto_data(weapon_pid, PROTO_WP_PERK, 0);
-  debug_msg("g_gl_molotov: flameboy disabled for" + weapon_pid);
+  debug_msg("gl_g_molotov: flameboy disabled for" + weapon_pid);
 end
 
 procedure Hit_Hook begin

@@ -6,7 +6,7 @@ procedure start;
 
 procedure start begin
   variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_carry_weight);
-  if enabled then begin
+  if enabled == 1 then begin
     set_pc_stat_max(12, 99999);
     set_pc_extra_stat(12, 99999);
   end

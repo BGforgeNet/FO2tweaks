@@ -1,0 +1,80 @@
+#include "..\headers\define.h"
+#include "..\headers\command.h"
+#include "..\headers\sfall\define_extra.h"
+#include "..\headers\sfall\sfall.h"
+#include "..\headers\sfall\dik.h"
+#include "..\headers\sfall\lib.misc.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
+
+procedure CauseDamage;
+
+variable armor_pids;
+variable item_pids;
+
+procedure apply_radon_damage(variable critter) begin
+  variable damage := random(1, 2);
+  critter_dmg(critter, damage, ( DMG_normal_dam BWOR DMG_NOANIMATE BWOR DMG_BYPASS_ARMOR ));
+end
+
+procedure map_enter_p_proc begin
+  if cur_map_index == MAP_BROKEN_HILLS2 then begin
+    debug_msg("gl_g_broken_radon: initialized");
+    set_global_script_repeat(10);
+    armor_pids := load_comsep_ini_setting(fo2tweaks_ini, sec_radon, set_radon_armor);
+    item_pids := load_comsep_ini_setting(fo2tweaks_ini, sec_radon, set_radon_items);
+  end else begin
+    debug_msg("gl_g_broken_radon: stopped");
+    set_global_script_repeat(0);
+  end
+end
+
+procedure start begin
+  variable g_bradon;
+  debug_msg("gl_g_broken_radon: started");
+  if elevation(dude_obj) == 2 then begin
+    g_bradon := get_sfall_global_int("g_bradon");
+    if g_bradon == 0 then begin
+      debug_msg("gl_g_broken_radon: trying to cause damage");
+      call CauseDamage;
+      set_sfall_global("g_bradon", 0);
+    end
+  end
+end
+
+procedure has_protective_item(variable critter) begin
+  variable has_item := false;
+  variable pid;
+  debug_msg("gl_g_broken_radon: checking for protective items");
+  foreach pid in item_pids begin
+    if obj_is_carrying_obj_pid(critter, pid) then begin
+      has_item := true;
+      break;
+    end
+  end
+  return has_item;
+end
+
+procedure is_wearing_protective_armor(variable critter) begin
+  variable is_wearing := false;
+  variable pid;
+  debug_msg("gl_g_broken_radon: checking for protective gear");
+  foreach pid in armor_pids begin
+    if obj_pid(critter_inven_obj( critter, INVEN_TYPE_WORN )) == pid then begin
+      is_wearing := true;
+      break;
+    end
+  end
+  return is_wearing;
+end
+
+procedure CauseDamage begin
+    variable damage := 0;
+    variable who;
+    debug_msg("gl_g_broken_radon: looping through party");
+  foreach who in party_member_list_critters begin
+    if not is_wearing_protective_armor(who) and not has_protective_item(who) then begin
+      debug_msg("gl_g_broken_radon: causing damage to " + who);
+      call apply_radon_damage(who);
+    end
+  end
+end

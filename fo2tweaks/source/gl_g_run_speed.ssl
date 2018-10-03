@@ -1,0 +1,41 @@
+procedure start;
+
+procedure start begin
+  variable frms;
+
+  frms := [
+    "macybr",
+    "maddog",
+    "marobe",
+    "mamtn2",
+    "marobo",
+    "nmfatt",
+    "nmmyrn",
+    "nmlthr",
+    "navgul",
+    "nmwarr"
+  ];
+
+  if game_loaded then begin
+    variable frm;
+    variable path_ab;
+    variable path_at;
+    variable file;
+    variable fps_offset := 0x4;
+    variable fps := 0x16;
+    debug_msg("gl_g_run_speed: initialized");
+    foreach frm in frms begin
+      path_ab := "art\\critters\\" + frm + "ab.frm"; //walk
+      path_at := "art\\critters\\" + frm + "at.frm"; //run
+
+  //    file := fs_find(path_at);
+      file := fs_copy(path_ab, path_ab);
+      fs_seek(file, fps_offset);
+      fs_write_short(file, fps);
+
+      debug_msg("gl_g_run_speed: frm=" + frm + ", path_ab=" + path_ab + ", path_at=" + path_at);
+      debug_msg("gl_g_run_speed: set fps to " + fps + " in " + frm);
+    end
+  end
+
+end

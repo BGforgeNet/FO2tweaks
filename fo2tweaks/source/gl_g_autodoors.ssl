@@ -17,7 +17,7 @@ variable only_once := 0;
 procedure start begin
   if game_loaded then begin
     variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_autodoors);
-    if enabled then begin
+    if enabled == 1 then begin
       register_hook_proc(HOOK_COMBATTURN, combatturn_handler);
       call map_enter_p_proc;
     end

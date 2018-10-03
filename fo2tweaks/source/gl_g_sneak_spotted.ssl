@@ -1,0 +1,30 @@
+#include "..\headers\define.h"
+#include "..\headers\sfall\define_extra.h"
+#include "..\headers\command.h"
+#include "..\headers\sfall\sfall.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
+#include "..\headers\sfall\dik.h"
+
+procedure start;
+
+procedure start begin
+  variable stop;
+  variable spotted_msg;
+    stop := get_ini_setting(fo2tweaks_ini + "|" + set_sneak_spotted + "|" + set_sneak_spotted_stop);
+    spotted_msg := get_ini_string(fo2tweaks_ini + "|" + set_sneak_spotted + "|" + set_sneak_spotted_msg);
+  if game_loaded then begin
+    variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_sneak_spotted);
+    if enabled == 1 then begin
+      set_global_script_repeat(60);
+      debug_msg("gl_g_sneak_spotted: initialized");
+    end
+  end else begin
+    if dude_is_sneaking and not sneak_success then begin
+      debug_msg("gl_g_sneak_spotted: spotted player");
+      display_msg(spotted_msg);
+      if stop then begin
+        reg_anim_clear(dude_obj);
+      end
+    end
+  end
+end

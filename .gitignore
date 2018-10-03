@@ -4,5 +4,6 @@ fo2tweaks/tmp
 fo2tweaks/*.log
 fo2tweaks/backup/*
 fo2tweaks/components/sfall/*.dll
+fo2tweaks/source/headers/fo2tweaks/errors.txt
 .DS_Store
 fo2tweaks/ddraw.dll.bak

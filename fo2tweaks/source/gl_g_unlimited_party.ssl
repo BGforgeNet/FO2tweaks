@@ -1,0 +1,65 @@
+/* Include Files */
+#include "..\headers\define.h"
+#include "..\headers\command.h"
+#include "..\headers\sfall\define_extra.h"
+#include "..\headers\sfall\sfall.h"
+
+#define in_dlg (get_game_mode bwor DIALOG)
+
+/* Standard Script Procedures */
+procedure start;
+procedure allow_party;
+
+procedure start begin
+  variable mt;
+  if game_loaded then begin
+    register_hook_proc(HOOK_GAMEMODECHANGE, allow_party);
+    register_hook_proc(HOOK_USESKILL, allow_party);
+    register_hook_proc(HOOK_USEOBJ, allow_party);
+    register_hook_proc(HOOK_USEOBJON, allow_party);
+    set_global_script_type(1);
+    foreach mt in sfall_func0("get_metarule_table") begin
+      debug_msg("gl_g_unlimited_party: test3" + mt);
+    end
+  end
+end
+
+procedure talk_p_proc begin
+  debug_msg("gl_g_unlimited_party: test1");
+  call allow_party;
+  debug_msg("gl_g_unlimited_party: test2");
+end
+
+
+procedure allow_party begin
+/*
+Runs once every time when the game mode was changed, like opening/closing the inventory, character screen, pipboy, etc.
+int     arg1 - event type: 1 - when the player exits the game, 0 - otherwise
+*/
+
+  variable exiting := get_sfall_arg;
+  variable party_pids;
+  party_pids := [
+    PID_MYRON,
+    PID_SULIK,
+    PID_VIC,
+    PID_MARCUS
+  ];
+  debug_msg("gl_g_unlimited_party: test");
+  //if in_dlg and not exiting then begin
+    debug_msg("gl_g_unlimited_party: pass");
+    debug_msg("gl_g_unlimited_party: source_obj is " + obj_pid(source_obj));
+    debug_msg("gl_g_unlimited_party: target_obj is " + obj_pid(target_obj));
+/*
+    if (true_party_size > 0) then begin
+      variable who;
+      foreach who in party_pids begin
+        if (who == obj_pid(target_obj)) then begin
+          debug_msg("gl_g_unlimited_party: I am talking to " + who);
+        end
+      end
+    end
+
+*/
+  //end
+end

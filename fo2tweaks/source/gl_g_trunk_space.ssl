@@ -15,8 +15,8 @@ end
 
 procedure bloat_trunk begin
   variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_trunk_space);
-  if enabled then begin
+  if enabled == 1 then begin
     set_proto_data(PID_CAR_TRUNK, PROTO_CN_MAX_SIZE, 99999);
-    debug_msg("g_gl_trunk_space: set to 99999");
+    debug_msg("gl_g_trunk_space: set to 99999");
   end
 end

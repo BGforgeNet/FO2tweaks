@@ -6,27 +6,57 @@
 #include "..\headers\sfall\lib.misc.h"
 #include "..\headers\fo2tweaks\fo2tweaks.h"
 
+#define NAME "gl_g_map_hotkey"
+
+/*
+#define invalid_map_modes \
+  WORLDMAP bwor \
+  DIALOG bwor \
+  ESCMENU bwor \
+  SAVEGAME bwor \
+  LOADGAME bwor \
+  COMBAT bwor \
+  OPTIONS bwor \
+  HELP bwor \
+  CHARSCREEN bwor \
+  PIPBOY bwor \
+  PCOMBAT bwor \
+  INVENTORY bwor \
+  INTFACEUSE bwor \
+  INTFACELOOT bwor \
+  BARTER bwor \
+  HEROWIN
+
+#define mode_valid ((get_game_mode bwand invalid_map_modes) == 0)
+*/
+
 procedure start;
 procedure keypress_hook_handler;
 variable worldmap_key;
 
 procedure keypress_hook_handler begin
-  if (not(combat_is_initialized) and not(in_world_map)) then begin
-    if (key_pressed(worldmap_key)) then begin
+  if key_pressed(worldmap_key) then begin
+    if get_game_mode == 0 then begin
+      ndebug("key pressed, mode valid - calling world map");
       world_map;
-//      town_map;
+//      town_map; //only works in Fallout 1
+    end else begin
+      ndebug("key pressed, but mode " + sprintf("%d", get_game_mode) + " is invalid - doing nothing");
     end
   end
 end
 
 procedure start begin
   if game_loaded then begin
-    variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_worldmap_key);
-    if enabled then begin
+    variable enabled := fo2tweaks_setting(sec_main, set_worldmap_key);
+    variable key;
+    if enabled == 1 then begin
+      ndebug("initialized");
 //      town_key := 20; //T
-      worldmap_key := parse_hotkey(get_ini_string(fo2tweaks_ini + "|" + sec_worldmap + "|" + set_worldmap_hotkey));
+      key := fo2tweaks_string(sec_worldmap, set_worldmap_hotkey);
+      worldmap_key := parse_hotkey(key);
       if (worldmap_key < 0) then begin
-        worldmap_key := 17; //W
+        worldmap_key := DIK_W;
       end
       register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
     end

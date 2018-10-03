@@ -74,7 +74,7 @@ end
 procedure start begin
   if game_loaded then begin
     variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_burst_control);
-    if enabled then begin
+    if enabled == 1 then begin
       burst_msg := get_ini_string(fo2tweaks_ini + "|" + sec_burst_control + "|" + set_burst_message_on);
       noburst_msg := get_ini_string(fo2tweaks_ini + "|" + sec_burst_control + "|" + set_burst_message_off);
       burst_key := parse_hotkey(get_ini_string(fo2tweaks_ini + "|" + sec_burst_control + "|" + set_burst_key));
