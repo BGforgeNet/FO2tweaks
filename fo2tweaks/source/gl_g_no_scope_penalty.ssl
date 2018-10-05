@@ -8,7 +8,7 @@ procedure remove_scope;
 
 procedure start begin
   if game_loaded then begin
-    enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_no_scope_penalty);
+    enabled := fo2tweaks_setting(sec_main, set_no_scope_penalty);
     if enabled == 1 then call remove_scope;
   end
 end
@@ -64,7 +64,7 @@ procedure remove_scope begin
       end
     end
 */
-    sfall_func0("intface_redraw");
+    intface_redraw;
     debug_msg("gl_g_no_scope_penalty: completed");
 //  end
 end

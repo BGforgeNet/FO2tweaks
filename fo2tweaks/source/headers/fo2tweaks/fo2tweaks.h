@@ -53,8 +53,10 @@
 #define set_grenades_ammo "ammo"
 
 #define sec_burst_control "burst_control"
-#define set_burst_message_on "burst_message"
-#define set_burst_message_off "nonurst_message"
+#define set_burst_float_on "float_on"
+#define set_burst_float_off "float_off"
+#define set_burst_display_on "display_on"
+#define set_burst_display_off "display_off"
 #define set_burst_key "burst_key"
 
 #define sec_molotov_fire "molotov_fire"

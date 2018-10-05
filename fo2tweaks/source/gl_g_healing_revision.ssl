@@ -52,7 +52,7 @@ variable doctor_items;
 variable fa_items;
 
 procedure heal_disabilities(variable user, variable target, variable effective_skill) begin
-  variable chance := (effective_skill - doctor_min) / 100;
+  variable chance := effective_skill - doctor_min; //percentage
   ndebug("user " + user + ", target " + target + ", eff. doctor " + effective_skill);
   ndebug("chance " + chance + " eff. skill " + effective_skill + " min. doctor " + doctor_min);
   if chance < 1 then begin
@@ -60,10 +60,10 @@ procedure heal_disabilities(variable user, variable target, variable effective_s
   end else begin
     variable r := random(1, 100);
     if r < chance then begin
-      display_msg("test2, " + r + ", "+ chance);
+      display_msg(heal_disabilities_msg);
       critter_uninjure(target, all_disabilities);
     end else begin
-      display_msg("test3");
+      display_msg(fail_disabilities_msg);
     end
   end
 end
@@ -325,6 +325,8 @@ procedure start begin
       no_chance_msg := fo2tweaks_string(sec_healing_revision, set_healing_no_chance_msg);
       healthy_msg := fo2tweaks_string(sec_healing_revision, set_healing_healthy_msg);
       fail_msg := fo2tweaks_string(sec_healing_revision, set_healing_fail_msg);
+      heal_disabilities_msg := fo2tweaks_string(sec_healing_revision, set_healing_heal_disabilities_msg);
+      fail_disabilities_msg := fo2tweaks_string(sec_healing_revision, set_healing_fail_disabilities_msg);
 
       doctor_items := fo2tweaks_comsep_setting(sec_healing_revision, set_healing_doctor_items);
       fa_items := fo2tweaks_comsep_setting(sec_healing_revision, set_healing_fa_items);
