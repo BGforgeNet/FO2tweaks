@@ -166,7 +166,7 @@ procedure use_doctor(variable user, variable target, variable skill_bonus, varia
 
   //if dude or companion using skill not in manual mode, search for a helper item in all of party inventory
   if use_items == 1 and skill_bonus == 0 and scan_array(party_member_list_critters, user) != -1 then begin
-    debug_msg("find best item, boost skill, spend item charges");
+    ndebug("todo: find best item, boost skill, spend item charges");
     //effective skill := skill_level + item_bonus;
   end
 
@@ -313,6 +313,33 @@ procedure healing_handler begin
   end
 end
 
+procedure rest_handler begin
+  variable who;
+  ndebug("rest ping");
+  call update_heal_arrays;
+  foreach who in party_member_list_critters begin
+    if not is_healthy(who) and scan_array(doctor_used, obj_pid(who)) == -1 then begin
+      call use_doctor(dude_obj, who, 0, false); // best item will be found automatically
+    end
+    if not is_healthy(who) and scan_array(fa_used, obj_pid(who)) == -1 then begin
+      call use_first_aid(dude_obj, who, 0, false);
+    end
+  end
+end
+
+procedure travel_handler begin
+  variable who;
+  ndebug("travel ping");
+  call update_heal_arrays;
+  foreach who in party_member_list_critters begin
+    if not is_healthy(who) and scan_array(doctor_used, obj_pid(who)) == -1 then begin
+      call use_doctor(dude_obj, who, 0, false); // best item will be found automatically
+    end
+    if not is_healthy(who) and scan_array(fa_used, obj_pid(who)) == -1 then begin
+      call use_first_aid(dude_obj, who, 0, false);
+    end
+  end
+end
 
 procedure start begin
   if game_loaded then begin
@@ -337,12 +364,20 @@ procedure start begin
       if fa_used == 0 then fa_used := create_array(0,0);
 
       register_hook_proc(HOOK_USESKILL, healing_handler);
+      register_hook_proc(HOOK_RESTTIMER, rest_handler);
 
-      //reset healed arrays at midnight
+      //reset healed arrays at midnight, any screen
       set_global_script_type(1);
       set_global_script_repeat(600);
 
       ndebug("initialized");
+    end
+  end else begin
+    if enabled == 1 then begin
+      call update_heal_arrays;
+      if in_world_map then begin
+        call travel_handler;
+      end
     end
   end
 end
