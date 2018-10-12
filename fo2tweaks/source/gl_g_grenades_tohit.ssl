@@ -49,7 +49,7 @@ procedure tohit_hook begin
     end
   end
 
-  //add target ac to hit chance
+  //add target's armor ac to hit chance
   if subtract_ac == true then begin
     variable nat_ac, armor, armor_ac;
 //    nat_ac := get_critter_stat(target, STAT_ac);
