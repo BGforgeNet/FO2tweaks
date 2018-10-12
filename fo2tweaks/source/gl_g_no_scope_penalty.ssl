@@ -2,6 +2,8 @@
 #include "..\headers\define.h"
 #include "..\headers\fo2tweaks\fo2tweaks.h"
 
+#define NAME "gl_g_no_scope_penalty"
+
 variable enabled;
 
 procedure remove_scope;
@@ -18,53 +20,40 @@ procedure map_enter_p_proc begin
 end
 
 procedure remove_scope begin
-  //if game_loaded then begin
-//    set_global_script_repeat(60);
-//  end else begin
-    variable key, pid, pids, range, perk, ap;
-    debug_msg("gl_g_no_scope_penalty: initialized");
+  variable key, pid, pids, old_range, new_range, perk, ap, ap2, burst;
+  ndebug("initializing");
 
-    //vanilla scoped rifle
-//    pids := sfall_func2("get_ini_section", ini_file, sec_remove_scope);
-//    foreach key: pid in pids begin
-//    foreach pid in [630, 634] begin
-      pids := [
-        PID_COMBAT_SHOTGUN,
-        PID_SCOPED_HUNTING_RIFLE,
-        PID_SPEAR,
-        PID_COMBAT_KNIFE,
-        PID_DESERT_EAGLE,
-        PID_DESERT_EAGLE_EXT_MAG,
-        PID_ASSAULT_RIFLE
-      ];
-      //pid := PID_SCOPED_HUNTING_RIFLE;
-      //pid := PID_COMBAT_SHOTGUN;
-      //pid := PID_SPEAR;
-    foreach pid in pids begin
-      set_proto_data(pid, PROTO_WP_RANGE_1, 2);
+  //vanilla scoped rifle
+  pids := fo2tweaks_comsep_setting(sec_no_scope_penalty, set_scope_remove);
+  foreach pid in pids begin
+//      set_proto_data(pid, PROTO_WP_RANGE_1, 2);
 //      set_proto_data(pid, PROTO_WP_RANGE_2, 5);
-  //    set_proto_data(pid, PROTO_WP_PERK, -1); //remove scope range
-      set_proto_data(pid, PROTO_WP_APCOST_1, 2);
+    set_proto_data(pid, PROTO_WP_PERK, -1); //remove scope range
+//      set_proto_data(pid, PROTO_WP_APCOST_1, 2);
 //      set_proto_data(pid, PROTO_WP_APCOST_2, 2);
-      range := get_proto_data(pid, PROTO_WP_RANGE_1);
-      ap := get_proto_data(pid, PROTO_WP_APCOST_1);
-      debug_msg("gl_g_no_scope_penalty: pid is " + pid + " range is " + range + " apcost is " + ap);
-      debug_msg("gl_g_no_scope_penalty: removed scope range from pid " + pid);
-    end
+    old_range := get_proto_data(pid, PROTO_WP_RANGE_1);
+    new_range := floor2(old_range * 1.2);
+    set_proto_data(pid, PROTO_WP_RANGE_1, new_range);
+//      ap := get_proto_data(pid, PROTO_WP_APCOST_1);
+    ndebug("removed scope range from pid " + pid + " " + typeof(pid) + ", old range " + old_range + " new range " + new_range);
+  end
 
-    //EcCo: replace scope_range with long_range for bozar and sniper rifle
-    //pids := sfall_func2("get_ini_section", ini_file, sec_scope_to_long);
-/*
-    pids := load_comsep_ini_setting(fo2tweaks_ini, sec_scope, set_scope_remove);
-    foreach key: pid in pids begin
-      perk := get_proto_data(pid, PROTO_WP_PERK);
-      if perk == PERK_weapon_long_range then begin
-        set_proto_data(pid, PROTO_WP_PERK, PERK_weapon_long_range);
-        debug_msg("gl_g_no_scope_penalty: replaced scope range with long range in pid " + pid);
-      end
+    //EcCo: set long_range for bozar and sniper rifle
+  pids := fo2tweaks_comsep_setting(sec_no_scope_penalty, set_scope_to_long);
+  foreach pid in pids begin
+    perk := get_proto_data(pid, PROTO_WP_PERK);
+    burst := get_proto_data(pid, PROTO_WP_BURST);
+    ap2 := get_proto_data(pid, PROTO_WP_APCOST_2);
+    ndebug("pid " + pid + " burst " + burst + " ap2 " + ap2 + " perk " + perk);
+    if perk != PERK_weapon_long_range
+      and not (burst > 1)
+      and ap2 == 0
+    then begin
+      set_proto_data(pid, PROTO_WP_PERK, PERK_weapon_long_range);
+      ndebug("added long range to pid " + pid);
     end
-*/
-    intface_redraw;
-    debug_msg("gl_g_no_scope_penalty: completed");
-//  end
+  end
+
+  intface_redraw;
+  ndebug("initialized");
 end
