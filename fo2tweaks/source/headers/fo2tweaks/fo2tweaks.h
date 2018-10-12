@@ -1,6 +1,7 @@
 #include "..\define.h"
 #include "..\sfall\sfall.h"
 #include "..\sfall\lib.arrays.h"
+#include "..\sfall\lib.strings.h"
 
 #define fo2tweaks_ini "fo2tweaks.ini"
 #define fo2tweaks_setting(section, setting) get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting)
@@ -23,6 +24,16 @@
 #define set_healing_revision "healing_revision"
 #define set_no_scope_penalty "no_scope_penalty"
 #define set_hp_over_head "hp_over_head"
+#define set_party_skill_items "party_skill_items"
+#define set_angela_jet "angela_jet"
+#define set_damage_mod "damage_mod"
+
+#define sec_damage_mod "damage_mod"
+#define set_damage_mod_new_burst "new_burst"
+#define set_damage_mod_random_bodyparts "unaimed_shots_random_bodyparts"
+#define set_damage_mod_bodyparts_chance "unaimed_shots_bodyparts_chance"
+
+#define sec_party_skill_items "party_skill_items"
 
 #define sec_healing_revision "healing_revision"
 #define set_healing_not_in_combat_msg "not_in_combat_msg"
@@ -135,7 +146,7 @@ end
 procedure load_comsep_ini_setting(variable file, variable section, variable setting) begin
   variable str, ar;
   str := get_ini_string(file + "|" + section + "|" + setting);
-  ar := string_split(str, ",");
+  ar := string_split_ints(str, ",");
   return ar;
 end
 
