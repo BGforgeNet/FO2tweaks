@@ -85,7 +85,7 @@ procedure get_healed_hp(variable target, variable doctor_level, variable fa_leve
   if doctor_level > 100 then doctor_level := 100;
   if fa_level > 100 then fa_level := 100;
   //healed := (fa_level/100.0)*fa_mult + (doctor_level/100.0)*(fa_level/100.0)*(heal_max - doctor_mult);
-  healed := (doctor_level/100.0)*(fa_level/100.0)*doctor_mult  + random(-1, 1);
+  healed := (doctor_level/100.0)*(fa_level/100.0)*doctor_mult + random(-1, 1);
   if healed < 0 then healed := 0;
   healed_str := sprintf("%f", healed);
   ndebug("missing " + mhp + " doctor_level " + doctor_level + " fa_level " + fa_level + " healed " + healed_str
@@ -279,9 +279,7 @@ procedure grant_xp(variable hp, variable skill) begin
 end
 
 procedure use_skill(variable user, variable target, variable skill, variable skill_bonus) begin
-  if enabled == 1 then begin
-      call update_heal_arrays;
-  end
+  call update_heal_arrays;
   ndebug("user1 " + user + " target " + target);
   if skill == SKILL_DOCTOR then begin
     call use_doctor(user, target, skill_bonus);
@@ -300,14 +298,14 @@ procedure healing_handler begin
   variable skill := get_sfall_arg;
   variable skill_bonus := get_sfall_arg;
   ndebug("user " + user + " target " + target);
-  if skill == SKILL_FIRST_AID or skill == SKILL_DOCTOR then begin
+  if enabled == 1 and (skill == SKILL_FIRST_AID or skill == SKILL_DOCTOR) then begin
     set_sfall_return(0); //override
     if combat_is_initialized then begin
       display_msg(not_in_combat_msg);
     end else begin
       call use_skill(user, target, skill, skill_bonus);
     end
-    set_sfall_return(0); //override
+    set_sfall_return(0); //override again?
   end else begin
     set_sfall_return(-1); //default engine handler
   end
@@ -330,7 +328,6 @@ end
 procedure travel_handler begin
   variable who;
   ndebug("travel ping");
-  call update_heal_arrays;
   foreach who in party_member_list_critters begin
     if not is_healthy(who) and scan_array(doctor_used, obj_pid(who)) == -1 then begin
       call use_doctor(dude_obj, who, 0, false); // best item will be found automatically
@@ -368,7 +365,7 @@ procedure start begin
 
       //reset healed arrays at midnight, any screen
       set_global_script_type(1);
-      set_global_script_repeat(600);
+      set_global_script_repeat(1800);
 
       ndebug("initialized");
     end
