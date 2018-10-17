@@ -2,11 +2,12 @@
 #include "..\sfall\sfall.h"
 #include "..\sfall\lib.arrays.h"
 #include "..\sfall\lib.strings.h"
+#include "tile.h"
 
 #define fo2tweaks_ini "fo2tweaks.ini"
 #define fo2tweaks_setting(section, setting) get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting)
 #define fo2tweaks_string(section, setting) get_ini_string(fo2tweaks_ini + "|" + section + "|" + setting)
-#define ndebug(message) debug_msg(NAME + ": " + message)
+#define ndebug(message) debug_msg(NAME + ": " + message + "\n")
 
 #define sec_main "main"
 #define set_carry_weight "carry_weight"
@@ -81,6 +82,14 @@
 #define set_scope_to_long "to_long"
 
 #define is_weapon(x) (obj_item_subtype(x) == item_type_weapon)
+#define is_critter(obj)   (obj_type(obj) == OBJ_TYPE_CRITTER)
+#define in_combat (get_game_mode bwand COMBAT)
+
+
+procedure max(variable x, variable y) begin
+  if x > y then return x;
+  return y;
+end
 
 procedure get_active_weapon(variable attacker) begin
   variable item;

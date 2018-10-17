@@ -7,8 +7,6 @@ procedure start;
 #include "..\headers\fo2tweaks\fo2tweaks.h"
 #include "..\headers\sfall\dik.h"
 
-#define in_combat (get_game_mode bwand COMBAT)
-
 variable box_num;
 variable box_color;
 
