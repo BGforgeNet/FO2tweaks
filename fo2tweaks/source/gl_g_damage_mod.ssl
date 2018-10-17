@@ -1,0 +1,463 @@
+#include "..\headers\define.h"
+#include "..\headers\command.h"
+#include "..\headers\sfall\define_extra.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
+
+#define BODYPART_HEAD 0
+#define BODYPART_LEFT_ARM 1
+#define BODYPART_RIGHT_ARM 2
+#define BODYPART_TORSO_UNCALLED 3
+#define BODYPART_RIGHT_LEG 4
+#define BODYPART_LEFT_LEG 5
+#define BODYPART_EYES 6
+#define BODYPART_GROIN 7
+//#define BODYPART_TORSO_CALLED 8 ???
+
+#define is_critical_hit(flags)  ((flags bwand DAM_CRITICAL) != 0)
+#define is_bypassing_armor(flags) ((flags bwand DAM_BYPASS) != 0)
+#define is_aimed(bodypart)  (bodypart != BODYPART_TORSO_UNCALLED)
+#define is_melee_attack(type) \
+  (type == ATTACK_MODE_PUNCH \
+  or type == ATTACK_MODE_KICK \
+  or type == ATTACK_MODE_SWING \
+  or type == ATTACK_MODE_THRUST)
+#define NAME "gl_g_damage_mod"
+
+variable begin
+  old_total := 0, new_total := 0;
+  new_burst;
+  random_bodyparts;
+  bodyparts_chance;
+end
+
+procedure start;
+procedure damage_handler;
+//procedure tohit_handler;
+
+procedure start begin
+  if game_loaded then begin
+//    variable pid;
+    variable enabled := fo2tweaks_setting(sec_main, set_damage_mod);
+    if enabled == 1 then begin
+      new_burst := fo2tweaks_setting(sec_damage_mod, set_damage_mod_new_burst);
+      random_bodyparts := fo2tweaks_setting(sec_damage_mod, set_damage_mod_random_bodyparts);
+      bodyparts_chance := fo2tweaks_comsep_setting(sec_damage_mod, set_damage_mod_bodyparts_chance);
+      register_hook_proc(HOOK_COMBATDAMAGE, damage_handler);
+//      register_hook_proc(HOOK_TOHIT, tohit_handler);
+      ndebug("initialized");
+/*
+      foreach pid in [PID_44_FMJ_MAGNUM, PID_44_MAGNUM_JHP] begin
+        variable x := get_proto_data(pid, PROTO_AM_DMG_MULT);
+        variable y := get_proto_data(pid, PROTO_AM_DMG_DIV);
+        variable rm := get_proto_data(pid, PROTO_AM_DR_MOD);
+        ndebug("mult=" + x + ", div=" + y + ", dr_mod=" + rm);
+      end
+*/
+    end
+  end
+end
+
+procedure get_bullet_damage(variable dmg_min, variable dmg_max, variable rb, variable target_dt,
+  variable ammo_mult, variable critical_mult, variable difficulty_mult, variable dr_mult,
+  variable random_bodyparts, variable is_aimed)
+begin
+  variable rd := random(dmg_min, dmg_max);
+  /* new formula: dt is subtracted first, then the rest is multiplied by corresponding miltipliers */
+  variable dmg := round(1.0 * (rd + rb - target_dt) * ammo_mult * critical_mult * difficulty_mult * dr_mult);
+  ndebug("rd " + rd + " rb " + rb + " target_dt " + target_dt + " ammo_mult " + ammo_mult
+        + " critical_mult " + critical_mult + " difficulty_mult " + difficulty_mult + " dr_mult " + dr_mult);
+  if dmg < 0 then dmg := 0;
+  return dmg;
+end
+
+procedure get_total_damage(variable dmg_min, variable dmg_max, variable rb,
+  variable adt, variable ammo_mult,
+  variable critical_mult, variable difficulty_mult, variable dr_mult, variable bullets_number,
+  variable new_burst, variable random_bodyparts, variable is_aimed)
+begin
+  variable total_damage := 0;
+  variable i := 0;
+  for (i := 1; i <= bullets_number; i++) begin
+    variable bullet_damage := get_bullet_damage(dmg_min, dmg_max, rb, adt,
+      ammo_mult, critical_mult, difficulty_mult, dr_mult, random_bodyparts, is_aimed);
+    total_damage += bullet_damage;
+  end
+  return total_damage;
+end
+
+/*
+procedure get_melee_damage_range(variable who) begin
+  variable min_damage := 1;
+  variable max_damage;
+  variable hth_bonus;
+  hth_bonus := 2 * has_trait(TRAIT_PERK, who, PERK_bonus_hth_damage);
+//  max_damage := 2 + get_critter_stat(who, STAT_melee_dmg) +
+//    max(get_critter_stat(who, STAT_st), 1) + bonus_HtH_damage + special_unarmed_attack_bonus;
+end
+*/
+procedure get_resist_defines(variable damage_type) begin
+  variable ar_dt_type, ar_dr_type, cr_dt_type, cr_dr_type, dmgtype_determined := 0;
+
+  if damage_type == DMG_normal_dam then begin
+    ar_dt_type := PROTO_AR_DT_NORMAL;
+    ar_dr_type := PROTO_AR_DR_NORMAL;
+    cr_dr_type := STAT_dmg_resist;
+    cr_dt_type := STAT_dmg_thresh;
+    dmgtype_determined := 1;
+  end else if dmgtype_determined == 0 and damage_type == DMG_laser then begin
+    ar_dt_type := PROTO_AR_DT_LASER;
+    ar_dr_type := PROTO_AR_DR_LASER;
+    cr_dr_type := STAT_dmg_resist_laser;
+    cr_dt_type := STAT_dmg_thresh_laser;
+    dmgtype_determined := 1;
+  end else if dmgtype_determined == 0 and damage_type == DMG_fire then begin
+    ar_dt_type := PROTO_AR_DT_FIRE;
+    ar_dr_type := PROTO_AR_DR_FIRE;
+    cr_dr_type := STAT_dmg_resist_fire;
+    cr_dt_type := STAT_dmg_thresh_fire;
+    dmgtype_determined := 1;
+  end else if dmgtype_determined == 0 and damage_type == DMG_plasma then begin
+    ar_dt_type := PROTO_AR_DT_PLASMA;
+    ar_dr_type := PROTO_AR_DR_PLASMA;
+    cr_dr_type := STAT_dmg_resist_plasma;
+    cr_dt_type := STAT_dmg_thresh;
+    dmgtype_determined := 1;
+  end else if dmgtype_determined == 0 and damage_type == DMG_electrical then begin
+    ar_dt_type := PROTO_AR_DT_ELECTRICAL;
+    ar_dr_type := PROTO_AR_DR_ELECTRICAL;
+    cr_dr_type := STAT_dmg_resist_electrical;
+    cr_dt_type := STAT_dmg_thresh_electrical;
+    dmgtype_determined := 1;
+  end else if dmgtype_determined == 0 and damage_type == DMG_emp then begin
+    ar_dt_type := PROTO_AR_DT_EMP;
+    ar_dr_type := PROTO_AR_DR_EMP;
+    cr_dr_type := STAT_dmg_resist_emp;
+    cr_dt_type := STAT_dmg_thresh_emp;
+    dmgtype_determined := 1;
+  end else if dmgtype_determined == 0 and damage_type == DMG_explosion then begin
+    ar_dt_type := PROTO_AR_DT_EXPLOSION;
+    ar_dr_type := PROTO_AR_DR_EXPLOSION;
+    cr_dr_type := STAT_dmg_resist_explosion;
+    cr_dt_type := STAT_dmg_thresh_explosion;
+    dmgtype_determined := 1;
+  end
+  return [ar_dt_type, ar_dr_type, cr_dt_type, cr_dr_type];
+end
+
+procedure damage_handler begin
+/*
+  Runs when:
+  1) Game calculates how much damage each target will get. This includes primary target as well as all extras (explosions and bursts). This happens BEFORE the actual attack animation.
+  2) AI decides whether it is safe to use area attack (burst, grenades), if he might hit friendlies.
+  Does not run for misses, or non-combat damage like dynamite explosions.
+
+  critter arg1  - The target
+  critter arg2  - The attacker
+  int     arg3  - The amount of damage to the target
+  int     arg4  - The amount of damage to the attacker
+  int     arg5  - The special effect flags for the target
+  int     arg6  - The special effect flags for the attacker
+  int     arg7  - The weapon used in the attack
+  int     arg8  - The bodypart that was struck
+  int     arg9  - Damage Multiplier (this is divided by 2, so a value of 3 does 1.5x damage, and 8 does 4x damage. Usually it's 2, but with Silent Death perk and the corresponding attack conditions, it's 4; for critical hits, the value is taken from the critical table)
+  int     arg10 - Number of bullets actually hit the target (1 for melee attacks)
+  int     arg11 - The amount of knockback to the target
+  int     arg12 - Attack Type (see ATKTYPE_* constants)
+
+  int     ret1 - The damage to the target
+  int     ret2 - The damage to the attacker
+  int     ret3 - The special effect flags for the target
+  int     ret4 - The special effect flags for the attacker
+  int     ret5 - The amount of knockback to the target
+*/
+
+  variable target := get_sfall_arg;
+  variable attacker := get_sfall_arg;
+  variable target_damage := get_sfall_arg;
+  variable attacker_damage := get_sfall_arg;
+  variable target_flags := get_sfall_arg;
+  variable attacker_flags := get_sfall_arg;
+  variable weapon := get_sfall_arg;
+  variable bodypart := get_sfall_arg;
+  variable damage_multiplier := get_sfall_arg;
+  variable bullets_number := get_sfall_arg;
+  variable knockback_distance := get_sfall_arg;
+  variable attack_type := get_sfall_arg;
+
+  /* original formula
+    ND = net damage value
+    RD = random damage value produced from weapons hit damage range
+    RB = ranged bonus (RB=0 unless the player has Bonus Ranged Damage perk)
+    CM = critical hit damage multiplier (if no critical hit then CM=2, otherwise assigned value from critical hit table)
+    ADR = armor damage resistance value
+    ADT = armor damage threshold value
+    X = ammo dividend
+    Y = ammo divisor
+    RM = ammo resistance modifier (only value allowed to be negative or positive in the equation)
+    CD = combat difficulty multiplier (Easy=75, Normal=100, Hard=125)
+
+    ND = ( ((RD+RB)*(X*CM)/Y/2 * CD/100) - ADT) * ((100-(ADR+RM))/100 )
+  */
+  variable nd := 0, rd, rb := 0, cm, adr := 0, adt := 0, x := 1, y := 1, rm := 0, cd;
+  variable begin
+    armor;
+    damage_type;
+    cd_setting;
+    i;
+    ammo_mult;
+    difficulty_mult;
+    critical_mult;
+    dr_mult;
+
+
+    ar_dt_type;
+    ar_dr_type;
+    cr_dt_type;
+    cr_dr_type;
+
+    natural_dr;
+    target_dr;
+    target_dt;
+    final_dr;
+    final_dt;
+    weapon_pid;
+    dmg_min;
+    dmg_max;
+    ammo_pid;
+    natural_dt;
+    resist_defines;
+    fine;
+  end
+
+
+  if weapon then begin
+    ndebug("weapon name is " + obj_name(weapon));
+    weapon_pid := obj_pid(weapon);
+    dmg_min := get_proto_data(weapon_pid, PROTO_WP_DMG_MIN);
+    dmg_max := get_proto_data(weapon_pid, PROTO_WP_DMG_MAX);
+    ammo_pid := get_active_ammo_pid(attacker);
+//  end else if is_melee_attack(attack_type) then begin
+//    ndebug("melee attack, skipping");
+//    return;
+  end else begin //hth or melee
+    ndebug("unarmed attack, skipping");
+    return;
+  end
+  if ammo_pid == -1 then begin
+    ndebug("weapon has no ammo, skipping");
+    return;
+  end
+
+/*
+  if weapon then begin
+    weapon_pid := obj_pid(weapon);
+    dmg_min := get_proto_data(weapon_pid, PROTO_WP_DMG_MIN);
+    dmg_max := get_proto_data(weapon_pid, PROTO_WP_DMG_MAX);
+    ammo_pid := get_active_ammo_pid(weapon);
+  end else begin
+    ammo_pid := -1;
+  end
+*/
+
+  if not is_critter(target) then begin //hit a wall?
+    ndebug("target " + obj_name(target) + " is not a critter, skipping");
+    return;
+  end
+
+  //rb - bonus ranged damage perk
+  rb := 2 * has_trait(TRAIT_PERK, attacker, PERK_bonus_ranged_damage);
+
+  //cm - critical hit multiplier, default 2
+  cm := damage_multiplier;
+
+  //ammo: x, y, rm - multiplier, divisor, damage resistance mod
+  x := get_proto_data(ammo_pid, PROTO_AM_DMG_MULT);
+  y := get_proto_data(ammo_pid, PROTO_AM_DMG_DIV);
+  rm := get_proto_data(ammo_pid, PROTO_AM_DR_MOD);
+  ndebug("ammo dr mod is " + rm);
+
+  //adt, adr - armor damage threshold, damage resistance
+  if weapon then begin
+    damage_type := weapon_dmg_type(weapon);
+  end else begin
+    damage_type := DMG_normal_dam; // todo: check critter natural damage
+  end
+  ndebug("damage type is " + damage_type);
+  armor := critter_inven_obj2(target, INVEN_TYPE_WORN);
+  if armor then begin
+    ndebug("armor name is " + obj_name(armor));
+  end
+
+  //determine resits types
+  resist_defines := get_resist_defines(damage_type);
+  ar_dt_type := resist_defines[0];
+  ar_dr_type := resist_defines[1];
+  cr_dt_type := resist_defines[2];
+  cr_dr_type := resist_defines[3];
+
+  ndebug("critter dr type is " + cr_dr_type + ", dt type is " + cr_dt_type);
+  ndebug("armor dr type is " + ar_dr_type + ", dt type is " + ar_dt_type);
+
+  //get resists from armor if any
+  if armor and obj_item_subtype(armor) == item_type_armor then begin
+    variable armor_pid := obj_pid(armor);
+    ndebug("test7");
+    adt := get_proto_data(armor_pid, ar_dt_type);
+    adr := get_proto_data(armor_pid, ar_dr_type);
+  end
+
+  //get critter natural resists
+  natural_dr := get_critter_stat(target, cr_dr_type);
+  natural_dt := get_critter_stat(target, cr_dt_type);
+  //natural_dr := get_critter_stat(target, STAT_dmg_resist_fire);
+  //natural_dt := get_critter_stat(target, STAT_dmg_thresh_fire);
+//  natural_dr := get_critter_stat(target, STAT_dmg_resist);
+//  natural_dt := get_critter_stat(target, STAT_dmg_thresh);
+
+  //ndebug("natural dt is " + natural_dt + ", natural dr is " + natural_dr);
+
+//  target_dr := natural_dr + adr;
+//  target_dt := natural_dt + adt;
+  target_dr := natural_dr;
+  target_dt := natural_dt;
+
+  if has_trait(TRAIT_TRAIT, attacker, TRAIT_finesse) != 0 then begin
+    ndebug("attacking with finesse, extra 30% to dr");
+    target_dr := target_dr + 30;
+  end
+
+  ndebug("target dt is " + target_dt + ", target dr is " + target_dr);
+
+  if target_dr > 90 then target_dr := 90; //cap DR
+  if is_bypassing_armor(target_flags) then begin //critical bypass armor
+    ndebug("armor bypassing critical, reducing dt and dr by magnitude of 5");
+    //target_dr := floor2(target_dr * 0.2);
+    target_dr := target_dr * 0.2;
+    //target_dt := floor2(target_dt * 0.2);
+    target_dt := target_dt * 0.2;
+  end else if has_trait(TRAIT_PERK, attacker, PERK_weapon_penetrate) > 0 then begin //weapon penetrate perk
+    //target_dt := floor2(target_dt * 0.2);
+    ndebug("weapon has penetrate perk, reducing dt by magnitude of 5");
+    target_dt := target_dt * 0.2;
+  end
+
+  //cd - combat difficulty  multiplier
+  cd_setting := combat_difficulty;
+  cd := 75 + cd_setting * 25;
+
+  /* original formula
+    ND = net damage value
+    RD = random damage value produced from weapons hit damage range
+    RB = ranged bonus (RB=0 unless the player has Bonus Ranged Damage perk)
+    CM = critical hit damage multiplier (if no critical hit then CM=2, otherwise assigned value from critical hit table)
+    ADR = armor damage resistance value
+    ADT = armor damage threshold value
+    X = ammo dividend
+    Y = ammo divisor
+    RM = ammo resistance modifier (only value allowed to be negative or positive in the equation)
+    CD = combat difficulty multiplier (Easy=75, Normal=100, Hard=125)
+
+    ND = ( ((RD+RB)*(X*CM)/Y/2 * CD/100) - ADT) * ((100-(ADR+RM))/100 )
+  */
+  //nd := ( ((rd + rb) * (x * cm) / y / 2.0 * (cd / 100.0) ) - adt) * ( (100.0 - (adr + rm)) / 100.0 ); // original
+  //nd := ( ((rd + rb) * (1.0*x/y) * (cm/2.0) * (cd/100.0) ) - adt) * ( (100.0 - (adr + rm)) / 100.0 ); // original, ease of reading
+
+  //ammo_mult := 1.0 * x / y;
+  ammo_mult := (100 + rm) / 100.0;
+  //ammo_mult := (1.0 * x / y) * (100 + rm) / 100.0;
+
+  difficulty_mult := cd / 100.0;
+  critical_mult := damage_multiplier / 2.0;
+
+//  final_dr := target_dr + rm;
+  final_dr := 1.0 * target_dr * (100.0 - rm) / 100.0;
+  if final_dr < 0 then final_dr := 0;
+  if final_dr > 90 then final_dr := 90.0;
+  dr_mult := (100.0 - final_dr) / 100.0;
+
+  final_dt := 1.0 * target_dt * (100.0 - rm) / 100.0;
+  if final_dt < 0 then final_dt := 0;
+
+/*
+  if bullets_number == 1 or new_burst == 0 then begin //old burst behaviour
+    i := 0;
+    for (i := 1; i <= bullets_number; i++) begin
+      variable bullet_dmg;
+      //rd - random damage within weapon limit
+      rd := random(dmg_min, dmg_max);
+  //    bullet_dmg := (rd + rb - adt) * (1.0*x/y) * (cm/2.0) * (cd/100.0) * ( (100.0 - (adr + rm)) / 100.0 );
+      bullet_dmg := bullet_damage(rd, rb, adt, ammo_mult, critical_mult, difficulty_mult, dr_mult);
+  //    bullet_dmg := 1.0 * (rd + rb - adt) * ammo_mult * critical_mult * difficulty_mult * dr_mult; //make sure it's calculated as float
+      if bullet_dmg < 0 then bullet_dmg := 0;
+      nd += bullet_dmg;
+    end
+  end
+*/
+
+  nd := get_total_damage(dmg_min, dmg_max, rb, final_dt, ammo_mult, critical_mult,
+    difficulty_mult, dr_mult, bullets_number, new_burst, random_bodyparts, is_aimed(bodypart));
+
+  ndebug("rd " + rd + ", rb " +  rb + ", x " +  x + ", cm " +  cm + ", y " +  y + ", cd " +  cd
+      + ", adt " +  adt + ", adr " +  adr + ", rm " +  rm + ", final dr " + final_dr + ", final dt " + final_dt
+      + ", ammo_mult " + ammo_mult);
+
+  old_total += target_damage;
+  new_total += nd;
+  //ndebug("");
+  ndebug("attacker " + obj_name(attacker) + ", target " + obj_name(target) + ", old damage " + target_damage +
+        ", new damage " + nd + ", old total " + old_total + ", new total " + new_total);
+
+  set_sfall_return(nd);
+  set_sfall_arg(2, nd);
+/*
+  set_sfall_return(attacker_damage);
+  set_sfall_arg(1, attacker_damage);
+  set_sfall_return(target_flags);
+  set_sfall_arg(2, target_flags);
+  set_sfall_return(attacker_flags);
+  set_sfall_arg(3, attacker_flags);
+  set_sfall_return(knockback_distance);
+  set_sfall_arg(4, knockback_distance);
+*/
+end
+
+/*
+procedure tohit_handler begin
+  variable tohit;
+  variable attacker;
+  variable target;
+  variable pid;
+  variable subtract_ac;
+  variable armor, armor_ac, ammo_pid;
+
+  tohit := get_sfall_arg;
+  attacker := get_sfall_arg;
+  target := get_sfall_arg;
+
+  ammo_pid := get_active_ammo_pid(attacker);
+  if ammo_pid == -1 then begin
+    ndebug("weapon has no ammo, not changing to hit chance");
+    return;
+  end
+
+  armor := critter_inven_obj(target, INVEN_TYPE_WORN);
+  if armor and obj_item_subtype(armor) == item_type_armor then begin
+    variable rm := get_proto_data(ammo_pid, PROTO_AM_DR_MOD);
+    armor_ac := get_proto_data(obj_pid(armor), PROTO_AR_AC);
+    tohit := tohit + armor_ac;
+    ndebug("chance to hit increased by " + armor_ac);
+  end else begin
+    ndebug("no armor, not changing to hit chance");
+    return;
+  end
+
+  //cap chance
+  if (tohit > 95) then begin
+    tohit := 95;
+  end
+
+  set_sfall_return(tohit);
+  set_sfall_arg(0, tohit);
+
+end
+*/
