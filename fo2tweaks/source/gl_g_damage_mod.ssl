@@ -57,13 +57,34 @@ procedure start begin
   end
 end
 
+// 1.2 damage has 20% chance to be rounded up to 2
+procedure round_chance(variable dmg) begin
+  variable base_dmg := floor2(dmg);
+  variable chance := (dmg - base_dmg)*100;
+  variable rnd := random(1, 100);
+  variable final_dmg;
+  ndebug("dmg is " + dmg + ", chance to round up is " + chance + "%, rnd is " + rnd);
+  if chance > rnd then begin
+    final_dmg := base_dmg + 1;
+  end else begin
+    final_dmg := base_dmg;
+  end
+  ndebug("rounded dmg is " + final_dmg);
+  return final_dmg;
+end
+
+procedure get_critical_chance(variable who) begin
+
+end
+
 procedure get_bullet_damage(variable dmg_min, variable dmg_max, variable rb, variable target_dt,
   variable ammo_mult, variable critical_mult, variable difficulty_mult, variable dr_mult,
   variable random_bodyparts, variable is_aimed)
 begin
   variable rd := random(dmg_min, dmg_max);
   /* new formula: dt is subtracted first, then the rest is multiplied by corresponding miltipliers */
-  variable dmg := round(1.0 * (rd + rb - target_dt) * ammo_mult * critical_mult * difficulty_mult * dr_mult);
+  //variable dmg := round(1.0 * (rd + rb - target_dt) * ammo_mult * critical_mult * difficulty_mult * dr_mult);
+  variable dmg := round_chance(1.0 * (rd + rb - target_dt) * ammo_mult * critical_mult * difficulty_mult * dr_mult);
   ndebug("rd " + rd + " rb " + rb + " target_dt " + target_dt + " ammo_mult " + ammo_mult
         + " critical_mult " + critical_mult + " difficulty_mult " + difficulty_mult + " dr_mult " + dr_mult);
   if dmg < 0 then dmg := 0;
@@ -277,11 +298,11 @@ procedure damage_handler begin
   ndebug("ammo dr mod is " + rm);
 
   //adt, adr - armor damage threshold, damage resistance
-  if weapon then begin
-    damage_type := weapon_dmg_type(weapon);
-  end else begin
-    damage_type := DMG_normal_dam; // todo: check critter natural damage
-  end
+  //if weapon then begin
+  damage_type := weapon_dmg_type(weapon);
+  //end else begin
+  //  damage_type := DMG_normal_dam; // todo: check critter natural damage
+//  end
   ndebug("damage type is " + damage_type);
   armor := critter_inven_obj2(target, INVEN_TYPE_WORN);
   if armor then begin
@@ -370,12 +391,14 @@ procedure damage_handler begin
   critical_mult := damage_multiplier / 2.0;
 
 //  final_dr := target_dr + rm;
-  final_dr := 1.0 * target_dr * (100.0 - rm) / 100.0;
+  ndebug("target dr is " + target_dr + ", rm is " + rm);
+  final_dr := 1.0 * target_dr * (100.0 + rm) / 100.0;
+  ndebug("final dr is " + final_dr);
   if final_dr < 0 then final_dr := 0;
   if final_dr > 90 then final_dr := 90.0;
   dr_mult := (100.0 - final_dr) / 100.0;
 
-  final_dt := 1.0 * target_dt * (100.0 - rm) / 100.0;
+  final_dt := 1.0 * target_dt * (100.0 + rm) / 100.0;
   if final_dt < 0 then final_dt := 0;
 
 /*
