@@ -16,7 +16,6 @@
 #define set_worldmap_key "worldmap_key"
 #define set_molotov_fire "molotov_fire"
 #define set_no_knockback "no_knockback"
-#define set_burst_control "burst_control"
 #define set_trunk_space "trunk_space"
 #define set_autodoors "autodoors"
 #define set_ammobox "ammobox"
@@ -26,7 +25,6 @@
 #define set_no_scope_penalty "no_scope_penalty"
 #define set_hp_over_head "hp_over_head"
 #define set_party_skill_items "party_skill_items"
-#define set_angela_jet "angela_jet"
 #define set_damage_mod "damage_mod"
 
 #define sec_damage_mod "damage_mod"
@@ -64,13 +62,6 @@
 #define set_grenades_weapons "weapons"
 #define set_grenades_ammo "ammo"
 
-#define sec_burst_control "burst_control"
-#define set_burst_float_on "float_on"
-#define set_burst_float_off "float_off"
-#define set_burst_display_on "display_on"
-#define set_burst_display_off "display_off"
-#define set_burst_key "burst_key"
-
 #define sec_molotov_fire "molotov_fire"
 #define set_molotov_flameboy "flameboy"
 
@@ -84,7 +75,7 @@
 #define is_weapon(x) (obj_item_subtype(x) == item_type_weapon)
 #define is_critter(obj)   (obj_type(obj) == OBJ_TYPE_CRITTER)
 #define in_combat (get_game_mode bwand COMBAT)
-
+#define is_dead(critter_obj) (critter_state(critter_obj) == CRITTER_IS_DEAD)
 
 procedure max(variable x, variable y) begin
   if x > y then return x;
@@ -153,13 +144,20 @@ procedure get_dude_inactive_ammo_pid begin
 end
 
 procedure load_comsep_ini_setting(variable file, variable section, variable setting) begin
-  variable str, ar;
+  variable str, ar, ar2;
   str := get_ini_string(file + "|" + section + "|" + setting);
   ar := string_split_ints(str, ",");
-  return ar;
+  ar2 := create_array(len_array(ar), 0);
+  ar2 := ar;
+  return ar2;
 end
 
 procedure fo2tweaks_comsep_setting(variable section, variable setting) begin
   variable ar := load_comsep_ini_setting(fo2tweaks_ini, section, setting);
   return ar;
+end
+
+procedure in_party(variable obj) begin
+  if is_in_array(obj, party_member_list_critters) then return true;
+  else return false;
 end
