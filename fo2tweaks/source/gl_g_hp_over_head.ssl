@@ -10,43 +10,44 @@
 
 variable clear_float;
 variable enabled;
+variable was_in_combat := 0;
 
 procedure update_hp begin
-  variable who, cur_hp, max_hp;
-  if combat_is_initialized then begin
-    foreach who in party_member_list_critters begin
-      cur_hp := get_critter_stat(who, STAT_current_hp);
-      //max_hp := get_critter_stat(who, STAT_max_hp);
-      if clear_float == 0 then begin
-        float_msg(who, sprintf("%d", cur_hp), FLOAT_COLOR_NORMAL);
-        //float_msg(who, cur_hp + "/" + max_hp, FLOAT_COLOR_NORMAL);
-      end else begin
-        float_msg(who, "", FLOAT_COLOR_NORMAL);
+  variable who, cur_hp, max_hp, color;
+  ndebug("update_hp ping");
+
+  if combat_is_initialized then set_global_script_repeat(6);
+  else set_global_script_repeat(0);
+
+    foreach who in list_as_array(LIST_CRITTERS) begin
+      if not is_dead(who) then begin
+        color := FLOAT_MSG_RED;
+        if in_party(who) then color := FLOAT_MSG_GREEN;
+        if combat_is_initialized then begin
+          // and elevation(who) == elevation(dude_obj) then begin //elevation check too slow
+          cur_hp := get_critter_stat(who, STAT_current_hp);
+          if cur_hp > 0 then float_msg(who, sprintf("%d", cur_hp), color);
+        end else begin
+          float_msg(who, "", color);
+        end
       end
     end
-    set_global_script_repeat(6);
-  end
 end
 
 procedure start begin
   if game_loaded then begin
-    variable enabled := fo2tweaks_setting(sec_main, set_hp_over_head);
+    enabled := fo2tweaks_setting(sec_main, set_hp_over_head);
     if enabled == 1 then begin
       ndebug("initialized");
       register_hook_proc(HOOK_COMBATTURN, update_hp);
       register_hook_proc(HOOK_COMBATDAMAGE, update_hp);
-//      register_hook_proc(HOOK_MOUSECLICK, update_hp);
+      register_hook_proc(HOOK_USEOBJ, update_hp);
+      register_hook_proc(HOOK_USEOBJON, update_hp);
+      register_hook_proc(HOOK_GAMEMODECHANGE, update_hp);
     end
   end else begin
     if enabled == 1 then begin
-      if combat_is_initialized then begin
-        call update_hp;
-        clear_float := 0;
-      end else begin
-        clear_float := 1;
-        call update_hp;
-        set_global_script_repeat(600);
-      end
+      call update_hp;
     end
   end
 end
