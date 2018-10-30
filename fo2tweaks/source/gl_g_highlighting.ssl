@@ -93,11 +93,6 @@ procedure is_door(variable scenery_obj) begin
   return false;
 end
 
-procedure is_empty(variable container_obj) begin
-  if inven_ptr(container_obj, 0) then return false;
-  return true;
-end
-
 procedure get_color(variable obj) begin
   if obj_type(obj) == OBJ_TYPE_CRITTER then begin
     if is_dead(obj) then return color_corpses;
@@ -305,32 +300,31 @@ procedure KeyPressHandler begin
         scan_code := get_sfall_arg,
         scanner, charges;
 
-  if scan_code == highlight_key and not in_loot_mode then begin
-    if pressed then begin
-      isHighlight := true;
+  if scan_code == highlight_key then begin
+    if pressed and not in_loot_mode then begin
+//      isHighlight := true;
       if motion_scanner then begin
+
         scanner := obj_carrying_pid_obj(dude_obj, PID_MOTION_SENSOR);
-        if scanner then begin
-          if motion_scanner >= 2 then begin
-            charges := get_weapon_ammo_count(scanner);
-            if charges > 0 then begin
-              set_weapon_ammo_count(scanner, charges - 1);
-              intface_redraw;
-              call ToggleHighlight(true);
-            end else begin
-              display_msg(highlightFailMsg2);
-            end
-          end else begin
-            call ToggleHighlight(true);
-          end
-        end else begin
-          display_msg(highlightFailMsg1);
+        if not scanner then begin
+          display_msg(mstr_misc(17));
+          return;
         end
-      end else begin
-        call ToggleHighlight(true);
+
+        if motion_scanner >= 2 then begin
+          charges := get_weapon_ammo_count(scanner);
+          if not charges > 0 then begin
+            display_msg(mstr_misc(18));
+            return;
+          end
+          set_weapon_ammo_count(scanner, charges - 1);
+          intface_redraw;
+        end
+
       end
+      call ToggleHighlight(true);
     end else begin
-      isHighlight := false;
+      //isHighlight := false;
       call reset_highlight;
     end
   end
@@ -369,11 +363,11 @@ procedure start begin
       exclude_items := fo2tweaks_comsep_setting(sec_highlight, set_highlight_exclude_items);
       fix_array(exclude_items);
 
-      highlightFailMsg1 := Translate("HighlightFail1", "You aren't carrying a motion sensor.");
-      highlightFailMsg2 := Translate("HighlightFail2", "Your motion sensor is out of charges.");
+//      highlightFailMsg1 := Translate("HighlightFail1", "You aren't carrying a motion sensor.");
+//      highlightFailMsg2 := Translate("HighlightFail2", "Your motion sensor is out of charges.");
 
       register_hook_proc(HOOK_KEYPRESS, KeyPressHandler);
-      register_hook_proc(HOOK_COMBATTURN, CombatTurnHandler);
+//      register_hook_proc(HOOK_COMBATTURN, CombatTurnHandler);
     end
   end
 end
