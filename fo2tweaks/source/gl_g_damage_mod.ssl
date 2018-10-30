@@ -400,6 +400,7 @@ procedure damage_handler begin
 
   final_dt := 1.0 * target_dt * (100.0 + rm) / 100.0;
   if final_dt < 0 then final_dt := 0;
+  ndebug("final dt is " + final_dt);
 
 /*
   if bullets_number == 1 or new_burst == 0 then begin //old burst behaviour
@@ -424,11 +425,26 @@ procedure damage_handler begin
       + ", adt " +  adt + ", adr " +  adr + ", rm " +  rm + ", final dr " + final_dr + ", final dt " + final_dt
       + ", ammo_mult " + ammo_mult);
 
+  //logging for comparison
   old_total += target_damage;
   new_total += nd;
-  //ndebug("");
+
+  //pyromaniac
+  if has_trait(TRAIT_PERK, attacker, PERK_pyromaniac_perk) and damage_type == DMG_fire then begin
+    ndebug("pyromaniac: +5 dmg");
+    nd := nd + 5;
+  end
+  //living anatomy
+  if has_trait(TRAIT_PERK, attacker, PERK_living_anatomy_perk)
+    and critter_kill_type(target) != KILL_TYPE_robot_kills
+  then begin
+    ndebug("living anatomy: +5 dmg");
+    nd := nd + 5;
+  end
+
   ndebug("attacker " + obj_name(attacker) + ", target " + obj_name(target) + ", old damage " + target_damage +
         ", new damage " + nd + ", old total " + old_total + ", new total " + new_total);
+
 
   set_sfall_return(nd);
   set_sfall_arg(2, nd);
