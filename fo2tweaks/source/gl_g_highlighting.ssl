@@ -25,8 +25,11 @@
 #define set_highlight_color_party "color_party"
 #define set_highlight_color_dude "color_dude"
 #define set_highlight_color_items "color_items"
+#define set_highlight_color_transitions "color_transitions"
 #define set_highlight_only_non_empty "only_non_empty"
 #define set_highlight_exclude_items "exclude_items"
+#define set_highlight_pits "pits"
+#define set_highlight_transitions "transitions"
 
 #define CRITTER_IS_DEAD   (1)
 #define PID_MOTION_SENSOR  (59)
@@ -73,7 +76,10 @@ variable begin
   color_dude;
   color_doors_locked;
   color_items;
+  color_transitions;
   only_non_empty;
+  pits;
+  transitions;
   alsoDoor;
 end
 
@@ -115,12 +121,13 @@ procedure get_color(variable obj) begin
     if is_empty(obj) then return OUTLINE_NONE;
     return color_containers;
   end
-  if obj_type(obj) == OBJ_TYPE_SCENERY then begin
-    if is_trap(obj) then return color_traps;
 
-    if obj_type(obj) == OBJ_TYPE_SCENERY
-      and obj_is_locked(obj)
-      and obj_item_subtype(obj) != item_type_container
+  if obj_type(obj) == OBJ_TYPE_SCENERY then begin
+    if is_trap(obj) or is_in_array(obj_pid(obj), pits) then return color_traps;
+
+    if is_in_array(obj_pid(obj), transitions) then return color_transitions;
+
+    if obj_is_locked(obj) and obj_item_subtype(obj) != item_type_container
     then return color_doors_locked;
   end
   return color_items; //ground items
@@ -176,15 +183,18 @@ procedure ToggleHighlightObject(variable obj, variable enable) begin
 end
 
 procedure ToggleHighlight(variable enable) begin
-  variable obj;
+  variable obj, t;
 
   foreach obj in list_as_array(LIST_GROUNDITEMS) begin
     variable test, i;
+    if elevation(obj) != elevation(dude_obj) then continue;
 //    if scan_array(exclude_items, obj_pid(obj)) != -1 then begin
 //    if is_in_array(obj_pid(obj), exclude_items) then begin
 //      ndebug("excluded obj_pid " + obj_pid(obj));
 //    end
-    if obj != outlined_object and not is_in_array(obj_pid(obj), exclude_items) then begin
+    if obj != outlined_object
+      and not is_in_array(obj_pid(obj), exclude_items)
+    then begin
       call ToggleHighlightObject(obj, enable);
       continue;
     end
@@ -192,26 +202,42 @@ procedure ToggleHighlight(variable enable) begin
 
   if color_corpses or color_critters then begin
     foreach obj in list_as_array(LIST_CRITTERS) begin
-      if color_corpses and critter_state(obj) == CRITTER_IS_DEAD and not NO_STEAL(obj) then begin
+      if elevation(obj) != elevation(dude_obj) then continue;
+
+      if color_corpses and critter_state(obj) == CRITTER_IS_DEAD
+        and not NO_STEAL(obj) and elevation(obj) == elevation(dude_obj)
+      then begin
         call ToggleHighlightObject(obj, enable);
         continue;
       end
-      if color_critters and critter_state(obj) != CRITTER_IS_DEAD then begin
+
+      if color_critters and critter_state(obj) != CRITTER_IS_DEAD
+        and elevation(obj) == elevation(dude_obj)
+      then begin
         call ToggleHighlightObject(obj, enable);
         continue;
       end
     end
   end
 
-  if color_traps or color_doors_locked then begin
+  if color_traps or color_doors_locked or color_transitions then begin
     foreach obj in list_as_array(LIST_SCENERY) begin
-      if color_traps and TRAP_CAVE_ARMED(obj) or TRAP_METAL_ARMED(obj) then begin
+      if elevation(obj) != elevation(dude_obj) then continue;
+
+      if color_traps
+        and ( TRAP_CAVE_ARMED(obj) or TRAP_METAL_ARMED(obj)
+            or is_in_array(obj_pid(obj), pits) )
+      then begin
+        call ToggleHighlightObject(obj, enable);
+        continue;
+      end
+
+      if color_transitions and is_in_array(obj_pid(obj), transitions) then begin
         call ToggleHighlightObject(obj, enable);
         continue;
       end
 
       if color_doors_locked
-        and obj_type(obj) == OBJ_TYPE_SCENERY
         and obj_is_locked(obj)
         and obj_item_subtype(obj) != item_type_container
         and not obj_is_open(obj)
@@ -244,7 +270,7 @@ procedure disable_highlight begin
       set_outline(obj, OUTLINE_NONE);
     end
   end
-  if color_traps or color_doors_locked then begin
+  if color_traps or color_doors_locked or color_transitions then begin
     foreach obj in list_as_array(LIST_SCENERY) begin
       set_outline(obj, OUTLINE_NONE);
     end
@@ -358,10 +384,15 @@ procedure start begin
       color_dude := fo2tweaks_setting(sec_highlight, set_highlight_color_dude);
       color_doors_locked := fo2tweaks_setting(sec_highlight, set_highlight_color_doors_locked);
       color_items := fo2tweaks_setting(sec_highlight, set_highlight_color_items);
+      color_transitions := fo2tweaks_setting(sec_highlight, set_highlight_color_transitions);
       only_non_empty := fo2tweaks_setting(sec_highlight, set_highlight_only_non_empty);
 
       exclude_items := fo2tweaks_comsep_setting(sec_highlight, set_highlight_exclude_items);
       fix_array(exclude_items);
+      pits := fo2tweaks_comsep_setting(sec_highlight, set_highlight_pits);
+      fix_array(pits);
+      transitions := fo2tweaks_comsep_setting(sec_highlight, set_highlight_transitions);
+      fix_array(transitions);
 
 //      highlightFailMsg1 := Translate("HighlightFail1", "You aren't carrying a motion sensor.");
 //      highlightFailMsg2 := Translate("HighlightFail2", "Your motion sensor is out of charges.");
