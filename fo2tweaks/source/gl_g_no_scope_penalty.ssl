@@ -3,6 +3,11 @@
 #include "..\headers\fo2tweaks\fo2tweaks.h"
 
 #define NAME "gl_g_no_scope_penalty"
+#define set_no_scope_penalty "no_scope_penalty"
+#define sec_no_scope_penalty "no_scope_penalty"
+#define set_scope_remove "remove"
+#define set_scope_to_long "to_long"
+
 
 variable enabled;
 
@@ -26,15 +31,10 @@ procedure remove_scope begin
   //vanilla scoped rifle
   pids := fo2tweaks_comsep_setting(sec_no_scope_penalty, set_scope_remove);
   foreach pid in pids begin
-//      set_proto_data(pid, PROTO_WP_RANGE_1, 2);
-//      set_proto_data(pid, PROTO_WP_RANGE_2, 5);
     set_proto_data(pid, PROTO_WP_PERK, -1); //remove scope range
-//      set_proto_data(pid, PROTO_WP_APCOST_1, 2);
-//      set_proto_data(pid, PROTO_WP_APCOST_2, 2);
     old_range := get_proto_data(pid, PROTO_WP_RANGE_1);
     new_range := floor2(old_range * 1.2);
     set_proto_data(pid, PROTO_WP_RANGE_1, new_range);
-//      ap := get_proto_data(pid, PROTO_WP_APCOST_1);
     ndebug("removed scope range from pid " + pid + " " + typeof(pid) + ", old range " + old_range + " new range " + new_range);
   end
 

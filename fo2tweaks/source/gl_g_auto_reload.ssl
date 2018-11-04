@@ -1,0 +1,28 @@
+#include "..\headers\define.h"
+#include "..\headers\command.h"
+#include "..\headers\sfall\define_extra.h"
+#include "..\headers\sfall\sfall.h"
+#include "..\headers\sfall\dik.h"
+#include "..\headers\sfall\lib.misc.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
+
+#define NAME "gl_g_auto_reload"
+#define set_auto_reload "auto_reload"
+variable old_game_mode, new_game_mode, key;
+variable enabled;
+
+procedure auto_reload begin
+  ndebug("tapping " + key);
+  tap_key(key);
+end
+
+procedure start begin
+  if game_loaded then begin
+    enabled := fo2tweaks_setting(sec_main, set_auto_reload);
+    if enabled == 1 then begin
+      key := parse_hotkey(get_ini_string("ddraw.ini|Input|ReloadWeaponKey"));
+      ndebug("initialized, reload key is " + key);
+      register_hook_proc(HOOK_GAMEMODECHANGE, auto_reload);
+    end
+  end
+end

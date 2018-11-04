@@ -38,12 +38,22 @@ procedure tile_has_critters(variable tile) begin
 end
 
 procedure update_cursor begin
-  variable current_tile := tile_under_cursor;
-  variable tile_south := get_south_tile(current_tile);
-  variable tile_south2 := get_south_tile(tile_south);
+//  variable current_tile := tile_under_cursor;
+//  variable tile_south := get_south_tile(current_tile);
+  //variable tile_south2 := get_south_tile(tile_south);
 
 
   if in_combat then begin
+    variable obj := call_offset_r3(0x44CEC4, 1, 1, elevation(dude_obj));
+
+    if obj and is_critter(obj) and not is_dead(obj) then begin
+      ndebug("obj is " + obj_name(obj));
+      set_cursor_mode(2);
+    end else begin
+      ndebug("no critter under cursor");
+      set_cursor_mode(0);
+    end
+/*
     if get_cursor_mode == 0
     and (tile_has_critters(current_tile)
         or tile_has_critters(tile_south)
@@ -53,6 +63,7 @@ procedure update_cursor begin
     end else begin
       set_cursor_mode(0);
     end
+*/
   end
 
 end
@@ -63,7 +74,7 @@ end
 
 procedure start begin
   if game_loaded then begin
-    set_global_script_repeat(60);
+    set_global_script_repeat(10);
     register_hook_proc(34, desc_handler);
   end else begin
     variable new_tile := tile_under_cursor;

@@ -1,15 +1,18 @@
 #include "..\headers\sfall\sfall.h"
 #include "..\headers\fo2tweaks\fo2tweaks.h"
 
+#define set_no_knockback "no_knockback"
+#define NAME "gl_g_no_knockback"
+
 procedure start;
 procedure combat_damage_hook;
 
 procedure start begin
   if game_loaded then begin
-    variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_no_knockback);
+    variable enabled := fo2tweaks_setting(sec_main, set_no_knockback);
     if enabled == 1 then begin
       register_hook_proc(HOOK_COMBATDAMAGE, combat_damage_hook);
-      debug_msg("gl_g_no_knockback: initialized");
+      ndebug("initialized");
     end
   end
 end
@@ -67,5 +70,5 @@ procedure combat_damage_hook begin
   set_sfall_return(0);
   set_sfall_arg(10, 0);
 
-  debug_msg("gl_g_no_knockback: knockback distance set to 0");
+  ndebug("knockback distance set to 0");
 end

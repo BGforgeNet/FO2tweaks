@@ -7,6 +7,7 @@
 #include "..\headers\fo2tweaks\fo2tweaks.h"
 
 #define NAME "gl_g_hp_over_head"
+#define set_hp_over_head "hp_over_head"
 
 variable clear_float;
 variable enabled;
@@ -17,7 +18,10 @@ procedure update_hp begin
   ndebug("update_hp ping");
 
   if combat_is_initialized then set_global_script_repeat(6);
-  else set_global_script_repeat(0);
+  else begin
+    set_global_script_repeat(0);
+    return;
+  end
 
     foreach who in list_as_array(LIST_CRITTERS) begin
       if not is_dead(who) then begin

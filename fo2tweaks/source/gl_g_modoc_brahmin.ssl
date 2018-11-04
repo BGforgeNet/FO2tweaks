@@ -2,6 +2,8 @@
 #include "..\headers\command.h"
 #include "..\headers\fo2tweaks\fo2tweaks.h"
 
+#define set_modoc_brahmin "modoc_brahmin"
+
 variable changed := 0;
 
 procedure brahmin_allegiance begin
@@ -13,13 +15,13 @@ procedure brahmin_allegiance begin
       end
     end
     changed := 1;
-    debug_msg("gl_g_modoc_brahmin: changed allegiance to player");
+    ndebug("changed allegiance to player");
   end
 end
 
 procedure map_enter_p_proc begin
   if cur_map_index == MAP_MODOC_BRAHMINPASTURES and map_first_run then begin
-    variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_modoc_brahmin);
+    variable enabled := fo2tweaks_setting(sec_main, set_modoc_brahmin);
     if enabled == 1 then begin
       register_hook_proc(HOOK_COMBATTURN, brahmin_allegiance);
     end

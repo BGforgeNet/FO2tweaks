@@ -3,6 +3,9 @@
 #include "..\headers\command.h"
 #include "..\headers\sfall\define_extra.h"
 #include "..\headers\sfall\sfall.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
+
+#define NAME "gl_g_unlimited_party"
 
 #define in_dlg (get_game_mode bwor DIALOG)
 
@@ -19,15 +22,15 @@ procedure start begin
     register_hook_proc(HOOK_USEOBJON, allow_party);
     set_global_script_type(1);
     foreach mt in sfall_func0("get_metarule_table") begin
-      debug_msg("gl_g_unlimited_party: test3" + mt);
+      ndebug("test3" + mt);
     end
   end
 end
 
 procedure talk_p_proc begin
-  debug_msg("gl_g_unlimited_party: test1");
+  ndebug("test1");
   call allow_party;
-  debug_msg("gl_g_unlimited_party: test2");
+  ndebug("test2");
 end
 
 
@@ -45,17 +48,17 @@ int     arg1 - event type: 1 - when the player exits the game, 0 - otherwise
     PID_VIC,
     PID_MARCUS
   ];
-  debug_msg("gl_g_unlimited_party: test");
+  ndebug("test");
   //if in_dlg and not exiting then begin
-    debug_msg("gl_g_unlimited_party: pass");
-    debug_msg("gl_g_unlimited_party: source_obj is " + obj_pid(source_obj));
-    debug_msg("gl_g_unlimited_party: target_obj is " + obj_pid(target_obj));
+    ndebug("pass");
+    ndebug("source_obj is " + obj_pid(source_obj));
+    ndebug("target_obj is " + obj_pid(target_obj));
 /*
     if (true_party_size > 0) then begin
       variable who;
       foreach who in party_pids begin
         if (who == obj_pid(target_obj)) then begin
-          debug_msg("gl_g_unlimited_party: I am talking to " + who);
+          ndebug("I am talking to " + who);
         end
       end
     end

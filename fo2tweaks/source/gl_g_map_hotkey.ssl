@@ -8,6 +8,10 @@
 
 #define NAME "gl_g_map_hotkey"
 
+#define sec_worldmap "worldmap"
+#define set_worldmap_hotkey "hotkey"
+#define set_worldmap_key "worldmap_key"
+
 /*
 #define invalid_map_modes \
   WORLDMAP bwor \

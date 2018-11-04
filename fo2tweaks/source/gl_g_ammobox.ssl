@@ -8,25 +8,27 @@ procedure start;
 #include "..\headers\sfall\dik.h"
 
 #define NAME "gl_g_ammobox"
+#define set_ammobox "ammobox"
+#define sec_ammobox "ammobox"
+#define set_ammobox_number "number"
+#define set_ammobox_color "color"
 
 variable box_num;
 variable box_color;
 
 procedure update_box(variable show_new);
 procedure gamemode_hook;
-//procedure invenmove_hook;
 procedure keypress_hook;
 procedure mouseclick_hook;
 
 
 procedure start begin
   if game_loaded then begin
-   variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_ammobox);
-   box_num := get_ini_setting(fo2tweaks_ini + "|" + set_ammobox + "|" + set_ammobox_number);
-   box_color := get_ini_setting(fo2tweaks_ini + "|" + set_ammobox + "|" + set_ammobox_color);
+   variable enabled := fo2tweaks_setting(sec_main, set_ammobox);
+   box_num := fo2tweaks_setting(sec_ammobox, set_ammobox_number);
+   box_color := fo2tweaks_setting(sec_ammobox, set_ammobox_color);
    if enabled == 1 then begin
     register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_hook);
-//    register_hook_proc(HOOK_INVENTORYMOVE, invenmove_hook);
     register_hook_proc(HOOK_KEYPRESS, keypress_hook);
     register_hook_proc(HOOK_MOUSECLICK, mouseclick_hook);
     ndebug("initialized");
@@ -63,22 +65,6 @@ procedure mouseclick_hook begin
     end
   end
 end
-
-/*
-// doesn't work very well and probably unnecessary
-//inventory moving
-procedure invenmove_hook begin
-  if in_combat then begin
-    //https://github.com/phobos2077/sfall/blob/master/artifacts/scripting/hookscripts.txt#L410
-    variable slots := [1, 2, 4, 6];
-    variable target_slot := get_sfall_arg;
-    if scan_array(slots, target_slot) != -1 then begin
-      call update_box(0);
-      ndebug("update box - inventory move");
-    end
-  end
-end
-*/
 
 //some hooks are run before actual change
 //show_new = 0 shows currently active ammo

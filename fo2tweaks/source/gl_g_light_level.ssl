@@ -1,0 +1,18 @@
+#include "..\headers\define.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
+
+#define NAME "gl_g_light_level"
+
+procedure map_enter_p_proc begin
+//  if map_first_run and cur_map_index == MAP_ARROYO_VILLAGE then begin
+//    variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_level5);
+//    if enabled == 1 then begin
+  variable light_level := get_light_level;
+  ndebug("old light level " + light_level);
+  if light_level != 65536 then begin
+    light_level := light_level + 20480;
+  end
+  if light_level > 65536 then light_level := 65536;
+  set_light_level(100);
+  ndebug("new light level " + light_level);
+end

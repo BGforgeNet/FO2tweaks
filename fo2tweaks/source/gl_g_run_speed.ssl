@@ -1,3 +1,6 @@
+#include "..\headers\fo2tweaks\fo2tweaks.h"
+#define NAME "gl_g_run_speed"
+
 procedure start;
 
 procedure start begin
@@ -23,7 +26,7 @@ procedure start begin
     variable file;
     variable fps_offset := 0x4;
     variable fps := 0x16;
-    debug_msg("gl_g_run_speed: initialized");
+    ndebug("initialized");
     foreach frm in frms begin
       path_ab := "art\\critters\\" + frm + "ab.frm"; //walk
       path_at := "art\\critters\\" + frm + "at.frm"; //run
@@ -33,8 +36,8 @@ procedure start begin
       fs_seek(file, fps_offset);
       fs_write_short(file, fps);
 
-      debug_msg("gl_g_run_speed: frm=" + frm + ", path_ab=" + path_ab + ", path_at=" + path_at);
-      debug_msg("gl_g_run_speed: set fps to " + fps + " in " + frm);
+      ndebug("frm=" + frm + ", path_ab=" + path_ab + ", path_at=" + path_at);
+      ndebug("set fps to " + fps + " in " + frm);
     end
   end
 

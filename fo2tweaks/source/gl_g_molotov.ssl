@@ -5,6 +5,9 @@
 #include "..\headers\fo2tweaks\fo2tweaks.h"
 
 #define NAME "gl_g_molotov"
+#define sec_molotov_fire "molotov_fire"
+#define set_molotov_flameboy "flameboy"
+#define set_molotov_fire "molotov_fire"
 
 procedure start;
 procedure afterhit_hook;

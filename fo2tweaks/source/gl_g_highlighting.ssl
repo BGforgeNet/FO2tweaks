@@ -51,8 +51,11 @@
 
 #define NAME "gl_g_highlighting"
 
-#define SC_TYPE_DOOR 0
 #define PRODATA_SC_TYPE 32
+#define SC_TYPE_DOOR 0
+#define SC_TYPE_STAIRS 1
+#define SC_TYPE_LADDER_TOP 3
+#define SC_TYPE_LADDER_BOTTOM 4
 
 #define in_loot_mode (get_game_mode BWAND INTFACELOOT)
 #define obj_can_detect_obj(source, target) (obj_can_see_obj(source, target) or obj_can_hear_obj(source, target))
@@ -62,6 +65,10 @@ variable begin
   check_los;
   motion_scanner;
   ignore_nohighlight;
+  only_non_empty;
+  pits;
+  transitions;
+  exclude_items;
 
   color_critters;
   color_hostile_critters;
@@ -74,16 +81,18 @@ variable begin
   color_doors_locked;
   color_items;
   color_transitions;
-
-  only_non_empty;
-  pits;
-  transitions;
-  alsoDoor;
-  exclude_items;
 end
 
 procedure is_door(variable scenery_obj) begin
   if get_proto_data(obj_pid(scenery_obj), PRODATA_SC_TYPE) == SC_TYPE_DOOR then return true;
+  return false;
+end
+procedure is_stairs(variable scenery_obj) begin
+  variable type := get_proto_data(obj_pid(scenery_obj), PRODATA_SC_TYPE);
+  if type == SC_TYPE_STAIRS
+    or type == SC_TYPE_LADDER_BOTTOM
+    or type == SC_TYPE_LADDER_TOP
+  then return true;
   return false;
 end
 
@@ -152,11 +161,15 @@ procedure get_color(variable obj) begin
 
     if is_in_array(obj_pid(obj), transitions) then return color_transitions;
 
-    if obj_is_locked(obj) and is_door(obj) then begin
+    if obj_is_locked(obj) and not obj_is_open(obj) and is_door(obj) then begin
       //ndebug("name is " + obj_name(obj) + ", sc_type is " + get_proto_data(obj_pid(obj), PRODATA_SC_TYPE));
       return color_doors_locked;
     end
 
+    if is_stairs(obj) then begin
+      //ndebug("name is " + obj_name(obj) + ", sc_type is " + get_proto_data(obj_pid(obj), PRODATA_SC_TYPE));
+      return color_transitions;
+    end
   end
 
   return OUTLINE_NONE; //fallback

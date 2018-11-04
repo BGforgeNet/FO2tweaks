@@ -7,7 +7,11 @@
 #include "..\headers\sfall\lib.arrays.h"
 #include "..\headers\fo2tweaks\fo2tweaks.h"
 
-#define NAME "gl_g_healing_revision"
+#define NAME "gl_g_skill_items"
+
+#define set_party_skill_items "party_skill_items"
+#define sec_party_skill_items "party_skill_items"
+
 
 #define all_disabilities \
   (DAM_CRIP_ARM_LEFT bwor \
@@ -24,54 +28,32 @@
 #define doctor_skill_name 107
 #define fa_skill_name 106
 
-#define set_healing_revision "healing_revision"
-#define sec_healing_revision "healing_revision"
-#define set_healing_not_in_combat_msg "not_in_combat_msg"
-#define set_healing_already_used_msg "already_used_msg"
-#define set_healing_use_items "use_items"
-#define set_healing_heal_disabilities_msg "heal_disabilites_msg"
-#define set_healing_fail_disabilities_msg "fail_disabilites_msg"
-#define set_healing_fail_msg "fail_msg"
-#define set_healing_no_chance_msg "no_chance_msg"
-#define set_healing_healthy_msg "healthy_msg"
-#define set_healing_doctor_items "doctor_items"
-#define set_healing_fa_items "first_aid_items"
-#define set_healing_living_anatomy_min_doctor "living_anatomy_min_doctor"
-#define set_healing_living_anatomy_msg "free_living_anatomy_msg"
-#define set_healing_living_anatomy_msg2 "free_living_anatomy_msg2"
-
 procedure start;
 procedure healing_handler;
 procedure missing_hp(variable who);
 procedure grant_xp(variable hp, variable skill);
-procedure get_best_helper_item(variable skill);
 
-variable begin
-  doctor_used;
-  fa_used;
-  enabled;
-  not_in_combat_msg;
-  already_used_msg;
-  no_chance_msg;
-  heal_disabilities_msg;
-  fail_disabilities_msg;
-  healthy_msg;
-  fail_msg;
-  use_items := 0;
-  doctor_min := 20;
-  doctor_mult := 10;
-  fa_mult := 5;
-  heal_max := 15;
-  cur_month;
-  last_month;
-  cur_day;
-  last_day;
-  doctor_items;
-  fa_items;
-  living_anatomy_min_doctor;
-  living_anatomy_msg;
-  living_anatomy_msg2;
-end
+variable doctor_used;
+variable fa_used;
+variable enabled;
+variable not_in_combat_msg;
+variable already_used_msg;
+variable no_chance_msg;
+variable heal_disabilities_msg;
+variable fail_disabilities_msg;
+variable healthy_msg;
+variable fail_msg;
+variable use_items := 0;
+variable doctor_min := 20;
+variable doctor_mult := 10;
+variable fa_mult := 5;
+variable heal_max := 15;
+variable cur_month;
+variable last_month;
+variable cur_day;
+variable last_day;
+variable doctor_items;
+variable fa_items;
 
 procedure heal_disabilities(variable user, variable target, variable effective_skill) begin
   variable chance := effective_skill - doctor_min; //percentage
@@ -107,7 +89,7 @@ procedure get_healed_hp(variable target, variable doctor_level, variable fa_leve
   if doctor_level > 100 then doctor_level := 100;
   if fa_level > 100 then fa_level := 100;
   //healed := (fa_level/100.0)*fa_mult + (doctor_level/100.0)*(fa_level/100.0)*(heal_max - doctor_mult);
-  healed := (doctor_level/100.0)*(fa_level/100.0)*doctor_mult + random(-1, 1);
+  healed := (doctor_level/100.0)*(fa_level/100.0)*doctor_mult  + random(-1, 1);
   if healed < 0 then healed := 0;
   healed_str := sprintf("%f", healed);
   ndebug("missing " + mhp + " doctor_level " + doctor_level + " fa_level " + fa_level + " healed " + healed_str
@@ -131,7 +113,6 @@ procedure get_fa_healed(variable target, variable fa_level) begin
   if healed > mhp then healed := mhp;
   return healed;
 end
-
 
 procedure missing_hp(variable target) begin
   variable max_hp := get_critter_stat(target, STAT_max_hp);
@@ -166,8 +147,8 @@ procedure use_doctor(variable user, variable target, variable skill_bonus, varia
   end
 
   //if dude or companion using skill not in manual mode, search for a helper item in all of party inventory
-  if use_items == 1 and skill_bonus == 0 and in_party(user) then begin
-    ndebug("todo: find best item, boost skill, spend item charges");
+  if use_items == 1 and skill_bonus == 0 and is_in_array(user, party_member_list_critters) then begin
+    ndebug("find best item, boost skill, spend item charges");
     //effective skill := skill_level + item_bonus;
   end
 
@@ -226,7 +207,7 @@ procedure use_first_aid(variable user, variable target, variable skill_bonus, va
     save_array(fa_used_array, doctor_used);
     set_sfall_global("g_heal_d", get_day);
 
-//    gfade_in(1); //fade out doesn't work?
+//    gfade_in(1);
     game_time_advance(game_ticks(1800));
     if hp < 1 then begin
       display_msg(fail_msg);
@@ -239,24 +220,23 @@ procedure use_first_aid(variable user, variable target, variable skill_bonus, va
   end
 end
 
-procedure get_item_skill_bonus(variable skill) begin
+procedure get_best_helper_item(variable skill) begin
   variable who, item, items;
   if skill == SKILL_DOCTOR then items := doctor_items;
   if skill == SKILL_FIRST_AID then items := fa_items;
   foreach item in items begin
     foreach who in party_member_list_critters begin
-      if obj_is_carrying_obj_pid(who, item) then begin
-        ndebug(obj_name(who) + " is carrying " + obj_name(item) + ", using it for " + mstr_skill(skill));
-        return item;
-      end
+      if obj_is_carrying_obj_pid(who, item) then return([who, item]);
     end
   end
 end
 
 procedure reset_heal_arrays begin
   ndebug("resetting heal arrays");
+//  free_array(fa_used);
   fa_used := create_array(0,0);
   save_array(fa_used_array, fa_used);
+//  free_array(doctor_used);
   doctor_used := create_array(0, 0);
   save_array(doctor_used_array, doctor_used);
 end
@@ -281,85 +261,44 @@ procedure grant_xp(variable hp, variable skill) begin
 end
 
 procedure use_skill(variable user, variable target, variable skill, variable skill_bonus) begin
-  call update_heal_arrays;
+  if enabled == 1 then begin
+      call update_heal_arrays;
+  end
   ndebug("user1 " + user + " target " + target);
   if skill == SKILL_DOCTOR then begin
     call use_doctor(user, target, skill_bonus);
   end
+  ndebug("user2 " + user + " target " + target);
   if skill == SKILL_FIRST_AID then begin
     call use_first_aid(user, target, skill_bonus);
   end
+  ndebug("user3 " + user + " target " + target);
+//  if skill != SKILL_DOCTOR and skill != SKILL_FIRST_AID then set_sfall_return(-1); //failsafe
 end
 
-procedure healing_handler begin
+procedure skill_handler begin
   variable user := get_sfall_arg;
   variable target := get_sfall_arg;
   variable skill := get_sfall_arg;
   variable skill_bonus := get_sfall_arg;
-  ndebug("user " + user + " target " + target);
-  if enabled == 1 and (skill == SKILL_FIRST_AID or skill == SKILL_DOCTOR) then begin
+  ndebug("skill " + skill + "user " + user + " target " + target);
+  if skill == SKILL_FIRST_AID or skill == SKILL_DOCTOR then begin
     set_sfall_return(0); //override
     if combat_is_initialized then begin
       display_msg(not_in_combat_msg);
     end else begin
       call use_skill(user, target, skill, skill_bonus);
     end
-    set_sfall_return(0); //override again?
+    set_sfall_return(0); //override
   end else begin
     set_sfall_return(-1); //default engine handler
   end
 end
 
-procedure rest_handler begin
-  variable who;
-  ndebug("rest ping");
-  call update_heal_arrays;
-  foreach who in party_member_list_critters begin
-    if not is_healthy(who) and is_in_array(obj_pid(who), doctor_used) then begin
-      call use_doctor(dude_obj, who, 0, false); // best item will be found automatically
-    end
-    if not is_healthy(who) and is_in_array(obj_pid(who), fa_used) then begin
-      call use_first_aid(dude_obj, who, 0, false);
-    end
-  end
-  intface_redraw;
-end
-
-procedure travel_handler begin
-  variable who;
-  ndebug("travel ping");
-  foreach who in party_member_list_critters begin
-    if not is_healthy(who) and is_in_array(obj_pid(who), doctor_used) then begin
-      call use_doctor(dude_obj, who, 0, false); // best item will be found automatically
-    end
-    if not is_healthy(who) and is_in_array(obj_pid(who), fa_used) then begin
-      call use_first_aid(dude_obj, who, 0, false);
-    end
-  end
-end
-
-procedure map_enter_p_proc begin
-  variable who;
-  if living_anatomy_min_doctor < 300 then begin
-    foreach who in list_as_array(LIST_CRITTERS) begin
-      ndebug(obj_name(who) + " has Doctor of " + critter_skill_level(who, SKILL_DOCTOR));
-      if critter_skill_level(who, SKILL_DOCTOR) >= living_anatomy_min_doctor
-        and not has_trait(TRAIT_PERK, who, PERK_living_anatomy_perk)
-      then begin
-        ndebug(obj_name(who) + " gets living anatomy!");
-        critter_add_trait(who, TRAIT_PERK, PERK_living_anatomy_perk, 1);
-        if in_party(who) then begin
-          display_msg(obj_name(who) + " " + living_anatomy_msg2);
-          float_msg(who, living_anatomy_msg, FLOAT_MSG_WHITE);
-        end
-      end
-    end
-  end
-end
 
 procedure start begin
   if game_loaded then begin
-    enabled := fo2tweaks_setting(sec_main, set_healing_revision);
+    enabled := fo2tweaks_setting(sec_main, set_party_skill_items);
     if enabled == 1 then begin
       use_items := fo2tweaks_setting(sec_healing_revision, set_healing_use_items);
 
@@ -371,10 +310,6 @@ procedure start begin
       heal_disabilities_msg := fo2tweaks_string(sec_healing_revision, set_healing_heal_disabilities_msg);
       fail_disabilities_msg := fo2tweaks_string(sec_healing_revision, set_healing_fail_disabilities_msg);
 
-      living_anatomy_min_doctor := fo2tweaks_setting(sec_healing_revision, set_healing_living_anatomy_min_doctor);
-      living_anatomy_msg := fo2tweaks_string(sec_healing_revision, set_healing_living_anatomy_msg);
-      living_anatomy_msg2 := fo2tweaks_string(sec_healing_revision, set_healing_living_anatomy_msg2);
-
       doctor_items := fo2tweaks_comsep_setting(sec_healing_revision, set_healing_doctor_items);
       fa_items := fo2tweaks_comsep_setting(sec_healing_revision, set_healing_fa_items);
 
@@ -383,21 +318,13 @@ procedure start begin
       fa_used := load_array(fa_used_array);
       if fa_used == 0 then fa_used := create_array(0,0);
 
-      register_hook_proc(HOOK_USESKILL, healing_handler);
-      register_hook_proc(HOOK_RESTTIMER, rest_handler);
+      register_hook_proc(HOOK_USESKILL, skill_handler);
 
-      //reset healed arrays at midnight, any screen except dialog
-      set_global_script_type(3);
-      set_global_script_repeat(1800);
+      //reset healed arrays at midnight
+      set_global_script_type(1);
+      set_global_script_repeat(600);
 
       ndebug("initialized");
-    end
-  end else begin
-    if enabled == 1 then begin
-      call update_heal_arrays;
-      if in_world_map then begin
-        call travel_handler;
-      end
     end
   end
 end

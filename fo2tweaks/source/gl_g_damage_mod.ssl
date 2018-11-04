@@ -13,6 +13,13 @@
 #define BODYPART_GROIN 7
 //#define BODYPART_TORSO_CALLED 8 ???
 
+#define set_damage_mod "damage_mod"
+
+#define sec_damage_mod "damage_mod"
+#define set_damage_mod_new_burst "new_burst"
+#define set_damage_mod_random_bodyparts "unaimed_shots_random_bodyparts"
+#define set_damage_mod_bodyparts_chance "unaimed_shots_bodyparts_chance"
+
 #define is_critical_hit(flags)  ((flags bwand DAM_CRITICAL) != 0)
 #define is_bypassing_armor(flags) ((flags bwand DAM_BYPASS) != 0)
 #define is_aimed(bodypart)  (bodypart != BODYPART_TORSO_UNCALLED)
@@ -106,16 +113,6 @@ begin
   return total_damage;
 end
 
-/*
-procedure get_melee_damage_range(variable who) begin
-  variable min_damage := 1;
-  variable max_damage;
-  variable hth_bonus;
-  hth_bonus := 2 * has_trait(TRAIT_PERK, who, PERK_bonus_hth_damage);
-//  max_damage := 2 + get_critter_stat(who, STAT_melee_dmg) +
-//    max(get_critter_stat(who, STAT_st), 1) + bonus_HtH_damage + special_unarmed_attack_bonus;
-end
-*/
 procedure get_resist_defines(variable damage_type) begin
   variable ar_dt_type, ar_dr_type, cr_dt_type, cr_dr_type, dmgtype_determined := 0;
 
@@ -163,6 +160,38 @@ procedure get_resist_defines(variable damage_type) begin
     dmgtype_determined := 1;
   end
   return [ar_dt_type, ar_dr_type, cr_dt_type, cr_dr_type];
+end
+
+procedure get_dr_dt_mults(variable attacker, variable target,
+  variable target_flags, variable dr_type, variable rm,
+  variable roll_for_critical := false)
+begin
+  variable target_dr, final_dr, dr_mult;
+  //get critter resists - includes armor
+  target_dr := get_critter_stat(target, dr_type);
+
+  if has_trait(TRAIT_TRAIT, attacker, TRAIT_finesse) != 0 then begin
+    ndebug("attacking with finesse, extra 30% to dr");
+    target_dr := target_dr + 30;
+  end
+
+  ndebug("target dr is " + target_dr);
+
+  if target_dr > 90 then target_dr := 90; //cap DR
+  if is_bypassing_armor(target_flags) then begin //critical bypass armor
+    ndebug("armor bypassing critical, reducing dt and dr by magnitude of 5");
+    target_dr := target_dr * 0.2;
+  end
+
+//  critical_mult := damage_multiplier / 2.0;
+
+  ndebug("target dr is " + target_dr + ", rm is " + rm);
+  final_dr := 1.0 * target_dr * (100.0 + rm) / 100.0;
+  ndebug("final dr is " + final_dr);
+  if final_dr < 0 then final_dr := 0;
+  if final_dr > 90 then final_dr := 90.0;
+  dr_mult := (100.0 - final_dr) / 100.0;
+  return dr_mult;
 end
 
 procedure damage_handler begin
@@ -322,7 +351,6 @@ procedure damage_handler begin
   //get resists from armor if any
   if armor and obj_item_subtype(armor) == item_type_armor then begin
     variable armor_pid := obj_pid(armor);
-    ndebug("test7");
     adt := get_proto_data(armor_pid, ar_dt_type);
     adr := get_proto_data(armor_pid, ar_dr_type);
   end
@@ -330,11 +358,6 @@ procedure damage_handler begin
   //get critter natural resists
   natural_dr := get_critter_stat(target, cr_dr_type);
   natural_dt := get_critter_stat(target, cr_dt_type);
-  //natural_dr := get_critter_stat(target, STAT_dmg_resist_fire);
-  //natural_dt := get_critter_stat(target, STAT_dmg_thresh_fire);
-//  natural_dr := get_critter_stat(target, STAT_dmg_resist);
-//  natural_dt := get_critter_stat(target, STAT_dmg_thresh);
-
   //ndebug("natural dt is " + natural_dt + ", natural dr is " + natural_dr);
 
 //  target_dr := natural_dr + adr;
