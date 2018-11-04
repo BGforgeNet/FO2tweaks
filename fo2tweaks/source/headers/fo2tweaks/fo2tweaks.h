@@ -36,18 +36,6 @@
 
 #define sec_party_skill_items "party_skill_items"
 
-#define sec_healing_revision "healing_revision"
-#define set_healing_not_in_combat_msg "not_in_combat_msg"
-#define set_healing_already_used_msg "already_used_msg"
-#define set_healing_use_items "use_items"
-#define set_healing_heal_disabilities_msg "heal_disabilites_msg"
-#define set_healing_fail_disabilities_msg "fail_disabilites_msg"
-#define set_healing_fail_msg "fail_msg"
-#define set_healing_no_chance_msg "no_chance_msg"
-#define set_healing_healthy_msg "healthy_msg"
-#define set_healing_doctor_items "doctor_items"
-#define set_healing_fa_items "first_aid_items"
-
 #define sec_sneak_spotted "sneak_spotted"
 #define set_sneak_spotted_msg "message"
 #define set_sneak_spotted_stop "stop"

@@ -24,32 +24,52 @@
 #define doctor_skill_name 107
 #define fa_skill_name 106
 
+#define sec_healing_revision "healing_revision"
+#define set_healing_not_in_combat_msg "not_in_combat_msg"
+#define set_healing_already_used_msg "already_used_msg"
+#define set_healing_use_items "use_items"
+#define set_healing_heal_disabilities_msg "heal_disabilites_msg"
+#define set_healing_fail_disabilities_msg "fail_disabilites_msg"
+#define set_healing_fail_msg "fail_msg"
+#define set_healing_no_chance_msg "no_chance_msg"
+#define set_healing_healthy_msg "healthy_msg"
+#define set_healing_doctor_items "doctor_items"
+#define set_healing_fa_items "first_aid_items"
+#define set_healing_living_anatomy_min_doctor "living_anatomy_min_doctor"
+#define set_healing_living_anatomy_msg "free_living_anatomy_msg"
+#define set_healing_living_anatomy_msg2 "free_living_anatomy_msg2"
+
 procedure start;
 procedure healing_handler;
 procedure missing_hp(variable who);
 procedure grant_xp(variable hp, variable skill);
 
-variable doctor_used;
-variable fa_used;
-variable enabled;
-variable not_in_combat_msg;
-variable already_used_msg;
-variable no_chance_msg;
-variable heal_disabilities_msg;
-variable fail_disabilities_msg;
-variable healthy_msg;
-variable fail_msg;
-variable use_items := 0;
-variable doctor_min := 20;
-variable doctor_mult := 10;
-variable fa_mult := 5;
-variable heal_max := 15;
-variable cur_month;
-variable last_month;
-variable cur_day;
-variable last_day;
-variable doctor_items;
-variable fa_items;
+variable begin
+  doctor_used;
+  fa_used;
+  enabled;
+  not_in_combat_msg;
+  already_used_msg;
+  no_chance_msg;
+  heal_disabilities_msg;
+  fail_disabilities_msg;
+  healthy_msg;
+  fail_msg;
+  use_items := 0;
+  doctor_min := 20;
+  doctor_mult := 10;
+  fa_mult := 5;
+  heal_max := 15;
+  cur_month;
+  last_month;
+  cur_day;
+  last_day;
+  doctor_items;
+  fa_items;
+  living_anatomy_min_doctor;
+  living_anatomy_msg;
+  living_anatomy_msg2;
+end
 
 procedure heal_disabilities(variable user, variable target, variable effective_skill) begin
   variable chance := effective_skill - doctor_min; //percentage
@@ -116,27 +136,6 @@ procedure missing_hp(variable target) begin
   variable cur_hp := get_critter_stat(target, STAT_current_hp);
   variable mhp := max_hp - cur_hp;
   return mhp;
-end
-
-procedure get_party_skill_level(variable skill) begin
-  variable who;
-  variable who_best;
-  variable skill_level := 0;
-  variable skill_name;
-  foreach who in party_member_list_critters begin
-    variable who_skill := critter_skill_level(who, skill);
-    if who_skill > skill_level then begin
-      skill_level := who_skill;
-      who_best := who;
-    end
-  end
-  if skill == SKILL_DOCTOR then begin
-    skill_name := doctor_skill_name;
-  end else begin
-    skill_name := fa_skill_name;
-  end
-  ndebug(obj_name(who_best) + " has best skill " + mstr_skill(skill_name) + " of " + skill_level);
-  return skill_level;
 end
 
 procedure use_doctor(variable user, variable target, variable skill_bonus, variable interactive := true) begin
@@ -244,7 +243,10 @@ procedure get_best_helper_item(variable skill) begin
   if skill == SKILL_FIRST_AID then items := fa_items;
   foreach item in items begin
     foreach who in party_member_list_critters begin
-      if obj_is_carrying_obj_pid(who, item) then return([who, item]);
+      if obj_is_carrying_obj_pid(who, item) then begin
+        ndebug(obj_name(who) + " is carrying " + obj_name(item) + ", using it for " + mstr_skill(skill));
+        return([who, item]);
+      end
     end
   end
 end
@@ -323,6 +325,7 @@ procedure rest_handler begin
       call use_first_aid(dude_obj, who, 0, false);
     end
   end
+  intface_redraw;
 end
 
 procedure travel_handler begin
@@ -334,6 +337,25 @@ procedure travel_handler begin
     end
     if not is_healthy(who) and scan_array(fa_used, obj_pid(who)) == -1 then begin
       call use_first_aid(dude_obj, who, 0, false);
+    end
+  end
+end
+
+procedure map_enter_p_proc begin
+  variable who;
+  if living_anatomy_min_doctor < 300 then begin
+    foreach who in list_as_array(LIST_CRITTERS) begin
+      ndebug(obj_name(who) + " has Doctor of " + critter_skill_level(who, SKILL_DOCTOR));
+      if critter_skill_level(who, SKILL_DOCTOR) >= living_anatomy_min_doctor
+        and not has_trait(TRAIT_PERK, who, PERK_living_anatomy_perk)
+      then begin
+        ndebug(obj_name(who) + " gets living anatomy!");
+        critter_add_trait(who, TRAIT_PERK, PERK_living_anatomy_perk, 1);
+        if in_party(who) then begin
+          display_msg(obj_name(who) + " " + living_anatomy_msg2);
+          float_msg(who, living_anatomy_msg, FLOAT_MSG_WHITE);
+        end
+      end
     end
   end
 end
@@ -352,6 +374,10 @@ procedure start begin
       heal_disabilities_msg := fo2tweaks_string(sec_healing_revision, set_healing_heal_disabilities_msg);
       fail_disabilities_msg := fo2tweaks_string(sec_healing_revision, set_healing_fail_disabilities_msg);
 
+      living_anatomy_min_doctor := fo2tweaks_setting(sec_healing_revision, set_healing_living_anatomy_min_doctor);
+      living_anatomy_msg := fo2tweaks_string(sec_healing_revision, set_healing_living_anatomy_msg);
+      living_anatomy_msg2 := fo2tweaks_string(sec_healing_revision, set_healing_living_anatomy_msg2);
+
       doctor_items := fo2tweaks_comsep_setting(sec_healing_revision, set_healing_doctor_items);
       fa_items := fo2tweaks_comsep_setting(sec_healing_revision, set_healing_fa_items);
 
@@ -364,7 +390,7 @@ procedure start begin
       register_hook_proc(HOOK_RESTTIMER, rest_handler);
 
       //reset healed arrays at midnight, any screen
-      set_global_script_type(1);
+      set_global_script_type(3);
       set_global_script_repeat(1800);
 
       ndebug("initialized");
