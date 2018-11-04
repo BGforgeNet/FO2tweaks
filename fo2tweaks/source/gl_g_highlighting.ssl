@@ -96,7 +96,7 @@ procedure get_color(variable obj) begin
   end
 
   if elevation(obj) != elevation(dude_obj) then begin
-    ndebug("skipping, wrong elevation");
+    //ndebug("skipping, wrong elevation");
     return OUTLINE_NONE;
   end
 
@@ -114,6 +114,7 @@ procedure get_color(variable obj) begin
   if obj_type(obj) == OBJ_TYPE_CRITTER then begin
     if is_dead(obj) then begin
       if only_non_empty and is_empty(obj) then return OUTLINE_NONE;
+      if NO_STEAL(obj) then return OUTLINE_NONE;
       return color_corpses;
     end else begin
       if obj == dude_obj then return color_dude;
