@@ -1,0 +1,90 @@
+procedure start;
+#include "..\headers\define.h"
+#include "..\headers\sfall\sfall.h"
+#include "..\headers\sfall\lib.arrays.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
+
+#define NAME "gl_g_party_level_match"
+#define set_party_level_match "party_level_match"
+#define sec_party_level_match "party_level_match"
+#define set_party_level_step "step"
+#define set_party_finlevel "final_level"
+#define sec_party_level_names "party_level_maxstage"
+
+variable begin
+  enabled;
+  fin_level;
+  step;
+  scrname_maxstage;
+end
+
+procedure party_member_list_names begin
+  variable who, t, tmp := create_array(0,0);
+  foreach who in party_member_list_critters begin
+    if who != dude_obj then tmp:= array_push(tmp, obj_name(who));
+  end
+  return tmp;
+end
+
+procedure start begin
+  variable
+    scrname,
+    max_stage,
+    pc_level,
+    cur_stage,
+    start_level,
+    party_names,
+    expected_stage;
+
+  if game_loaded then begin
+    enabled := fo2tweaks_setting(sec_main, set_party_level_match);
+    if enabled then begin
+      fin_level := fo2tweaks_setting(sec_party_level_match, set_party_finlevel);
+      step := fo2tweaks_setting(sec_party_level_match, set_party_level_step);
+      scrname_maxstage := get_ini_section(fo2tweaks_ini, sec_party_level_names);
+      fix_array(scrname_maxstage);
+      set_global_script_repeat(600);
+      ndebug("initialized");
+    end
+  end else begin
+    if (party_size > 0) then begin
+      pc_level := get_pc_stat(PCSTAT_level);
+      party_names := party_member_list_names;
+
+      foreach (scrname: max_stage in scrname_maxstage) begin
+        scrname := atoi(scrname);
+        max_stage := atoi(max_stage);
+
+        //not in party, skip
+        if not is_in_array(mstr_scrname(scrname), party_names) then continue;
+
+        switch max_stage begin
+          case 3: //levelup at 14, 18, 22
+            start_level := 10;
+          case 4: //14, 18, 22, 24
+            start_level := 10;
+          case 5: //12, 16, 20, 24
+            start_level := 8;
+          default: //case 6 - 8, 12, 16, 20, 24
+            start_level := 4;
+        end
+
+        cur_stage := get_npc_level(mstr_scrname(scrname));
+        ndebug("npc is " + mstr_scrname(scrname));
+        ndebug("cur_stage = " + cur_stage);
+        ndebug("pc_level = " + pc_level);
+        ndebug("start_level = " + start_level);
+        ndebug("step = " + step);
+        expected_stage := floor2((pc_level - start_level)/step);
+        ndebug("expected_stage = " + expected_stage);
+        ndebug("max_stage = " + max_stage);
+
+        if ( cur_stage < expected_stage and cur_stage < max_stage ) then begin
+          ndebug("leveling up " + mstr_scrname(scrname));
+          inc_npc_level(mstr_scrname(scrname));
+        end
+
+      end
+    end
+  end
+end
