@@ -14,6 +14,7 @@
 #define sec_main "main"
 
 #define is_weapon(x) (obj_item_subtype(x) == item_type_weapon)
+#define is_ammo(x)	 (obj_item_subtype(x) == item_type_ammo)
 #define is_critter(obj)   (obj_type(obj) == OBJ_TYPE_CRITTER)
 #define in_combat (get_game_mode bwand COMBAT)
 #define is_dead(critter_obj) (critter_state(critter_obj) == CRITTER_IS_DEAD)
@@ -26,7 +27,7 @@ procedure get_active_weapon(variable attacker) begin
   end else begin
     item := critter_inven_obj2(attacker, INVEN_TYPE_RIGHT_HAND);
   end
-  if is_weapon(item) then return item;
+  if item and is_weapon(item) then return item;
   return false;
 end
 
@@ -37,7 +38,7 @@ procedure get_dude_inactive_weapon begin
   end else begin
     item := critter_inven_obj2(dude_obj, INVEN_TYPE_LEFT_HAND);
   end
-  if is_weapon(item) then return item;
+  if item and is_weapon(item) then return item;
   return false;
 end
 
@@ -50,16 +51,26 @@ end
 
 procedure get_active_ammo_pid(variable attacker) begin
   variable weapon, ammo_pid;
+
   weapon := get_active_weapon(attacker);
-  if weapon then return get_weapon_ammo_pid(weapon);
-  return false;
+  if not weapon then return false;
+
+  ammo_pid := get_weapon_ammo_pid(weapon);
+  if ammo_pid == -1 then return false;
+
+  return ammo_pid;
 end
 
 procedure get_dude_inactive_ammo_pid begin
   variable weapon, ammo_pid;
+
   weapon := get_dude_inactive_weapon;
-  if weapon then return get_weapon_ammo_pid(weapon);
-  return false;
+  if not weapon then return false;
+
+  ammo_pid := get_weapon_ammo_pid(weapon);
+  if ammo_pid == -1 then return false;
+
+  return ammo_pid;
 end
 
 procedure load_comsep_ini_setting(variable file, variable section, variable setting) begin
