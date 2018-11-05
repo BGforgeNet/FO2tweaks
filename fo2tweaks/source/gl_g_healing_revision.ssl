@@ -315,10 +315,10 @@ procedure rest_handler begin
   ndebug("rest ping");
   call update_heal_arrays;
   foreach who in party_member_list_critters begin
-    if not is_healthy(who) and is_in_array(obj_pid(who), doctor_used) then begin
+    if not is_healthy(who) and not is_in_array(obj_pid(who), doctor_used) then begin
       call use_doctor(dude_obj, who, 0, false); // best item will be found automatically
     end
-    if not is_healthy(who) and is_in_array(obj_pid(who), fa_used) then begin
+    if not is_healthy(who) and not is_in_array(obj_pid(who), fa_used) then begin
       call use_first_aid(dude_obj, who, 0, false);
     end
   end
@@ -329,10 +329,10 @@ procedure travel_handler begin
   variable who;
   ndebug("travel ping");
   foreach who in party_member_list_critters begin
-    if not is_healthy(who) and is_in_array(obj_pid(who), doctor_used) then begin
+    if not is_healthy(who) and not is_in_array(obj_pid(who), doctor_used) then begin
       call use_doctor(dude_obj, who, 0, false); // best item will be found automatically
     end
-    if not is_healthy(who) and is_in_array(obj_pid(who), fa_used) then begin
+    if not is_healthy(who) and not is_in_array(obj_pid(who), fa_used) then begin
       call use_first_aid(dude_obj, who, 0, false);
     end
   end
