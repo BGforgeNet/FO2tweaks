@@ -12,17 +12,18 @@ variable old_game_mode, new_game_mode, key;
 variable enabled;
 
 procedure auto_reload begin
-  ndebug("tapping " + key);
-  tap_key(key);
+//  ndebug("tapping " + key);
+//  tap_key(atoi(key));
 end
 
 procedure start begin
   if game_loaded then begin
     enabled := fo2tweaks_setting(sec_main, set_auto_reload);
     if enabled == 1 then begin
-      key := parse_hotkey(get_ini_string("ddraw.ini|Input|ReloadWeaponKey"));
+      key := get_ini_string("ddraw.ini|Input|ReloadWeaponKey");
       ndebug("initialized, reload key is " + key);
       register_hook_proc(HOOK_GAMEMODECHANGE, auto_reload);
+      set_global_script_repeat(60);
     end
-  end
+  end else call auto_reload;
 end

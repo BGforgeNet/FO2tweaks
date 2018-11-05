@@ -68,7 +68,7 @@ end
 
 //some hooks are run before actual change
 //show_new = 0 shows currently active ammo
-//show_new = 1 shows currently inactive ammo with will become active
+//show_new = 1 shows currently inactive ammo which will become active
 procedure update_box(variable show_new) begin
   variable item, ammo_pid, ammo_label;
   if in_combat then begin
@@ -79,7 +79,7 @@ procedure update_box(variable show_new) begin
       ammo_pid := get_dude_inactive_ammo_pid;
     end
 
-    if ammo_pid != -1 then begin
+    if ammo_pid then begin
       ammo_label := message_str_game(GAME_MSG_PRO_ITEM, ammo_pid * 100);
       set_iface_tag_text(box_num, ammo_label, box_color);
       if not is_iface_tag_active(box_num) then begin

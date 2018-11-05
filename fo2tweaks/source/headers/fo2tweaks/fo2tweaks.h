@@ -26,11 +26,8 @@ procedure get_active_weapon(variable attacker) begin
   end else begin
     item := critter_inven_obj2(attacker, INVEN_TYPE_RIGHT_HAND);
   end
-  if is_weapon(item) then begin
-    return item;
-  end else begin
-    return -1;
-  end
+  if is_weapon(item) then return item;
+  return false;
 end
 
 procedure get_dude_inactive_weapon begin
@@ -40,44 +37,29 @@ procedure get_dude_inactive_weapon begin
   end else begin
     item := critter_inven_obj2(dude_obj, INVEN_TYPE_LEFT_HAND);
   end
-  if is_weapon(item) then begin
-    return item;
-  end else begin
-    return -1;
-  end
+  if is_weapon(item) then return item;
+  return false;
 end
 
 procedure get_active_weapon_pid(variable attacker) begin
   variable weapon, weapon_pid;
   weapon := get_active_weapon(attacker);
-  if weapon != -1 then begin
-    weapon_pid := obj_pid(weapon);
-  end else begin
-    weapon_pid := -1;
-  end
-  return weapon_pid;
+  if weapon then return obj_pid(weapon);
+  return false;
 end
 
 procedure get_active_ammo_pid(variable attacker) begin
   variable weapon, ammo_pid;
   weapon := get_active_weapon(attacker);
-  if weapon != -1 then begin
-    ammo_pid := get_weapon_ammo_pid(weapon);
-  end else begin
-    ammo_pid := -1;
-  end
-  return ammo_pid;
+  if weapon then return get_weapon_ammo_pid(weapon);
+  return false;
 end
 
 procedure get_dude_inactive_ammo_pid begin
   variable weapon, ammo_pid;
   weapon := get_dude_inactive_weapon;
-  if weapon != -1 then begin
-    ammo_pid := get_weapon_ammo_pid(weapon);
-  end else begin
-    ammo_pid := -1;
-  end
-  return ammo_pid;
+  if weapon then return get_weapon_ammo_pid(weapon);
+  return false;
 end
 
 procedure load_comsep_ini_setting(variable file, variable section, variable setting) begin

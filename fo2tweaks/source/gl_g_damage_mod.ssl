@@ -293,7 +293,7 @@ procedure damage_handler begin
     ndebug("unarmed attack, skipping");
     return;
   end
-  if ammo_pid == -1 then begin
+  if not ammo_pid then begin
     ndebug("weapon has no ammo, skipping");
     return;
   end
