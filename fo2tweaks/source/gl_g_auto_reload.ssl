@@ -20,7 +20,6 @@ procedure auto_reload begin
   	ammopid := 0;
   	list;
   	item;
-  	bestammo;
   	ammo;
   	caliber;
   	magsize;
@@ -47,44 +46,31 @@ procedure auto_reload begin
   i := 1;
   while i <= 2 do begin
 		weapon := critter_inven_obj2(who, i);
-		if not weapon then return;
+		if not weapon or not is_weapon(weapon) then continue;
 
 		ammopid := get_weapon_ammo_pid(weapon);
-		if weapon then begin
-			caliber := get_proto_data(obj_pid(weapon), PROTO_WP_CALIBER);
-			magsize := get_proto_data(obj_pid(weapon), PROTO_WP_MAG_SIZE);
+		if ammopid == -1 then continue;
 
-			ndebug("found weapon " + obj_name(weapon) + " with caliber " + caliber + ", ammo pid " + ammopid);
-			ndebug("magsize is  " + magsize + " ammo count " + get_weapon_ammo_count(weapon));
+		caliber := get_proto_data(obj_pid(weapon), PROTO_WP_CALIBER);
+		magsize := get_proto_data(obj_pid(weapon), PROTO_WP_MAG_SIZE);
 
-			if magsize > get_weapon_ammo_count(weapon) then begin
+		ndebug("found weapon " + obj_name(weapon) + " with caliber " + caliber + ", ammo pid " + ammopid);
+		ndebug("magsize is " + magsize + " ammo count " + get_weapon_ammo_count(weapon));
 
-        if ammopid == -1 then begin
-  				// try to find some ammo for this weapon
-  				ndebug("search best ammo...");
-  				bestammo := 0;
-  				list := inven_as_array(who);
-  				foreach item in list begin
-  					if is_ammo(item)
-  						and get_proto_data(obj_pid(item), PROTO_AM_CALIBER) == caliber
-  						then bestammo := item;
-  				end
-        end else bestammo := obj_carrying_pid_obj(who, ammopid);
-
-				if bestammo then begin
-				  ammopid := obj_pid(bestammo);
-					ndebug("found ammo pid " + obj_pid(bestammo));
-					// first, unload existing ammo
-					call inc_ammo_count(who, ammopid, get_weapon_ammo_count(weapon));
-					// then, load new ammo
-					set_weapon_ammo_pid(weapon, obj_pid(bestammo));
-					if (actual_ammo_count(who, bestammo) < magsize) then magsize := actual_ammo_count(who, bestammo);
-					set_weapon_ammo_count(weapon, magsize);
-					call inc_ammo_count(who, obj_pid(bestammo), - magsize);
-					reg_anim_clear(who);
-					animate_stand_obj(who);
-				end else ndebug("not found :(");
-			end
+		if magsize > get_weapon_ammo_count(weapon) then begin
+      ammo := obj_carrying_pid_obj(who, ammopid);
+			if ammo then begin
+				ndebug("found inven ammo pid " + ammopid);
+				// first, unload existing ammo
+				call inc_ammo_count(who, ammopid, get_weapon_ammo_count(weapon));
+				// then, load new ammo
+				set_weapon_ammo_pid(weapon, ammopid);
+				if (actual_ammo_count(who, ammo) < magsize) then magsize := actual_ammo_count(who, ammo);
+				set_weapon_ammo_count(weapon, magsize);
+				call inc_ammo_count(who, ammopid, - magsize);
+				reg_anim_clear(who);
+				animate_stand_obj(who);
+			end else ndebug("not found :(");
 		end
 		i++;
   end
