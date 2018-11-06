@@ -17,6 +17,7 @@
 #define is_ammo(x)	 (obj_item_subtype(x) == item_type_ammo)
 #define is_critter(obj)   (obj_type(obj) == OBJ_TYPE_CRITTER)
 #define in_combat (get_game_mode bwand COMBAT)
+#define in_inventory (get_game_mode bwand INVENTORY)
 #define is_dead(critter_obj) (critter_state(critter_obj) == CRITTER_IS_DEAD)
 
 

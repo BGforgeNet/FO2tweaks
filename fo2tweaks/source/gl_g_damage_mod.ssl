@@ -20,7 +20,6 @@
 #define NAME "gl_g_damage_mod"
 #define set_damage_mod "damage_mod"
 #define sec_damage_mod "damage_mod"
-#define set_damage_mod_new_burst "new_burst"
 
 #define is_critical_hit(flags)  ((flags bwand DAM_CRITICAL) != 0)
 #define is_bypassing_armor(flags) ((flags bwand DAM_BYPASS) != 0)
@@ -32,13 +31,35 @@ end
 procedure start;
 procedure damage_handler;
 procedure get_dr_dt(variable attacker, variable target, variable target_flags, variable dmg_type, variable dr_mod);
+procedure fix_ammo_stats;
+procedure inv_handler;
 
 procedure start begin
   if game_loaded then begin
     variable enabled := fo2tweaks_setting(sec_main, set_damage_mod);
     if enabled == 1 then begin
       register_hook_proc(HOOK_COMBATDAMAGE, damage_handler);
+      register_hook_proc(HOOK_GAMEMODECHANGE, inv_handler);
+      call fix_ammo_stats; //somehow it needs both handler and call?
       ndebug("initialized");
+    end
+  end
+end
+
+procedure inv_handler begin
+  if in_inventory then call fix_ammo_stats;
+end
+
+//cosmetic change
+procedure fix_ammo_stats begin
+  variable i := 0, type, mult, div := 100, dr_mod, tmp1, tmp2;
+  for (i := 0; i <= 1000; i++) begin
+    type := get_proto_data(i, PROTO_IT_TYPE);
+    if type == item_type_ammo then begin
+      dr_mod := get_proto_data(i, PROTO_AM_DR_MOD);
+      mult := 100 + dr_mod;
+      set_proto_data(i, PROTO_AM_DMG_MULT, mult);
+      set_proto_data(i, PROTO_AM_DMG_DIV, div);
     end
   end
 end
