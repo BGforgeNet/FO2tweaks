@@ -9,33 +9,40 @@
 #define NAME "gl_g_hp_over_head"
 #define set_hp_over_head "hp_over_head"
 
-variable clear_float;
 variable enabled;
 variable was_in_combat := 0;
 
 procedure update_hp begin
-  variable who, cur_hp, max_hp, color;
+  variable who, cur_hp, max_hp, color, msg;
   ndebug("update_hp ping");
 
-  if combat_is_initialized then set_global_script_repeat(6);
+  if combat_is_initialized then set_global_script_repeat(12);
   else begin
     set_global_script_repeat(0);
     return;
   end
 
-    foreach who in list_as_array(LIST_CRITTERS) begin
-      if not is_dead(who) then begin
-        color := FLOAT_MSG_RED;
-        if in_party(who) then color := FLOAT_MSG_GREEN;
-        if combat_is_initialized then begin
-          // and elevation(who) == elevation(dude_obj) then begin //elevation check too slow
-          cur_hp := get_critter_stat(who, STAT_current_hp);
-          if cur_hp > 0 then float_msg(who, sprintf("%d", cur_hp), color);
-        end else begin
-          float_msg(who, "", color);
-        end
-      end
-    end
+  foreach who in list_as_array(LIST_CRITTERS) begin
+    if is_dead(who) then continue;
+    //float only nearby or party. Too many floats won't work
+    if (not in_party(who)) and tile_distance_objs(dude_obj, who) > 30 then continue;
+
+    color := FLOAT_MSG_RED;
+    if in_party(who) then color := FLOAT_MSG_GREEN;
+
+//    if combat_is_initialized then begin
+      // and elevation(who) == elevation(dude_obj) then begin //elevation check too slow
+    cur_hp := get_critter_stat(who, STAT_current_hp);
+    msg := sprintf("%d", cur_hp);
+//    end
+    float_msg(who, msg, color);
+  end
+
+end
+
+procedure clear_dead_float begin
+  variable who := get_sfall_arg;
+  float_msg(who, "", 0);
 end
 
 procedure start begin
@@ -48,6 +55,7 @@ procedure start begin
       register_hook_proc(HOOK_USEOBJ, update_hp);
       register_hook_proc(HOOK_USEOBJON, update_hp);
       register_hook_proc(HOOK_GAMEMODECHANGE, update_hp);
+      register_hook_proc(HOOK_ONDEATH, clear_dead_float);
     end
   end else begin
     if enabled == 1 then begin
