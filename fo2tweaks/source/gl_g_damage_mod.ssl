@@ -25,54 +25,98 @@
 #define NAME "gl_g_damage_mod"
 #define set_damage_mod "damage_mod"
 #define sec_damage_mod "damage_mod"
+#define set_damage_mod_ammo_pids "ammo_pids"
 
 #define is_critical_hit(flags)  ((flags bwand DAM_CRITICAL) != 0)
 #define is_bypassing_armor(flags) ((flags bwand DAM_BYPASS) != 0)
 
 variable begin
   old_total := 0, new_total := 0;
+  ammo_pids;
+  old_ammo_pids;
+  new_ammo_pids;
+  enabled;
 end
 
 procedure start;
 procedure damage_handler;
 procedure get_dr_dt(variable attacker, variable target, variable target_flags, variable dmg_type, variable dr_mod);
-procedure fix_ammo_stats;
+procedure fix_ammo_stats(variable pids);
 procedure inv_handler;
+procedure get_ammo_pids;
 
 procedure start begin
   if game_loaded then begin
-    variable enabled := fo2tweaks_setting(sec_main, set_damage_mod);
+    enabled := fo2tweaks_setting(sec_main, set_damage_mod);
     if enabled == 1 then begin
       register_hook_proc(HOOK_COMBATDAMAGE, damage_handler);
-      register_hook_proc(HOOK_GAMEMODECHANGE, inv_handler);
-      call fix_ammo_stats; //somehow it needs both handler and call?
+      new_ammo_pids := fo2tweaks_comsep_setting(sec_damage_mod, set_damage_mod_ammo_pids);
+      ammo_pids := get_ammo_pids;
+      fix_array(ammo_pids);
+      call fix_ammo_stats(ammo_pids);
       ndebug("initialized");
     end
   end
 end
 
-procedure inv_handler begin
-  if in_inventory then call fix_ammo_stats;
+procedure map_enter_p_proc begin
+  if enabled then call fix_ammo_stats(ammo_pids);
+end
+
+procedure get_ammo_pids begin
+  variable ar;
+  old_ammo_pids := [
+    PID_EXPLOSIVE_ROCKET,
+    PID_10MM_JHP,
+  	PID_10MM_AP,
+  	PID_44_MAGNUM_JHP,
+  	PID_FLAMETHROWER_FUEL,
+  	PID_14MM_AP,
+  	PID_223_FMJ,
+  	PID_5MM_JHP,
+  	PID_5MM_AP,
+  	PID_ROCKET_AP,
+  	PID_SMALL_ENERGY_CELL,
+  	PID_MICRO_FUSION_CELL,
+  	PID_SHOTGUN_SHELLS,
+  	PID_44_FMJ_MAGNUM,
+  	PID_9MM_BALL,
+  	PID_BBS,
+  	PID_ROBO_ROCKET_AMMO,
+  	PID_45_CALIBER_AMMO,
+  	PID_2MM_EC_AMMO,
+  	PID_4_7MM_CASELESS,
+  	PID_9MM_AMMO,
+  	PID_HN_NEEDLER_CARTRIDGE,
+  	PID_HN_AP_NEEDLER_CARTRIDGE,
+  	PID_7_62MM_AMMO,
+  	PID_FLAMETHROWER_FUEL_MK_II
+  ];
+  ar := clone_array(old_ammo_pids);
+  ar := array_append(ar, new_ammo_pids);
+  return ar;
 end
 
 //cosmetic change
-procedure fix_ammo_stats begin
-  variable i := 0, type, mult, div, dr_mod, cd;
-  for (i := 0; i <= 1000; i++) begin
+procedure fix_ammo_stats(variable pids) begin
+  variable pid, type, mult, div, dr_mod, cd;
+  foreach pid in pids begin
+    ndebug("fixing ammo pid " + pid);
     div := 100;
-    type := get_proto_data(i, PROTO_IT_TYPE);
+    type := get_proto_data(pid, PROTO_IT_TYPE);
     if type == item_type_ammo then begin
-      dr_mod := get_proto_data(i, PROTO_AM_DR_MOD);
+      dr_mod := get_proto_data(pid, PROTO_AM_DR_MOD);
       mult := 100 + dr_mod;
 
       cd := gcd(div, mult);
       div := div / cd;
       mult := mult / cd;
 
-      set_proto_data(i, PROTO_AM_DMG_MULT, mult);
-      set_proto_data(i, PROTO_AM_DMG_DIV, div);
+      set_proto_data(pid, PROTO_AM_DMG_MULT, mult);
+      set_proto_data(pid, PROTO_AM_DMG_DIV, div);
     end
   end
+  ndebug("beautified ammo stats");
 end
 
 // 1.2 damage has 20% chance to be rounded up to 2
