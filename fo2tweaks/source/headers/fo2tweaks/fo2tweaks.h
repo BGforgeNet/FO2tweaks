@@ -120,3 +120,14 @@ procedure get_party_skill_level(variable skill) begin
   ndebug(obj_name(who_best) + " has best skill " + mstr_skill(skill_name) + " of " + skill_level);
   return [who_best, skill_level];
 end
+
+//greatest common divisor
+procedure gcd(variable x, variable y) begin
+  variable x_;
+  while y != 0 do begin
+    x_ := y;
+    y := x % y;
+    x := x_;
+  end
+  return x;
+end

@@ -57,12 +57,18 @@ end
 
 //cosmetic change
 procedure fix_ammo_stats begin
-  variable i := 0, type, mult, div := 100, dr_mod;
+  variable i := 0, type, mult, div, dr_mod, cd;
   for (i := 0; i <= 1000; i++) begin
+    div := 100;
     type := get_proto_data(i, PROTO_IT_TYPE);
     if type == item_type_ammo then begin
       dr_mod := get_proto_data(i, PROTO_AM_DR_MOD);
       mult := 100 + dr_mod;
+
+      cd := gcd(div, mult);
+      div := div / cd;
+      mult := mult / cd;
+
       set_proto_data(i, PROTO_AM_DMG_MULT, mult);
       set_proto_data(i, PROTO_AM_DMG_DIV, div);
     end
