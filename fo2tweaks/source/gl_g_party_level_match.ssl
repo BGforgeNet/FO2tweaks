@@ -7,8 +7,11 @@ procedure start;
 #define NAME "gl_g_party_level_match"
 #define set_party_level_match "party_level_match"
 #define sec_party_level_match "party_level_match"
-#define set_party_level_step "step"
 #define set_party_finlevel "final_level"
+#define set_party_3stages_start "3stages_start"
+#define set_party_4stages_start "4stages_start"
+#define set_party_5stages_start "5stages_start"
+#define set_party_6stages_start "6stages_start"
 #define sec_party_level_names "party_level_maxstage"
 
 variable begin
@@ -16,6 +19,10 @@ variable begin
   fin_level;
   step;
   scrname_maxstage;
+  stage3_start;
+  stage4_start;
+  stage5_start;
+  stage6_start;
 end
 
 procedure party_member_list_names begin
@@ -35,12 +42,14 @@ procedure start begin
     start_level,
     party_names,
     expected_stage;
-
   if game_loaded then begin
     enabled := fo2tweaks_setting(sec_main, set_party_level_match);
     if enabled then begin
       fin_level := fo2tweaks_setting(sec_party_level_match, set_party_finlevel);
-      step := fo2tweaks_setting(sec_party_level_match, set_party_level_step);
+      stage3_start := fo2tweaks_setting(sec_party_level_match, set_party_3stages_start);
+      stage4_start := fo2tweaks_setting(sec_party_level_match, set_party_4stages_start);
+      stage5_start := fo2tweaks_setting(sec_party_level_match, set_party_5stages_start);
+      stage6_start := fo2tweaks_setting(sec_party_level_match, set_party_6stages_start);
       scrname_maxstage := get_ini_section(fo2tweaks_ini, sec_party_level_names);
       fix_array(scrname_maxstage);
       set_global_script_repeat(600);
@@ -54,22 +63,26 @@ procedure start begin
       foreach (scrname: max_stage in scrname_maxstage) begin
         scrname := atoi(scrname);
         max_stage := atoi(max_stage);
+        cur_stage := get_npc_level(mstr_scrname(scrname));
 
         //not in party, skip
         if not is_in_array(mstr_scrname(scrname), party_names) then continue;
+        //already maxed
+        if cur_stage >= max_stage then continue;
 
         switch max_stage begin
           case 3: //levelup at 14, 18, 22
-            start_level := 10;
+            start_level := stage3_start;
           case 4: //14, 18, 22, 24
-            start_level := 10;
+            start_level := stage4_start;
           case 5: //12, 16, 20, 24
-            start_level := 8;
+            start_level := stage5_start;
           default: //case 6 - 8, 12, 16, 20, 24
-            start_level := 4;
+            start_level := stage6_start;
         end
+        step := floor2((fin_level - start_level)/max_stage);
 
-        cur_stage := get_npc_level(mstr_scrname(scrname));
+
         ndebug("npc is " + mstr_scrname(scrname));
         ndebug("cur_stage = " + cur_stage);
         ndebug("pc_level = " + pc_level);
@@ -79,7 +92,7 @@ procedure start begin
         ndebug("expected_stage = " + expected_stage);
         ndebug("max_stage = " + max_stage);
 
-        if ( cur_stage < expected_stage and cur_stage < max_stage ) then begin
+        if cur_stage < expected_stage then begin
           ndebug("leveling up " + mstr_scrname(scrname));
           inc_npc_level(mstr_scrname(scrname));
         end
