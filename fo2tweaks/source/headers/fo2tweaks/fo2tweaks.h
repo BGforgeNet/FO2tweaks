@@ -131,3 +131,12 @@ procedure gcd(variable x, variable y) begin
   end
   return x;
 end
+
+procedure combat_ended(variable old_mode, variable new_mode) begin
+  if (old_mode bwand COMBAT) > 0 and (new_mode bwand COMBAT) == 0 then return true;
+  return false;
+end
+procedure combat_started(variable old_mode, variable new_mode) begin
+  if (old_mode bwand COMBAT) == 0 and (new_mode bwand COMBAT) > 0 then return true;
+  return false;
+end

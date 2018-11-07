@@ -10,7 +10,9 @@
 #define set_hp_over_head "hp_over_head"
 
 variable enabled;
-variable was_in_combat := 0;
+variable old_mode := 0, new_mode;
+
+procedure clear_all_floats;
 
 procedure update_hp begin
   variable who, cur_hp, max_hp, color, msg;
@@ -30,14 +32,38 @@ procedure update_hp begin
     color := FLOAT_MSG_RED;
     if in_party(who) then color := FLOAT_MSG_GREEN;
 
-//    if combat_is_initialized then begin
-      // and elevation(who) == elevation(dude_obj) then begin //elevation check too slow
-    cur_hp := get_critter_stat(who, STAT_current_hp);
-    msg := sprintf("%d", cur_hp);
-//    end
+    if combat_is_initialized then begin
+      cur_hp := get_critter_stat(who, STAT_current_hp);
+      msg := sprintf("%d", cur_hp);
+    end else msg := "";
+
     float_msg(who, msg, color);
   end
 
+end
+
+procedure gamemode_handler begin
+  new_mode := get_game_mode;
+  if combat_ended(old_mode, new_mode) then begin
+    ndebug("combat ended, clearing floats");
+    call clear_all_floats;
+    set_global_script_repeat(0);
+  end
+  if combat_started(old_mode, new_mode) then begin
+    ndebug("combat started, enabling floats");
+    call update_hp;
+    set_global_script_repeat(12);
+  end
+  old_mode := new_mode;
+end
+
+procedure clear_all_floats begin
+  variable who;
+  foreach who in list_as_array(LIST_CRITTERS) begin
+    if is_dead(who) then continue;
+    if not obj_on_screen(who) then continue;
+    float_msg(who, "", 0);
+  end
 end
 
 procedure clear_dead_float begin
@@ -54,7 +80,7 @@ procedure start begin
       register_hook_proc(HOOK_COMBATDAMAGE, update_hp);
       register_hook_proc(HOOK_USEOBJ, update_hp);
       register_hook_proc(HOOK_USEOBJON, update_hp);
-      register_hook_proc(HOOK_GAMEMODECHANGE, update_hp);
+      register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
       register_hook_proc(HOOK_ONDEATH, clear_dead_float);
     end
   end else begin
