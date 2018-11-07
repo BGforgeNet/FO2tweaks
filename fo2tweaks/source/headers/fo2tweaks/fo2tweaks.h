@@ -4,6 +4,7 @@
 #include "..\sfall\lib.strings.h"
 #include "..\sfall\define_extra.h"
 #include "tile.h"
+#include "mouse.h"
 
 #define NAME "fo2tweaks"
 #define fo2tweaks_ini "fo2tweaks.ini"

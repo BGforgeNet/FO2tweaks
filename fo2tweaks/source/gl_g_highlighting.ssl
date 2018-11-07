@@ -162,12 +162,12 @@ procedure get_color(variable obj) begin
     if is_in_array(obj_pid(obj), transitions) then return color_transitions;
 
     if obj_is_locked(obj) and not obj_is_open(obj) and is_door(obj) then begin
-      //ndebug("name is " + obj_name(obj) + ", sc_type is " + get_proto_data(obj_pid(obj), PRODATA_SC_TYPE));
+      //ndebug("name is " + obj_name(obj) + ", sc_type is " + get_proto_data(obj_pid(obj), PRODATA_SC_TYPE)); //very slow
       return color_doors_locked;
     end
 
     if is_stairs(obj) then begin
-      //ndebug("name is " + obj_name(obj) + ", sc_type is " + get_proto_data(obj_pid(obj), PRODATA_SC_TYPE));
+      //ndebug("name is " + obj_name(obj) + ", sc_type is " + get_proto_data(obj_pid(obj), PRODATA_SC_TYPE)); //very slow
       return color_transitions;
     end
   end
@@ -233,35 +233,37 @@ end
 
 procedure keypress_handler begin
   variable pressed := get_sfall_arg,
-        scan_code := get_sfall_arg,
+        key := get_sfall_arg,
         scanner, charges;
 
-  if scan_code == highlight_key then begin
-    if pressed and not in_loot_mode then begin
+  if key != highlight_key then return;
 
-      if motion_scanner then begin
-        scanner := obj_carrying_pid_obj(dude_obj, PID_MOTION_SENSOR);
-        if not scanner then begin
-          display_msg(mstr_misc(17));
-          return;
-        end
+  if not pressed then begin
+    call reset_highlight;
+    return;
+  end
 
-        if motion_scanner >= 2 then begin
-          charges := get_weapon_ammo_count(scanner);
-          if not charges > 0 then begin
-            display_msg(mstr_misc(18));
-            return;
-          end
-          set_weapon_ammo_count(scanner, charges - 1);
-          intface_redraw;
-        end
+  if not in_loot_mode then begin
+    if motion_scanner then begin
+      scanner := obj_carrying_pid_obj(dude_obj, PID_MOTION_SENSOR);
+      if not scanner then begin
+        display_msg(mstr_misc(17));
+        return;
       end
 
-      call enable_highlight;
-    end else begin
-      call reset_highlight;
+      if motion_scanner >= 2 then begin
+        charges := get_weapon_ammo_count(scanner);
+        if not charges > 0 then begin
+          display_msg(mstr_misc(18));
+          return;
+        end
+        set_weapon_ammo_count(scanner, charges - 1);
+        intface_redraw;
+      end
     end
+    call enable_highlight;
   end
+
 end
 
 procedure start begin

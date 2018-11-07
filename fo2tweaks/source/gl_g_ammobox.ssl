@@ -1,9 +1,8 @@
-procedure start;
-
 #include "..\headers\define.h"
 #include "..\headers\sfall\define_extra.h"
 #include "..\headers\command.h"
 #include "..\headers\sfall\sfall.h"
+#include "..\headers\sfall\lib.misc.h"
 #include "..\headers\fo2tweaks\fo2tweaks.h"
 #include "..\headers\sfall\dik.h"
 
@@ -15,7 +14,9 @@ procedure start;
 
 variable box_num;
 variable box_color;
+variable old_game_mode := 0, new_game_mode;
 
+procedure start;
 procedure update_box(variable show_new);
 procedure gamemode_hook;
 procedure keypress_hook;
@@ -24,45 +25,49 @@ procedure mouseclick_hook;
 
 procedure start begin
   if game_loaded then begin
-   variable enabled := fo2tweaks_setting(sec_main, set_ammobox);
-   box_num := fo2tweaks_setting(sec_ammobox, set_ammobox_number);
-   box_color := fo2tweaks_setting(sec_ammobox, set_ammobox_color);
-   if enabled == 1 then begin
-    register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_hook);
-    register_hook_proc(HOOK_KEYPRESS, keypress_hook);
-    register_hook_proc(HOOK_MOUSECLICK, mouseclick_hook);
-    ndebug("initialized");
-   end
+    variable enabled := fo2tweaks_setting(sec_main, set_ammobox);
+    box_num := fo2tweaks_setting(sec_ammobox, set_ammobox_number);
+    box_color := fo2tweaks_setting(sec_ammobox, set_ammobox_color);
+    if enabled == 1 then begin
+      register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_hook);
+      register_hook_proc(HOOK_KEYPRESS, keypress_hook);
+      register_hook_proc(HOOK_MOUSECLICK, mouseclick_hook);
+      ndebug("initialized");
+    end
   end
 end
 
 //combat start/stop
 procedure gamemode_hook begin
-  variable gamemode := get_game_mode;
-  call update_box(1);
-  gamemode := get_game_mode;
-  ndebug("update box - gamemode");
+  new_game_mode := get_game_mode;
+  if (old_game_mode bwand COMBAT) != (new_game_mode bwand COMBAT) then begin
+    call update_box(1);
+    ndebug("update box - gamemode");
+  end
+  old_game_mode := new_game_mode;
 end
 
 //keyboard B
 procedure keypress_hook begin
-  if in_combat then begin
-    if key_pressed(DIK_B) and in_combat then begin
-      call update_box(0);
-      ndebug("update box - keyboard");
-    end
+  variable pressed := get_sfall_arg;
+  variable key := get_sfall_arg;
+  if not in_combat then return;
+  if not pressed then return;
+  if hotkey_pressed_now(DIK_B, key) then begin
+    call update_box(0);
+    ndebug("update box - keyboard");
   end
 end
 
 //middle mouse
 procedure mouseclick_hook begin
-  if in_combat then begin
-    variable event := get_sfall_arg;
-    variable button := get_sfall_arg;
-    if button == 2 and event == 1 then begin //pressed middle
-      call update_box(0);
-      ndebug("update box - mouse");
-    end
+  variable pressed := get_sfall_arg;
+  variable button := get_sfall_arg;
+  if not in_combat then return;
+  if not pressed then return;
+  if button == MOUSE_BTN_MIDDLE then begin //middle
+    call update_box(0);
+    ndebug("update box - mouse");
   end
 end
 
