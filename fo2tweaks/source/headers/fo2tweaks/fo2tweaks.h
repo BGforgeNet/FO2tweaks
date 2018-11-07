@@ -140,3 +140,13 @@ procedure combat_started(variable old_mode, variable new_mode) begin
   if (old_mode bwand COMBAT) == 0 and (new_mode bwand COMBAT) > 0 then return true;
   return false;
 end
+
+procedure get_ini_section_int_int(variable file, variable section) begin
+  variable k, v, ar := get_ini_section(file, section), tmp := temp_array_map;
+  foreach k: v in ar begin
+    k := atoi(k);
+    v := atoi(v);
+    tmp[k] := v;
+  end
+  return tmp;
+end

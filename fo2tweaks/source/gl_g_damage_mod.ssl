@@ -26,6 +26,7 @@
 #define set_damage_mod "damage_mod"
 #define sec_damage_mod "damage_mod"
 #define set_damage_mod_ammo_pids "ammo_pids"
+#define sec_damage_mod_ammo_dr "damage_mod_ammo_dr"
 
 #define is_critical_hit(flags)  ((flags bwand DAM_CRITICAL) != 0)
 #define is_bypassing_armor(flags) ((flags bwand DAM_BYPASS) != 0)
@@ -36,6 +37,7 @@ variable begin
   old_ammo_pids;
   new_ammo_pids;
   enabled;
+  new_dr_mod_list;
 end
 
 procedure start;
@@ -44,23 +46,43 @@ procedure get_dr_dt(variable attacker, variable target, variable target_flags, v
 procedure fix_ammo_stats(variable pids);
 procedure inv_handler;
 procedure get_ammo_pids;
+procedure update_dr_mod(variable dr_mod_list);
 
 procedure start begin
   if game_loaded then begin
     enabled := fo2tweaks_setting(sec_main, set_damage_mod);
     if enabled == 1 then begin
-      register_hook_proc(HOOK_COMBATDAMAGE, damage_handler);
+
+      //custom DR values
+      new_dr_mod_list := get_ini_section_int_int(fo2tweaks_ini, sec_damage_mod_ammo_dr);
+      fix_array(new_dr_mod_list);
+      call update_dr_mod(new_dr_mod_list);
+
+      //cosmetic change
       new_ammo_pids := fo2tweaks_comsep_setting(sec_damage_mod, set_damage_mod_ammo_pids);
       ammo_pids := get_ammo_pids;
       fix_array(ammo_pids);
       call fix_ammo_stats(ammo_pids);
+
+      register_hook_proc(HOOK_COMBATDAMAGE, damage_handler);
       ndebug("initialized");
     end
   end
 end
 
 procedure map_enter_p_proc begin
-  if enabled then call fix_ammo_stats(ammo_pids);
+  if enabled then begin
+    call update_dr_mod(new_dr_mod_list);
+    call fix_ammo_stats(ammo_pids);
+  end
+end
+
+procedure update_dr_mod(variable dr_mod_list) begin
+  variable pid, mod;
+  foreach pid: mod in dr_mod_list begin
+    set_proto_data(pid, PROTO_AM_DR_MOD, mod);
+    ndebug("set DR mod to " + mod + " for ammo pid " + pid);
+  end
 end
 
 procedure get_ammo_pids begin
@@ -97,11 +119,10 @@ procedure get_ammo_pids begin
   return ar;
 end
 
-//cosmetic change
 procedure fix_ammo_stats(variable pids) begin
   variable pid, type, mult, div, dr_mod, cd;
   foreach pid in pids begin
-    ndebug("fixing ammo pid " + pid);
+    ndebug("fixing stats for ammo pid " + pid);
     div := 100;
     type := get_proto_data(pid, PROTO_IT_TYPE);
     if type == item_type_ammo then begin
