@@ -59,6 +59,12 @@
 
 #define in_loot_mode (get_game_mode BWAND INTFACELOOT)
 #define obj_can_detect_obj(source, target) (obj_can_see_obj(source, target) or obj_can_hear_obj(source, target))
+#define invalid_game_mode ( \
+  get_game_mode bwand \
+  ( WORLDMAP bwor DIALOG bwor ESCMENU bwor SAVEGAME bwor LOADGAME \
+  bwor OPTIONS bwor HELP bwor CHARSCREEN bwor PIPBOY \
+  bwor AUTOMAP bwor BARTER bwor HEROWIN bwor DIALOGVIEW) \
+)
 
 variable begin
   highlight_key;
@@ -237,7 +243,7 @@ procedure keypress_handler begin
         scanner, charges;
 
   if key != highlight_key then return;
-
+  if invalid_game_mode then return;
   if not pressed then begin
     call reset_highlight;
     return;
