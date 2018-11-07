@@ -11,11 +11,16 @@
 #define BODYPART_LEFT_LEG 5
 #define BODYPART_EYES 6
 #define BODYPART_GROIN 7
-//#define BODYPART_TORSO_CALLED 8 ???
+#define BODYPART_TORSO_CALLED 8
 
 //critical hit tables
 #define CRITICAL_VALUE_TYPE_MULT 0
 #define CRITICAL_VALUE_TYPE_EFFECTS 1
+#define CRITICAL_VALUE_TYPE_STAT_CHECK 2
+#define CRITICAL_VALUE_TYPE_CHECK_MOD 3
+#define CRITICAL_VALUE_TYPE_FAIL_EFFECT 4
+#define CRITICAL_VALUE_TYPE_MSG 5
+#define CRITICAL_VALUE_TYPE_FAIL_MSG 6
 
 #define NAME "gl_g_damage_mod"
 #define set_damage_mod "damage_mod"
@@ -52,7 +57,7 @@ end
 
 //cosmetic change
 procedure fix_ammo_stats begin
-  variable i := 0, type, mult, div := 100, dr_mod, tmp1, tmp2;
+  variable i := 0, type, mult, div := 100, dr_mod;
   for (i := 0; i <= 1000; i++) begin
     type := get_proto_data(i, PROTO_IT_TYPE);
     if type == item_type_ammo then begin
@@ -112,7 +117,7 @@ end
 procedure get_bullet_damage(variable dmg_min, variable dmg_max, variable ranged_bonus, variable dt,
   variable ammo_mult, variable critical_mult, variable difficulty_mult, variable dr_mult)
 begin
-  variable rd := random(dmg_min, dmg_max);
+  variable rnd := random(dmg_min, dmg_max);
 
   /* original formula
     ND = net damage value
@@ -133,8 +138,8 @@ begin
 
   /* new formula: dt is subtracted first, then the rest is multiplied by corresponding miltipliers */
 
-  variable dmg := round_chance(1.0 * (rd + ranged_bonus - dt) * ammo_mult * critical_mult * difficulty_mult * dr_mult);
-  ndebug("rd " + rd + " ranged_bonus " + ranged_bonus + " dt " + dt + " ammo_mult " + ammo_mult
+  variable dmg := round_chance(1.0 * (rnd + ranged_bonus - dt) * ammo_mult * critical_mult * difficulty_mult * dr_mult);
+  ndebug("rnd " + rnd + " ranged_bonus " + ranged_bonus + " dt " + dt + " ammo_mult " + ammo_mult
         + " critical_mult " + critical_mult + " difficulty_mult " + difficulty_mult + " dr_mult " + dr_mult
         + ", dmg " + dmg);
   if dmg < 0 then dmg := 0;
@@ -189,37 +194,35 @@ begin
 end
 
 procedure get_resist_defines(variable dmg_type) begin
-  variable ar_dt_type, ar_dr_type, cr_dt_type, cr_dr_type, dmgtype_determined := 0;
+  variable cr_dt_type, cr_dr_type;
 
-  if dmg_type == DMG_normal_dam then begin
-    cr_dr_type := STAT_dmg_resist;
-    cr_dt_type := STAT_dmg_thresh;
-    dmgtype_determined := 1;
-  end else if dmgtype_determined == 0 and dmg_type == DMG_laser then begin
-    cr_dr_type := STAT_dmg_resist_laser;
-    cr_dt_type := STAT_dmg_thresh_laser;
-    dmgtype_determined := 1;
-  end else if dmgtype_determined == 0 and dmg_type == DMG_fire then begin
-    cr_dr_type := STAT_dmg_resist_fire;
-    cr_dt_type := STAT_dmg_thresh_fire;
-    dmgtype_determined := 1;
-  end else if dmgtype_determined == 0 and dmg_type == DMG_plasma then begin
-    cr_dr_type := STAT_dmg_resist_plasma;
-    cr_dt_type := STAT_dmg_thresh;
-    dmgtype_determined := 1;
-  end else if dmgtype_determined == 0 and dmg_type == DMG_electrical then begin
-    cr_dr_type := STAT_dmg_resist_electrical;
-    cr_dt_type := STAT_dmg_thresh_electrical;
-    dmgtype_determined := 1;
-  end else if dmgtype_determined == 0 and dmg_type == DMG_emp then begin
-    cr_dr_type := STAT_dmg_resist_emp;
-    cr_dt_type := STAT_dmg_thresh_emp;
-    dmgtype_determined := 1;
-  end else if dmgtype_determined == 0 and dmg_type == DMG_explosion then begin
-    cr_dr_type := STAT_dmg_resist_explosion;
-    cr_dt_type := STAT_dmg_thresh_explosion;
-    dmgtype_determined := 1;
+  switch dmg_type begin
+    case DMG_normal_dam:
+      cr_dr_type := STAT_dmg_resist;
+      cr_dt_type := STAT_dmg_thresh;
+    case DMG_laser:
+      cr_dr_type := STAT_dmg_resist_laser;
+      cr_dt_type := STAT_dmg_thresh_laser;
+    case DMG_fire:
+      cr_dr_type := STAT_dmg_resist_fire;
+      cr_dt_type := STAT_dmg_thresh_fire;
+    case DMG_plasma:
+      cr_dr_type := STAT_dmg_resist_plasma;
+      cr_dt_type := STAT_dmg_thresh;
+    case DMG_electrical:
+      cr_dr_type := STAT_dmg_resist_electrical;
+      cr_dt_type := STAT_dmg_thresh_electrical;
+    case DMG_emp:
+      cr_dr_type := STAT_dmg_resist_emp;
+      cr_dt_type := STAT_dmg_thresh_emp;
+    case DMG_explosion:
+      cr_dr_type := STAT_dmg_resist_explosion;
+      cr_dt_type := STAT_dmg_thresh_explosion;
+    default: //should never fire, but just in case
+      cr_dr_type := STAT_dmg_resist;
+      cr_dt_type := STAT_dmg_thresh;
   end
+
   return [cr_dr_type, cr_dt_type];
 end
 
@@ -308,24 +311,15 @@ procedure damage_handler begin
   variable knockback_distance := get_sfall_arg;
   variable attack_type := get_sfall_arg;
 
-  variable nd := 0, rd, ranged_bonus := 0, cm, adr := 0, adt := 0, x := 1, y := 1, dr_mod := 0, cd;
+  variable nd := 0, rd, ranged_bonus := 0, cm, dr_mod := 0, cd;
   variable begin
-    armor;
     dmg_type;
     cd_setting;
     i;
     ammo_mult;
     difficulty_mult;
     critical_mult;
-    dr_mult;
 
-
-    ar_dt_type;
-    ar_dr_type;
-    cr_dt_type;
-    cr_dr_type;
-
-    natural_dr;
     target_dr;
     target_dt;
     final_dr;
@@ -334,14 +328,6 @@ procedure damage_handler begin
     dmg_min;
     dmg_max;
     ammo_pid;
-    natural_dt;
-    resist_defines;
-    fine;
-
-    table;
-    t;
-    levels;
-    level;
   end
 
 
@@ -388,15 +374,10 @@ procedure damage_handler begin
   difficulty_mult := cd / 100.0;
   critical_mult := damage_multiplier / 2.0;
 
-/*
-  get_total_damage( attacker, target, dmg_type, dr_mod, dmg_min, dmg_max,
-     ranged_bonus, ammo_mult, critical_mult, difficulty_mult, bullets_number)
-*/
   nd := get_total_damage(attacker, target, dmg_type, dr_mod, dmg_min, dmg_max,
     ranged_bonus, ammo_mult, critical_mult, difficulty_mult, bullets_number);
 
-  ndebug("rd " + rd + ", ranged_bonus " +  ranged_bonus + ", x " +  x + ", cm " +  cm + ", y " +  y + ", cd " +  cd
-      + ", adt " +  adt + ", adr " +  adr + ", dr_mod " +  dr_mod + ", final dr " + final_dr + ", final dt " + final_dt
+  ndebug("ranged_bonus " +  ranged_bonus + ", cm " +  cm + ", cd " +  cd + ", dmg_type " + dmg_type
       + ", ammo_mult " + ammo_mult);
 
   //logging for comparison
