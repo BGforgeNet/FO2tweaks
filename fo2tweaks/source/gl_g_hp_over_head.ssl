@@ -44,12 +44,12 @@ end
 
 procedure gamemode_handler begin
   new_mode := get_game_mode;
-  if combat_ended(old_mode, new_mode) then begin
+  if mode_ended(COMBAT, old_mode, new_mode) then begin
     ndebug("combat ended, clearing floats");
     call clear_all_floats;
     set_global_script_repeat(0);
   end
-  if combat_started(old_mode, new_mode) then begin
+  if mode_started(COMBAT, old_mode, new_mode) then begin
     ndebug("combat started, enabling floats");
     call update_hp;
     set_global_script_repeat(12);
