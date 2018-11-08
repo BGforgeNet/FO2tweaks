@@ -37,7 +37,7 @@ variable begin
   old_ammo_pids;
   new_ammo_pids;
   enabled;
-  new_dr_mod_list;
+  dr_mod_list;
 end
 
 procedure start;
@@ -54,9 +54,10 @@ procedure start begin
     if enabled == 1 then begin
 
       //custom DR values
-      new_dr_mod_list := get_ini_section_int_int(fo2tweaks_ini, sec_damage_mod_ammo_dr);
-      fix_array(new_dr_mod_list);
-      call update_dr_mod(new_dr_mod_list);
+      dr_mod_list := get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_dr);
+      fix_array(dr_mod_list);
+      ndebug("dr_mod_list length is " + len_array(dr_mod_list));
+      call update_dr_mod(dr_mod_list);
 
       //cosmetic change
       new_ammo_pids := fo2tweaks_comsep_setting(sec_damage_mod, set_damage_mod_ammo_pids);
@@ -72,16 +73,24 @@ end
 
 procedure map_enter_p_proc begin
   if enabled then begin
-    call update_dr_mod(new_dr_mod_list);
+    call update_dr_mod(dr_mod_list);
     call fix_ammo_stats(ammo_pids);
   end
 end
 
 procedure update_dr_mod(variable dr_mod_list) begin
-  variable pid, mod;
+  variable pid, mod, type;
   foreach pid: mod in dr_mod_list begin
-    set_proto_data(pid, PROTO_AM_DR_MOD, mod);
+    pid := atoi(pid); //have to pass strings, as 0's can't be stored in a map
+    mod := atoi(mod);
+
+    if not is_ammo_pid(pid) then begin //not ammo, how did it get here?
+      ndebug("warning | item pid " + pid + " is not ammo");
+      continue;
+    end
+
     ndebug("set DR mod to " + mod + " for ammo pid " + pid);
+    set_proto_data(pid, PROTO_AM_DR_MOD, mod);
   end
 end
 
@@ -122,20 +131,23 @@ end
 procedure fix_ammo_stats(variable pids) begin
   variable pid, type, mult, div, dr_mod, cd;
   foreach pid in pids begin
-    ndebug("fixing stats for ammo pid " + pid);
     div := 100;
-    type := get_proto_data(pid, PROTO_IT_TYPE);
-    if type == item_type_ammo then begin
-      dr_mod := get_proto_data(pid, PROTO_AM_DR_MOD);
-      mult := 100 + dr_mod;
 
-      cd := gcd(div, mult);
-      div := div / cd;
-      mult := mult / cd;
-
-      set_proto_data(pid, PROTO_AM_DMG_MULT, mult);
-      set_proto_data(pid, PROTO_AM_DMG_DIV, div);
+    if not is_ammo_pid(pid) then begin //not ammo, how did it get here?
+      ndebug("warning | item pid " + pid + " is not ammo");
+      continue;
     end
+
+    dr_mod := get_proto_data(pid, PROTO_AM_DR_MOD);
+    mult := 100 + dr_mod;
+
+    cd := gcd(div, mult);
+    div := div / cd;
+    mult := mult / cd;
+
+    set_proto_data(pid, PROTO_AM_DMG_MULT, mult);
+    set_proto_data(pid, PROTO_AM_DMG_DIV, div);
+    ndebug("fixed stats for ammo pid " + pid);
   end
   ndebug("beautified ammo stats");
 end

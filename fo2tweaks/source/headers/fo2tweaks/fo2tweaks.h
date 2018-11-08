@@ -14,8 +14,10 @@
 
 #define sec_main "main"
 
-#define is_weapon(x) (obj_item_subtype(x) == item_type_weapon)
-#define is_ammo(x)	 (obj_item_subtype(x) == item_type_ammo)
+#define is_weapon(obj) (obj_item_subtype(obj) == item_type_weapon)
+#define is_weapon_pid(pid)	(proto_data(pid, it_type) == item_type_weapon)
+#define is_ammo(obj)	 (obj_item_subtype(obj) == item_type_ammo)
+#define is_ammo_pid(pid)	(proto_data(pid, it_type) == item_type_ammo)
 #define is_critter(obj)   (obj_type(obj) == OBJ_TYPE_CRITTER)
 #define in_combat (get_game_mode bwand COMBAT)
 #define in_inventory (get_game_mode bwand INVENTORY)
@@ -139,14 +141,4 @@ end
 procedure combat_started(variable old_mode, variable new_mode) begin
   if (old_mode bwand COMBAT) == 0 and (new_mode bwand COMBAT) > 0 then return true;
   return false;
-end
-
-procedure get_ini_section_int_int(variable file, variable section) begin
-  variable k, v, ar := get_ini_section(file, section), tmp := temp_array_map;
-  foreach k: v in ar begin
-    k := atoi(k);
-    v := atoi(v);
-    tmp[k] := v;
-  end
-  return tmp;
 end
