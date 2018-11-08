@@ -21,8 +21,11 @@
 #define is_armor(obj)	 (obj_item_subtype(obj) == item_type_armor)
 #define is_armod_pid(pid)	(proto_data(pid, it_type) == item_type_armor)
 #define is_critter(obj)   (obj_type(obj) == OBJ_TYPE_CRITTER)
+
 #define in_combat (get_game_mode bwand COMBAT)
 #define in_inventory (get_game_mode bwand INVENTORY)
+#define in_dialig (get_game_mode bwand DIALOG)
+
 #define is_dead(critter_obj) (critter_state(critter_obj) == CRITTER_IS_DEAD)
 
 
@@ -137,11 +140,48 @@ procedure gcd(variable x, variable y) begin
   return x;
 end
 
-procedure combat_ended(variable old_mode, variable new_mode) begin
-  if (old_mode bwand COMBAT) > 0 and (new_mode bwand COMBAT) == 0 then return true;
+procedure mode_ended(variable mode_to_check, variable old_mode, variable new_mode) begin
+  if (old_mode bwand mode_to_check) > 0 and (new_mode bwand mode_to_check) == 0 then return true;
   return false;
 end
-procedure combat_started(variable old_mode, variable new_mode) begin
-  if (old_mode bwand COMBAT) == 0 and (new_mode bwand COMBAT) > 0 then return true;
+procedure mode_started(variable mode_to_check, variable old_mode, variable new_mode) begin
+  if (old_mode bwand mode_to_check) == 0 and (new_mode bwand mode_to_check) > 0 then return true;
   return false;
+end
+
+procedure f2_party_member_pids begin
+  variable pids;
+  pids := [
+    PID_VIC,
+    PID_SULIK,
+    PID_JOHN_MACRAE,
+    PID_LENNY,
+    PID_MYRON,
+    PID_MARCUS,
+    PID_DAVIN,
+    PID_MIRIA,
+    PID_ROBOBRAIN,
+    PID_ROBOBRAIN_CHIMP,
+    PID_ROBOBRAIN_HUMAN,
+    PID_ROBOBRAIN_ABNORMAL,
+    PID_GORIS,
+    PID_CYBERDOG,
+    PID_K9,
+    PID_DOGMEAT
+  ];
+  return pids;
+end
+
+procedure rp_party_member_pids begin
+  variable pids;
+  pids := [PID_KITSUNE, PID_DEX, PID_CAT_JULES];
+  return pids;
+end
+
+procedure f2rp_party_member_pids begin
+  variable pids, rp_pids;
+  pids := f2_party_member_pids;
+  rp_pids := rp_party_member_pids;
+  pids := array_append(pids, rp_pids);
+  return pids;
 end

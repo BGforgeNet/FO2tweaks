@@ -1,68 +1,99 @@
-/* Include Files */
-#include "..\headers\define.h"
 #include "..\headers\command.h"
-#include "..\headers\sfall\define_extra.h"
 #include "..\headers\sfall\sfall.h"
 #include "..\headers\fo2tweaks\fo2tweaks.h"
 
 #define NAME "gl_g_unlimited_party"
+#define set_unlimited_party "unlimited_party"
 
-#define in_dlg (get_game_mode bwor DIALOG)
+variable begin
+  old_mode := 0;
+  new_mode;
+  party_members;
+  potential_party_member_pids;
+  dude_cha;
+  boosted := 0;
+  dropped := 0;
+end
 
-/* Standard Script Procedures */
 procedure start;
-procedure allow_party;
+procedure gamemode_handler;
 
-procedure start begin
-  variable mt;
-  if game_loaded then begin
-    register_hook_proc(HOOK_GAMEMODECHANGE, allow_party);
-    register_hook_proc(HOOK_USESKILL, allow_party);
-    register_hook_proc(HOOK_USEOBJ, allow_party);
-    register_hook_proc(HOOK_USEOBJON, allow_party);
-    set_global_script_type(1);
-    foreach mt in sfall_func0("get_metarule_table") begin
-      ndebug("test3" + mt);
+procedure allow_join begin
+  variable who;
+  party_members := party_member_list_critters;
+  fix_array(party_members);
+
+  ndebug("current party members:");
+  foreach who in party_members begin
+    ndebug(obj_name(who));
+  end
+
+  who := dialog_obj;
+  ndebug("talking to " + obj_name(who));
+
+  if is_in_array(who, party_members) then begin
+    ndebug(obj_name(who) + " is already in party, skipping");
+    return;
+  end
+  if not is_in_array(obj_pid(who), potential_party_member_pids) then begin
+    ndebug(obj_name(who) + " is not a joinable NPC, skipping");
+    return;
+  end
+
+  //drop everyone else
+  foreach who in party_members begin
+    if who != dude_obj then begin
+      party_remove(who);
+      ndebug("dropped " + obj_name(who) + " from party");
+      dropped := 1;
     end
+  end
+
+  //boost charisma
+  dude_cha := dude_charisma;
+  if dude_cha < 2 then begin
+    set_critter_stat(dude_obj, STAT_ch, 2);
+    ndebug("boosted charisma from " + dude_cha + " to 2");
+    boosted := 1;
+  end
+
+end
+
+procedure reset_state begin
+  variable who;
+  ndebug("dropped is " + dropped + ", boosted is " + boosted);
+  if boosted then begin
+    set_critter_stat(dude_obj, STAT_ch, dude_cha);
+    ndebug("reset charisma to " + dude_cha);
+    boosted := 0;
+  end
+  if dropped then begin
+    foreach who in party_members begin
+      if who != dude_obj then begin
+        party_add(who);
+        ndebug("added " + obj_name(who) + " back to party");
+      end
+    end
+    dropped := 0;
   end
 end
 
-procedure talk_p_proc begin
-  ndebug("test1");
-  call allow_party;
-  ndebug("test2");
+procedure gamemode_handler begin
+  new_mode := get_game_mode;
+  ndebug("new mode is " + new_mode);
+  if mode_started(DIALOG, old_mode, new_mode) then call allow_join;
+  if mode_ended(DIALOG, old_mode, new_mode) then call reset_state;
+  old_mode := new_mode;
 end
 
-
-procedure allow_party begin
-/*
-Runs once every time when the game mode was changed, like opening/closing the inventory, character screen, pipboy, etc.
-int     arg1 - event type: 1 - when the player exits the game, 0 - otherwise
-*/
-
-  variable exiting := get_sfall_arg;
-  variable party_pids;
-  party_pids := [
-    PID_MYRON,
-    PID_SULIK,
-    PID_VIC,
-    PID_MARCUS
-  ];
-  ndebug("test");
-  //if in_dlg and not exiting then begin
-    ndebug("pass");
-    ndebug("source_obj is " + obj_pid(source_obj));
-    ndebug("target_obj is " + obj_pid(target_obj));
-/*
-    if (true_party_size > 0) then begin
-      variable who;
-      foreach who in party_pids begin
-        if (who == obj_pid(target_obj)) then begin
-          ndebug("I am talking to " + who);
-        end
-      end
+procedure start begin
+  if game_loaded then begin
+    variable enabled := fo2tweaks_setting(sec_main, set_unlimited_party);
+    if enabled == 1 then begin
+      potential_party_member_pids := f2rp_party_member_pids;
+      fix_array(potential_party_member_pids);
+      register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+      ndebug("initialized");
     end
-
-*/
-  //end
+  end
 end
