@@ -18,6 +18,8 @@
 #define is_weapon_pid(pid)	(proto_data(pid, it_type) == item_type_weapon)
 #define is_ammo(obj)	 (obj_item_subtype(obj) == item_type_ammo)
 #define is_ammo_pid(pid)	(proto_data(pid, it_type) == item_type_ammo)
+#define is_armor(obj)	 (obj_item_subtype(obj) == item_type_armor)
+#define is_armod_pid(pid)	(proto_data(pid, it_type) == item_type_armor)
 #define is_critter(obj)   (obj_type(obj) == OBJ_TYPE_CRITTER)
 #define in_combat (get_game_mode bwand COMBAT)
 #define in_inventory (get_game_mode bwand INVENTORY)
@@ -114,13 +116,14 @@ procedure get_party_skill_level(variable skill) begin
   variable skill_name;
   foreach who in party_member_list_critters begin
     variable who_skill := critter_skill_level(who, skill);
+    ndebug(obj_name(who) + " has skill " + skill + " level of " + who_skill);
     if who_skill > skill_level then begin
       skill_level := who_skill;
       who_best := who;
     end
   end
-  ndebug(obj_name(who_best) + " has best skill " + mstr_skill(skill_name) + " of " + skill_level);
-  return [who_best, skill_level];
+  ndebug(obj_name(who_best) + " has best skill " + skill_name + " of " + skill_level);
+  return skill_level;
 end
 
 //greatest common divisor
