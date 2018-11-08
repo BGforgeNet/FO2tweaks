@@ -44,7 +44,7 @@ procedure auto_reload begin
   old_game_mode := new_game_mode;
 
   i := 1;
-  for (i := 1; i <= 2; i++) begin
+  for (i := 1; i <= 2; i++) begin //right, left hands
 		weapon := critter_inven_obj2(who, i);
 
 		if not weapon or not is_weapon(weapon) then continue;
