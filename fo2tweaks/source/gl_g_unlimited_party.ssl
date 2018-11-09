@@ -4,12 +4,15 @@
 
 #define NAME "gl_g_unlimited_party"
 #define set_unlimited_party "unlimited_party"
+#define sec_unlimited_party "unlimited_party"
+#define set_unlimited_party_npc_pids "npc_pids"
 
 variable begin
   old_mode := 0;
   new_mode;
   party_members;
   potential_party_member_pids;
+  mod_npc_pids;
   dude_cha;
   boosted := 0;
   dropped := 0;
@@ -25,7 +28,7 @@ procedure allow_join begin
 
   ndebug("current party members:");
   foreach who in party_members begin
-    ndebug(obj_name(who));
+    if who != dude_obj then ndebug(obj_name(who));
   end
 
   who := dialog_obj;
@@ -91,6 +94,8 @@ procedure start begin
     variable enabled := fo2tweaks_setting(sec_main, set_unlimited_party);
     if enabled == 1 then begin
       potential_party_member_pids := f2rp_party_member_pids;
+      mod_npc_pids := fo2tweaks_comsep_setting(sec_unlimited_party, set_unlimited_party_npc_pids);
+      potential_party_member_pids := array_append(potential_party_member_pids, mod_npc_pids);
       fix_array(potential_party_member_pids);
       register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
       ndebug("initialized");
