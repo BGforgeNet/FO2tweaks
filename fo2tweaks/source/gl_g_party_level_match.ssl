@@ -82,12 +82,14 @@ procedure start begin
         end
         step := floor2((fin_level - start_level)/max_stage);
 
-
         ndebug("npc is " + mstr_scrname(scrname));
         ndebug("cur_stage = " + cur_stage);
         ndebug("pc_level = " + pc_level);
         ndebug("start_level = " + start_level);
         ndebug("step = " + step);
+
+        if pc_level <= start_level then continue; // not yet a time to level up
+
         expected_stage := floor2((pc_level - start_level)/step);
         ndebug("expected_stage = " + expected_stage);
         ndebug("max_stage = " + max_stage);
