@@ -21,6 +21,7 @@
 #define is_armor(obj)	 (obj_item_subtype(obj) == item_type_armor)
 #define is_armod_pid(pid)	(proto_data(pid, it_type) == item_type_armor)
 #define is_critter(obj)   (obj_type(obj) == OBJ_TYPE_CRITTER)
+#define is_scenery(obj)   (obj_type(obj) == OBJ_TYPE_SCENERY)
 
 #define in_combat (get_game_mode bwand COMBAT)
 #define in_inventory (get_game_mode bwand INVENTORY)
