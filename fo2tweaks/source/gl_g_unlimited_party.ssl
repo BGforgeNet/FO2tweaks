@@ -83,7 +83,6 @@ end
 
 procedure gamemode_handler begin
   new_mode := get_game_mode;
-  ndebug("new mode is " + new_mode);
   if mode_started(DIALOG, old_mode, new_mode) then call allow_join;
   if mode_ended(DIALOG, old_mode, new_mode) then call reset_state;
   old_mode := new_mode;
