@@ -34,8 +34,7 @@
 variable begin
   old_total := 0, new_total := 0;
   ammo_pids;
-  old_ammo_pids;
-  new_ammo_pids;
+  mod_ammo_pids;
   enabled;
   dr_mod_list;
 end
@@ -60,8 +59,9 @@ procedure start begin
       call update_dr_mod(dr_mod_list);
 
       //cosmetic change
-      new_ammo_pids := fo2tweaks_comsep_setting(sec_damage_mod, set_damage_mod_ammo_pids);
-      ammo_pids := get_ammo_pids;
+      ammo_pids := f2_ammo_pids;
+      mod_ammo_pids := fo2tweaks_comsep_setting(sec_damage_mod, set_damage_mod_ammo_pids);
+      ammo_pids := array_append(ammo_pids, mod_ammo_pids);
       fix_array(ammo_pids);
       call fix_ammo_stats(ammo_pids);
 
@@ -92,40 +92,6 @@ procedure update_dr_mod(variable dr_mod_list) begin
     ndebug("set DR mod to " + mod + " for ammo pid " + pid);
     set_proto_data(pid, PROTO_AM_DR_MOD, mod);
   end
-end
-
-procedure get_ammo_pids begin
-  variable ar;
-  old_ammo_pids := [
-    PID_EXPLOSIVE_ROCKET,
-    PID_10MM_JHP,
-  	PID_10MM_AP,
-  	PID_44_MAGNUM_JHP,
-  	PID_FLAMETHROWER_FUEL,
-  	PID_14MM_AP,
-  	PID_223_FMJ,
-  	PID_5MM_JHP,
-  	PID_5MM_AP,
-  	PID_ROCKET_AP,
-  	PID_SMALL_ENERGY_CELL,
-  	PID_MICRO_FUSION_CELL,
-  	PID_SHOTGUN_SHELLS,
-  	PID_44_FMJ_MAGNUM,
-  	PID_9MM_BALL,
-  	PID_BBS,
-  	PID_ROBO_ROCKET_AMMO,
-  	PID_45_CALIBER_AMMO,
-  	PID_2MM_EC_AMMO,
-  	PID_4_7MM_CASELESS,
-  	PID_9MM_AMMO,
-  	PID_HN_NEEDLER_CARTRIDGE,
-  	PID_HN_AP_NEEDLER_CARTRIDGE,
-  	PID_7_62MM_AMMO,
-  	PID_FLAMETHROWER_FUEL_MK_II
-  ];
-  ar := clone_array(old_ammo_pids);
-  ar := array_append(ar, new_ammo_pids);
-  return ar;
 end
 
 procedure fix_ammo_stats(variable pids) begin

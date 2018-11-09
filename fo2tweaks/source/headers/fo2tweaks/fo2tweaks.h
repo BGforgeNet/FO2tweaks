@@ -185,3 +185,35 @@ procedure f2rp_party_member_pids begin
   pids := array_append(pids, rp_pids);
   return pids;
 end
+
+procedure f2_ammo_pids begin
+  variable pids;
+  pids := [
+    PID_EXPLOSIVE_ROCKET,
+    PID_10MM_JHP,
+  	PID_10MM_AP,
+  	PID_44_MAGNUM_JHP,
+  	PID_FLAMETHROWER_FUEL,
+  	PID_14MM_AP,
+  	PID_223_FMJ,
+  	PID_5MM_JHP,
+  	PID_5MM_AP,
+  	PID_ROCKET_AP,
+  	PID_SMALL_ENERGY_CELL,
+  	PID_MICRO_FUSION_CELL,
+  	PID_SHOTGUN_SHELLS,
+  	PID_44_FMJ_MAGNUM,
+  	PID_9MM_BALL,
+  	PID_BBS,
+  	PID_ROBO_ROCKET_AMMO,
+  	PID_45_CALIBER_AMMO,
+  	PID_2MM_EC_AMMO,
+  	PID_4_7MM_CASELESS,
+  	PID_9MM_AMMO,
+  	PID_HN_NEEDLER_CARTRIDGE,
+  	PID_HN_AP_NEEDLER_CARTRIDGE,
+  	PID_7_62MM_AMMO,
+  	PID_FLAMETHROWER_FUEL_MK_II
+  ];
+  return pids;
+end
