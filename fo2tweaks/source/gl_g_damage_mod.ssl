@@ -27,6 +27,7 @@
 #define sec_damage_mod "damage_mod"
 #define set_damage_mod_ammo_pids "ammo_pids"
 #define sec_damage_mod_ammo_dr "damage_mod_ammo_dr"
+#define sec_damage_mod_ammo_type "damage_mod_ammo_type"
 
 #define is_critical_hit(flags)  ((flags bwand DAM_CRITICAL) != 0)
 #define is_bypassing_armor(flags) ((flags bwand DAM_BYPASS) != 0)
@@ -37,6 +38,8 @@ variable begin
   mod_ammo_pids;
   enabled;
   dr_mod_list;
+  type_ammo;
+  ammo_damage;
 end
 
 procedure start;
@@ -46,6 +49,8 @@ procedure fix_ammo_stats(variable pids);
 procedure inv_handler;
 procedure get_ammo_pids;
 procedure update_dr_mod(variable dr_mod_list);
+procedure get_real_damage_type(variable weapon);
+procedure load_ammo_damage_type(variable type_ammo);
 
 procedure start begin
   if game_loaded then begin
@@ -65,10 +70,31 @@ procedure start begin
       fix_array(ammo_pids);
       call fix_ammo_stats(ammo_pids);
 
+      //ammo types dealing alternative damage
+      type_ammo := get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_type);
+      ammo_damage := load_ammo_damage_type(type_ammo);
+      fix_array(ammo_damage);
+
       register_hook_proc(HOOK_COMBATDAMAGE, damage_handler);
+
       ndebug("initialized");
     end
   end
+end
+
+procedure load_ammo_damage_type(variable type_ammo) begin
+  variable k, v, pid, ar, tmp, t, dmg_type;
+  ar := temp_array_map;
+  foreach k: v in type_ammo begin
+    tmp := string_split(v, ",");
+    foreach t in tmp begin
+      pid := atoi(t);
+      dmg_type := atoi(k);
+      ar[pid] := dmg_type;
+      ndebug("set ammo pid " + pid + " to do damage type " + dmg_type);
+    end
+  end
+  return ar;
 end
 
 procedure map_enter_p_proc begin
@@ -375,7 +401,6 @@ procedure damage_handler begin
     ammo_pid;
   end
 
-
   if weapon then begin
     ndebug("weapon name is " + obj_name(weapon));
     weapon_pid := obj_pid(weapon);
@@ -407,7 +432,7 @@ procedure damage_handler begin
   dr_mod := get_proto_data(ammo_pid, PROTO_AM_DR_MOD);
   ndebug("ammo dr mod is " + dr_mod);
 
-  dmg_type := weapon_dmg_type(weapon);
+  dmg_type := get_real_damage_type(weapon);
   ndebug("damage type is " + dmg_type);
 
   //cd - combat difficulty  multiplier
@@ -434,4 +459,14 @@ procedure damage_handler begin
 
   set_sfall_return(nd);
   set_sfall_arg(2, nd);
+end
+
+procedure get_real_damage_type(variable weapon) begin
+  variable ammo_pid := get_weapon_ammo_pid(weapon), type;
+  type := ammo_damage[ammo_pid];
+  if type != 0 then begin
+    ndebug("damage type changed to " + type);
+    return type;
+  end
+  return weapon_dmg_type(weapon); //molotov also covered here
 end
