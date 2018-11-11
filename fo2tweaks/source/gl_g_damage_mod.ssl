@@ -369,10 +369,6 @@ procedure damage_handler begin
     difficulty_mult;
     critical_mult;
 
-    target_dr;
-    target_dt;
-    final_dr;
-    final_dt;
     weapon_pid;
     dmg_min;
     dmg_max;
