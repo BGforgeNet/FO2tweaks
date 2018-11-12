@@ -312,7 +312,7 @@ begin
   dt_type := resist_defines[1];
   ndebug("critter dr type is " + dr_type + ", dt type is " + dt_type);
 
-  //get critter resists - includes armor
+  //get critter resists - includes armor and drugs
   target_dr := get_critter_stat(target, dr_type);
   target_dt := get_critter_stat(target, dt_type);
   if has_trait(TRAIT_TRAIT, attacker, TRAIT_finesse) then begin
@@ -338,7 +338,7 @@ begin
   if final_dr > 90 then final_dr := 90.0;
   dr_mult := (100.0 - final_dr) / 100.0;
 
-  final_dt := 1.0 * target_dt * (100.0 + dr_mod) / 100.0;
+  final_dt := target_dt * (100.0 + dr_mod) / 100.0;
   if final_dt < 0 then final_dt := 0;
   ndebug("dr_mult is " + dr_mult);
   ndebug("final dt is " + final_dt);
