@@ -16,10 +16,6 @@ procedure start;
 procedure keypress_handler begin
   variable pressed := get_sfall_arg, key := get_sfall_arg;
   variable k, v, new_key;
-  ndebug("key is " + key);
-  foreach k: v in keymap begin
-    ndebug("k="+k + " v=" + v);
-  end
   new_key := scan_array(keymap, key);
 
   //remap
@@ -29,18 +25,19 @@ procedure keypress_handler begin
     return;
   end
 
+  //disable old key
   if keymap[key] != 0 then begin
     ndebug("old key " + key + " is not mapped, disabling");
     set_sfall_return(DIK_UNLABELED); //hope you don't use katakana my friend
   end
-//  if scan_array(keymap, key)
-//  //disable old keys if not mapped
-//  if is_in_array(key, keymap) and keymap[key] == 0 then begin
-//    set_sfall_return(0);
 end
 
 procedure start begin
   if game_loaded then begin
+    variable o;
+    foreach o in list_as_array(LIST_CRITTERS) begin
+      ndebug(obj_name(o) + " has pointer " + o);
+    end
     enabled := fo2tweaks_setting(sec_main, set_keymap);
     if enabled == 1 then begin
       variable tmp := get_ini_section(fo2tweaks_ini, sec_keymap);
