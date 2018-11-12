@@ -8,10 +8,12 @@
 
 #define NAME "gl_g_map_hotkey"
 #define set_worldmap_key "worldmap_key"
+#define set_townmap_key "townmap_key"
 
 procedure start;
 procedure keypress_hook_handler;
 variable worldmap_key;
+variable townmap_key;
 
 procedure keypress_hook_handler begin
   variable pressed := get_sfall_arg;
@@ -19,18 +21,24 @@ procedure keypress_hook_handler begin
   if not pressed then return; //released
   if get_game_mode then return; //non-zero mode
 
-  if hotkey_pressed_now(worldmap_key, key) then begin
+  if worldmap_key and hotkey_pressed_now(worldmap_key, key) then begin
     ndebug("key pressed, mode valid - calling world map");
     world_map;
-//    town_map; //only works in Fallout 1
+  end
+
+  if townmap_key and hotkey_pressed_now(townmap_key, key) then begin
+    ndebug("key pressed, mode valid - calling town map");
+    world_map;
+    tap_key(DIK_T);
   end
 end
 
 procedure start begin
   if game_loaded then begin
     worldmap_key := fo2tweaks_setting(sec_main, set_worldmap_key);
-    if worldmap_key then begin
-      ndebug("initialized, key is " + worldmap_key);
+    townmap_key := fo2tweaks_setting(sec_main, set_townmap_key);
+    if worldmap_key or townmap_key then begin
+      ndebug("initialized, worldmap key is " + worldmap_key + ", town map key is " + townmap_key);
       register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
     end
   end
