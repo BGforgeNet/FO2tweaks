@@ -1,18 +1,38 @@
 #include "..\headers\define.h"
 #include "..\headers\fo2tweaks\fo2tweaks.h"
+#include "..\headers\sfall\sfall.h"
+#include "..\headers\sfall\dik.h"
+#include "..\headers\sfall\lib.misc.h"
 
 #define NAME "gl_g_light_level"
+#define set_night_vision "free_night_vision"
 
-procedure map_enter_p_proc begin
-//  if map_first_run and cur_map_index == MAP_ARROYO_VILLAGE then begin
-//    variable enabled := get_ini_setting(fo2tweaks_ini + "|" + sec_main + "|" + set_level5);
-//    if enabled == 1 then begin
-  variable light_level := get_light_level;
-  ndebug("old light level " + light_level);
-  if light_level != 65536 then begin
-    light_level := light_level + 20480;
+variable enabled;
+
+procedure update_ll begin
+  variable cur_ll := get_real_light_level;
+  set_light_level(cur_ll);
+end
+
+procedure add_night_vision begin
+  if not has_trait(TRAIT_PERK, dude_obj, PERK_night_vision) then begin
+    ndebug("added Night Vision to dude");
+    critter_add_trait(dude_obj, TRAIT_PERK, PERK_night_vision, 1);
   end
-  if light_level > 65536 then light_level := 65536;
-  set_light_level(100);
-  ndebug("new light level " + light_level);
+end
+
+procedure start begin
+  if game_loaded then begin
+    enabled := fo2tweaks_setting(sec_main, set_night_vision);
+    if enabled then begin
+      call add_night_vision;
+      call update_ll;
+      ndebug("initialized");
+    end
+  end
+end
+
+// this is so Night Vision works faster
+procedure map_enter_p_proc begin
+  if enabled then call update_ll;
 end
