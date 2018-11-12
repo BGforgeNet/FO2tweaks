@@ -1,4 +1,4 @@
-#include "..\headers\sfall\main.h"
+#include "..\headers\sfall\sfall.h"
 #include "..\headers\fo2tweaks\fo2tweaks.h"
 #include "..\headers\scenepid.h"
 #include "..\headers\command.h"
@@ -26,7 +26,7 @@
 #define set_highlight_color_dude "color_dude"
 #define set_highlight_color_items "color_items"
 #define set_highlight_color_transitions "color_transitions"
-#define set_highlight_only_non_empty "only_non_empty"
+#define set_highlight_skip_empty "skip_empty"
 #define set_highlight_exclude_items "exclude_items"
 #define set_highlight_pits "pits"
 #define set_highlight_transitions "transitions"
@@ -71,7 +71,7 @@ variable begin
   check_los;
   motion_scanner;
   ignore_nohighlight;
-  only_non_empty;
+  skip_empty;
   pits;
   transitions;
   exclude_items;
@@ -128,7 +128,7 @@ procedure get_color(variable obj) begin
   //critters and corpses
   if obj_type(obj) == OBJ_TYPE_CRITTER then begin
     if is_dead(obj) then begin
-      if only_non_empty and is_empty(obj) then return OUTLINE_NONE;
+      if skip_empty and is_empty(obj) then return OUTLINE_NONE;
       if NO_STEAL(obj) then return OUTLINE_NONE;
       return color_corpses;
     end else begin
@@ -156,7 +156,7 @@ procedure get_color(variable obj) begin
 
     if obj_item_subtype(obj) == item_type_container then begin
       if obj_is_locked(obj) then return color_containers_locked;
-      if only_non_empty and is_empty(obj) then return OUTLINE_NONE;
+      if skip_empty and is_empty(obj) then return OUTLINE_NONE;
       return color_containers;
     end else return color_items; // default ground items
   end
@@ -294,7 +294,7 @@ procedure start begin
       color_doors_locked := fo2tweaks_setting(sec_highlight, set_highlight_color_doors_locked);
       color_items := fo2tweaks_setting(sec_highlight, set_highlight_color_items);
       color_transitions := fo2tweaks_setting(sec_highlight, set_highlight_color_transitions);
-      only_non_empty := fo2tweaks_setting(sec_highlight, set_highlight_only_non_empty);
+      skip_empty := fo2tweaks_setting(sec_highlight, set_highlight_skip_empty);
 
       exclude_items := fo2tweaks_comsep_setting(sec_highlight, set_highlight_exclude_items);
       fix_array(exclude_items);
