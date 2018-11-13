@@ -352,3 +352,40 @@ procedure get_armor(variable obj) begin
   if not armor or not is_armor(armor) then return false;
   return armor;
 end
+
+procedure f2rp_scrname_maxstage begin
+  variable rp_map;
+  rp_map := {
+    483: 6, //Sulik
+    150: 6, //Vic
+    672: 4, //Cassidy
+    239: 3, //Lenny
+    700: 5, //Marcus
+    537: 4, //Myron
+    267: 5, //Brainbot
+    573: 4, //Robodog
+    647: 6, //Goris
+    1157: 4, //K-9
+    1195: 6, //Dogmeat
+    1506: 5, //Cat jJles
+    1507: 5, //Kitsune
+    1508: 5, //Dex
+    206: 0, //Miria
+    199: 0 //Davin
+  };
+  return rp_map;
+end
+
+//warning: values cannot be 0, or will be skipped!
+procedure get_ini_section_ints(variable file, variable section) begin
+  variable ar, ar2 := temp_array_map, k, v;
+  ar := get_ini_section(file, section);
+  foreach k: v in ar begin
+    ndebug(k + " " + v);
+    ar2[atoi(k)] := atoi(v);
+  end
+  foreach k: v in ar2 begin
+    ndebug(k + " " + v);
+  end
+  return ar2;
+end

@@ -41,7 +41,8 @@ procedure start begin
     cur_stage,
     start_level,
     party_names,
-    expected_stage;
+    expected_stage,
+    tmp;
   if game_loaded then begin
     enabled := fo2tweaks_setting(sec_main, set_party_level_match);
     if enabled then begin
@@ -50,19 +51,22 @@ procedure start begin
       stage4_start := fo2tweaks_setting(sec_party_level_match, set_party_4stages_start);
       stage5_start := fo2tweaks_setting(sec_party_level_match, set_party_5stages_start);
       stage6_start := fo2tweaks_setting(sec_party_level_match, set_party_6stages_start);
-      scrname_maxstage := get_ini_section(fo2tweaks_ini, sec_party_level_names);
+
+      //load default, override from ini
+      tmp := f2rp_scrname_maxstage;
+      scrname_maxstage := get_ini_section_ints(fo2tweaks_ini, sec_party_level_names);
+      scrname_maxstage := array_append(tmp, scrname_maxstage);
       fix_array(scrname_maxstage);
+
       set_global_script_repeat(600);
       ndebug("initialized");
     end
   end else begin
-    if (party_size > 0) then begin
+    if party_size > 0 then begin
       pc_level := get_pc_stat(PCSTAT_level);
       party_names := party_member_list_names;
 
       foreach (scrname: max_stage in scrname_maxstage) begin
-        scrname := atoi(scrname);
-        max_stage := atoi(max_stage);
         cur_stage := get_npc_level(mstr_scrname(scrname));
 
         //not in party, skip
