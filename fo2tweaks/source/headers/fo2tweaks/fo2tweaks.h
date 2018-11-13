@@ -328,3 +328,27 @@ procedure get_real_light_level begin
   real_level := real_level_map[get_light_level];
   return real_level;
 end
+
+procedure is_gun(variable obj) begin
+  variable anim_code;
+  variable ranged_codes := [
+    WPN_ANIM_PISTOL,
+    WPN_ANIM_SMG,
+    WPN_ANIM_RIFLE,
+    WPN_ANIM_BIG_GUN,
+    WPN_ANIM_MINIGUN,
+    WPN_ANIM_ROCKET_LAUNCHER
+  ];
+  if not is_weapon(obj) then return false;
+  anim_code := get_proto_data(obj_pid(obj), PROTO_WP_ANIM);
+  if is_in_array(anim_code, ranged_codes) then return true;
+  return false;
+end
+
+procedure get_armor(variable obj) begin
+  variable armor;
+  if not is_critter(obj) then return false;
+  armor := critter_inven_obj(dude_obj, INVEN_TYPE_WORN);
+  if not armor or not is_armor(armor) then return false;
+  return armor;
+end

@@ -283,7 +283,7 @@ procedure get_resist_defines(variable dmg_type) begin
       cr_dt_type := STAT_dmg_thresh_fire;
     case DMG_plasma:
       cr_dr_type := STAT_dmg_resist_plasma;
-      cr_dt_type := STAT_dmg_thresh;
+      cr_dt_type := STAT_dmg_thresh_plasma;
     case DMG_electrical:
       cr_dr_type := STAT_dmg_resist_electrical;
       cr_dt_type := STAT_dmg_thresh_electrical;
@@ -304,7 +304,8 @@ end
 //returns [dr_mult, dt]
 procedure get_dr_dt(variable attacker, variable target, variable dmg_type, variable dr_mod, variable target_flags)
 begin
-  variable target_dr, target_dt, final_dr, final_dt, dr_mult, resist_defines, dr_type, dt_type;
+  variable target_dr, target_dt, final_dr, final_dt, dr_mult,
+    resist_defines, dr_type, dt_type;
 
   //determine resits types
   resist_defines := get_resist_defines(dmg_type);
@@ -312,9 +313,10 @@ begin
   dt_type := resist_defines[1];
   ndebug("critter dr type is " + dr_type + ", dt type is " + dt_type);
 
-  //get critter resists - includes armor and drugs
-  target_dr := get_critter_stat(target, dr_type);
+  //get critter resists
+  target_dr := get_critter_stat(target, dr_type); //includes armor and drugs
   target_dt := get_critter_stat(target, dt_type);
+
   if has_trait(TRAIT_TRAIT, attacker, TRAIT_finesse) then begin
     ndebug("attacking with finesse, extra 30% to dr");
     target_dr := target_dr + 30;
@@ -408,12 +410,13 @@ procedure damage_handler begin
     dmg_max := get_proto_data(weapon_pid, PROTO_WP_DMG_MAX);
     ndebug("dmg_minmax - " + dmg_min + ":" + dmg_max);
     ammo_pid := get_active_ammo_pid(attacker);
-  end else begin //hth or melee
+  end else begin //unarmed
     ndebug("unarmed attack, skipping");
     return;
   end
-  if not ammo_pid then begin
-    ndebug("weapon has no ammo, skipping");
+
+  if not is_gun(weapon) then begin
+    ndebug("not a gun, skipping");
     return;
   end
 
@@ -429,8 +432,13 @@ procedure damage_handler begin
   cm := damage_multiplier;
 
   //ammo: damage resistance mod
-  dr_mod := get_proto_data(ammo_pid, PROTO_AM_DR_MOD);
-  ndebug("ammo dr mod is " + dr_mod);
+  if ammo_pid then begin
+    dr_mod := get_proto_data(ammo_pid, PROTO_AM_DR_MOD);
+    ndebug("ammo dr mod is " + dr_mod);
+  end else begin //solar scorcher
+    dr_mod := 0;
+    ndebug("weapon has no ammo, no dr mod");
+  end
 
   dmg_type := get_real_damage_type(weapon);
   ndebug("damage type is " + dmg_type);
