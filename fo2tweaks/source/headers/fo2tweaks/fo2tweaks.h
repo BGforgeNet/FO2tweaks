@@ -25,7 +25,7 @@
 
 #define in_combat (get_game_mode bwand COMBAT)
 #define in_inventory (get_game_mode bwand INVENTORY)
-#define in_dialig (get_game_mode bwand DIALOG)
+#define in_dialog (get_game_mode bwand DIALOG)
 
 #define is_dead(critter_obj) (critter_state(critter_obj) == CRITTER_IS_DEAD)
 
