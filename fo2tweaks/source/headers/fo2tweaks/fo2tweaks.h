@@ -348,7 +348,7 @@ end
 procedure get_armor(variable obj) begin
   variable armor;
   if not is_critter(obj) then return false;
-  armor := critter_inven_obj(dude_obj, INVEN_TYPE_WORN);
+  armor := critter_inven_obj(obj, INVEN_TYPE_WORN);
   if not armor or not is_armor(armor) then return false;
   return armor;
 end
