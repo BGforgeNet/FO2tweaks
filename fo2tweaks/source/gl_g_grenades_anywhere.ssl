@@ -1,0 +1,22 @@
+#include "..\headers\define.h"
+#include "..\headers\sfall\sfall.h"
+#include "..\headers\sfall\define_extra.h"
+#include "..\headers\fo2tweaks\fo2tweaks.h"
+
+#define NAME "gl_g_grenades_anywhere"
+
+procedure start begin
+  if game_loaded then begin
+    set_global_script_repeat(300);
+  end else begin
+    if in_combat then begin
+      if get_game_mode bwand PCOMBAT then begin
+        if get_active_weapon_pid(dude_obj) == PID_MOLOTOV_COCKTAIL then begin
+          if get_cursor_mode == CURSOR_TARGETING then begin
+            create_object(PID_SLAGGED_DOOR_BOTTOM, tile_under_cursor, elevation(dude_obj));
+          end
+        end
+      end
+    end
+  end
+end
