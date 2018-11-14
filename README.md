@@ -165,7 +165,7 @@ Expanded version of Sfall highlighting mod. A picture speaks a thousand words. H
 
 
 #### Light level
-Designed for Restoration Project users. Unfortunately, many areas in RP are quite dark compared to the original game, to the point of being an eye hazard.
+Designed for Restoration Project users. Unfortunately, many areas in RP are quite dark compared to the original game, to the point of being eye hazard.
 
 Currently there's no way to adjust light level gracefully, so this component will grant the dude a free level of Night Vision perk.
 Displayed light level affects chance to hit for both dude and enemies, so it's still fair game.
@@ -198,7 +198,7 @@ Delete fo2tweaks.ini and all data/scripts/gl_g_* files.
 - The mod is [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 ## Changelog
-* Version 10:
+* Version 9:
   - Massive overhaul with compatibility in mind. Now featuring only fully pluggable components.
   - Removed inventory filter.
   - Removed burst control (merged into [Party Orders](https://github.com/BGforgeNet/fallout2-party-orders)).
@@ -221,12 +221,6 @@ Delete fo2tweaks.ini and all data/scripts/gl_g_* files.
   - Added workaround for party killing Modoc brahmin.
   - Added party level matching.
   - Improved unlimited party.
-* Version 9:
-  - disabled Horrigan initial cutscene by default and in general speedup
-  - added hotkey for party burts
-  - fixed installation on Win 8
-  - fixed being able to recruit Sulik before paying
-  - added Spanish translation
 * Version 8:
   - Added "Map hotkey" component
   - Re-enabled Molotov cocktail component
