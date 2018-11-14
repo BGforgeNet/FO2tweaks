@@ -1,9 +1,0 @@
-OUTER_SPRINT comp_dir ~%MOD_FOLDER%/components/sfall~
-
-ACTION_IF FILE_EXISTS ~ddraw.dll~ BEGIN
-  AT_NOW ~%MOD_FOLDER%/components/sfall/sfall.bat~
-END ELSE BEGIN
-  PRINT @30 //Installing Sfall
-  COPY ~%comp_dir%/ddraw.dll~ ~ddraw.dll~
-  COPY ~%comp_dir%/ddraw.ini~ ~ddraw.ini~
-END

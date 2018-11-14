@@ -1,1 +1,0 @@
-COPY ~%MOD_FOLDER%/components/no_knockback/gl_g_no_knockback.int~ ~%scripts_dir%~

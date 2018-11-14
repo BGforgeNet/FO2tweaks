@@ -1,7 +1,0 @@
-OUTER_SPRINT filename ~proto\critters\00000349.pro~
-
-LAF g_dat_extract STR_VAR file_path = ~%filename%~ END
-
-COPY ~data/%filename%~ ~data/%filename%~
-  WRITE_LONG 0x190 0x00000000 //biped
-BUT_ONLY

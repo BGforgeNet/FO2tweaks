@@ -1,6 +1,0 @@
-OUTER_SPRINT sfx_dir ~%data_dir%/sound/sfx~
-OUTER_SPRINT comp_dir ~%MOD_FOLDER%/components/reload_sound~
-
-MKDIR ~%sfx_dir%~
-COPY ~%comp_dir%/empty.acm~ ~%sfx_dir%/hmxxxxia.acm~ //smg
-COPY ~%comp_dir%/empty.acm~ ~%sfx_dir%/hmxxxxja.acm~ //rifle

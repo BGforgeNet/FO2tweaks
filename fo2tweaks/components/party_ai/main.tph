@@ -1,16 +1,0 @@
-OUTER_SPRINT filename ~data/data/party.txt~
-ACTION_IF NOT FILE_EXISTS ~%filename%~ BEGIN
-  ACTION_IF NOT FILE_EXISTS ~data/party.txt~ BEGIN
-    LAF g_dat_extract STR_VAR file_path = ~data\party.txt~ END
-  END
-END
-
-COPY ~%filename%~ ~%filename%~
-  REPLACE_TEXTUALLY ~^area_attack_mode=.*~    ~area_attack_mode=always, sometimes, be_sure, be_careful, be_absolutely_sure~
-  REPLACE_TEXTUALLY ~^attack_who=.*~          ~attack_who=whomever_attacking_me, strongest, weakest, whomever, closest~
-  REPLACE_TEXTUALLY ~^best_weapon=.*~         ~best_weapon=no_pref, melee, melee_over_ranged, ranged_over_melee, ranged, unarmed, unarmed_over_thrown, random~
-  REPLACE_TEXTUALLY ~^chem_use=.*~            ~chem_use=clean, stims_when_hurt_little, stims_when_hurt_lots, sometimes, anytime, always~
-  REPLACE_TEXTUALLY ~^distance=.*~            ~distance=stay_close, charge, snipe, on_your_own, stay~
-  REPLACE_TEXTUALLY ~^run_away_mode=.*~       ~run_away_mode=none, coward, finger_hurts, bleeding, not_feeling_good, tourniquet, never~
-  REPLACE_TEXTUALLY ~^disposition=.*~         ~disposition=none, custom, coward, defensive, aggressive, berserk~
-BUT_ONLY

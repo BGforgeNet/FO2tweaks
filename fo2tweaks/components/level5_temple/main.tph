@@ -1,2 +1,0 @@
-OUTER_SPRINT filename ~gl_g_level5.int~
-COPY ~%MOD_FOLDER%/components/level5_temple/%filename%~ ~%scripts_dir%/%filename%~

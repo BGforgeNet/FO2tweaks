@@ -1,3 +1,0 @@
-OUTER_SPRINT filename ~gl_g_party_burst_control.int~
-COPY ~%MOD_FOLDER%/components/burst_control/%filename%~ ~%scripts_dir%/%filename%~
-COPY ~%lib_dir%/fo2tweaks.ini~ ~fo2tweaks.ini~

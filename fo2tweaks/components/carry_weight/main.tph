@@ -1,2 +1,0 @@
-OUTER_SPRINT filename ~gl_g_carry_weight.int~
-COPY ~%MOD_FOLDER%/components/carry_weight/%filename%~ ~%scripts_dir%/%filename%~
