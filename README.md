@@ -167,7 +167,7 @@ Displayed light level affects chance to hit for both dude and enemies, so it's s
 ## Compatibility
 FO2tweaks is designed to be compatible with any other mod. If you find a conflict - report it.
 
-Special case is damage mod component. It's designed for vanilla game stats, so using it with mods like YAAM or F2WR will probably yield unexpected results.
+Damage mod component is a special case. It's designed for vanilla game stats, so using it with mods like YAAM or F2WR will probably yield unexpected results.
 You're free to try and share your experience, however.
 
 ## Installation
