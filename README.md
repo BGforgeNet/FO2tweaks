@@ -98,7 +98,7 @@ Effect on the game:
 It's designed for vanilla game ammo/weapons/armor. It will *work* with various mods such as [EcCo](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/),
 however that may require tinkering with individual ammo modifiers in fo2tweaks.ini, and satisfactory result is not guaranteed.
 
-#### Disable Knockback
+#### Disable knockback
 Disable knockback. That affects all weapons and explosives. These long trips over the screen from a Super Sledge can be really annoying.
 
 #### Molotov cocktail: fire damage
@@ -119,7 +119,7 @@ it also affects Bozar and Sniper Rifle (without changing range).
 #### HP over head
 Current HP will be displayed over head in combat, for dude, party and nearby enemies.
 
-*Note:* This component is not perfect, and there might be delays in number updating.
+*Note:* This component is not perfect, and there might be delays in numbers updating.
 
 ![hp over head in game](https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/hp_over_head.jpg "hp over head in game")
 
@@ -176,12 +176,12 @@ Displayed light level affects chance to hit for both dude and enemies, so it's s
 You're free to try and share your experience, however.
 
 ## Installation
-- Download __fo2tweaks.zip__ from the [latest release page](https://github.com/BGforgeNet/fo2tweaks/releases/latest)
-- Unzip the archive into the game directory
+- Download __fo2tweaks.zip__ from the [latest release page](https://github.com/BGforgeNet/fo2tweaks/releases/latest).
+- Unzip the archive into the game directory.
 - FO2tweaks requires sfall version 4.1.2+. It's shipped with the mod (ddraw.dll).
   If you have a newer version, you don't need to overwite the dll.
   However, if you just installed killap's Unofficial Patch or Restoration project,
-  you'll need to use the version shipped with FOtweaks (or a later version, which can be found [here](https://github.com/phobos2077/sfall/releases)).
+  you'll need to use the version shipped with FO2tweaks (or a later version, which can be found [here](https://github.com/phobos2077/sfall/releases)).
 - Edit fo2tweaks.ini to enable, disable or fine tune components as you desire.
 
 ## Uninstallation
