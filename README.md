@@ -78,8 +78,8 @@ You can kick an NPC, come back later, more experienced, and they will level up t
 ### Combat
 #### Ammobox
 Current ammo will be displayed in an box notification during combat.
-[[https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/ammobox.jpg|alt=ammobox in game]]
 
+![ammobox in game](https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/ammobox.jpg "ammobox in game")
 
 #### Damage mod
 Damage mod is a massive overhaul of Fallout's damage formula, intended to make AP ammo useful. It only affects __firearms__.
@@ -121,8 +121,7 @@ Current HP will be displayed over head in combat, for dude, party and nearby ene
 
 *Note:* This component is not perfect, and there might be delays in number updating.
 
-[[https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/hp_over_head.jpg|alt=hp over head in game]]
-
+![hp over head in game](https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/hp_over_head.jpg "hp over head in game")
 
 ### Miscellaneous
 
@@ -161,6 +160,7 @@ To avoid this, these brahmin will now be on player's team.
 
 #### Expanded highlighting
 Expanded version of Sfall highlighting mod. A picture speaks a thousand words. Highly configurable.
+
 ![highlighting in game](https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/highlighting.jpg "highlighting in game")
 
 
