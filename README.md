@@ -10,7 +10,8 @@
 [__Download__](https://github.com/BGforgeNet/fo2tweaks/releases/latest)
  | [__Installation__](#installation)
  | [__Reporting issues__](#reporting-issues)
- | [__Forum__](https://forum.bgforge.net/viewforum.php?f=26))
+ | [__Forum__](https://forum.bgforge.net/viewforum.php?f=26)
+ | [__Discord__](https://discord.gg/4Yqfggm)
  | [__Help translating__](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
 
 This is a collection of convenience tweaks, common sense changes, and cheats for Fallout 2.
@@ -79,7 +80,7 @@ You can kick an NPC, come back later, more experienced, and they will level up t
 Current ammo will be displayed in an box notification during combat.
 
 #### Damage mod
-Damage mod is a massive overhaul of Fallout's damage formula, intended to make AP ammo useful. It only affects firearms.
+Damage mod is a massive overhaul of Fallout's damage formula, intended to make AP ammo useful. It only affects __firearms__.
 
 In a nutshell:
 - DR mod is now DR/DT mod, and it multiplies both values, rather then adding/subtracting.
