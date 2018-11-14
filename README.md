@@ -161,7 +161,8 @@ To avoid this, these brahmin will now be on player's team.
 
 #### Expanded highlighting
 Expanded version of Sfall highlighting mod. A picture speaks a thousand words. Highly configurable.
-[[https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/highlighting.jpg|alt=highlighting in game]]
+![highlighting in game](https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/highlighting.jpg "highlighting in game")
+
 
 #### Light level
 Designed for Restoration Project users. Unfortunately, many areas in RP are quite dark compared to the original game, to the point of being an eye hazard.
@@ -187,8 +188,8 @@ You're free to try and share your experience, however.
 Delete fo2tweaks.ini and all data/scripts/gl_g_* files.
 
 ## Reporting issues
-* Open a new [issue](https://github.com/BGforgeNet/fo2tweaks/issues) and describe the problem
-* Also see the [forum](https://forum.bgforge.net/viewforum.php?f=26)
+* Open a new [issue](https://github.com/BGforgeNet/fo2tweaks/issues) and describe the problem.
+* Also see the [forum](https://forum.bgforge.net/viewforum.php?f=26).
 
 ## Author
 - [burner1024](https://github.com/burner1024)
