@@ -78,6 +78,8 @@ You can kick an NPC, come back later, more experienced, and they will level up t
 ### Combat
 #### Ammobox
 Current ammo will be displayed in an box notification during combat.
+[[https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/ammobox.jpg|alt=ammobox in game]]
+
 
 #### Damage mod
 Damage mod is a massive overhaul of Fallout's damage formula, intended to make AP ammo useful. It only affects __firearms__.
@@ -119,6 +121,8 @@ Current HP will be displayed over head in combat, for dude, party and nearby ene
 
 *Note:* This component is not perfect, and there might be delays in number updating.
 
+[[https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/hp_over_head.jpg|alt=hp over head in game]]
+
 
 ### Miscellaneous
 
@@ -157,6 +161,7 @@ To avoid this, these brahmin will now be on player's team.
 
 #### Expanded highlighting
 Expanded version of Sfall highlighting mod. A picture speaks a thousand words. Highly configurable.
+[[https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/highlighting.jpg|alt=highlighting in game]]
 
 #### Light level
 Designed for Restoration Project users. Unfortunately, many areas in RP are quite dark compared to the original game, to the point of being an eye hazard.
@@ -165,14 +170,17 @@ Currently there's no way to adjust light level gracefully, so this component wil
 Displayed light level affects chance to hit for both dude and enemies, so it's still fair game.
 
 ## Compatibility
-FO2tweaks is designed to be compatible with any other mod. If you find a conflict - report it.
-
-Damage mod component is a special case. It's designed for vanilla game stats, so using it with mods like YAAM or F2WR will probably yield unexpected results.
+* FO2tweaks is designed to be compatible with any other mod. If you find a conflict - report it.
+* Damage mod component is a special case. It's designed for vanilla game stats, so using it with mods like YAAM or F2WR will probably yield unexpected results.
 You're free to try and share your experience, however.
 
 ## Installation
 - Download __fo2tweaks.zip__ from the [latest release page](https://github.com/BGforgeNet/fo2tweaks/releases/latest)
 - Unzip the archive into the game directory
+- FO2tweaks requires sfall version 4.1.2+. It's shipped with the mod (ddraw.dll).
+  If you have a newer version, you don't need to overwite the dll.
+  However, if you just installed killap's Unofficial Patch or Restoration project,
+  you'll need to use the version shipped with FOtweaks (or a later version, which can be found [here](https://github.com/phobos2077/sfall/releases)).
 - Edit fo2tweaks.ini to enable, disable or fine tune components as you desire.
 
 ## Uninstallation
