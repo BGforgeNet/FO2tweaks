@@ -8,13 +8,13 @@
 </a>
 
 [__Download__](https://github.com/BGforgeNet/fo2tweaks/releases/latest)
- | [__Support__](#reporting-issues)
- | [__Discussion__](https://forum.bgforge.net/viewtopic.php?f=5&p=31)
+ | [__Installation__](#installation)
+ | [__Reporting issues__](#reporting-issues)
+ | [__Forum__](https://forum.bgforge.net/viewforum.php?f=26))
  | [__Help translating__](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
 
 This is a collection of convenience tweaks, common sense changes, and cheats for Fallout 2.
 It is highly configurable, any component can be used with or without others. Some components also allow fine tuning.
-
 
 - [Components](#components)
   - [Inventory](#inventory)
@@ -166,6 +166,9 @@ Displayed light level affects chance to hit for both dude and enemies, so it's s
 ## Compatibility
 FO2tweaks is designed to be compatible with any other mod. If you find a conflict - report it.
 
+Special case is damage mod component. It's designed for vanilla game stats, so using it with mods like YAAM or F2WR will probably yield unexpected results.
+You're free to try and share your experience, however.
+
 ## Installation
 - Download __fo2tweaks.zip__ from the [latest release page](https://github.com/BGforgeNet/fo2tweaks/releases/latest)
 - Unzip the archive into the game directory
@@ -176,9 +179,10 @@ Delete fo2tweaks.ini and all data/scripts/gl_g_* files.
 
 ## Reporting issues
 * Open a new [issue](https://github.com/BGforgeNet/fo2tweaks/issues) and describe the problem
+* Also see the [forum](https://forum.bgforge.net/viewforum.php?f=26)
 
 ## Author
-- @burner1024
+- [burner1024](https://github.com/burner1024)
 
 ## License
 - The mod is [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
