@@ -13,39 +13,39 @@
  | [__Help translating__](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
 
 This is a collection of convenience tweaks, common sense changes, and cheats for Fallout 2.
+It is highly configurable, any component can be used with or without others. Some components also allow fine tuning.
 
 
-- [Components](#components) (__*__ means that starting a new game is required)
+- [Components](#components)
   - [Inventory](#inventory)
     - [Unlimited carry weight](#unlimited-carry-weight)
-    - [Unlimited trunk](#unlimited-trunk)__*__
-    - [Inventory filter](#inventory-filter)
+    - [Unlimited trunk](#unlimited-trunk)
+    - [Auto reload](#auto-reload)
   - [Party](#party)
     - [Unlimited party](#unlimited-party)
-    - [Companions never use burst fire](#companions-never-use-burst-fire)
-    - [Unrestricted party combat AI](#unrestricted-party-combat-ai)
-  - [Speed](#speed)
-    - [Increase run speed](#increase-run-speed) (both Chosen and party)
-    - [General game speedup](#general-game-speedup)
-  - [Miscellaneous](#miscellaneous)
+    - [Party level match](#party-level-match)
+  - [Combat](#combat)
+    - [Ammobox](#ammobox)
+    - [Damage mod](#damage-mod)
+    - [Disable knockback](#disable-knockback)
     - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
     - [Grenades ignore armor class](#grenades-ignore-armor-class)
-    - [Start at level 4](#start-at-level-4)__*__
-    - [Silence "fake reload" animation](#silence-fake-reload-animation)
-    - [Stretch game plotline](#stretch-game-plotline)
-    - [Oxygen tank protects from radon in Broken Hills mine](#oxygen-tank-protects-from-radon-in-broken-hills-mine)
     - [No close range penalty for scoped weapons](#no-close-range-penalty-for-scoped-weapons)
-    - [Remove Kaga](#remove-kaga)
-    - [Disable knockback](#disable-knockback)
+    - [HP over head](#hp-over-head)
+  - [Miscellaneous](#miscellaneous)
+    - [Autodoors](#autodoors)
+    - [Healing revision](#healing-revision)
+    - [Level 5 after Temple of Trials](#level-5-after-temple-of-trials)
     - [Worldmap hotkey](#worldmap-hotkey)
-- [Special notes / compatibility](#special-notes--compatibility)
+    - [Modoc brahmin](#modoc-brahmin)
+    - [Expanded highlighting](#expanded-highlighting)
+    - [Light level](#light-level)
+- [Compatibility](#compatibility)
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
-- [Update](#update)
 - [Reporting issues](#reporting-issues)
 - [Author](#author)
 - [License](#license)
-- [Used software](#used-software)
 - [Changelog](#changelog)
 
 ## Components
@@ -58,156 +58,155 @@ AKA inventory pain killer, part 1. Let the Chosen one carry up to 99999, regardl
 #### Unlimited trunk
 Inventory pain killer, part 2. Never worry about trunk filling up.
 
-#### Inventory filter
-Inventory pain killer, part 3. This is the ultimate inventory mod which allows you to *filter* your stuff. The actual author is [Mr.Сталин](http://www.nuclear-city.com/index.php/topic/512-плагин-filter-inventory-для-fallout2-и-модов/page-1). This component requires Sfall version at least 3.5. If Sfall is not found or is too old, a newer version will be installed automatically.
-
-__Tips:__
-- Press CTRL to activate the second set of buttons
-- Use middle mouse click on weapon/ammo buttons to see both item types
-- You can't use bags (which aren't in original Fallout 2 anyway, but possibly may be added by 3rd party mods)
-
-__Sample:__
-
-![Sample](fo2tweaks/components/inventory_filter/sample.gif)
+#### Auto reload
+Dude will automatically reload both weapons after combat has ended.
 
 ### Party
 
 #### Unlimited party
-This component removes charisma checks upon NPC joining the party. It does not remove other checks (karma, etc). For example, Goris may still decline to join if you're a childkiller.
+This component removes charisma checks upon NPC joining the party.
+It does not remove other checks (karma, etc). For example, Goris may still decline to join if you're a childkiller.
+All vanilla and RP companions are included. More can added in the ini file.
 
-The following companions are affected:
-- Cassidy
-- Cat Jules
-- Davin
-- Dex
-- Dogmeat
-- Goris
-- Kitsune
-- K-9
-- Lenny
-- Marcus
-- Miria
-- Myron
-- Robodog
-- Skynet
-- Sulik
-- Vic
+#### Party level match
+Some NPC like Goris are acquired later in the game and never reach their true potential because of that.
+Now NPCs will automatically level up to match dude's level of experience. Default is to max out at level 24, configurable.
+You can kick an NPC, come back later, more experienced, and they will level up to match that.
 
-#### Companions never use burst fire
-Give any weapon to your companions, and never be burst in the back. (Well, unless you give them a machine gun which only has burst mode).
 
-#### Unrestricted party combat AI
-Party management in combat is bad enough. But to make it worse, some NPC have various combat behavior settings unavailable to them. This components removes all such restrictions. Now you can order Myron to go berserk, or Marcus to be a coward, or any custom combination.
+### Combat
+#### Ammobox
+Current ammo will be displayed in an box notification during combat.
 
-### Speed
-#### Increase run speed
-##### Armor doesn't reduce Chosen's run speed
-In the original game, running becomes slower as armor gets heavier. This component disables that behaviour, so that run speed is constant and fast.
-##### Party NPC can run as well as Chosen
-Are you tired of Marcus lagging behind? What about Skynet? Then this component is for you. All companions will have their run speed increased. Those that don't have run animations will have them created (sped up walking one).
-##### Both of the above options
-Like it says, speed up both Chosen and his companions.
+#### Damage mod
+Damage mod is a massive overhaul of Fallout's damage formula, intended to make AP ammo useful. It only affects firearms.
 
-#### General game speedup
-It's a convenience component. It preconfigures some Sfall and HRP settings for faster gameplay. You can achieve the same by performing manual Sfall and HRP configuration.
+In a nutshell:
+- DR mod is now DR/DT mod, and it multiplies both values, rather then adding/subtracting.
+- DR mod also determines ammo damage multiplier. +25% DR also means damage multiplier of 1.25.
+- DT is applied before any multipliers.
+- Each bullet in a burst rolls its own critical damage (including bypass effect, but excluding any others). This roll is not affected by Sniper perk.
 
-Specifically, it does the following:
-- Game itself runs at 115% of the original speed
-- Opening movies are skipped
-- Combat, dialog and pipboy sleep panel animations are instant
-- Empty weapons are stacked regardless of the ammo
-- Weapon reload dialog with number of ammo boxes is skipped
-- Weapon switch is instant (no animation)
-- No splash screen is displayed (with HRP)
-- Fade in/out is instant (with HRP)
+Effect on the game:
+- Early game is more or less the same, JHP ammo rules.
+- By midgame, starting somewhere with Metal Armor Mark II, AP ammo becomes somewhat more effective. (This doesn't mean that JHP doesn't do damage, though. A point-blank burst from a minigun with JHP will rip most enemies in Combat Armor apart).
+- Power armor with its massive DT is a game changer. It will shrug off most JHP attacks. Even AP ammo is not very effective. You'll need to penetrate (criticals), or bring heavy weaponry - or bust.
 
-### Miscellaneous
+It's designed for vanilla game ammo/weapons/armor. It will *work* with various mods such as [EcCo](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/),
+however that may require tinkering with individual ammo modifiers in fo2tweaks.ini, and satisfactory result is not guaranteed.
+
+#### Disable Knockback
+Disable knockback. That affects all weapons and explosives. These long trips over the screen from a Super Sledge can be really annoying.
 
 #### Molotov cocktail: fire damage
 Let Molotov cocktail do fire damage instead of explosive (and optionally, enable "burning death" animation)
 
-*NOTE:* This will also disallow destroying doors with Molotovs! If you don't like that, skip this component.
-
 #### Grenades ignore armor class
-Grenades are actually thrown to target's feet, not "through" armor. Hitting a person in power armor should not be any harder than one in leather armor. Thus, this component removes AC penalty from grenades' CtH.
+Grenades are actually thrown to target's feet, not "through" armor.
+Hitting a person in power armor should not be any harder than one in leather armor.
+Thus, this component removes AC penalty from grenades' CtH.
 
-It also affects explosive (but not armor piercing) rockets from rocket launcher and grenade launchers from [EcCo mod](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/).
-
-#### Start at level 4
-Nets the Chosen 9500 xp right at the beginning of the game, getting him to level 4. After the Temple of Trials, it will be 5.
-
-#### Silence fake reload animation
-Silence really annoying SMG/rifle "reload" sound which the dude does when he's idle (which is every few seconds). The animation itself still plays.
-
-#### Stretch game plotline
-In terms of roleplay, there's not much sense in visiting the cities of the Big Circle: Broken Hills, Redding, New Reno, etc. In Vault City computer, you learn about Vault 15, in Vault 15 - about Vault 13, get the GECK, and it's pretty much non-stop express from there.
-This component removes bits of information here and there, so that there are less shortcut paths:
-- Vault City computer **will not** reveal Vault 15 location (but Tandi will - if you ask her)
-- Vault 15 computer **will not** reveal Vault 13 location
-- Lou (owner of Malamute salon in Redding) **will not** reveal San Francisco location
-- Hakunin **will not** reveal Navarro location
-
-#### Oxygen tank protects from radon in Broken Hills mine
-Any character having the tank in his inventory won't be damaged by poison gas.
+It also affects explosive (but not armor piercing) rockets from rocket launcher and grenade launchers from [EcCo](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/) mod.
 
 #### No close range penalty for scoped weapons
-Remove the close range penalty for Scoped Hunting Rifle, change its range to 45. If EcCo mod is installed, it also affects Bozar and Sniper Rifle (without changing range).
+Remove the close range penalty for Scoped Hunting Rifle, change its range to 48.
+If [EcCo](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/) mod is installed,
+it also affects Bozar and Sniper Rifle (without changing range).
 
-#### Remove Kaga
-Remove Kaga, an annoying and overpowered RP addition.
+#### HP over head
+Current HP will be displayed over head in combat, for dude, party and nearby enemies.
 
-#### Disable Knockback
-Disable knockback from Sledge, Super Sledge and Louisville Slugger.
+*Note:* This component is not perfect, and there might be delays in number updating.
+
+
+### Miscellaneous
+
+#### Autodoors
+When not in combat, dude will be able to walk through unlocked doors without having to open them explicitly (like NPCs do).
+
+#### Level 5 after Temple of Trials
+Nets the Chosen 9500 XP after completing the Temple of Trials.
+(While it feels like a cheat, pretty much the same may be accomplished by farming Geckos, or, easier even, planting/stealing items from them)
+
+#### Healing revision
+This is a massive change to Doctor and First Aid skills:
+- First Aid is no longer Doctor's little brother. Now it's being treated as a skill of practical application of your Doctor knowledge.
+- Doctor is "theoretical knowledge". Doctor's effectiveness is directly proportional to First Aid level.
+- Both skills can be used once per day per *patient*.
+- Effectiveness is capped at 100% for both skills.
+- Amount healed is proportional to skill level. Maximum amount to heal (100% both skills) is 5 with First Aid and 10 with Doctor, with a little random added.
+- XP granted is 10 per HP healed.
+- For purposes of determining the amount healed, best skill level in *party* is used.
+- Healing is applied automatically during rest and travel, Baldur's Gate style.
+- Doctor's bags and First Aid kits are unchanged. They grant bonus to skill when used by dude explicitly, but they will randomly deplete as in original game. The items are not used in automatic healing described above.
+- As a final bonus, any critter who gets their Doctor skill to 125+ will receive Living Anatomy for free. (Can be configured or disabled).
 
 #### Worldmap hotkey
-Adds a hotkey to call worldmap at any moment. Yes, that can be used as a cheat at times.
+Adds hotkeys to call worldmap (W) and town map (T) at any moment. Yes, that can be used as a cheat at times. Configurable.
 
-Default is "W", configurable in fo2tweaks.ini.
+#### Keymap
+Allows to remap vanilla game hotkeys. Configurable. Default mapping (to avoid accidental quick save instead of load and vice versa):
+- Quick save: F5
+- Quick load: F8
+- Load game: F9
 
-## Special notes / compatibility
-- **It will ONLY work if you have killap's patch** or restoration pack installed. You can get those at http://www.killap.net.
-- It should be **compatible with any other mod** provided that "fo2tweaks" is installed **last**. It patches files instead of overwriting them.
+#### Modoc Brahmin
+A common annoyance in Modoc brahmin quest is that a party member shoots a brahma accidentally, and then the party proceeds to wipe them out.
+To avoid this, these brahmin will now be on player's team.
 
+#### Expanded highlighting
+Expanded version of Sfall highlighting mod. A picture speaks a thousand words. Highly configurable.
+
+#### Light level
+Designed for Restoration Project users. Unfortunately, many areas in RP are quite dark compared to the original game, to the point of being an eye hazard.
+
+Currently there's no way to adjust light level gracefully, so this component will grant the dude a free level of Night Vision perk.
+Displayed light level affects chance to hit for both dude and enemies, so it's still fair game.
+
+## Compatibility
+FO2tweaks is designed to be compatible with any other mod. If you find a conflict - report it.
 
 ## Installation
 - Download __fo2tweaks.zip__ from the [latest release page](https://github.com/BGforgeNet/fo2tweaks/releases/latest)
 - Unzip the archive into the game directory
-- Launch fo2tweaks.bat, select the components by answery the questions
-
-If installation gets seemingly stuck (more than a minute without any progress), try:
-* Running fo2tweaks as an administrator (right-click > run as ...)
-* Disabling your antivirus for a moment
+- Edit fo2tweaks.ini to enable, disable or fine tune components as you desire.
 
 ## Uninstallation
-- Launch fo2tweaks.bat, answer the questions
-
-## Update
-- If you're updating from a previous fo2tweaks version, uninstall it completely, delete fo2tweaks dir and fo2tweaks.bat, then install new version normally
+Delete fo2tweaks.ini and all data/scripts/gl_g_* files.
 
 ## Reporting issues
 * Open a new [issue](https://github.com/BGforgeNet/fo2tweaks/issues) and describe the problem
-* Attach 3 log files from game directory:
-  - WeiDU.log
-  - fo2tweaks/fo2tweaks.log
-  - fo2tweaks/fo2tweaks.bat.log
 
 ## Author
 - @burner1024
 
 ## License
 - The mod is [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-- Used software have their own licenses, refer to the corresponding resources for those.
-
-## Used software
-* [SSLC compiler/decompiler](https://sourceforge.net/projects/sfall/files/)
-* [Gema](http://gema.sourceforge.net)
-* [WeiDU](http://weidu.org/~thebigg/)
-* [Sfall](https://github.com/phobos2077/sfall)
-* [Dat2](https://github.com/falltergeist/datfile)
-* [Zlib](http://www.zlib.net)
-* [msvcr71.dll](https://www.dll-files.com/msvcr71.dll.html)
 
 ## Changelog
+* Version 10:
+  - Massive overhaul with compatibility in mind. Now featuring only fully pluggable components.
+  - Removed inventory filter.
+  - Removed burst control (merged into [Party Orders](https://github.com/BGforgeNet/fallout2-party-orders)).
+  - Removed unrestricted party AI.
+  - Removed general speedup and run speed.
+  - Removed silence fake reload.
+  - Removed stretch game plot.
+  - Removed oxygen tank radon protection.
+  - Removed Kaga component.
+  - Added ammobox.
+  - Added autodoors.
+  - Added auto reload.
+  - Added damage mod.
+  - Added healing overhaul.
+  - Added expanded highlighting.
+  - Added HP over head.
+  - Added keymap.
+  - Added light level component.
+  - Added town map hotkey.
+  - Added workaround for party killing Modoc brahmin.
+  - Added party level matching.
+  - Improved unlimited party.
 * Version 9:
   - disabled Horrigan initial cutscene by default and in general speedup
   - added hotkey for party burts
@@ -255,4 +254,3 @@ If installation gets seemingly stuck (more than a minute without any progress), 
    - fixed bug with grenade CtH when Sfall wasn't installed previously
 * Version 2: added "no burst" component.
 * Version 1: initial release.
-
