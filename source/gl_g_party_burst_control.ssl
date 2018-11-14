@@ -8,6 +8,13 @@
 
 #define in_combat (get_game_mode bwand COMBAT)
 #define NAME "gl_g_party_burst_control"
+#define set_burst_control "burst_control"
+#define sec_burst_control "burst_control"
+#define set_burst_float_on "float_msg_on"
+#define set_burst_float_off "float_msg_off"
+#define set_burst_display_on "display_msg_on"
+#define set_burst_display_off "display_msg_off"
+#define set_burst_key "key"
 
 variable msg_burst_float;
 variable msg_noburst_float;

@@ -1,6 +1,6 @@
 procedure start;
 #include "..\headers\define.h"
-#include "..\headers\sfall.h"
+#include "..\headers\sfall\sfall.h"
 
 procedure start begin
    if (game_loaded) then begin
