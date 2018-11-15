@@ -72,7 +72,7 @@ All vanilla and RP companions are included. More can added in the ini file.
 #### Party level match
 Some NPC like Goris are acquired later in the game and never reach their true potential because of that.
 Now NPCs will automatically level up to match dude's level of experience. Default is to max out at level 24, configurable.
-You can kick an NPC, come back later, more experienced, and they will level up to match that.
+You can kick an NPC out, come back later, more experienced, and they will level up to match that.
 
 
 ### Combat
@@ -89,6 +89,8 @@ In a nutshell:
 - DR mod also determines ammo damage multiplier. +25% DR also means damage multiplier of 1.25.
 - DT is applied before any multipliers.
 - Each bullet in a burst rolls its own critical damage (including bypass effect, but excluding any others). This roll is not affected by Sniper perk.
+
+A more detailed description is available [here](https://forum.bgforge.net/viewtopic.php?f=26&p=388).
 
 Effect on the game:
 - Early game is more or less the same, JHP ammo rules.
