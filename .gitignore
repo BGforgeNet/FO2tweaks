@@ -1,9 +1,2 @@
-fo2tweaks/tools/*
-fo2tweaks/tmp
-!fo2tweaks/tools/tools.md5.txt
-fo2tweaks/*.log
-fo2tweaks/backup/*
-fo2tweaks/components/sfall/*.dll
-fo2tweaks/source/headers/fo2tweaks/errors.txt
-.DS_Store
-fo2tweaks/ddraw.dll.bak
+source/headers
+!source/headers/fo2tweaks
