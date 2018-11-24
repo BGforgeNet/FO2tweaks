@@ -44,7 +44,7 @@ end
 
 procedure start;
 procedure damage_handler;
-procedure get_dr_dt(variable attacker, variable target, variable target_flags, variable dmg_type, variable dr_mod);
+procedure get_dr_dt(variable attacker, variable target, variable dmg_type, variable dr_mod, variable target_flags);
 procedure fix_ammo_stats(variable pids);
 procedure inv_handler;
 procedure get_ammo_pids;
@@ -225,9 +225,9 @@ procedure get_total_damage(
   variable attacker, variable target, variable dmg_type, variable dr_mod,
   variable dmg_min, variable dmg_max,
   variable ranged_bonus, variable ammo_mult, variable critical_mult, variable difficulty_mult,
-  variable bullets_number)
+  variable bullets_number, variable flags)
 begin
-  variable total_damage := 0, bullet_damage := 0, i, critical_type, flags, dr_dt,
+  variable total_damage := 0, bullet_damage := 0, i, critical_type, dr_dt,
   dr_mult, dt;
 
   //first bullet to hit keeps all the original mults
@@ -453,7 +453,7 @@ procedure damage_handler begin
   critical_mult := damage_multiplier / 2.0;
 
   nd := get_total_damage(attacker, target, dmg_type, dr_mod, dmg_min, dmg_max,
-    ranged_bonus, ammo_mult, critical_mult, difficulty_mult, bullets_number);
+    ranged_bonus, ammo_mult, critical_mult, difficulty_mult, bullets_number, target_flags);
 
   ndebug("ranged_bonus " +  ranged_bonus + ", cm " +  cm + ", cd " +  cd + ", dmg_type " + dmg_type
       + ", ammo_mult " + ammo_mult);
