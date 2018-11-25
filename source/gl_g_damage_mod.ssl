@@ -167,7 +167,7 @@ procedure round_chance(variable dmg) begin
 end
 
 procedure get_critical_level(variable who) begin
-  variable level := random(0, 5);
+  variable level := random(0, 4);
   if has_trait(TRAIT_PERK, who, PERK_better_criticals) then level := level + 1;
   return level;
 end
