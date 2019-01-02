@@ -1,12 +1,12 @@
-#include "..\headers\define.h"
-#include "..\headers\command.h"
-#include "..\headers\sfall\define_extra.h"
-#include "..\headers\sfall\sfall.h"
-#include "..\headers\sfall\dik.h"
-#include "..\headers\sfall\lib.misc.h"
-#include "..\headers\sfall\lib.arrays.h"
-#include "..\headers\sfall\lib.inven.h"
-#include "..\headers\fo2tweaks\fo2tweaks.h"
+#include "headers\define.h"
+#include "headers\command.h"
+#include "headers\sfall\define_extra.h"
+#include "headers\sfall\sfall.h"
+#include "headers\sfall\dik.h"
+#include "headers\sfall\lib.misc.h"
+#include "headers\sfall\lib.arrays.h"
+#include "headers\sfall\lib.inven.h"
+#include "headers\fo2tweaks\fo2tweaks.h"
 
 #define NAME "gl_g_healing_revision"
 
@@ -360,17 +360,20 @@ end
 
 procedure map_enter_p_proc begin
   variable who;
-  if living_anatomy_min_doctor < 300 then begin
-    foreach who in list_as_array(LIST_CRITTERS) begin
-      ndebug(obj_name(who) + " has Doctor of " + critter_skill_level(who, SKILL_DOCTOR));
-      if critter_skill_level(who, SKILL_DOCTOR) >= living_anatomy_min_doctor
-        and not has_trait(TRAIT_PERK, who, PERK_living_anatomy_perk)
-      then begin
-        ndebug(obj_name(who) + " gets living anatomy!");
-        critter_add_trait(who, TRAIT_PERK, PERK_living_anatomy_perk, 1);
-        if in_party(who) then begin
-          display_msg(obj_name(who) + " " + living_anatomy_msg2);
-          float_msg(who, living_anatomy_msg, FLOAT_MSG_WHITE);
+  if enabled then begin
+    ndebug("living_anatomy_min_doctor="+living_anatomy_min_doctor);
+    if living_anatomy_min_doctor < 300 then begin
+      foreach who in list_as_array(LIST_CRITTERS) begin
+        ndebug(obj_name(who) + " has Doctor of " + critter_skill_level(who, SKILL_DOCTOR));
+        if critter_skill_level(who, SKILL_DOCTOR) >= living_anatomy_min_doctor
+          and not has_trait(TRAIT_PERK, who, PERK_living_anatomy_perk)
+        then begin
+          ndebug(obj_name(who) + " gets living anatomy!");
+          critter_add_trait(who, TRAIT_PERK, PERK_living_anatomy_perk, 1);
+          if in_party(who) then begin
+            display_msg(obj_name(who) + " " + living_anatomy_msg2);
+            float_msg(who, living_anatomy_msg, FLOAT_MSG_WHITE);
+          end
         end
       end
     end
