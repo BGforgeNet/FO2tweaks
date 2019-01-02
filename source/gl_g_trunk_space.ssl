@@ -1,7 +1,7 @@
-#include "..\headers\sfall\define_extra.h"
-#include "..\headers\itempid.h"
-#include "..\headers\sfall\sfall.h"
-#include "..\headers\fo2tweaks\fo2tweaks.h"
+#include "headers\sfall\define_extra.h"
+#include "headers\itempid.h"
+#include "headers\sfall\sfall.h"
+#include "headers\fo2tweaks\fo2tweaks.h"
 
 #define set_trunk_space "trunk_space"
 #define NAME "gl_g_trunk_space"
@@ -20,6 +20,6 @@ procedure bloat_trunk begin
   variable enabled := fo2tweaks_setting(sec_main, set_trunk_space);
   if enabled == 1 then begin
     set_proto_data(PID_CAR_TRUNK, PROTO_CN_MAX_SIZE, 99999);
-    ndebug("gl_g_trunk_space: set to 99999");
+    ndebug("trunk space set to 99999");
   end
 end
