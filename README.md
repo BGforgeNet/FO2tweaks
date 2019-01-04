@@ -95,7 +95,7 @@ A more detailed description is available [here](https://forum.bgforge.net/viewto
 Effect on the game:
 - Early game is more or less the same, JHP ammo rules.
 - By midgame, starting somewhere with Metal Armor Mark II, AP ammo becomes somewhat more effective. (This doesn't mean that JHP doesn't do damage, though. A point-blank burst from a minigun with JHP will rip most enemies in Combat Armor apart).
-- Power armor with its massive DT is a game changer. It will shrug off most JHP attacks. Even AP ammo is not very effective. You'll need to penetrate (criticals), or bring heavy weaponry - or bust.
+- Power armor with its massive DT is a game changer. It will shrug off most JHP attacks. Even AP ammo is not very effective. You'll need to penetrate (criticals), or bring heavy weaponry.
 
 It's designed for vanilla game ammo/weapons/armor. It will *work* with various mods such as [EcCo](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/),
 however that may require tinkering with individual ammo modifiers in fo2tweaks.ini, and satisfactory result is not guaranteed.
@@ -155,6 +155,7 @@ Allows to remap vanilla game hotkeys. Configurable. Default mapping (to avoid ac
 - Quick save: F5
 - Quick load: F8
 - Load game: F9
+- Center on PC: G (for laptop users with no Home key)
 
 #### Modoc Brahmin
 A common annoyance in Modoc brahmin quest is that a party member shoots a brahma accidentally, and then the party proceeds to wipe them out.
