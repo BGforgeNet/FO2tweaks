@@ -1,10 +1,10 @@
-#include "..\headers\define.h"
-#include "..\headers\sfall\define_extra.h"
-#include "..\headers\command.h"
-#include "..\headers\sfall\sfall.h"
-#include "..\headers\sfall\lib.misc.h"
-#include "..\headers\fo2tweaks\fo2tweaks.h"
-#include "..\headers\sfall\dik.h"
+#include "headers\define.h"
+#include "headers\sfall\define_extra.h"
+#include "headers\command.h"
+#include "headers\sfall\sfall.h"
+#include "headers\sfall\lib.misc.h"
+#include "headers\fo2tweaks\fo2tweaks.h"
+#include "headers\sfall\dik.h"
 
 #define NAME "gl_g_ammobox"
 #define set_ammobox "ammobox"
@@ -22,7 +22,6 @@ procedure gamemode_hook;
 procedure keypress_hook;
 procedure mouseclick_hook;
 
-
 procedure start begin
   if game_loaded then begin
     variable enabled := fo2tweaks_setting(sec_main, set_ammobox);
@@ -36,6 +35,7 @@ procedure start begin
     end
   end
 end
+
 
 //combat start/stop
 procedure gamemode_hook begin
@@ -58,7 +58,6 @@ procedure keypress_hook begin
     ndebug("update box - keyboard");
   end
 end
-
 //middle mouse
 procedure mouseclick_hook begin
   variable pressed := get_sfall_arg;
@@ -83,7 +82,6 @@ procedure update_box(variable show_new) begin
     end else begin
       ammo_pid := get_dude_inactive_ammo_pid;
     end
-
     if ammo_pid then begin
       ammo_label := message_str_game(GAME_MSG_PRO_ITEM, ammo_pid * 100);
       set_iface_tag_text(box_num, ammo_label, box_color);
