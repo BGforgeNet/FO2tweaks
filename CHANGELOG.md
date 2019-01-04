@@ -3,7 +3,8 @@
 * Version 9.4:
   - Fixed bug with combat difficulty multiplier being applied to player damage.
   - Added an option to decouple AI difficulty from damage difficulty.
-  - Fixed a number of issues related to perks, only dude is allowed to have them.
+  - Fixed a number of issues related to perks (only dude is allowed to have them) in damage mod and healing revision.
+  - Remapped G to center on dude.
 
 * Version 9.3:
   - Fixed living anatomy granted when healing revision is disabled.
