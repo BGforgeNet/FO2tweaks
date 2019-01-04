@@ -1,6 +1,6 @@
-#include "..\headers\command.h"
-#include "..\headers\sfall\sfall.h"
-#include "..\headers\fo2tweaks\fo2tweaks.h"
+#include "headers\command.h"
+#include "headers\sfall\sfall.h"
+#include "headers\fo2tweaks\fo2tweaks.h"
 
 #define NAME "gl_g_unlimited_party"
 #define set_unlimited_party "unlimited_party"

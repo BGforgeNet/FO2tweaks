@@ -1,8 +1,8 @@
 procedure start;
-#include "..\headers\define.h"
-#include "..\headers\sfall\sfall.h"
-#include "..\headers\sfall\lib.arrays.h"
-#include "..\headers\fo2tweaks\fo2tweaks.h"
+#include "headers\define.h"
+#include "headers\sfall\sfall.h"
+#include "headers\sfall\lib.arrays.h"
+#include "headers\fo2tweaks\fo2tweaks.h"
 
 #define NAME "gl_g_party_level_match"
 #define set_party_level_match "party_level_match"

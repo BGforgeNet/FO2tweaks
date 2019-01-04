@@ -1,8 +1,8 @@
-#include "..\headers\define.h"
-#include "..\headers\fo2tweaks\fo2tweaks.h"
-#include "..\headers\sfall\sfall.h"
-#include "..\headers\sfall\dik.h"
-#include "..\headers\sfall\lib.misc.h"
+#include "headers\define.h"
+#include "headers\fo2tweaks\fo2tweaks.h"
+#include "headers\sfall\sfall.h"
+#include "headers\sfall\dik.h"
+#include "headers\sfall\lib.misc.h"
 
 #define NAME "gl_g_light_level"
 #define set_night_vision "free_night_vision"

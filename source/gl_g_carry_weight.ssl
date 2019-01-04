@@ -1,7 +1,7 @@
 procedure start;
-#include "..\headers\define.h"
-#include "..\headers\sfall\define_extra.h"
-#include "..\headers\fo2tweaks\fo2tweaks.h"
+#include "headers\define.h"
+#include "headers\sfall\define_extra.h"
+#include "headers\fo2tweaks\fo2tweaks.h"
 
 #define set_carry_weight "carry_weight"
 #define NAME "gl_g_carry_weight"

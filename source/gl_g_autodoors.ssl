@@ -1,8 +1,8 @@
-#include "..\headers\define.h"
-#include "..\headers\command.h"
-#include "..\headers\sfall\sfall.h"
-#include "..\headers\sfall\define_extra.h"
-#include "..\headers\fo2tweaks\fo2tweaks.h"
+#include "headers\define.h"
+#include "headers\command.h"
+#include "headers\sfall\sfall.h"
+#include "headers\sfall\define_extra.h"
+#include "headers\fo2tweaks\fo2tweaks.h"
 
 procedure start;
 procedure map_enter_p_proc;

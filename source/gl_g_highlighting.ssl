@@ -1,6 +1,6 @@
-#include "..\headers\sfall\sfall.h"
-#include "..\headers\fo2tweaks\fo2tweaks.h"
-#include "..\headers\scenepid.h"
+#include "headers\sfall\sfall.h"
+#include "headers\fo2tweaks\fo2tweaks.h"
+#include "headers\scenepid.h"
 
 #define set_highlight "highlighting"
 

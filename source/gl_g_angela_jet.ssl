@@ -1,9 +1,9 @@
 #define NAME "gl_g_angela_jet"
 
-#include "define.h"
-#include "command.h"
-#include "..\headers\fo2tweaks\fo2tweaks.h"
-#include "..\headers\newreno.h"
+#include "headers\define.h"
+#include "headers\fo2tweaks\fo2tweaks.h"
+#include "headers\command.h"
+#include "headers\newreno.h"
 
 variable enabled := 0;
 variable registered := 0;

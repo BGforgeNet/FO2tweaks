@@ -1,5 +1,5 @@
-#include "..\headers\define.h"
-#include "..\headers\fo2tweaks\fo2tweaks.h"
+#include "headers\define.h"
+#include "headers\fo2tweaks\fo2tweaks.h"
 
 #define set_level5 "level5"
 #define NAME "g_gl_level5"
