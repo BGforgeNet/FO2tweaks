@@ -359,22 +359,16 @@ procedure travel_handler begin
 end
 
 procedure map_enter_p_proc begin
-  variable who;
   if enabled then begin
     ndebug("living_anatomy_min_doctor="+living_anatomy_min_doctor);
     if living_anatomy_min_doctor < 300 then begin
-      foreach who in list_as_array(LIST_CRITTERS) begin
-        ndebug(obj_name(who) + " has Doctor of " + critter_skill_level(who, SKILL_DOCTOR));
-        if critter_skill_level(who, SKILL_DOCTOR) >= living_anatomy_min_doctor
-          and not has_trait(TRAIT_PERK, who, PERK_living_anatomy_perk)
-        then begin
-          ndebug(obj_name(who) + " gets living anatomy!");
-          critter_add_trait(who, TRAIT_PERK, PERK_living_anatomy_perk, 1);
-          if in_party(who) then begin
-            display_msg(obj_name(who) + " " + living_anatomy_msg2);
-            float_msg(who, living_anatomy_msg, FLOAT_MSG_WHITE);
-          end
-        end
+      if critter_skill_level(dude_obj, SKILL_DOCTOR) >= living_anatomy_min_doctor
+        and not has_trait(TRAIT_PERK, dude_obj, PERK_living_anatomy_perk)
+      then begin
+        ndebug(obj_name(dude_obj) + " gets living anatomy!");
+        critter_add_trait(dude_obj, TRAIT_PERK, PERK_living_anatomy_perk, 1);
+        display_msg(obj_name(dude_obj) + " " + living_anatomy_msg2);
+        float_msg(dude_obj, living_anatomy_msg, FLOAT_MSG_WHITE);
       end
     end
   end
