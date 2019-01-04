@@ -269,7 +269,8 @@ begin
     total_damage := total_damage + 5;
   end
   //living anatomy
-  if attacker == dude_obj and has_trait(TRAIT_PERK, attacker, PERK_living_anatomy_perk)
+  if attacker == dude_obj
+    and has_trait(TRAIT_PERK, attacker, PERK_living_anatomy_perk)
     and critter_kill_type(target) != KILL_TYPE_robot_kills
   then begin
     ndebug("living anatomy: +5 dmg");
