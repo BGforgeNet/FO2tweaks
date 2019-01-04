@@ -38,6 +38,7 @@ It is highly configurable, any component can be used with or without others. Som
     - [Healing revision](#healing-revision)
     - [Level 5 after Temple of Trials](#level-5-after-temple-of-trials)
     - [Worldmap hotkey](#worldmap-hotkey)
+    - [Keymap](#keymap)
     - [Modoc brahmin](#modoc-brahmin)
     - [Expanded highlighting](#expanded-highlighting)
     - [Light level](#light-level)
