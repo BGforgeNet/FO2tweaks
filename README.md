@@ -145,7 +145,7 @@ This is a massive change to Doctor and First Aid skills:
 - For purposes of determining the amount healed, best skill level in *party* is used.
 - Healing is applied automatically during rest and travel, Baldur's Gate style.
 - Doctor's bags and First Aid kits are unchanged. They grant bonus to skill when used by dude explicitly, but they will randomly deplete as in original game. The items are not used in automatic healing described above.
-- As a final bonus, any critter who gets their Doctor skill to 125+ will receive Living Anatomy for free. (Applied when entering the next map. Can be configured or disabled.).
+- As a final bonus, if Doctor skill is raised to 135+, dude will receive Living Anatomy for free. (Applied when entering the next map. Can be configured or disabled.).
 
 #### Worldmap hotkey
 Adds hotkeys to call worldmap (W) and town map (T) at any moment. Yes, that can be used as a cheat at times. Configurable.
