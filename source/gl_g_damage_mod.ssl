@@ -1,7 +1,7 @@
-#include "..\headers\define.h"
-#include "..\headers\command.h"
-#include "..\headers\sfall\define_extra.h"
-#include "..\headers\fo2tweaks\fo2tweaks.h"
+#include "headers\define.h"
+#include "headers\command.h"
+#include "headers\sfall\define_extra.h"
+#include "headers\fo2tweaks\fo2tweaks.h"
 
 #define BODYPART_HEAD 0
 #define BODYPART_LEFT_ARM 1
@@ -44,7 +44,7 @@ end
 
 procedure start;
 procedure damage_handler;
-procedure get_dr_dt(variable attacker, variable target, variable dmg_type, variable dr_mod, variable target_flags);
+procedure get_dr_dt(variable attacker, variable target, variable dmg_type, variable dr_mod, variable target_flags, variable penetrate);
 procedure fix_ammo_stats(variable pids);
 procedure inv_handler;
 procedure get_ammo_pids;
@@ -225,13 +225,13 @@ procedure get_total_damage(
   variable attacker, variable target, variable dmg_type, variable dr_mod,
   variable dmg_min, variable dmg_max,
   variable ranged_bonus, variable ammo_mult, variable critical_mult, variable difficulty_mult,
-  variable bullets_number, variable flags)
+  variable bullets_number, variable flags, variable penetrate)
 begin
   variable total_damage := 0, bullet_damage := 0, i, critical_type, dr_dt,
   dr_mult, dt;
 
   //first bullet to hit keeps all the original mults
-  dr_dt := get_dr_dt(attacker, target, dmg_type, dr_mod, flags);
+  dr_dt := get_dr_dt(attacker, target, dmg_type, dr_mod, flags, penetrate);
   dr_mult := dr_dt[0];
   dt := dr_dt[1];
 
@@ -243,7 +243,7 @@ begin
       critical_type := get_critical_type(attacker, target);
       critical_mult := critical_type[0];
       flags := critical_type[1];
-      dr_dt := get_dr_dt(attacker, target, dmg_type, dr_mod, flags);
+      dr_dt := get_dr_dt(attacker, target, dmg_type, dr_mod, flags, penetrate);
       dr_mult := dr_dt[0];
       dt := dr_dt[1];
 
@@ -253,12 +253,15 @@ begin
   end
 
   //pyromaniac
-  if has_trait(TRAIT_PERK, attacker, PERK_pyromaniac_perk) and dmg_type == DMG_fire then begin
+  if attacker == dude_obj
+    and has_trait(TRAIT_PERK, attacker, PERK_pyromaniac_perk)
+    and dmg_type == DMG_fire
+  then begin
     ndebug("pyromaniac: +5 dmg");
     total_damage := total_damage + 5;
   end
   //living anatomy
-  if has_trait(TRAIT_PERK, attacker, PERK_living_anatomy_perk)
+  if attacker == dude_obj and has_trait(TRAIT_PERK, attacker, PERK_living_anatomy_perk)
     and critter_kill_type(target) != KILL_TYPE_robot_kills
   then begin
     ndebug("living anatomy: +5 dmg");
@@ -302,7 +305,7 @@ procedure get_resist_defines(variable dmg_type) begin
 end
 
 //returns [dr_mult, dt]
-procedure get_dr_dt(variable attacker, variable target, variable dmg_type, variable dr_mod, variable target_flags)
+procedure get_dr_dt(variable attacker, variable target, variable dmg_type, variable dr_mod, variable target_flags, variable penetrate)
 begin
   variable target_dr, target_dt, final_dr, final_dt, dr_mult,
     resist_defines, dr_type, dt_type;
@@ -317,7 +320,7 @@ begin
   target_dr := get_critter_stat(target, dr_type); //includes armor and drugs
   target_dt := get_critter_stat(target, dt_type);
 
-  if has_trait(TRAIT_TRAIT, attacker, TRAIT_finesse) then begin
+  if attacker == dude_obj and has_trait(TRAIT_TRAIT, attacker, TRAIT_finesse) then begin
     ndebug("attacking with finesse, extra 30% to dr");
     target_dr := target_dr + 30;
   end
@@ -328,7 +331,7 @@ begin
     ndebug("armor bypassing critical, reducing dt and dr by magnitude of 5");
     target_dr := target_dr * 0.2;
     target_dt := target_dt * 0.2;
-  end else if has_trait(TRAIT_PERK, attacker, PERK_weapon_penetrate) > 0 then begin //weapon penetrate perk
+  end else if penetrate then begin //weapon penetrate perk
     ndebug("weapon has penetrate perk, reducing dt by magnitude of 5");
     target_dt := target_dt * 0.2;
   end
@@ -401,6 +404,7 @@ procedure damage_handler begin
     dmg_min;
     dmg_max;
     ammo_pid;
+    penetrate;
   end
 
   if weapon then begin
@@ -426,7 +430,15 @@ procedure damage_handler begin
   end
 
   //ranged_bonus - bonus ranged damage perk
-  ranged_bonus := 2 * has_trait(TRAIT_PERK, attacker, PERK_bonus_ranged_damage);
+  ranged_bonus := 0;
+  if attacker == dude_obj then begin
+    ranged_bonus := 2 * has_trait(TRAIT_PERK, dude_obj, PERK_bonus_ranged_damage);
+    ndebug("ranged bonus: added " + ranged_bonus + " damage");
+  end
+
+  //weapon penetrate perk
+  penetrate := false;
+  if get_proto_data(obj_pid(weapon), PROTO_WP_PERK) == PERK_weapon_penetrate then penetrate := true;
 
   //cm - critical hit multiplier, default 2
   cm := damage_multiplier;
@@ -453,7 +465,7 @@ procedure damage_handler begin
   critical_mult := damage_multiplier / 2.0;
 
   nd := get_total_damage(attacker, target, dmg_type, dr_mod, dmg_min, dmg_max,
-    ranged_bonus, ammo_mult, critical_mult, difficulty_mult, bullets_number, target_flags);
+    ranged_bonus, ammo_mult, critical_mult, difficulty_mult, bullets_number, target_flags, penetrate);
 
   ndebug("ranged_bonus " +  ranged_bonus + ", cm " +  cm + ", cd " +  cd + ", dmg_type " + dmg_type
       + ", ammo_mult " + ammo_mult);
