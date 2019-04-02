@@ -10,7 +10,7 @@
 [__Download__](https://github.com/BGforgeNet/fo2tweaks/releases/latest)
  | [__Installation__](#installation)
  | [__Reporting issues__](#reporting-issues)
- | [__Forum__](https://forum.bgforge.net/viewforum.php?f=26)
+ | [__Forum__](https://forums.bgforge.net/viewforum.php?f=26)
  | [__Discord__](https://discord.gg/4Yqfggm)
  | [__Help translating__](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
 
