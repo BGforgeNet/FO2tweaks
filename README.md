@@ -196,7 +196,7 @@ Delete fo2tweaks.ini and all data/scripts/gl_g_* files.
 * Also see the [forum](https://forums.bgforge.net/viewforum.php?f=26).
 
 ## Author
-- [burner1024](https://github.com/burner1024)
+- [Magus at BGforge](https://forums.bgforge.net/viewforum.php?f=26)
 
 ## License
 - The mod is [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
