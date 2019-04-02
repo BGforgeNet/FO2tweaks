@@ -91,7 +91,7 @@ In a nutshell:
 - DT is applied before any multipliers.
 - Each bullet in a burst rolls its own critical damage (including bypass effect, but excluding any others). This roll is not affected by Sniper perk.
 
-A more detailed description is available [here](https://forum.bgforge.net/viewtopic.php?f=26&p=388).
+A more detailed description is available [here](https://forums.bgforge.net/viewtopic.php?f=26&p=388).
 
 Effect on the game:
 - Early game is more or less the same, JHP ammo rules.
@@ -193,7 +193,7 @@ Delete fo2tweaks.ini and all data/scripts/gl_g_* files.
 
 ## Reporting issues
 * Open a new [issue](https://github.com/BGforgeNet/fo2tweaks/issues) and describe the problem.
-* Also see the [forum](https://forum.bgforge.net/viewforum.php?f=26).
+* Also see the [forum](https://forums.bgforge.net/viewforum.php?f=26).
 
 ## Author
 - [burner1024](https://github.com/burner1024)
