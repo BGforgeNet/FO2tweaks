@@ -192,8 +192,8 @@ You're free to try and share your experience, however.
 Delete fo2tweaks.ini and all data/scripts/gl_g_* files.
 
 ## Reporting issues
-* Open a new [issue](https://github.com/BGforgeNet/fo2tweaks/issues) and describe the problem.
-* Also see the [forum](https://forums.bgforge.net/viewforum.php?f=26).
+* For bugs and feature requests, open an [issue](https://github.com/BGforgeNet/fo2tweaks/issues) (don't forget to check if it's already been reported).
+* For discussion, questions and else, see the [forum](https://forums.bgforge.net/viewforum.php?f=26).
 
 ## Author
 - [Magus at BGforge](https://forums.bgforge.net/viewforum.php?f=26)
