@@ -133,7 +133,7 @@ When not in combat, dude will be able to walk through unlocked doors without hav
 
 #### Level 5 after Temple of Trials
 Nets the Chosen 9500 XP after completing the Temple of Trials.
-(While it feels like a cheat, pretty much the same may be accomplished by farming Geckos, or, easier even, planting/stealing items from them)
+(While it feels like a cheat, pretty much the same may be accomplished by farming geckos, or, easier even, planting/stealing items from them)
 
 #### Healing revision
 This is a massive change to Doctor and First Aid skills:
