@@ -156,7 +156,7 @@ Allows to remap vanilla game hotkeys. Configurable. Default mapping (to avoid ac
 - Quick save: F5
 - Quick load: F8
 - Load game: F9
-- Center on PC: G (for laptop users with no Home key)
+- Center on PC: J (for laptop users with no Home key)
 
 #### Modoc Brahmin
 A common annoyance in Modoc brahmin quest is that a party member shoots a brahma accidentally, and then the party proceeds to wipe them out.
