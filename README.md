@@ -149,7 +149,7 @@ This is a massive change to Doctor and First Aid skills:
 - As a final bonus, if Doctor skill is raised to 135+, dude will receive Living Anatomy for free. (Applied when entering the next map. Can be configured or disabled.).
 
 #### Worldmap hotkey
-Adds hotkeys to call worldmap (W) and town map (T) at any moment. Yes, that can be used as a cheat at times. Configurable.
+Adds hotkeys to call worldmap (W) and town map (Y) at any moment. Yes, that can be used as a cheat at times. Configurable.
 
 #### Keymap
 Allows to remap vanilla game hotkeys. Configurable. Default mapping (to avoid accidental quick save instead of load and vice versa):
