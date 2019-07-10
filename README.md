@@ -25,6 +25,8 @@ It is highly configurable, any component can be used with or without others. Som
   - [Party](#party)
     - [Unlimited party](#unlimited-party)
     - [Party level match](#party-level-match)
+  - [Speed](#speed)
+    - [General game speedup](#general-game-speedup)
   - [Combat](#combat)
     - [Ammobox](#ammobox)
     - [Damage mod](#damage-mod)
@@ -75,6 +77,16 @@ Some NPC like Goris are acquired later in the game and never reach their true po
 Now NPCs will automatically level up to match dude's level of experience. Default is to max out at level 24, configurable.
 You can kick an NPC out, come back later, more experienced, and they will level up to match that.
 
+### Speed
+#### General game speedup
+This is a convenience only component. It will set various values in game configs to increase overall game/interface speed. That includes skipping intro movies, decreasing fadein/out time, weapon equip animation, etc.
+
+Note:
+1. You can do the same manually, this is simply a shortcut.
+1. For it to start working, you need to enable it in `fo2tweaks.ini`, load a savegame, then _quit and relaunch the game_.
+1. If you later disable speedup in `fo2tweaks.ini`, all the settings will not reset back to what they were. If you want that, you'll have to reset them manually.
+
+[Full list of changed settings](docs/speedup.md).
 
 ### Combat
 #### Ammobox
