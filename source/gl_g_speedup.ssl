@@ -1,0 +1,48 @@
+#include "headers\define.h"
+#include "headers\sfall\define_extra.h"
+#include "headers\command.h"
+#include "headers\sfall\sfall.h"
+#include "headers\sfall\lib.misc.h"
+#include "headers\fo2tweaks\fo2tweaks.h"
+#include "headers\sfall\dik.h"
+
+#define NAME "gl_g_speedup"
+#define set_speedup "speedup"
+
+procedure set_settings begin
+  variable misc, k, v;
+  set_ini_setting("fallout2.cfg|preferences|combat_speed", 50);
+  set_ini_setting("fallout2.cfg|preferences|player_speedup", 1);
+  set_ini_setting("fallout2.cfg|preferences|running", 1);
+
+  set_ini_setting("f2_res.ini|OTHER_SETTINGS|SPLASH_SCRN_TIME", 0);
+  set_ini_setting("f2_res.ini|OTHER_SETTINGS|FADE_TIME_MODIFIER", 0);
+
+  set_ini_setting("ddraw.ini|Speed|SpeedMultiInitial", 115);
+  misc := {
+    "SpeedInterfaceCounterAnims": 3,
+    "SpeedInventoryPCRotation": 880,
+    "CombatPanelAnimDelay": 0,
+    "DialogPanelAnimDelay": 1,
+    "PipboyTimeAnimDelay": 1,
+    "StackEmptyWeapons": 1,
+    "ReloadReserve": 0,
+    "InstantWeaponEquip": 1,
+    "SkipOpeningMovies": 1,
+    "SkipLoadingGameSettings": 1
+  };
+  foreach k: v in misc begin
+    set_ini_setting("ddraw.ini|Misc|" + k, v);
+  end
+  set_ini_setting("ddraw.ini|Graphics|FadeMultiplier", 0);
+end
+
+procedure start begin
+  if game_loaded then begin
+    variable enabled := fo2tweaks_setting(sec_main, set_speedup);
+    if enabled == 1 then begin
+      call set_settings;
+      ndebug("initialized");
+    end
+  end
+end
