@@ -57,7 +57,7 @@ It is highly configurable, any component can be used with or without others. Som
 ### Inventory
 
 #### Unlimited carry weight
-AKA inventory pain killer, part 1. Let the Chosen one carry up to 99999, regardless of strength.
+AKA inventory pain killer, part 1. Let the Chosen One carry up to 99999, regardless of strength.
 
 #### Unlimited trunk
 Inventory pain killer, part 2. Never worry about trunk filling up.
