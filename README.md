@@ -205,12 +205,7 @@ Delete fo2tweaks.ini and all data/scripts/gl_g_* files.
 
 ## Reporting issues
 1. For discussion and questions see the [forum](https://forums.bgforge.net/viewforum.php?f=26).
-1. Before opening a new Github issue, check existing ones (both open and closed). Maybe it's already been reported.
-1. Next, depending on the problem type:
-    * Typo. Attach a screenshot, explain what's wrong in the wording and how it should be corrected. (Screenshot key is F12).
-    * Quest bug. Explain the problem. Attach two savegames: one where the problem can be seen right away, another one right before starting the quest. Indicate if any other mods are installed, and their versions.
-    * Crash. See [reporting crashes](https://github.com/BGforgeNet/Fallout2_Unofficial_Patch/blob/master/docs/CRASH.md).
-    * Something else. Use your best judgement. Provide as much info as possible.
+1. Follow the [instruction](https://github.com/BGforgeNet/Fallout2_Unofficial_Patch/blob/master/docs/REPORTING.md).
 
 **Notes:**
   * The best way to get the issue fixed is to submit a pull request.
