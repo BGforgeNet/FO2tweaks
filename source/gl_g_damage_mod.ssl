@@ -26,7 +26,7 @@
 #define sec_damage_mod "damage_mod"
 #define set_damage_mod "damage_mod"
 #define set_damage_mod_difficulty "damage_difficulty"
-#define set_damage_mod_only_party "only_party"
+#define set_damage_mod_party_scale_damage "party_scale_damage"
 
 #define set_damage_mod_ammo_pids "ammo_pids"
 #define sec_damage_mod_ammo_dr "damage_mod_ammo_dr"
@@ -44,7 +44,7 @@ variable begin
   type_ammo;
   ammo_damage;
   damage_difficulty;
-  damage_only_party;
+  party_scale_damage;
 end
 
 procedure start;
@@ -80,7 +80,7 @@ procedure start begin
       ammo_damage := load_ammo_damage_type(type_ammo);
       fix_array(ammo_damage);
 
-      damage_only_party := fo2tweaks_setting(sec_damage_mod, set_damage_mod_only_party);
+      party_scale_damage := fo2tweaks_setting(sec_damage_mod, set_damage_mod_party_scale_damage);
       damage_difficulty := fo2tweaks_setting(sec_damage_mod, set_damage_mod_difficulty);
 
       register_hook_proc(HOOK_COMBATDAMAGE, damage_handler);
@@ -229,7 +229,7 @@ begin
   return dmg;
 end
 
-procedure get_total_damage(
+procedure get_total_damage (
   variable attacker, variable target, variable dmg_type, variable dr_mod,
   variable dmg_min, variable dmg_max,
   variable ranged_bonus, variable ammo_mult, variable critical_mult, variable difficulty_mult,
@@ -465,7 +465,7 @@ procedure damage_handler begin
   ndebug("damage type is " + dmg_type);
 
   //cd - combat difficulty  multiplier
-  if damage_only_party and in_party(attacker) then cd := 100; //party, vanilla
+  if party_scale_damage and in_party(attacker) then cd := 100; //party, vanilla
   else begin
     if damage_difficulty then cd := 75 + (damage_difficulty - 1) * 25; //all, decoupled
     else cd := 75 + combat_difficulty * 25; //all, coupled
@@ -486,7 +486,7 @@ procedure damage_handler begin
   new_total += nd;
 
   ndebug("attacker " + obj_name(attacker) + ", target " + obj_name(target) + ", old damage " + target_damage +
-        ", new damage " + nd + ", old total " + old_total + ", new total " + new_total);
+        ", new damage " + nd + ", old total " + old_total + ", new total " + new_total + ", attacker damage " + attacker_damage);
 
   set_sfall_return(nd);
   set_sfall_arg(2, nd);
