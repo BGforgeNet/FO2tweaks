@@ -207,12 +207,6 @@ Delete fo2tweaks.ini and all data/scripts/gl_g_* files.
 1. For discussion and questions see the [forum](https://forums.bgforge.net/viewforum.php?f=26).
 1. Follow the [instruction](https://github.com/BGforgeNet/Fallout2_Unofficial_Patch/blob/master/docs/REPORTING.md).
 
-**Notes:**
-  * The best way to get the issue fixed is to submit a pull request.
-  * One issue per problem.
-  * Attach the files directly on Github, don't use external file sharing sites.
-  * Some bugs may be better illustrated with a gif or a video, you can do that.
-
 ## Author
 - [Magus at BGforge](https://forums.bgforge.net/viewforum.php?f=26)
 
