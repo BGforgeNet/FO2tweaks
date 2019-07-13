@@ -177,13 +177,13 @@ To avoid this, these brahmin will now be on player's team.
 #### Expanded highlighting
 Expanded version of Sfall highlighting mod. A picture speaks a thousand words. Highly configurable.
 
-![highlighting in game](https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/highlighting.jpg "highlighting in game")
+![highlighting in game](https://github.com/BGforgeNet/FO2tweaks/blob/master/pics/highlighting.jpg "highlighting in game")
 
 
 #### Light level
 Designed for Restoration Project users. Unfortunately, many areas in RP are quite dark compared to the original game, to the point of being eye hazard.
 
-Currently there's no way to adjust light level gracefully, so this component will grant the dude a free level of Night Vision perk.
+This allows to set a lower limit for the ambient light level. Refer to the [wiki](https://falloutmods.fandom.com/wiki/Fallout_2_light_levels) to understand how light works in Fallout.
 Displayed light level affects chance to hit for both dude and enemies, so it's still fair game.
 
 ## Compatibility
