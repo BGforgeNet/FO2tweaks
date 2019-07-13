@@ -1,38 +1,35 @@
 #include "headers\define.h"
 #include "headers\fo2tweaks\fo2tweaks.h"
-#include "headers\sfall\sfall.h"
-#include "headers\sfall\dik.h"
-#include "headers\sfall\lib.misc.h"
 
 #define NAME "gl_g_light_level"
-#define set_night_vision "free_night_vision"
+#define set_min_light_level "min_light_level"
 
-variable enabled;
+variable min_light_level;
 
-procedure update_ll begin
-  variable cur_ll := get_real_light_level;
-  set_light_level(cur_ll);
-end
-
-procedure add_night_vision begin
-  if not has_trait(TRAIT_PERK, dude_obj, PERK_night_vision) then begin
-    ndebug("added Night Vision to dude");
-    critter_add_trait(dude_obj, TRAIT_PERK, PERK_night_vision, 1);
-  end
-end
-
-procedure start begin
-  if game_loaded then begin
-    enabled := fo2tweaks_setting(sec_main, set_night_vision);
-    if enabled then begin
-      call add_night_vision;
-      call update_ll;
-      ndebug("initialized");
+procedure lightning_handler begin
+  variable obj := get_sfall_arg;
+  variable light_level := get_sfall_arg;
+  variable pct_ll;
+  if (obj == -1) then begin //map
+    pct_ll := light_level_abs_to_pct(light_level);
+    if pct_ll < min_light_level then begin
+      ndebug("light level too low, increasing to " + min_light_level);
+      set_sfall_return(light_level_pct_to_abs(min_light_level));
     end
   end
 end
 
-// this is so Night Vision works faster
 procedure map_enter_p_proc begin
-  if enabled then call update_ll;
+  exec_map_update_scripts;
+end
+
+procedure start begin
+  if game_loaded then begin
+    min_light_level := fo2tweaks_setting(sec_main, set_min_light_level);
+    if set_min_light_level then begin
+      register_hook_proc(HOOK_SETLIGHTING, lightning_handler);
+      ndebug("initialized");
+      exec_map_update_scripts;
+    end
+  end
 end

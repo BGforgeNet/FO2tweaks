@@ -219,10 +219,10 @@ procedure f2_ammo_pids begin
   return pids;
 end
 
-procedure get_real_light_level begin
-  variable real_level_map;
-  variable real_level;
-  real_level_map := {
+procedure light_level_abs_to_pct(variable abs_level := -1) begin
+  variable pct_level_map;
+  variable pct_level;
+  pct_level_map := {
     16384: 0,
     16629: 1,
     16875: 2,
@@ -325,9 +325,121 @@ procedure get_real_light_level begin
     65290: 99,
     65536: 100
   };
-  real_level := real_level_map[get_light_level];
-  return real_level;
+  if abs_level == -1 then pct_level := pct_level_map[get_light_level];
+  else pct_level := pct_level_map[abs_level];
+  return pct_level;
 end
+
+procedure light_level_pct_to_abs(variable pct_level) begin
+  variable abs_level_map;
+  variable abs_level;
+  abs_level_map := {
+    0: 16384,
+    1: 16629,
+    2: 16875,
+    3: 17121,
+    4: 17367,
+    5: 17612,
+    6: 17858,
+    7: 18104,
+    8: 18350,
+    9: 18595,
+    10: 18841,
+    11: 19087,
+    12: 19333,
+    13: 19578,
+    14: 19824,
+    15: 20070,
+    16: 20316,
+    17: 20561,
+    18: 20807,
+    19: 21053,
+    20: 21299,
+    21: 21544,
+    22: 21790,
+    23: 22036,
+    24: 22282,
+    25: 22528,
+    26: 22773,
+    27: 23019,
+    28: 23265,
+    29: 23511,
+    30: 23756,
+    31: 24002,
+    32: 24248,
+    33: 24494,
+    34: 24739,
+    35: 24985,
+    36: 25231,
+    37: 25477,
+    38: 25722,
+    39: 25968,
+    40: 26214,
+    41: 26460,
+    42: 26705,
+    43: 26951,
+    44: 27197,
+    45: 27443,
+    46: 27688,
+    47: 27934,
+    48: 28180,
+    49: 28426,
+    50: 40960,
+    51: 53493,
+    52: 53739,
+    53: 53985,
+    54: 54231,
+    55: 54476,
+    56: 54722,
+    57: 54968,
+    58: 55214,
+    59: 55459,
+    60: 55705,
+    61: 55951,
+    62: 56197,
+    63: 56442,
+    64: 56688,
+    65: 56934,
+    66: 57180,
+    67: 57425,
+    68: 57671,
+    69: 57917,
+    70: 58163,
+    71: 58408,
+    72: 58654,
+    73: 58900,
+    74: 59146,
+    75: 59392,
+    76: 59637,
+    77: 59883,
+    78: 60129,
+    79: 60375,
+    80: 60620,
+    81: 60866,
+    82: 61112,
+    83: 61358,
+    84: 61603,
+    85: 61849,
+    86: 62095,
+    87: 62341,
+    88: 62586,
+    89: 62832,
+    90: 63078,
+    91: 63324,
+    92: 63569,
+    93: 63815,
+    94: 64061,
+    95: 64307,
+    96: 64552,
+    97: 64798,
+    98: 65044,
+    99: 65290,
+    100: 65536
+  };
+  abs_level := abs_level_map[pct_level];
+  return abs_level;
+end
+
 
 procedure is_gun(variable obj) begin
   variable anim_code;
