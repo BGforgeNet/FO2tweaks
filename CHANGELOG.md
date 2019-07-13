@@ -1,5 +1,11 @@
 ## Changelog
 
+* Version 10:
+  - Remapped some keys that were conflicting with Party Orders.
+  - Replaced free Night Vision with minimal light level.
+  - Ammobox will only show up for guns with ammo.
+  - Restored general speedup component.
+
 * Version 9.4:
   - Fixed bug with combat difficulty multiplier being applied to player damage.
   - Added an option to decouple AI difficulty from damage difficulty.
