@@ -27,26 +27,18 @@ procedure skill_handler begin
   ndebug("user is " + obj_name(user) + ", target is " + obj_name(target)
     + ", skill is " + skill + ", skill level is " + skill_level + ", bonus is " + skill_bonus
     + ", skill points is " + skill_points);
+
   if skill == SKILL_REPAIR then begin
-//    set_critter_skill_points(user, skill, skill_points + 40);
-    ndebug("test1");
-    set_sfall_return(0);
-    ndebug("test2");
     item := create_object(PID_SUPER_TOOL_KIT, 0, 0);
     add_obj_to_inven(user, item);
-    ndebug("test3");
-    set_self(user);
-    ndebug("self is " + obj_name(self_obj) + ", item is " + obj_name(item));
-    set_self(user);
-    use_obj_on_obj(item, target);
-    ndebug("test4");
+    call use_obj_on_obj2(user, item, target);
   end
 
 end
 
 procedure start begin
   if game_loaded then begin
-    enabled := fo2tweaks_setting(sec_main, set_party_skill_items);
+   enabled := fo2tweaks_setting(sec_main, set_party_skill_items);
     if enabled == 1 then begin
       register_hook_proc(HOOK_USESKILL, skill_handler);
       ndebug("initialized");

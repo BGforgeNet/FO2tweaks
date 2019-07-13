@@ -13,19 +13,21 @@
 procedure start;
 procedure skill_handler;
 variable enabled;
-/*
 
 procedure skill_handler begin
   variable user := get_sfall_arg;
   variable target := get_sfall_arg;
   variable skill := get_sfall_arg;
   variable skill_bonus := get_sfall_arg;
+  variable tmp, who, level;
   ndebug("skill " + skill + "user " + user + " target " + target);
+
   if not combat_is_initialized and user == dude_obj then begin
+    tmp := get_party_skill_level(SKILL_LOCKPICK);
+    who := tmp[0];
+    level := tmp[1];
   if skill in [SKILL_LOCKPICK,] then begin
     set_sfall_return(0); //override
-    use_skill_on_proc
-      display_msg(not_in_combat_msg);
     end else begin
       call use_skill(user, target, skill, skill_bonus);
     end
@@ -34,7 +36,6 @@ procedure skill_handler begin
     set_sfall_return(-1); //default engine handler
   end
 end
-*/
 
 
 procedure useobjon_handler begin
@@ -52,16 +53,18 @@ procedure useobjon_handler begin
     who := tmp[0];
     level := tmp[1];
     ndebug(obj_name(who) + " has skill level " + level);
-    float_msg(who, mstr_skill(1000 + random(0,6)), FLOAT_MSG_NORMAL);
-    ndebug("test1");
-    set_self(who);
-    obj2 := create_object(obj_pid(obj), 0, elevation(dude_obj));
-    ndebug("obj2 is " + obj_name(obj2));
-    add_obj_to_inven(who, obj2);
-    ndebug("test2");
-    set_self(who);
-    //use_obj_on_obj(obj2, target);
-    ndebug("test3");
+    if who != dude_obj then begin
+      float_msg(who, mstr_skill(1000 + random(0,6)), FLOAT_MSG_NORMAL);
+      ndebug("test1");
+      set_self(who);
+      obj2 := create_object(obj_pid(obj), 0, elevation(dude_obj));
+      ndebug("obj2 is " + obj_name(obj2));
+      add_obj_to_inven(who, obj2);
+      ndebug("test2");
+      set_self(who);
+      //use_obj_on_obj(obj2, target);
+      ndebug("test3");
+    end
   end
 end
 
