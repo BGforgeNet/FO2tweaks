@@ -127,7 +127,7 @@ procedure get_party_skill_level(variable skill) begin
     end
   end
   ndebug(obj_name(who_best) + " has best skill " + skill_name + " of " + skill_level);
-  return skill_level;
+  return [who_best, skill_level];
 end
 
 //greatest common divisor
@@ -353,25 +353,25 @@ procedure get_armor(variable obj) begin
   return armor;
 end
 
-procedure f2rp_scrname_maxstage begin
+procedure f2rp_pid_maxstage begin
   variable rp_map;
   rp_map := {
-    483: 6, //Sulik
-    150: 6, //Vic
-    672: 4, //Cassidy
-    239: 3, //Lenny
-    700: 5, //Marcus
-    537: 4, //Myron
-    267: 5, //Brainbot
-    573: 4, //Robodog
-    647: 6, //Goris
-    1157: 4, //K-9
-    1195: 6, //Dogmeat
-    1506: 5, //Cat jJles
-    1507: 5, //Kitsune
-    1508: 5, //Dex
-    206: 0, //Miria
-    199: 0 //Davin
+    PID_SULIK: 6, //Sulik
+    PID_VIC: 6, //Vic
+    PID_JOHN_MACRAE: 4, //Cassidy
+    PID_LENNY: 3, //Lenny
+    PID_MARCUS: 5, //Marcus
+    PID_MYRON: 4, //Myron
+    PID_ROBOBRAIN: 5, //Brainbot
+    PID_CYBERDOG: 4, //Robodog
+    PID_GORIS: 6, //Goris
+    PID_K9: 4, //K-9
+    PID_DOGMEAT: 6, //Dogmeat
+    PID_CAT_JULES: 5, //Cat Jules
+    PID_KITSUNE: 5, //Kitsune
+    PID_DEX: 5, //Dex
+    PID_MIRIA: 0, //Miria
+    PID_DAVIN: 0 //Davin
   };
   return rp_map;
 end
@@ -388,4 +388,11 @@ procedure get_ini_section_ints(variable file, variable section) begin
     ndebug(k + " " + v);
   end
   return ar2;
+end
+
+procedure use_obj_on_obj_force(variable who, variable item, variable target) begin
+  set_self(who);
+  set_self(who);
+  use_obj_on_obj(item, target);
+  set_self(0);
 end
