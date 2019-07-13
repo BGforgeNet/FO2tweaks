@@ -147,10 +147,13 @@ procedure missing_hp(variable target) begin
 end
 
 procedure use_doctor(variable user, variable target, variable skill_bonus, variable interactive := true) begin
-  variable doctor_level := get_party_skill_level(SKILL_DOCTOR);
-  variable fa_level := get_party_skill_level(SKILL_FIRST_AID);
-  variable effective_doctor := doctor_level + skill_bonus;
-  variable i, item;
+  variable tmp, doctor_level, fa_level, effective_doctor, i, item;
+  tmp := get_party_skill_level(SKILL_DOCTOR);
+  doctor_level := tmp[1];
+  tmp := get_party_skill_level(SKILL_FIRST_AID);
+  fa_level := tmp[1];
+  effective_doctor := doctor_level + skill_bonus;
+
   ndebug("doctor level " + doctor_level + ", skill bonus " + skill_bonus + ", effective " + effective_doctor);
 
   if interactive then begin
@@ -216,9 +219,11 @@ procedure use_doctor(variable user, variable target, variable skill_bonus, varia
 end
 
 procedure use_first_aid(variable user, variable target, variable skill_bonus, variable interactive := true) begin
-  variable fa_level := get_party_skill_level(SKILL_FIRST_AID);
-  variable effective_fa := fa_level + skill_bonus;
-  variable i;
+  variable fa_level, effective_fa, i, tmp;
+
+  tmp := get_party_skill_level(SKILL_FIRST_AID);
+  fa_level := tmp[1];
+  effective_fa := fa_level + skill_bonus;
   ndebug("fa level " + fa_level + ", skill bonus " + skill_bonus + ", effective " + effective_fa);
   ndebug("userfa " + user + " target " + target);
 
