@@ -12,40 +12,84 @@ procedure start;
 #define set_party_4stages_start "4stages_start"
 #define set_party_5stages_start "5stages_start"
 #define set_party_6stages_start "6stages_start"
-#define sec_party_level_names "party_level_maxstage"
+#define sec_party_level_pids "party_level_maxstage"
 
 variable begin
   enabled;
   fin_level;
   step;
-  scrname_maxstage;
   stage3_start;
   stage4_start;
   stage5_start;
   stage6_start;
+  pid_maxstage;
+  old_mode, new_mode;
 end
 
-procedure party_member_list_names begin
-  variable who, t, tmp := create_array(0,0);
-  foreach who in party_member_list_critters begin
-    if who != dude_obj then tmp:= array_push(tmp, obj_name(who));
-  end
-  return tmp;
-end
-
-procedure start begin
+procedure levelup begin
   variable
-    scrname,
     max_stage,
     pc_level,
     cur_stage,
     start_level,
     party_names,
-    expected_stage,
-    tmp;
+    expected_stage;
+
+  if enabled and true_party_size > 0 then begin
+    variable who;
+    pc_level := get_pc_stat(PCSTAT_level);
+
+    foreach who in party_member_list_critters begin
+      variable pid := obj_pid(who);
+      cur_stage := get_npc_level(pid);
+      max_stage := pid_maxstage[pid];
+
+      switch max_stage begin
+        case 3:
+          start_level := stage3_start;
+        case 4:
+          start_level := stage4_start;
+        case 5:
+          start_level := stage5_start;
+        default:
+          start_level := stage6_start;
+      end
+
+      //already maxed or too early
+      if cur_stage >= max_stage or pc_level <= start_level then continue;
+
+      step := floor2((fin_level - start_level)/max_stage);
+
+      ndebug("npc is " + obj_name(who));
+      ndebug("cur_stage = " + cur_stage);
+      ndebug("pc_level = " + pc_level);
+      ndebug("start_level = " + start_level);
+      ndebug("step = " + step);
+
+      expected_stage := floor2((pc_level - start_level)/step);
+      ndebug("expected_stage = " + expected_stage);
+      ndebug("max_stage = " + max_stage);
+
+      if cur_stage < expected_stage then begin
+        ndebug("leveling up " + obj_name(who));
+        inc_npc_level(pid);
+      end
+
+    end
+  end
+end
+
+procedure gamemode_handler begin
+  new_mode := get_game_mode;
+  if mode_ended(DIALOG, old_mode, new_mode) then call levelup;
+  old_mode := new_mode;
+end
+
+procedure start begin
   if game_loaded then begin
     enabled := fo2tweaks_setting(sec_main, set_party_level_match);
     if enabled then begin
+      variable  tmp;
       fin_level := fo2tweaks_setting(sec_party_level_match, set_party_finlevel);
       stage3_start := fo2tweaks_setting(sec_party_level_match, set_party_3stages_start);
       stage4_start := fo2tweaks_setting(sec_party_level_match, set_party_4stages_start);
@@ -53,57 +97,13 @@ procedure start begin
       stage6_start := fo2tweaks_setting(sec_party_level_match, set_party_6stages_start);
 
       //load default, override from ini
-      tmp := f2rp_scrname_maxstage;
-      scrname_maxstage := get_ini_section_ints(fo2tweaks_ini, sec_party_level_names);
-      scrname_maxstage := array_append(tmp, scrname_maxstage);
-      fix_array(scrname_maxstage);
+      tmp := f2rp_pid_maxstage;
+      pid_maxstage := get_ini_section_ints(fo2tweaks_ini, sec_party_level_pids);
+      pid_maxstage := array_append(tmp, pid_maxstage);
+      fix_array(pid_maxstage);
 
-      set_global_script_repeat(600);
+      register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
       ndebug("initialized");
-    end
-  end else begin
-    if party_size > 0 then begin
-      pc_level := get_pc_stat(PCSTAT_level);
-      party_names := party_member_list_names;
-
-      foreach (scrname: max_stage in scrname_maxstage) begin
-        cur_stage := get_npc_level(mstr_scrname(scrname));
-
-        //not in party, skip
-        if not is_in_array(mstr_scrname(scrname), party_names) then continue;
-        //already maxed
-        if cur_stage >= max_stage then continue;
-
-        switch max_stage begin
-          case 3: //levelup at 14, 18, 22
-            start_level := stage3_start;
-          case 4: //14, 18, 22, 24
-            start_level := stage4_start;
-          case 5: //12, 16, 20, 24
-            start_level := stage5_start;
-          default: //case 6 - 8, 12, 16, 20, 24
-            start_level := stage6_start;
-        end
-        step := floor2((fin_level - start_level)/max_stage);
-
-        ndebug("npc is " + mstr_scrname(scrname));
-        ndebug("cur_stage = " + cur_stage);
-        ndebug("pc_level = " + pc_level);
-        ndebug("start_level = " + start_level);
-        ndebug("step = " + step);
-
-        if pc_level <= start_level then continue; // not yet a time to level up
-
-        expected_stage := floor2((pc_level - start_level)/step);
-        ndebug("expected_stage = " + expected_stage);
-        ndebug("max_stage = " + max_stage);
-
-        if cur_stage < expected_stage then begin
-          ndebug("leveling up " + mstr_scrname(scrname));
-          inc_npc_level(mstr_scrname(scrname));
-        end
-
-      end
     end
   end
 end
