@@ -70,7 +70,7 @@ Dude will automatically reload both weapons after combat has ended.
 #### Unlimited party
 This component removes charisma checks upon NPC joining the party.
 It does not remove other checks (karma, etc). For example, Goris may still decline to join if you're a childkiller.
-All vanilla and RP companions are included. More can added in the ini file.
+All vanilla and RP companions are included. More can be added in the ini file.
 
 #### Party level match
 Some NPC like Goris are acquired later in the game and never reach their true potential because of that.
