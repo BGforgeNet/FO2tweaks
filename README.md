@@ -1,13 +1,10 @@
 # FO2tweaks
 
-<a href="https://tra.bgforge.net/projects/fallout/fo2tweaks/">
-<img src="https://tra.bgforge.net/widgets/fallout/-/fo2tweaks/svg-badge.svg" alt="Translation status" />
-</a>
-<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
-<img src="https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg" alt="License" />
-</a>
+[![Translation status](https://tra.bgforge.net/widgets/fallout/-/fo2tweaks/svg-badge.svg)](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
+[![Build Status](https://travis-ci.org/BGforgeNet/FO2tweaks.svg?branch=master)](https://travis-ci.org/BGforgeNet/FO2tweaks)
+[![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-[__Download__](https://github.com/BGforgeNet/fo2tweaks/releases/latest)
+[__Download__](https://github.com/BGforgeNet/FO2tweaks/releases/latest)
  | [__Installation__](#installation)
  | [__Reporting issues__](#reporting-issues)
  | [__Forum__](https://forums.bgforge.net/viewforum.php?f=26)
