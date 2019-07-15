@@ -11,7 +11,7 @@
 #include "mouse.h"
 
 #define NAME "fo2tweaks"
-#define fo2tweaks_ini "fo2tweaks.ini"
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define fo2tweaks_setting(section, setting) get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting)
 #define fo2tweaks_string(section, setting) get_ini_string(fo2tweaks_ini + "|" + section + "|" + setting)
 #define ndebug(message) debug_msg(NAME + ": " + message + "\n")
