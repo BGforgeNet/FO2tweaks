@@ -6,7 +6,9 @@ extra_dir="${extra_dir:-extra}"
 extra_dir="$(realpath $extra_dir)"
 bin_dir="$extra_dir/bin"
 compile="$bin_dir/compile.exe"
-dst="$(realpath data/scripts)"
+dst="data/scripts"
+mkdir -p "$dst"
+dst="$(realpath $dst)"
 
 cd external
 if [[ -d rp ]]; then
