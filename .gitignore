@@ -3,3 +3,4 @@ source/headers
 source/gl_test.ssl
 *.tmp
 *.err
+*.int
