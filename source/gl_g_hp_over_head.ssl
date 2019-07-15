@@ -12,12 +12,6 @@ procedure update_hp begin
   variable who, cur_hp, max_hp, color, msg;
   ndebug("update_hp ping");
 
-  if combat_is_initialized then set_global_script_repeat(12);
-  else begin
-    set_global_script_repeat(0);
-    return;
-  end
-
   foreach who in list_as_array(LIST_CRITTERS) begin
     if is_dead(who) then continue;
     //float only nearby or party. Too many floats won't work
@@ -46,7 +40,7 @@ procedure gamemode_handler begin
   if mode_started(COMBAT, old_mode, new_mode) then begin
     ndebug("combat started, enabling floats");
     call update_hp;
-    set_global_script_repeat(12);
+    set_global_script_repeat(12); // this is ugly, but I can't find a better solution
   end
   old_mode := new_mode;
 end
@@ -71,7 +65,6 @@ procedure start begin
     if enabled == 1 then begin
       ndebug("initialized");
       register_hook_proc(HOOK_COMBATTURN, update_hp);
-      register_hook_proc(HOOK_COMBATDAMAGE, update_hp);
       register_hook_proc(HOOK_USEOBJ, update_hp);
       register_hook_proc(HOOK_USEOBJON, update_hp);
       register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
