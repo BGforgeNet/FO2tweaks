@@ -131,7 +131,7 @@ it also affects Bozar and Sniper Rifle (without changing range).
 #### HP over head
 Current HP will be displayed over head in combat, for dude, party and nearby enemies.
 
-*Note:* This component is not perfect, and there might be delays in numbers updating.
+*Note:* This component is not perfect, there might be delays in updating, and it will interfere with combat floats.
 
 ![hp over head in game](https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/hp_over_head.jpg "hp over head in game")
 
