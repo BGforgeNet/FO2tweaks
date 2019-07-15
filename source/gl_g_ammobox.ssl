@@ -1,6 +1,3 @@
-#include "headers\define.h"
-#include "headers\sfall\define_extra.h"
-#include "headers\command.h"
 #include "headers\sfall\sfall.h"
 #include "headers\sfall\lib.misc.h"
 #include "headers\fo2tweaks\fo2tweaks.h"
