@@ -189,13 +189,9 @@ Displayed light level affects chance to hit for both dude and enemies, so it's s
 You're free to try and share your experience, however.
 
 ## Installation
-- Download __fo2tweaks.zip__ from the [latest release page](https://github.com/BGforgeNet/fo2tweaks/releases/latest).
-- Unzip the archive into the game directory.
-- FO2tweaks requires sfall version 4.1.2+. It's shipped with the mod (ddraw.dll).
-  If you have a newer version, you don't need to overwite the dll.
-  However, if you just installed killap's Unofficial Patch or Restoration project,
-  you'll need to use the version shipped with FO2tweaks (or a later version, which can be found [here](https://github.com/phobos2077/sfall/releases)).
-- Edit fo2tweaks.ini to enable, disable or fine tune components as you desire.
+- Download the [latest release](https://github.com/BGforgeNet/fo2tweaks/releases/latest).
+- Unzip the archive into the game directory. FO2tweaks requires sfall (`ddraw.dll`) version 4.1.2+, it's shipped with the mod. If you have a newer version, you don't need to overwite the dll when extracting the archive.
+- Edit `mods/fo2tweaks.ini` to enable, disable or fine tune components as you desire.
 
 ## Uninstallation
 Delete fo2tweaks.ini and all data/scripts/gl_g_* files.
