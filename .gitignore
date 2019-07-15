@@ -1,6 +1,4 @@
-source/headers
-!source/headers/fo2tweaks
-source/gl_test.ssl
 *.tmp
 *.err
 *.int
+external
