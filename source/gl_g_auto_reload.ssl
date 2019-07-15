@@ -1,12 +1,5 @@
-#include "headers\define.h"
-#include "headers\command.h"
-#include "headers\sfall\define_extra.h"
-#include "headers\sfall\sfall.h"
-#include "headers\sfall\dik.h"
-#include "headers\sfall\lib.misc.h"
-#include "headers\sfall\lib.inven.h"
 #include "headers\fo2tweaks\fo2tweaks.h"
-#include "headers\party_op\party_op.h"
+#include "headers\party_orders\party_orders.h"
 
 #define NAME "gl_g_auto_reload"
 #define set_auto_reload "auto_reload"

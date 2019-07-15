@@ -1,0 +1,33 @@
+language: minimal
+dist: bionic
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.cache/build
+
+before_install:
+  - ./extra/prepare.sh
+
+script:
+  - ./extra/buildall.sh
+  - ./extra/publish.sh
+
+env:
+  global:
+    - sfall_version=4.1.9
+    - mpack_version=4.1.9
+    - mods_dir=mods
+    - mod_name=fo2tweaks
+    - bin_dir=extra/bin
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file_glob: true
+  file: fo2tweaks*.zip
+  skip_cleanup: true
+  on:
+    tags: true
+    branch: master
+  draft: true

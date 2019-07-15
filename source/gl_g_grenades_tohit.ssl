@@ -1,5 +1,3 @@
-#include "headers\define.h"
-#include "headers\sfall\sfall.h"
 #include "headers\fo2tweaks\fo2tweaks.h"
 
 #define sec_grenades_chance "grenades_chance"

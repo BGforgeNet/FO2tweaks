@@ -1,6 +1,3 @@
-#include "headers\sfall\define_extra.h"
-#include "headers\itempid.h"
-#include "headers\sfall\sfall.h"
 #include "headers\fo2tweaks\fo2tweaks.h"
 
 #define set_trunk_space "trunk_space"

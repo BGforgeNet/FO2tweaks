@@ -50,7 +50,7 @@ It is highly configurable, any component can be used with or without others. Som
 - [Reporting issues](#reporting-issues)
 - [Author](#author)
 - [License](#license)
-- [Changelog](#changelog)
+- [Changelog](docs/changelog.md)
 
 ## Components
 
@@ -212,6 +212,3 @@ Delete fo2tweaks.ini and all data/scripts/gl_g_* files.
 
 ## License
 - The mod is [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-
-## Changelog
-See [here](CHANGELOG.md).

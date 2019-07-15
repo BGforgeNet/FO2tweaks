@@ -1,4 +1,3 @@
-#include "headers\sfall\sfall.h"
 #include "headers\fo2tweaks\fo2tweaks.h"
 
 #define set_no_knockback "no_knockback"

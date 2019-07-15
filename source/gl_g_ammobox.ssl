@@ -1,7 +1,4 @@
-#include "headers\sfall\sfall.h"
-#include "headers\sfall\lib.misc.h"
 #include "headers\fo2tweaks\fo2tweaks.h"
-#include "headers\sfall\dik.h"
 
 #define NAME "gl_g_ammobox"
 #define set_ammobox "ammobox"

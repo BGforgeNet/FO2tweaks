@@ -1,8 +1,3 @@
-#include "headers\define.h"
-#include "headers\command.h"
-#include "headers\sfall\define_extra.h"
-#include "headers\itempid.h"
-#include "headers\sfall\sfall.h"
 #include "headers\fo2tweaks\fo2tweaks.h"
 
 #define NAME "gl_g_vault8_doors"

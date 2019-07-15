@@ -1,5 +1,3 @@
-#include "headers\define.h"
-#include "headers\command.h"
 #include "headers\fo2tweaks\fo2tweaks.h"
 
 #define set_modoc_brahmin "modoc_brahmin"
