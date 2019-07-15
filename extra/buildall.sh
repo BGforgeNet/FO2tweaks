@@ -10,7 +10,7 @@ dst="data/scripts"
 mkdir -p "$dst"
 dst="$(realpath $dst)"
 
-mkdir external
+mkdir -p external
 cd external
 if [[ -d rp ]]; then
   cd rp
