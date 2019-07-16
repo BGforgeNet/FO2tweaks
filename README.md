@@ -76,7 +76,7 @@ You can kick an NPC out, come back later, more experienced, and they will level 
 
 ### Speed
 #### General game speedup
-This is a convenience only component. It will set various values in game configs to increase overall game/interface speed. That includes skipping intro movies, decreasing fadein/out time, weapon equip animation, etc.
+This is a convenience only component. It will set various values in game configs to increase overall game/interface speed. That includes skipping intro movies and splash screens, decreasing fadein/out time, weapon equip animation, etc.
 
 Note:
 1. You can do the same manually, this is simply a shortcut.

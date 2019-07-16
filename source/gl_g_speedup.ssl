@@ -22,7 +22,7 @@ procedure set_settings begin
     "StackEmptyWeapons": 1,
     "ReloadReserve": 0,
     "InstantWeaponEquip": 1,
-    "SkipOpeningMovies": 1,
+    "SkipOpeningMovies": 2,
     "SkipLoadingGameSettings": 1
   };
   foreach k: v in misc begin

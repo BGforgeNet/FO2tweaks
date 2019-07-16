@@ -21,12 +21,12 @@ SpeedMultiInitial=115
 SpeedInterfaceCounterAnims=3
 SpeedInventoryPCRotation=880
 CombatPanelAnimDelay=0
-DialogPanelAnimDelay=1
-PipboyTimeAnimDelay=1
+DialogPanelAnimDelay=0
+PipboyTimeAnimDelay=0
 StackEmptyWeapons=1
 ReloadReserve=0
 InstantWeaponEquip=1
-SkipOpeningMovies=1
+SkipOpeningMovies=2
 SkipLoadingGameSettings=1
 [Graphics]
 FadeMultiplier=0
