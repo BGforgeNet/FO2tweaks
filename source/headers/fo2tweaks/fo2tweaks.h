@@ -165,7 +165,7 @@ procedure f2_party_member_pids begin
     PID_MARCUS,
     PID_DAVIN,
     PID_MIRIA,
-    PID_ROBOBRAIN,
+    PID_BRAINBOT,
     PID_ROBOBRAIN_CHIMP,
     PID_ROBOBRAIN_HUMAN,
     PID_ROBOBRAIN_ABNORMAL,
