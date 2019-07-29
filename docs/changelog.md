@@ -5,6 +5,8 @@
   - Replaced free Night Vision with minimal light level.
   - Ammobox will only show up for guns with ammo.
   - Restored general speedup component.
+  - Fixed bug with Robobrain still checking party limit.
+  - Packed int .dat.
 
 * Version 9.4:
   - Fixed bug with combat difficulty multiplier being applied to player damage.
