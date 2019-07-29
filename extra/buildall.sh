@@ -10,6 +10,11 @@ dst="data/scripts"
 mkdir -p "$dst"
 dst="$(realpath $dst)"
 
+if ! $extra_dir/need-build.sh ; then
+  echo "scripts haven't changed, skipping build"
+  exit 0
+fi
+
 mkdir -p external
 cd external
 if [[ -d rp ]]; then
