@@ -15,11 +15,11 @@ script:
 
 env:
   global:
-    - sfall_version=4.1.9
-    - mpack_version=4.1.9
-    - mods_dir=mods
-    - mod_name=fo2tweaks
-    - bin_dir=extra/bin
+    - sfall_version: 4.1.9.1
+    - mpack_version: 4.1.9.1
+    - mods_dir: mods
+    - mod_name: fo2tweaks
+    - bin_dir: extra/bin
 
 deploy:
   provider: releases
@@ -30,4 +30,3 @@ deploy:
   on:
     tags: true
     branch: master
-  draft: true
