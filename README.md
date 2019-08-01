@@ -70,7 +70,7 @@ It does not remove other checks (karma, etc). For example, Goris may still decli
 All vanilla and RP companions are included. More can be added in the ini file.
 
 #### Party level match
-Some NPC like Goris are acquired later in the game and never reach their true potential because of that.
+Some NPCs like Goris are acquired later in the game and never reach their true potential because of that.
 Now NPCs will automatically level up to match dude's level of experience. Default is to max out at level 24, configurable.
 You can kick an NPC out, come back later, more experienced, and they will level up to match that.
 
