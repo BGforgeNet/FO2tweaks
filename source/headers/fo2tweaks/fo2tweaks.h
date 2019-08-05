@@ -512,3 +512,14 @@ procedure use_obj_on_obj_force(variable who, variable item, variable target) beg
   use_obj_on_obj(item, target);
   set_self(0);
 end
+
+// scenery subtypes
+#define PRODATA_SC_TYPE 32
+#define SC_TYPE_DOOR 0
+#define SC_TYPE_STAIRS 1
+#define SC_TYPE_LADDER_TOP 3
+#define SC_TYPE_LADDER_BOTTOM 4
+procedure is_door(variable scenery_obj) begin
+  if get_proto_data(obj_pid(scenery_obj), PRODATA_SC_TYPE) == SC_TYPE_DOOR then return true;
+  return false;
+end

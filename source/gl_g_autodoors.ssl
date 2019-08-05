@@ -3,7 +3,7 @@
 procedure start;
 procedure map_enter_p_proc;
 procedure set_door_flag(variable state);
-procedure combatturn_handler;
+procedure gamemode_handler;
 
 #define PORTAL      (0)
 #define DOOR_FLAGS  (0x24)
@@ -11,50 +11,40 @@ procedure combatturn_handler;
 #define NAME "gl_g_autodoors"
 
 variable only_once := 0;
+variable old_mode := 0, new_mode;
+variable enabled := 0;
 
 procedure start begin
   if game_loaded then begin
-    variable enabled := fo2tweaks_setting(sec_main, set_autodoors);
+    enabled := fo2tweaks_setting(sec_main, set_autodoors);
     if enabled == 1 then begin
-      register_hook_proc(HOOK_COMBATTURN, combatturn_handler);
+      register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
       call map_enter_p_proc;
-    end
-    ndebug("initialized");
-  end else begin
-    if (only_once == 1 and combat_is_initialized) then begin
-        only_once := 2;
-        call set_door_flag(false);
-    end else if (only_once == 2 and not(combat_is_initialized)) then begin
-      only_once := 1;
-      call set_door_flag(FLAG_WALKTHRU);
+      ndebug("initialized");
     end
   end
 end
 
 procedure map_enter_p_proc begin
-  only_once := 1;
-  call set_door_flag(FLAG_WALKTHRU);
+  if enabled == 1 then call set_door_flag(FLAG_WALKTHRU);
 end
 
-procedure set_door_flag(variable state) begin
-  variable objectMap, obj, objPid, arrayPid, i;
-
-  objectMap := list_as_array(LIST_SCENERY);
-  arrayPid := temp_array(1, 0);
-
-  foreach (obj in objectMap) begin
-    objPid := obj_pid(obj);
-
-    if (proto_data(objPid, sc_type) != PORTAL) or is_in_array(objPid, arrayPid) then
-      continue;
-    arrayPid[i] := objPid;
-    i++;
-    resize_array(arrayPid, i + 1);
-    set_proto_data(objPid, DOOR_FLAGS, state);
+procedure set_door_flag(variable flag) begin
+  variable obj, pid;
+  foreach (obj in list_as_array(LIST_SCENERY)) begin
+    if is_door(obj) then set_proto_data(obj_pid(obj), DOOR_FLAGS, flag);
   end
 end
 
-procedure combatturn_handler begin
-  if (only_once == 1) then
-    set_global_script_repeat(60);
+procedure gamemode_handler begin
+  new_mode := get_game_mode;
+  if mode_ended(COMBAT, old_mode, new_mode) then begin
+    call set_door_flag(FLAG_WALKTHRU);
+    ndebug("combat ended, enabled walking through doors");
+  end
+  if mode_started(COMBAT, old_mode, new_mode) then begin
+    call set_door_flag(0);
+    ndebug("combat started, disabled walking through doors");
+  end
+  old_mode := new_mode;
 end
