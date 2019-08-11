@@ -172,7 +172,7 @@ A common annoyance in Modoc brahmin quest is that a party member shoots a brahma
 To avoid this, these brahmin will now be on player's team.
 
 #### Expanded highlighting
-Expanded version of Sfall highlighting mod. A picture speaks a thousand words. Highly configurable.
+Expanded version of Sfall highlighting mod. A picture is worth a thousand words. Highly configurable.
 
 ![highlighting in game](https://github.com/BGforgeNet/FO2tweaks/blob/master/pics/highlighting.jpg "highlighting in game")
 
