@@ -87,7 +87,7 @@ Note:
 
 ### Combat
 #### Ammobox
-Current ammo will be displayed in an box notification during combat.
+Current ammo type will be displayed in a notification box during combat.
 
 ![ammobox in game](https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/ammobox.jpg "ammobox in game")
 
