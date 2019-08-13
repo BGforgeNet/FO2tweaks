@@ -108,7 +108,7 @@ Effect on the game:
 - Power armor with its massive DT is a game changer. It will shrug off most JHP attacks. Even AP ammo is not very effective. You'll need to penetrate (criticals), or bring heavy weaponry.
 
 It's designed for vanilla game ammo/weapons/armor. It will *work* with various mods such as [EcCo](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/),
-however that may require tinkering with individual ammo modifiers in fo2tweaks.ini, and satisfactory result is not guaranteed.
+however that may require tinkering with individual ammo modifiers in `fo2tweaks.ini`, and satisfactory result is not guaranteed.
 
 #### Disable knockback
 Disable knockback. That affects all weapons and explosives. These long trips over the screen from a Super Sledge can be really annoying.
@@ -194,7 +194,7 @@ You're free to try and share your experience, however.
 - Edit `mods/fo2tweaks.ini` to enable, disable or fine tune components as you desire.
 
 ## Uninstallation
-Delete fo2tweaks.ini and all data/scripts/gl_g_* files.
+Delete `mods/fo2tweaks.*` files.
 
 ## Reporting issues
 1. For discussion and questions see the [forum](https://forums.bgforge.net/viewforum.php?f=26).
