@@ -74,7 +74,9 @@ Some NPCs like Goris are acquired later in the game and never reach their true p
 Now NPCs will automatically level up to match dude's level of experience. Default is to max out at level 24, configurable.
 You can kick an NPC out, come back later, more experienced, and they will level up to match that.
 
+
 ### Speed
+
 #### General game speedup
 This is a convenience only component. It will set various values in game configs to increase overall game/interface speed. That includes skipping intro movies and splash screens, decreasing fadein/out time, weapon equip animation, etc.
 
@@ -84,6 +86,14 @@ Note:
 1. If you later disable speedup in `fo2tweaks.ini`, all the settings will not reset back to what they were. If you want that, you'll have to reset them manually.
 
 [Full list of changed settings](docs/speedup.md).
+
+In addition to that, you will probably want to set the following options in `fallout2.cfg`:
+```
+[preferences]
+combat_speed=50
+player_speedup=1
+running=1
+```
 
 ### Combat
 #### Ammobox

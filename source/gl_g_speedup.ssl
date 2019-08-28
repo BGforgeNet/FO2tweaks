@@ -5,10 +5,6 @@
 
 procedure set_settings begin
   variable misc, k, v;
-  set_ini_setting("fallout2.cfg|preferences|combat_speed", 50);
-  set_ini_setting("fallout2.cfg|preferences|player_speedup", 1);
-  set_ini_setting("fallout2.cfg|preferences|running", 1);
-
   set_ini_setting("f2_res.ini|OTHER_SETTINGS|SPLASH_SCRN_TIME", 0);
   set_ini_setting("f2_res.ini|OTHER_SETTINGS|FADE_TIME_MODIFIER", 0);
 

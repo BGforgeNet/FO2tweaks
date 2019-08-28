@@ -1,22 +1,17 @@
-#### Full list of changed settings:
+### Full list of changed settings
 
-`fallout2.cfg:`
-```
-[preferences]
-combat_speed=50
-player_speedup=1
-running=1
-```
 `f2_res.ini:`
 ```
 [OTHER_SETTINGS]
 SPLASH_SCRN_TIME=0
 FADE_TIME_MODIFIER=0
 ```
+
 `ddraw.ini:`
 ```
 [Speed]
 SpeedMultiInitial=115
+
 [Misc]
 SpeedInterfaceCounterAnims=3
 SpeedInventoryPCRotation=880
@@ -28,6 +23,7 @@ ReloadReserve=0
 InstantWeaponEquip=1
 SkipOpeningMovies=2
 SkipLoadingGameSettings=1
+
 [Graphics]
 FadeMultiplier=0
 ```
