@@ -436,7 +436,7 @@ procedure damage_handler begin
   end
 
   // hook gets invoked twice when an explosion hits both attacker and target. Need to distinguish.
-  if (attacker_flags bwand DAM_HIT) == 0 then begin
+  if (attacker_flags bwand DAM_BACKWASH) != 0 then begin
     ndebug(obj_name(attacker) + " hurts self! Setting target to attacker, recalculating attacker self damage.");
     target := attacker;
     target_flags := attacker_flags; // this should work correctly, right?
@@ -489,11 +489,10 @@ procedure damage_handler begin
   old_total += target_damage;
   new_total += nd;
 
-  ndebug("DAM_HIT flag: " + (attacker_flags bwand DAM_HIT));
   ndebug("DAM_BACKWASH flag: " + (attacker_flags bwand DAM_BACKWASH));
 
   // normal run
-  if (attacker_flags bwand DAM_HIT) != 0 then begin
+  if (attacker_flags bwand DAM_BACKWASH) == 0 then begin
     set_sfall_return(nd);
     set_sfall_arg(2, nd);
     ndebug("attacker " + obj_name(attacker) + ", target " + obj_name(target) +", old target damage " + target_damage + ", new target damage " + nd);
