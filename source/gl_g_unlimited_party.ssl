@@ -39,7 +39,7 @@ procedure allow_join begin
   if not is_in_array(obj_pid(who), potential_party_member_pids) then begin
     ndebug(obj_name(who) + " is not a joinable NPC, skipping");
     return;
-  end
+  end else ndebug(obj_name(who) + " is a joinable NPC, applyting unlimited tweak");
 
   //drop everyone else
   foreach who in party_members begin
@@ -52,6 +52,7 @@ procedure allow_join begin
 
   //boost charisma
   dude_cha := dude_charisma;
+  ndebug("dude charisma is " + dude_cha);
   if dude_cha < 2 then begin
     set_critter_stat(dude_obj, STAT_ch, 2);
     ndebug("boosted charisma from " + dude_cha + " to 2");
