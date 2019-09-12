@@ -7,11 +7,22 @@
 variable enabled;
 variable keymap;
 
+#define invalid_game_mode ( \
+  get_game_mode bwand \
+  ( WORLDMAP bwor DIALOG bwor ESCMENU bwor SAVEGAME bwor LOADGAME \
+  bwor OPTIONS bwor HELP bwor CHARSCREEN bwor PIPBOY bwor INVENTORY \
+  bwor AUTOMAP bwor BARTER bwor HEROWIN bwor DIALOGVIEW) \
+)
+
 procedure start;
 
 procedure keypress_handler begin
   variable pressed := get_sfall_arg, key := get_sfall_arg;
   variable k, v, new_key;
+
+  //skip various game modes in which we don't need remapping
+  if invalid_game_mode then return;
+
   new_key := scan_array(keymap, key);
 
   //remap
