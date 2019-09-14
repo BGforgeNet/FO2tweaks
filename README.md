@@ -184,9 +184,10 @@ To avoid this, these brahmin will now be on player's team.
 #### Expanded highlighting
 Expanded version of Sfall highlighting mod. A picture is worth a thousand words. Highly configurable.
 
+__Note:__ if you're using this, you must disable default sfall highlighting (delete `data/scripts/gl_highlighting.int`).
+
 ![highlighting in game](https://github.com/BGforgeNet/FO2tweaks/blob/master/pics/highlighting.jpg "highlighting in game")
 
-*Note:* if you're using this, you must disable sfall's highlighting (delete `data/scripts/gl_highlighting.int`).
 
 #### Light level
 Designed for Restoration Project users. Unfortunately, many areas in RP are quite dark compared to the original game, to the point of being eye hazard.
