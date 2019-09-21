@@ -194,7 +194,6 @@ procedure use_doctor(variable user, variable target, variable skill_bonus, varia
     ndebug("trying to heal " + name);
 
     call array_push(doctor_used, obj_pid(target));
-    save_array(doctor_used_array, doctor_used);
     set_sfall_global("g_heal_d", get_day);
 
 //    gfade_in(1);
@@ -237,7 +236,6 @@ procedure use_first_aid(variable user, variable target, variable skill_bonus, va
     ndebug("trying to heal " + name);
 
     call array_push(fa_used, obj_pid(target));
-    save_array(fa_used_array, doctor_used);
     set_sfall_global("g_heal_d", get_day);
 
 //    gfade_in(1); //fade out doesn't work?
@@ -271,10 +269,8 @@ end
 
 procedure reset_heal_arrays begin
   ndebug("resetting heal arrays");
-  fa_used := create_array(0,0);
-  save_array(fa_used_array, fa_used);
-  doctor_used := create_array(0, 0);
-  save_array(doctor_used_array, doctor_used);
+  clear_array(fa_used_array);
+  clear_array(doctor_used_array);
 end
 
 procedure update_heal_arrays begin
@@ -486,9 +482,15 @@ procedure start begin
 //      fix_array(fa_items);
 
       doctor_used := load_array(doctor_used_array);
-      if doctor_used == 0 then doctor_used := create_array(0,0);
+      if doctor_used == 0 then begin
+        doctor_used := create_array(0,0);
+        save_array(doctor_used_array, doctor_used);
+      end
       fa_used := load_array(fa_used_array);
-      if fa_used == 0 then fa_used := create_array(0,0);
+      if fa_used == 0 then begin
+        fa_used := create_array(0,0);
+        save_array(fa_used_array, fa_used);
+      end
 
       register_hook_proc(HOOK_USESKILL, healing_handler);
       register_hook_proc(HOOK_RESTTIMER, rest_handler);
@@ -549,7 +551,7 @@ procedure useobjon_handler begin
 
   if doctor_items[pid] != 0 then begin
     bonus := get_skill_bonus(obj);
-    //have to spend charges separately because destroing object in the hook crashed the game
+    //have to spend charges separately because destroying object in the hook crashed the game
     charges := get_weapon_ammo_count(obj);
     if charges == 1 then begin
       ndebug(obj_name(obj) + " is depleted, destroying");
