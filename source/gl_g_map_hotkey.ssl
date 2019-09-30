@@ -1,4 +1,5 @@
 #include "headers\fo2tweaks\fo2tweaks.h"
+#include "headers\headers\MODOC.H"
 
 #define NAME "gl_g_map_hotkey"
 #define set_worldmap_key "worldmap_key"
@@ -9,6 +10,15 @@ procedure keypress_hook_handler;
 variable worldmap_key;
 variable townmap_key;
 
+procedure blowing_shitter begin
+  if cur_map_index == MAP_MODOC_DOWNTHESHITTER and not shitter_has_blown then begin
+    float_msg(dude_obj, "Nah... I think I'm gonna take the ladder", FLOAT_MSG_NORMAL);
+    ndebug("blowing shitter, pass");
+    return true;
+  end
+  return false;
+end
+
 procedure keypress_hook_handler begin
   variable pressed := get_sfall_arg;
   variable key := get_sfall_arg;
@@ -16,11 +26,13 @@ procedure keypress_hook_handler begin
   if get_game_mode then return; //non-zero mode
 
   if worldmap_key and hotkey_pressed_now(worldmap_key, key) then begin
+    if blowing_shitter then return;
     ndebug("key pressed, mode valid - calling world map");
     world_map;
   end
 
   if townmap_key and hotkey_pressed_now(townmap_key, key) then begin
+    if blowing_shitter then return;
     ndebug("key pressed, mode valid - calling town map");
     world_map;
     tap_key(DIK_T);
