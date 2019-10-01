@@ -1,7 +1,7 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
-#include "headers\party_orders\party_orders.h"
-
 #define NAME "gl_g_auto_reload"
+#include "headers/fo2tweaks/fo2tweaks.h"
+#include "headers/party_orders/party_orders.h"
+
 #define set_auto_reload "auto_reload"
 variable old_game_mode := 0, new_game_mode;
 variable enabled;

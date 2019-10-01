@@ -1,7 +1,7 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
+#define NAME "gl_g_no_knockback"
+#include "headers/fo2tweaks/fo2tweaks.h"
 
 #define set_no_knockback "no_knockback"
-#define NAME "gl_g_no_knockback"
 
 procedure start;
 procedure combat_damage_hook;

@@ -1,6 +1,7 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
-
 #define NAME "gl_g_hp_over_head"
+
+#include "headers/fo2tweaks/fo2tweaks.h"
+
 #define set_hp_over_head "hp_over_head"
 
 variable enabled;

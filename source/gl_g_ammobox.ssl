@@ -1,6 +1,6 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
-
 #define NAME "gl_g_ammobox"
+#include "headers/fo2tweaks/fo2tweaks.h"
+
 #define set_ammobox "ammobox"
 #define sec_ammobox "ammobox"
 #define set_ammobox_number "number"

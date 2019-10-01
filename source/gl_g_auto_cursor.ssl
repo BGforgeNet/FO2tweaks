@@ -1,6 +1,6 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
-
 #define NAME "gl_g_auto_cursor"
+
+#include "headers/fo2tweaks/fo2tweaks.h"
 
 variable old_tile := 0;
 

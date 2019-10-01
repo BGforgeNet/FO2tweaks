@@ -1,6 +1,6 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
-
 #define NAME "gl_g_light_level"
+
+#include "headers/fo2tweaks/fo2tweaks.h"
 #define set_min_light_level "min_light_level"
 
 variable min_light_level;

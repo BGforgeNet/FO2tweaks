@@ -1,5 +1,5 @@
-#include ".\headers\sfall\sfall.h"
-#include ".\headers\sfall\dik.h"
+#include "headers/sfall/sfall.h"
+#include "headers/sfall/dik.h"
 
 procedure start;
 procedure KeyPressHandler;
@@ -22,11 +22,11 @@ procedure start begin
 end
 
 
-// #include ".\HEADERS\DEFINE.H"
-// #include ".\HEADERS\COMMAND.H"
-// #include ".\headers\sfall\sfall.h"
-// #include ".\HEADERS\sfall\define_extra.h"
-// #include ".\headers\sfall\dik.h"
+// #include "HEADERS/DEFINE.H"
+// #include "HEADERS/COMMAND.H"
+// #include "headers/sfall/sfall.h"
+// #include "HEADERS/sfall/define_extra.h"
+// #include "headers/sfall/dik.h"
 
 // procedure start;
 // procedure KeyPressHandler;

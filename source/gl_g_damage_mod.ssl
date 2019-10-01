@@ -1,4 +1,6 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
+#define NAME "gl_g_damage_mod"
+
+#include "headers/fo2tweaks/fo2tweaks.h"
 
 #define BODYPART_HEAD 0
 #define BODYPART_LEFT_ARM 1
@@ -19,7 +21,6 @@
 #define CRITICAL_VALUE_TYPE_MSG 5
 #define CRITICAL_VALUE_TYPE_FAIL_MSG 6
 
-#define NAME "gl_g_damage_mod"
 #define sec_damage_mod "damage_mod"
 #define set_damage_mod "damage_mod"
 #define set_damage_mod_difficulty "damage_difficulty"

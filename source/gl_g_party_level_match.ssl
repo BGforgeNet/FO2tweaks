@@ -1,6 +1,6 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
-
 #define NAME "gl_g_party_level_match"
+#include "headers/fo2tweaks/fo2tweaks.h"
+
 #define set_party_level_match "party_level_match"
 #define sec_party_level_match "party_level_match"
 #define set_party_finlevel "final_level"

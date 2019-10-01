@@ -1,6 +1,6 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
-
 #define NAME "gl_g_no_scope_penalty"
+#include "headers/fo2tweaks/fo2tweaks.h"
+
 #define set_no_scope_penalty "no_scope_penalty"
 #define sec_no_scope_penalty "no_scope_penalty"
 #define set_scope_remove "remove"

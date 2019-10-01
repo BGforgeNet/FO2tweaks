@@ -1,11 +1,11 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
+#define NAME "gl_g_grenades_tohit"
+
+#include "headers/fo2tweaks/fo2tweaks.h"
 
 #define sec_grenades_chance "grenades_chance"
 #define set_grenades_weapons "weapons"
 #define set_grenades_ammo "ammo"
 #define set_grenades_chance "grenades_chance"
-#define NAME "gl_g_grenades_tohit"
-
 procedure start;
 procedure tohit_hook;
 

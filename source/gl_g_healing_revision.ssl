@@ -1,6 +1,6 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
-
 #define NAME "gl_g_healing_revision"
+
+#include "headers/fo2tweaks/fo2tweaks.h"
 
 #define all_disabilities \
   (DAM_CRIP_ARM_LEFT bwor \
@@ -269,8 +269,8 @@ end
 
 procedure reset_heal_arrays begin
   ndebug("resetting heal arrays");
-  clear_array(fa_used_array);
-  clear_array(doctor_used_array);
+  clear_array(fa_used);
+  clear_array(doctor_used);
 end
 
 procedure update_heal_arrays begin

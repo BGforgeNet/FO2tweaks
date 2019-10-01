@@ -10,7 +10,7 @@ dst="data/scripts"
 mkdir -p "$dst"
 dst="$(realpath $dst)"
 headers_dir="../source/headers"
-
+external_dir="../../external"
 if ! $extra_dir/need-build.sh ; then
   echo "scripts haven't changed, skipping build"
   exit 0
@@ -25,7 +25,7 @@ if [[ -d rp ]]; then
 else
   git clone https://github.com/BGforgeNet/Fallout2_Restoration_Project.git rp
 fi
-ln -sf rp/scripts_src/HEADERS "$headers_dir/headers"
+ln -sf "$external_dir/rp/scripts_src/HEADERS" "$headers_dir/rp"
 
 if [[ -d party_orders ]]; then
   cd party_orders
@@ -34,7 +34,7 @@ if [[ -d party_orders ]]; then
 else
   git clone https://github.com/BGforgeNet/fallout2-party-orders.git party_orders
 fi
-ln -sf party_orders/source/headers/party_orders "$headers_dir/party_orders"
+ln -sf "$external_dir/party_orders/source/headers/party_orders" "$headers_dir/party_orders"
 
 if [[ -d sfall ]]; then
   cd sfall
@@ -43,7 +43,7 @@ if [[ -d sfall ]]; then
 else
   git clone https://github.com/phobos2077/sfall.git sfall
 fi
-ln -sf sfall/artifacts/scripting/headers "$headers_dir/sfall"
+ln -sf "$external_dir/sfall/artifacts/scripting/headers" "$headers_dir/sfall"
 
 cd ..
 

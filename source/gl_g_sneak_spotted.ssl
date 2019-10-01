@@ -1,11 +1,11 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
+#define NAME "gl_g_sneak_spotted"
+#include "headers/fo2tweaks/fo2tweaks.h"
 
 #define set_sneak_spotted "sneak_spotted"
 #define sec_sneak_spotted "sneak_spotted"
 #define set_sneak_spotted_msg "message"
 #define set_sneak_spotted_stop "stop"
 
-#define NAME "gl_g_sneak_spotted"
 procedure start;
 
 procedure start begin

@@ -1,6 +1,6 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
-
 #define NAME "gl_g_grenades_anywhere"
+
+#include "headers/fo2tweaks/fo2tweaks.h"
 
 procedure start begin
   if game_loaded then begin

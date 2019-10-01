@@ -1,7 +1,7 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
-#include "headers\headers\MODOC.H"
-
 #define NAME "gl_g_map_hotkey"
+#include "headers/fo2tweaks/fo2tweaks.h"
+#include "headers/rp/MODOC.H"
+
 #define set_worldmap_key "worldmap_key"
 #define set_townmap_key "townmap_key"
 

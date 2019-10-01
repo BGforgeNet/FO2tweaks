@@ -1,8 +1,8 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
-
-#define set_carry_weight "carry_weight"
 #define NAME "gl_g_carry_weight"
 
+#include "headers/fo2tweaks/fo2tweaks.h"
+
+#define set_carry_weight "carry_weight"
 procedure start begin
   variable enabled := fo2tweaks_setting(sec_main, set_carry_weight);
   if enabled == 1 then begin

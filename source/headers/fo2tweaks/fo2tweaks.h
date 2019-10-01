@@ -1,16 +1,15 @@
-#include "../headers/define.h"
-#include "../headers/command.h"
+#include "../rp/define.h"
+#include "../rp/command.h"
 #include "../sfall/sfall.h"
 #include "../sfall/lib.arrays.h"
 #include "../sfall/lib.strings.h"
 #include "../sfall/lib.misc.h"
-#include "../headers/sfall/lib.inven.h"
+#include "../sfall/lib.inven.h"
 #include "../sfall/define_extra.h"
 #include "../sfall/dik.h"
 #include "tile.h"
 #include "mouse.h"
 
-#define NAME "fo2tweaks"
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define fo2tweaks_setting(section, setting) get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting)
 #define fo2tweaks_string(section, setting) get_ini_string(fo2tweaks_ini + "|" + section + "|" + setting)

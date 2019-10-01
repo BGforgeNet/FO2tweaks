@@ -1,5 +1,7 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
-#include "headers\headers\scenepid.h"
+#define NAME "gl_g_highlighting"
+
+#include "headers/fo2tweaks/fo2tweaks.h"
+#include "headers/rp/scenepid.h"
 
 #define set_highlight "highlighting"
 
@@ -46,8 +48,6 @@
 )
 
 #define is_trap(obj) (TRAP_CAVE_ARMED(obj) or TRAP_METAL_ARMED(obj))
-
-#define NAME "gl_g_highlighting"
 
 #define in_loot_mode (get_game_mode BWAND INTFACELOOT)
 #define obj_can_detect_obj(source, target) (obj_can_see_obj(source, target) or obj_can_hear_obj(source, target))

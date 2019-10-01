@@ -1,6 +1,6 @@
-#include "headers2\fo2tweaks\fo2tweaks.h"
-
 #define NAME "gl_g_broken_radon"
+
+#include "headers/fo2tweaks/fo2tweaks.h"
 
 #define sec_radon "broken_radon"
 #define set_radon_armor "armor"

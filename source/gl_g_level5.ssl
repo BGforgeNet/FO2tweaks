@@ -1,7 +1,8 @@
-#include "headers\fo2tweaks\fo2tweaks.h"
+#define NAME "g_gl_level5"
+
+#include "headers/fo2tweaks/fo2tweaks.h"
 
 #define set_level5 "level5"
-#define NAME "g_gl_level5"
 
 procedure map_enter_p_proc begin
   if map_first_run and cur_map_index == MAP_ARROYO_VILLAGE then begin
