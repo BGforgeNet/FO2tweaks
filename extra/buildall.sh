@@ -44,6 +44,7 @@ else
   git clone https://github.com/phobos2077/sfall.git sfall
 fi
 ln -sf "$external_dir/sfall/artifacts/scripting/headers" "$headers_dir/sfall"
+ln -sf "$external_dir/sfall/artifacts/scripting/headers" "$headers_dir/rp/sfall"
 
 cd ..
 
