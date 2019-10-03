@@ -82,9 +82,15 @@ end
 
 procedure gamemode_handler begin
   new_mode := get_game_mode;
-  if mode_started(DIALOG, old_mode, new_mode) then call allow_join;
   if mode_ended(DIALOG, old_mode, new_mode) then call reset_state;
   old_mode := new_mode;
+end
+
+procedure talk_handler begin
+  variable proc := get_sfall_arg;
+  variable self := get_sfall_arg;
+  variable source := get_sfall_arg;
+  if (proc == talk_proc and source == dude_obj) then call allow_join;
 end
 
 procedure start begin
@@ -96,6 +102,7 @@ procedure start begin
       potential_party_member_pids := array_append(potential_party_member_pids, mod_npc_pids);
       fix_array(potential_party_member_pids);
       register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+      register_hook_proc(HOOK_STDPROCEDURE, talk_handler);
       ndebug("initialized");
     end
   end
