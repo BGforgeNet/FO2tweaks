@@ -25,6 +25,7 @@ if [[ -d rp ]]; then
 else
   git clone https://github.com/BGforgeNet/Fallout2_Restoration_Project.git rp
 fi
+rm -f "$headers_dir/rp"
 ln -sf "$external_dir/rp/scripts_src/HEADERS" "$headers_dir/rp"
 
 if [[ -d party_orders ]]; then
@@ -34,6 +35,7 @@ if [[ -d party_orders ]]; then
 else
   git clone https://github.com/BGforgeNet/fallout2-party-orders.git party_orders
 fi
+rm -f  "$headers_dir/party_orders"
 ln -sf "$external_dir/party_orders/source/headers/party_orders" "$headers_dir/party_orders"
 
 if [[ -d sfall ]]; then
@@ -43,8 +45,8 @@ if [[ -d sfall ]]; then
 else
   git clone https://github.com/phobos2077/sfall.git sfall
 fi
+rm -f  "$headers_dir/sfall"
 ln -sf "$external_dir/sfall/artifacts/scripting/headers" "$headers_dir/sfall"
-ln -sf "$external_dir/sfall/artifacts/scripting/headers" "$headers_dir/rp/sfall"
 
 cd ..
 
