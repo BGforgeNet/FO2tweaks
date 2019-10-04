@@ -16,6 +16,7 @@ gl_g_molotov.ssl
 gl_g_no_knockback.ssl
 gl_g_no_scope_penalty.ssl
 gl_g_party_level_match.ssl
+gl_g_run_speed.ssl
 gl_g_speedup.ssl
 gl_g_trunk_space.ssl
 gl_g_unlimited_party.ssl
