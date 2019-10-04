@@ -1,44 +1,125 @@
-#define NAME "gl_g_run_speed"
+#define SCRIPT_REALNAME "gl_g_run_speed"
 #include "headers/fo2tweaks/fo2tweaks.h"
 
+#define set_run_speed "run_speed"
+#define sec_run_speed "run_speed"
+#define set_run_speed_dude "dude"
+#define set_run_speed_party "party"
+
+#define fps_offset 4
+
+variable enabled;
+
 procedure start;
+procedure set_run_fps(variable model, variable new_fps);
 
 procedure start begin
-  variable frms;
-
-  frms := [
-    "macybr",
-    "maddog",
-    "marobe",
-    "mamtn2",
-    "marobo",
-    "nmfatt",
-    "nmmyrn",
-    "nmlthr",
-    "navgul",
-    "nmwarr"
-  ];
 
   if game_loaded then begin
-    variable frm;
-    variable path_ab;
-    variable path_at;
-    variable file;
-    variable fps_offset := 0x4;
-    variable fps := 0x16;
-    ndebug("initialized");
-    foreach frm in frms begin
-      path_ab := "art\\critters\\" + frm + "ab.frm"; //walk
-      path_at := "art\\critters\\" + frm + "at.frm"; //run
+    enabled := fo2tweaks_setting(sec_main, set_run_speed);
+    if enabled then begin
+      variable frm, frms, fps, path;
+      variable dude := fo2tweaks_setting(sec_run_speed, set_run_speed_dude);
+      variable party := fo2tweaks_setting(sec_run_speed, set_run_speed_party);
+      ndebug("initialized");
+      if dude then begin
+        ndebug("dude enabled");
+        fps := 20; // same as no armor fps
+        frms := [ // vanilla PC
+          "hanpwr",
+          "hapowr",
+          "harobe",
+          "hfcmbt",
+          "hfjmps",
+          "hflthr",
+          "hfmaxx",
+          "hfmetl",
+          "hfprim",
+          "hmcmbt",
+          "hmjmps",
+          "hmlthr",
+          "hmmaxx",
+          "hmmetl",
+          "hmwarr"
+        ];
+        foreach frm in frms begin
+          path := "art\\critters\\" + frm;
+          call set_run_fps(path, fps);
+        end
 
-  //    file := fs_find(path_at);
-      file := fs_copy(path_ab, path_ab);
-      fs_seek(file, fps_offset);
-      fs_write_short(file, fps);
+        frms := [ // hero appearance
+          "hfr00s01\\art\\critters\\_hfjmps"
+          "hfr00s01\\art\\critters\\_hflthr"
+          "hfr00s01\\art\\critters\\_hfmaxx"
+          "hfr00s01\\art\\critters\\_hfmetl"
+          "hfr00s01\\art\\critters\\_hfprim"
+          "hfr00s02\\art\\critters\\_hfjmps"
+          "hfr00s02\\art\\critters\\_hflthr"
+          "hfr00s02\\art\\critters\\_hfmaxx"
+          "hfr00s02\\art\\critters\\_hfmetl"
+          "hfr00s02\\art\\critters\\_hfprim"
+          "hfr00s03\\art\\critters\\_hfjmps"
+          "hfr00s03\\art\\critters\\_hflthr"
+          "hfr00s03\\art\\critters\\_hfmaxx"
+          "hfr00s03\\art\\critters\\_hfmetl"
+          "hfr00s03\\art\\critters\\_hfprim"
+          "hmr00s01\\art\\critters\\_hmjmps"
+          "hmr00s01\\art\\critters\\_hmlthr"
+          "hmr00s01\\art\\critters\\_hmmaxx"
+          "hmr00s01\\art\\critters\\_hmmetl"
+          "hmr00s01\\art\\critters\\_hmwarr"
+          "hmr00s02\\art\\critters\\_hmjmps"
+          "hmr00s02\\art\\critters\\_hmlthr"
+          "hmr00s02\\art\\critters\\_hmmaxx"
+          "hmr00s02\\art\\critters\\_hmmetl"
+          "hmr00s02\\art\\critters\\_hmwarr"
+        ];
+        foreach frm in frms begin
+          path := "appearance\\" + frm;
+          call set_run_fps(path, fps);
+        end
+      end
 
-      ndebug("frm=" + frm + ", path_ab=" + path_ab + ", path_at=" + path_at);
-      ndebug("set fps to " + fps + " in " + frm);
+
+      if party then begin
+        ndebug("party enabled");
+        frms := [
+          // vanilla
+          "macybr", //cyberdog, k-9
+          "maddog", //dogmeat
+          "marobe", //goris
+          "mamtn2", //marcus
+          "nmfatt", //vic
+          "nmmyrn", //myron
+          "nmlthr", //cassidy
+          "navgul", //lenny
+          "nmwarr", //sulik
+          //new RP frms without AT anims
+          "malieu", //marcus RP armor
+          "laghul" //lenny RP new
+        ];
+        foreach frm in frms begin
+          path := "art\\critters\\" + frm;
+          call set_run_fps(path, fps);
+        end
+
+        // skynet is really slow, handling separately
+        call set_run_fps("art\\critters\\marobo", 40);
+      end
+
     end
   end
+end
 
+procedure set_run_fps(variable path, variable new_fps) begin
+  variable file;
+  variable path_ab := path + "ab.frm";
+  variable path_at := path + "at.frm";
+  file := fs_copy(path_at, path_at);
+  if not file then file := fs_copy(path_at, path_ab);
+  if file then begin
+    fs_seek(file, fps_offset);
+    fs_write_short(file, new_fps);
+    ndebug("set fps to " + new_fps + " in " + path_at);
+  end
 end
