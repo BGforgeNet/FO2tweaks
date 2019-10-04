@@ -11,10 +11,6 @@ mkdir -p "$dst"
 dst="$(realpath $dst)"
 headers_dir="../source/headers"
 external_dir="../../external"
-if ! $extra_dir/need-build.sh ; then
-  echo "scripts haven't changed, skipping build"
-  exit 0
-fi
 
 mkdir -p external
 cd external
