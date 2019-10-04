@@ -22,6 +22,6 @@ if [ -n "$TRAVIS_TAG" ]; then # tag found: releasing
   # sfall
   sfall_url="https://sourceforge.net/projects/sfall/files/sfall/sfall_$sfall_version.7z/download"
   wget -q "$sfall_url" -O sfall.7z
-  7z e sfall.7z ddraw.dll
+  7zr e sfall.7z ddraw.dll
   zip -r "${mod_name}_${version}.zip" ddraw.dll "$mods_dir/" # our package
 fi

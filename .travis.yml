@@ -6,6 +6,15 @@ cache:
   directories:
     - $HOME/.cache/build
 
+addons:
+  apt:
+    update: true
+    packages:
+      - moreutils
+      - p7zip
+      - wine-stable
+      - wine32
+
 before_install:
   - ./extra/prepare.sh
 
