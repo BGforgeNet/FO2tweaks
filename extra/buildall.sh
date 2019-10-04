@@ -22,7 +22,7 @@ else
   git clone https://github.com/BGforgeNet/Fallout2_Restoration_Project.git rp
 fi
 rm -f "$headers_dir/rp"
-ln -sf "$external_dir/rp/scripts_src/HEADERS" "$headers_dir/rp"
+ln -sf "$external_dir/rp/scripts_src/headers" "$headers_dir/rp"
 
 if [[ -d party_orders ]]; then
   cd party_orders
