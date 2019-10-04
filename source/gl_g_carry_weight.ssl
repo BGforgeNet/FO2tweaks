@@ -1,4 +1,4 @@
-#define NAME "gl_g_carry_weight"
+#define SCRIPT_REALNAME "gl_g_carry_weight"
 
 #include "headers/fo2tweaks/fo2tweaks.h"
 

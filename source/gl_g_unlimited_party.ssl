@@ -1,4 +1,4 @@
-#define NAME "gl_g_unlimited_party"
+#define SCRIPT_REALNAME "gl_g_unlimited_party"
 #include "headers/fo2tweaks/fo2tweaks.h"
 
 #define set_unlimited_party "unlimited_party"

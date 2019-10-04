@@ -1,4 +1,4 @@
-#define NAME "gl_g_no_knockback"
+#define SCRIPT_REALNAME "gl_g_no_knockback"
 #include "headers/fo2tweaks/fo2tweaks.h"
 
 #define set_no_knockback "no_knockback"

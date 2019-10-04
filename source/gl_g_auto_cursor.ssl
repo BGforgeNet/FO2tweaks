@@ -1,4 +1,4 @@
-#define NAME "gl_g_auto_cursor"
+#define SCRIPT_REALNAME "gl_g_auto_cursor"
 
 #include "headers/fo2tweaks/fo2tweaks.h"
 

@@ -1,4 +1,4 @@
-#define NAME "g_gl_level5"
+#define SCRIPT_REALNAME "g_gl_level5"
 
 #include "headers/fo2tweaks/fo2tweaks.h"
 

@@ -1,4 +1,4 @@
-#define NAME "gl_g_healing_revision"
+#define SCRIPT_REALNAME "gl_g_healing_revision"
 
 #include "headers/fo2tweaks/fo2tweaks.h"
 

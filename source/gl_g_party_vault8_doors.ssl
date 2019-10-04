@@ -1,4 +1,4 @@
-#define NAME "gl_g_vault8_doors"
+#define SCRIPT_REALNAME "gl_g_vault8_doors"
 #include "headers/fo2tweaks/fo2tweaks.h"
 
 variable enabled := 0;

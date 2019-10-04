@@ -1,4 +1,4 @@
-#define NAME "gl_g_autodoors"
+#define SCRIPT_REALNAME "gl_g_autodoors"
 
 #include "headers/fo2tweaks/fo2tweaks.h"
 

@@ -1,4 +1,4 @@
-#define NAME "gl_g_sneak_spotted"
+#define SCRIPT_REALNAME "gl_g_sneak_spotted"
 #include "headers/fo2tweaks/fo2tweaks.h"
 
 #define set_sneak_spotted "sneak_spotted"

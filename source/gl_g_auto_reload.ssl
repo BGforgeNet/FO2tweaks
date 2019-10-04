@@ -1,4 +1,4 @@
-#define NAME "gl_g_auto_reload"
+#define SCRIPT_REALNAME "gl_g_auto_reload"
 #include "headers/fo2tweaks/fo2tweaks.h"
 #include "headers/party_orders/party_orders.h"
 

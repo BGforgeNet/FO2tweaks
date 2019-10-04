@@ -1,4 +1,4 @@
-#define NAME "gl_g_modoc_brahmin"
+#define SCRIPT_REALNAME "gl_g_modoc_brahmin"
 #include "headers/fo2tweaks/fo2tweaks.h"
 
 #define set_modoc_brahmin "modoc_brahmin"

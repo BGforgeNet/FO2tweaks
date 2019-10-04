@@ -1,4 +1,4 @@
-#define NAME "gl_g_grenades_tohit"
+#define SCRIPT_REALNAME "gl_g_grenades_tohit"
 
 #include "headers/fo2tweaks/fo2tweaks.h"
 

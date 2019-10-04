@@ -1,4 +1,4 @@
-#define NAME "gl_g_molotov"
+#define SCRIPT_REALNAME "gl_g_molotov"
 #include "headers/fo2tweaks/fo2tweaks.h"
 
 #define sec_molotov_fire "molotov_fire"

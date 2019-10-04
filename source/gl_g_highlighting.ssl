@@ -1,4 +1,4 @@
-#define NAME "gl_g_highlighting"
+#define SCRIPT_REALNAME "gl_g_highlighting"
 
 #include "headers/fo2tweaks/fo2tweaks.h"
 #include "headers/rp/scenepid.h"

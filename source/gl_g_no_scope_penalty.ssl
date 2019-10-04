@@ -1,4 +1,4 @@
-#define NAME "gl_g_no_scope_penalty"
+#define SCRIPT_REALNAME "gl_g_no_scope_penalty"
 #include "headers/fo2tweaks/fo2tweaks.h"
 
 #define set_no_scope_penalty "no_scope_penalty"

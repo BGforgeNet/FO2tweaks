@@ -1,4 +1,4 @@
-#define NAME "gl_g_map_hotkey"
+#define SCRIPT_REALNAME "gl_g_map_hotkey"
 #include "headers/fo2tweaks/fo2tweaks.h"
 #include "headers/rp/MODOC.H"
 

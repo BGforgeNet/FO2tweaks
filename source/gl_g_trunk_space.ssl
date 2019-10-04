@@ -1,4 +1,4 @@
-#define NAME "gl_g_trunk_space"
+#define SCRIPT_REALNAME "gl_g_trunk_space"
 #include "headers/fo2tweaks/fo2tweaks.h"
 
 #define set_trunk_space "trunk_space"

@@ -1,4 +1,4 @@
-#define NAME "gl_g_party_skills"
+#define SCRIPT_REALNAME "gl_g_party_skills"
 #include "headers/fo2tweaks/fo2tweaks.h"
 
 #define set_party_skills "party_skills"
