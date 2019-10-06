@@ -16,8 +16,9 @@ procedure set_run_fps(variable model, variable new_fps);
 procedure start begin
 
   if game_loaded then begin
+    variable fs_override := check_filesystem_override;
     enabled := fo2tweaks_setting(sec_main, set_run_speed);
-    if enabled then begin
+    if enabled and fs_override then begin
       variable frm, frms, fps, path;
       variable dude := fo2tweaks_setting(sec_run_speed, set_run_speed_dude);
       variable party := fo2tweaks_setting(sec_run_speed, set_run_speed_party);
@@ -48,30 +49,30 @@ procedure start begin
         end
 
         frms := [ // hero appearance
-          "hfr00s01\\art\\critters\\_hfjmps"
-          "hfr00s01\\art\\critters\\_hflthr"
-          "hfr00s01\\art\\critters\\_hfmaxx"
-          "hfr00s01\\art\\critters\\_hfmetl"
-          "hfr00s01\\art\\critters\\_hfprim"
-          "hfr00s02\\art\\critters\\_hfjmps"
-          "hfr00s02\\art\\critters\\_hflthr"
-          "hfr00s02\\art\\critters\\_hfmaxx"
-          "hfr00s02\\art\\critters\\_hfmetl"
-          "hfr00s02\\art\\critters\\_hfprim"
-          "hfr00s03\\art\\critters\\_hfjmps"
-          "hfr00s03\\art\\critters\\_hflthr"
-          "hfr00s03\\art\\critters\\_hfmaxx"
-          "hfr00s03\\art\\critters\\_hfmetl"
-          "hfr00s03\\art\\critters\\_hfprim"
-          "hmr00s01\\art\\critters\\_hmjmps"
-          "hmr00s01\\art\\critters\\_hmlthr"
-          "hmr00s01\\art\\critters\\_hmmaxx"
-          "hmr00s01\\art\\critters\\_hmmetl"
-          "hmr00s01\\art\\critters\\_hmwarr"
-          "hmr00s02\\art\\critters\\_hmjmps"
-          "hmr00s02\\art\\critters\\_hmlthr"
-          "hmr00s02\\art\\critters\\_hmmaxx"
-          "hmr00s02\\art\\critters\\_hmmetl"
+          "hfr00s01\\art\\critters\\_hfjmps",
+          "hfr00s01\\art\\critters\\_hflthr",
+          "hfr00s01\\art\\critters\\_hfmaxx",
+          "hfr00s01\\art\\critters\\_hfmetl",
+          "hfr00s01\\art\\critters\\_hfprim",
+          "hfr00s02\\art\\critters\\_hfjmps",
+          "hfr00s02\\art\\critters\\_hflthr",
+          "hfr00s02\\art\\critters\\_hfmaxx",
+          "hfr00s02\\art\\critters\\_hfmetl",
+          "hfr00s02\\art\\critters\\_hfprim",
+          "hfr00s03\\art\\critters\\_hfjmps",
+          "hfr00s03\\art\\critters\\_hflthr",
+          "hfr00s03\\art\\critters\\_hfmaxx",
+          "hfr00s03\\art\\critters\\_hfmetl",
+          "hfr00s03\\art\\critters\\_hfprim",
+          "hmr00s01\\art\\critters\\_hmjmps",
+          "hmr00s01\\art\\critters\\_hmlthr",
+          "hmr00s01\\art\\critters\\_hmmaxx",
+          "hmr00s01\\art\\critters\\_hmmetl",
+          "hmr00s01\\art\\critters\\_hmwarr",
+          "hmr00s02\\art\\critters\\_hmjmps",
+          "hmr00s02\\art\\critters\\_hmlthr",
+          "hmr00s02\\art\\critters\\_hmmaxx",
+          "hmr00s02\\art\\critters\\_hmmetl",
           "hmr00s02\\art\\critters\\_hmwarr"
         ];
         foreach frm in frms begin
@@ -96,7 +97,7 @@ procedure start begin
           "nmwarr", //sulik
           //new RP frms without AT anims
           "malieu", //marcus RP armor
-          "laghul" //lenny RP new
+          "laghul"  //lenny RP new
         ];
         foreach frm in frms begin
           path := "art\\critters\\" + frm;
@@ -116,10 +117,12 @@ procedure set_run_fps(variable path, variable new_fps) begin
   variable path_ab := path + "ab.frm";
   variable path_at := path + "at.frm";
   file := fs_copy(path_at, path_at);
-  if not file then file := fs_copy(path_at, path_ab);
-  if file then begin
-    fs_seek(file, fps_offset);
-    fs_write_short(file, new_fps);
-    ndebug("set fps to " + new_fps + " in " + path_at);
+  if file == -1 then file := fs_copy(path_at, path_ab);
+  if file == -1 then begin
+    ndebug("warning: couldn't find or create " + path_at);
+    return;
   end
+  fs_seek(file, fps_offset);
+  fs_write_short(file, new_fps);
+  ndebug("set fps to " + new_fps + " in " + path_at);
 end
