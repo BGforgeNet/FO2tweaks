@@ -2,11 +2,7 @@
 
 #include "headers/fo2tweaks/fo2tweaks.h"
 
-variable box := 0;
-variable critter := 0;
-
-#define SFVGAR_BOX "g_dh_box"
-#define SFVGAR_CRITTER "g_dh_cri"
+variable critters_boxes;
 
 procedure deathanim2_handler;
 procedure ondeath_handler;
@@ -17,6 +13,8 @@ procedure start begin
     if enabled == 1 then begin
       register_hook_proc(HOOK_DEATHANIM2, deathanim2_handler);
       register_hook_proc(HOOK_ONDEATH, ondeath_handler);
+      critters_boxes := create_array_map;
+      fix_array(critters_boxes);
       ndebug("initialized");
     end
   end
@@ -28,22 +26,27 @@ procedure deathanim2_handler begin
   variable target := get_sfall_arg;
   variable damage_amount := get_sfall_arg;
   variable death_anim_id := get_sfall_arg;
-  if ( (death_anim_id == ANIM_electrified_to_nothing or death_anim_id == ANIM_exploded_to_nothing)
+  if ( (    death_anim_id == ANIM_burned_to_nothing
+         or death_anim_id == ANIM_electrified_to_nothing
+         or death_anim_id == ANIM_exploded_to_nothing
+         or death_anim_id == ANIM_melted_to_nothing
+        )
       and is_critter(target) )
   then begin
-    box := create_object_sid(PID_FOOTLOCKER_CLEAN_LEFT, 0, 0, -1);
-    set_sfall_global(SFVGAR_BOX, box);
+    variable box := create_object_sid(PID_FOOTLOCKER_CLEAN_LEFT, 0, 0, -1);
     move_obj_inven_to_obj(target, box);
-    set_sfall_global(SFVGAR_CRITTER, target);
+    critters_boxes[target] := box;
+    ndebug("moved inventory from " + obj_name(target) + "to temp box");
   end
 end
 
 procedure ondeath_handler begin
-  critter := get_sfall_arg;
-  if get_sfall_global_int(SFVGAR_CRITTER) == critter then begin
-    move_obj_inven_to_obj(get_sfall_global_int(SFVGAR_BOX), critter);
-    destroy_object(get_sfall_global_int(SFVGAR_BOX));
-    set_sfall_global(SFVGAR_BOX, 0);
-    set_sfall_global(SFVGAR_CRITTER, 0);
+  variable critter := get_sfall_arg;
+  variable box := critters_boxes[critter];
+  if box then begin
+    move_obj_inven_to_obj(box, critter);
+    destroy_object(box);
+    critters_boxes[critter] := 0;
+    ndebug("moved inventory from temp box back to " + obj_name(critter));
   end
 end
