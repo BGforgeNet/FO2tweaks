@@ -22,7 +22,6 @@ procedure gamemode_handler;
 procedure allow_join begin
   variable who;
   party_members := party_member_list_critters;
-  fix_array(party_members);
 
   ndebug("current party members:");
   foreach who in party_members begin
@@ -90,6 +89,7 @@ procedure talk_handler begin
   variable proc := get_sfall_arg;
   variable self := get_sfall_arg;
   variable source := get_sfall_arg;
+  ndebug("proc is " + proc + ", source is " + obj_name(source) + ", self is " + obj_name(self));
   if (proc == talk_proc and source == dude_obj) then call allow_join;
 end
 
