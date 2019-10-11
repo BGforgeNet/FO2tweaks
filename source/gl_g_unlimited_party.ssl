@@ -19,26 +19,26 @@ end
 procedure start;
 procedure gamemode_handler;
 
-procedure allow_join begin
+procedure allow_join(variable cri) begin
   variable who;
   party_members := party_member_list_critters;
+  fix_array(party_members);
 
   ndebug("current party members:");
   foreach who in party_members begin
     if who != dude_obj then ndebug(obj_name(who));
   end
 
-  who := dialog_obj;
-  ndebug("talking to " + obj_name(who));
+  ndebug("talking to " + obj_name(cri));
 
-  if is_in_array(who, party_members) then begin
-    ndebug(obj_name(who) + " is already in party, skipping");
+  if is_in_array(cri, party_members) then begin
+    ndebug(obj_name(cri) + " is already in party, skipping");
     return;
   end
-  if not is_in_array(obj_pid(who), potential_party_member_pids) then begin
-    ndebug(obj_name(who) + " is not a joinable NPC, skipping");
+  if not is_in_array(obj_pid(cri), potential_party_member_pids) then begin
+    ndebug(obj_name(cri) + " is not a joinable NPC, skipping");
     return;
-  end else ndebug(obj_name(who) + " is a joinable NPC, applyting unlimited tweak");
+  end else ndebug(obj_name(cri) + " is a joinable NPC, applyting unlimited tweak");
 
   //drop everyone else
   foreach who in party_members begin
@@ -89,8 +89,7 @@ procedure talk_handler begin
   variable proc := get_sfall_arg;
   variable self := get_sfall_arg;
   variable source := get_sfall_arg;
-  ndebug("proc is " + proc + ", source is " + obj_name(source) + ", self is " + obj_name(self));
-  if (proc == talk_proc and source == dude_obj) then call allow_join;
+  if proc == talk_proc then call allow_join(self);
 end
 
 procedure start begin
