@@ -1,2 +1,3 @@
 translation:
   tra_dir: data/text
+  extract_format: sfall
