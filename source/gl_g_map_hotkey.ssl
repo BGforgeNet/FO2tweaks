@@ -12,7 +12,8 @@ variable townmap_key;
 
 procedure blowing_shitter begin
   if cur_map_index == MAP_MODOC_DOWNTHESHITTER and not shitter_has_blown then begin
-    float_msg(dude_obj, "Nah... I think I'm gonna take the ladder", FLOAT_MSG_NORMAL);
+    variable msg := add_extra_msg_file("g_map_hotkey.msg");
+    float_msg(dude_obj, message_str_game(msg,1), FLOAT_MSG_NORMAL);
     ndebug("blowing shitter, pass");
     return true;
   end

@@ -8,9 +8,10 @@ procedure map_enter_p_proc begin
   if map_first_run and cur_map_index == MAP_ARROYO_VILLAGE then begin
     variable enabled := fo2tweaks_setting(sec_main, set_level5);
     if enabled == 1 then begin
+      variable msg := add_extra_msg_file("g_level5.msg");
       give_exp_points(9500);
       ndebug("added 9500 XP");
-      display_msg("You receive 9500 experience points, because you're a cheating little bastard");
+      display_msg(message_str_game(msg,1));
     end
   end
 end

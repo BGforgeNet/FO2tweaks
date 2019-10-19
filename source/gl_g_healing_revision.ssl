@@ -19,22 +19,25 @@
 
 #define set_healing_revision "healing_revision"
 #define sec_healing_revision "healing_revision"
-#define set_healing_not_in_combat_msg "not_in_combat_msg"
-#define set_healing_already_used_msg "already_used_msg"
-#define set_healing_use_items "use_items"
-#define set_healing_heal_disabilities_msg "heal_disabilites_msg"
-#define set_healing_fail_disabilities_msg "fail_disabilites_msg"
-#define set_healing_fail_msg "fail_msg"
-#define set_healing_no_chance_msg "no_chance_msg"
-#define set_healing_healthy_msg "healthy_msg"
-#define set_healing_doctor_items "doctor_items"
-#define set_healing_fa_items "first_aid_items"
-#define set_healing_living_anatomy_min_doctor "living_anatomy_min_doctor"
-#define set_healing_living_anatomy_msg "free_living_anatomy_msg"
-#define set_healing_living_anatomy_msg2 "free_living_anatomy_msg2"
 
+#define set_healing_living_anatomy_min_doctor "living_anatomy_min_doctor"
+#define set_healing_use_items "use_items"
 #define sec_healing_doctor_items "healing_revision_doctor_items"
 #define sec_healing_fa_items "healing_revision_first_aid_items"
+
+
+#define msg_file "g_healing_revision.msg"
+#define msg_heal_disabilities 1
+#define msg_fail_disabilities 2
+#define msg_not_in_combat 3
+#define msg_no_chance 4
+#define msg_healthy 5
+#define msg_already_used 6
+#define msg_fail 7
+#define msg_living_anatomy 8
+#define msg_living_anatomy_2 9
+#define msg_got_xp 10
+#define msg_healed_for 11
 
 procedure start;
 procedure healing_handler;
@@ -50,13 +53,6 @@ variable begin
   doctor_used;
   fa_used;
   enabled;
-  not_in_combat_msg;
-  already_used_msg;
-  no_chance_msg;
-  heal_disabilities_msg;
-  fail_disabilities_msg;
-  healthy_msg;
-  fail_msg;
   use_items := 0;
   doctor_min := 20;
   doctor_mult := 10;
@@ -69,23 +65,25 @@ variable begin
   doctor_items;
   fa_items;
   living_anatomy_min_doctor;
-  living_anatomy_msg;
-  living_anatomy_msg2;
+  msg;
 end
+
+#define mymsg(x) message_str_game(msg, x)
+#define display_mymsg(x) display_msg(mymsg(x))
 
 procedure heal_disabilities(variable user, variable target, variable effective_skill) begin
   variable chance := effective_skill - doctor_min; //percentage
   ndebug("user " + user + ", target " + target + ", eff. doctor " + effective_skill);
   ndebug("chance " + chance + " eff. skill " + effective_skill + " min. doctor " + doctor_min);
   if chance < 1 then begin
-    display_msg(no_chance_msg);
+    display_mymsg(msg_no_chance);
   end else begin
     variable r := random(1, 100);
     if r < chance then begin
-      display_msg(heal_disabilities_msg);
+      display_mymsg(msg_heal_disabilities);
       critter_uninjure(target, all_disabilities);
     end else begin
-      display_msg(fail_disabilities_msg);
+      display_mymsg(msg_fail_disabilities);
     end
   end
 end
@@ -150,11 +148,11 @@ procedure use_doctor(variable user, variable target, variable skill_bonus, varia
 
   if interactive then begin
     if is_healthy(target) then begin // healthy, nothing to do
-      display_msg(healthy_msg);
+      display_mymsg(msg_healthy);
       return false;
     end else begin
       if is_in_array(obj_pid(target), doctor_used) then begin //already used doctor today
-        display_msg(already_used_msg);
+        display_mymsg(msg_already_used);
         return false;
       end
     end
@@ -199,12 +197,12 @@ procedure use_doctor(variable user, variable target, variable skill_bonus, varia
 //    gfade_in(1);
     game_time_advance(game_ticks(3600));
     if hp < 1 then begin
-      display_msg(fail_msg);
+      display_mymsg(msg_fail);
       return false;
     end
     critter_heal(target, hp);
 //    gfade_out(1);
-    display_msg(obj_name(target) + " healed for " + hp + " HP");
+    display_msg(parse_str_2(mymsg(msg_healed_for), obj_name(target), hp));
     call grant_xp(hp, SKILL_DOCTOR);
   end
 end
@@ -220,11 +218,11 @@ procedure use_first_aid(variable user, variable target, variable skill_bonus, va
 
   if interactive then begin
     if is_healthy(target) then begin // healthy, nothing to do
-      display_msg(healthy_msg);
+      display_mymsg(msg_healthy);
       return false;
     end else begin
       if is_in_array(obj_pid(target), fa_used) then begin //already used fa today
-        display_msg(already_used_msg);
+        display_mymsg(msg_already_used);
         return false;
       end
     end
@@ -241,7 +239,7 @@ procedure use_first_aid(variable user, variable target, variable skill_bonus, va
 //    gfade_in(1); //fade out doesn't work?
     game_time_advance(game_ticks(1800));
     if hp < 1 then begin
-      display_msg(fail_msg);
+      display_mymsg(msg_fail);
       return false;
     end
     critter_heal(target, hp);
@@ -289,7 +287,7 @@ procedure grant_xp(variable hp, variable skill) begin
     skill_name := mstr_skill(fa_skill_name);
   end
   give_exp_points(xp);
-  display_msg("You receive " + xp + " experience for successful use of " + skill_name + " skill." );
+  display_msg(parse_str_2(mymsg(msg_got_xp), xp, skill_name));
 end
 
 procedure use_skill(variable user, variable target, variable skill, variable skill_bonus) begin
@@ -313,7 +311,7 @@ procedure healing_handler begin
   if enabled == 1 and (skill == SKILL_FIRST_AID or skill == SKILL_DOCTOR) then begin
     set_sfall_return(0); //override
     if combat_is_initialized then begin
-      display_msg(not_in_combat_msg);
+      display_mymsg(msg_not_in_combat);
     end else begin
       call use_skill(user, target, skill, skill_bonus);
     end
@@ -360,8 +358,8 @@ procedure map_enter_p_proc begin
       then begin
         ndebug(obj_name(dude_obj) + " gets living anatomy!");
         critter_add_trait(dude_obj, TRAIT_PERK, PERK_living_anatomy_perk, 1);
-        display_msg(obj_name(dude_obj) + " " + living_anatomy_msg2);
-        float_msg(dude_obj, living_anatomy_msg, FLOAT_MSG_WHITE);
+        display_mymsg(dude_name + " " + msg_living_anatomy_2);
+        float_msg(dude_obj, mymsg(msg_living_anatomy), FLOAT_MSG_WHITE);
       end
     end
   end
@@ -464,17 +462,7 @@ procedure start begin
     if enabled == 1 then begin
       use_items := fo2tweaks_setting(sec_healing_revision, set_healing_use_items);
 
-      not_in_combat_msg := fo2tweaks_string(sec_healing_revision, set_healing_not_in_combat_msg);
-      already_used_msg := fo2tweaks_string(sec_healing_revision, set_healing_already_used_msg);
-      no_chance_msg := fo2tweaks_string(sec_healing_revision, set_healing_no_chance_msg);
-      healthy_msg := fo2tweaks_string(sec_healing_revision, set_healing_healthy_msg);
-      fail_msg := fo2tweaks_string(sec_healing_revision, set_healing_fail_msg);
-      heal_disabilities_msg := fo2tweaks_string(sec_healing_revision, set_healing_heal_disabilities_msg);
-      fail_disabilities_msg := fo2tweaks_string(sec_healing_revision, set_healing_fail_disabilities_msg);
-
       living_anatomy_min_doctor := fo2tweaks_setting(sec_healing_revision, set_healing_living_anatomy_min_doctor);
-      living_anatomy_msg := fo2tweaks_string(sec_healing_revision, set_healing_living_anatomy_msg);
-      living_anatomy_msg2 := fo2tweaks_string(sec_healing_revision, set_healing_living_anatomy_msg2);
 
 //      doctor_items := get_ini_section(fo2tweaks_ini, sec_healing_doctor_items);
 //      fix_array(doctor_items);
@@ -501,6 +489,8 @@ procedure start begin
       set_global_script_repeat(1800);
 
 //      call load_charges;
+      msg := add_extra_msg_file(msg_file);
+      display_msg("msg is " + msg);
       ndebug("initialized");
     end
   end else begin

@@ -58,6 +58,9 @@
   bwor AUTOMAP bwor BARTER bwor HEROWIN bwor DIALOGVIEW) \
 )
 
+#define msg_no_sensor mstr_misc(17)
+#define msg_sensor_no_charges mstr_misc(18)
+
 variable begin
   highlight_key;
   check_los;
@@ -241,14 +244,14 @@ procedure keypress_handler begin
     if motion_scanner then begin
       scanner := obj_carrying_pid_obj(dude_obj, PID_MOTION_SENSOR);
       if not scanner then begin
-        display_msg(mstr_misc(17));
+        display_msg(msg_no_sensor);
         return;
       end
 
       if motion_scanner >= 2 then begin
         charges := get_weapon_ammo_count(scanner);
         if not charges > 0 then begin
-          display_msg(mstr_misc(18));
+          display_msg(msg_sensor_no_charges);
           return;
         end
         set_weapon_ammo_count(scanner, charges - 1);
