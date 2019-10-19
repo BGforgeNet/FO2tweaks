@@ -13,196 +13,56 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: bgforge_po v.1.0.0\n"
 
-#: install.tra:1
+#: game/g_healing_revision.msg:1
+msgid "Disabilities healed."
+msgstr ""
+
+#: game/g_healing_revision.msg:2
+msgid "Failed to heal disabilities."
+msgstr ""
+
+#: game/g_healing_revision.msg:3
+msgid "You can't do this in combat."
+msgstr ""
+
+#: game/g_healing_revision.msg:4
+msgid "You don't think there's any chance you could heal this."
+msgstr ""
+
+#: game/g_healing_revision.msg:5
+msgid "This critter is already healthy."
+msgstr ""
+
+#: game/g_healing_revision.msg:6
+msgid "You have already used this skill on this critter today."
+msgstr ""
+
+#: game/g_healing_revision.msg:7
+msgid "You fail to do any healing."
+msgstr ""
+
+#: game/g_healing_revision.msg:8
+msgid "Wow, now I really know how to hurt 'em!"
+msgstr ""
+
+#: game/g_healing_revision.msg:9
+msgid "has earned Living Anatomy perk."
+msgstr ""
+
+#: game/g_healing_revision.msg:10
+msgid "You receive %1% experience for successful use of %2% skill."
+msgstr ""
+
+#: game/g_healing_revision.msg:11
+msgid "%1% healed for %2% HP."
+msgstr ""
+
+#: game/g_level5.msg:1
 msgid ""
-"You must have either Killap's patch OR restoration project installed before "
-"installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
+"You receive 9500 experience points, because you're a cheating little "
+"bastard."
 msgstr ""
 
-#: install.tra:2
-msgid "Party"
-msgstr ""
-
-#: install.tra:3
-msgid "Inventory"
-msgstr ""
-
-#: install.tra:4
-msgid "Miscellaneous"
-msgstr ""
-
-#: install.tra:5
-msgid "Speed"
-msgstr ""
-
-#: install.tra:6
-msgid "Requires Killap's restoration project"
-msgstr ""
-
-#: install.tra:7 install.tra:33
-msgid "Unknown Sfall version, not updating!"
-msgstr ""
-
-#: install.tra:8
-msgid "Unlimited carry weight"
-msgstr ""
-
-#: install.tra:9
-msgid "Inventory filter"
-msgstr ""
-
-#: install.tra:10
-msgid "Unlimited trunk"
-msgstr ""
-
-#: install.tra:11
-msgid "Unlimited party"
-msgstr ""
-
-#: install.tra:12
-msgid "Companions never use burst fire"
-msgstr ""
-
-#: install.tra:13
-msgid "Unrestricted party combat AI"
-msgstr ""
-
-#: install.tra:14
-msgid "Armor doesn't reduce Chosen's run speed"
-msgstr ""
-
-#: install.tra:15
-msgid "Increased run speed"
-msgstr ""
-
-#: install.tra:16
-msgid "Party NPC can run as well as Chosen"
-msgstr ""
-
-#: install.tra:17
-msgid "Both of the above options"
-msgstr ""
-
-#: install.tra:18
-msgid "General game speedup"
-msgstr ""
-
-#: install.tra:19
-msgid "Fire damage"
-msgstr ""
-
-#: install.tra:20
-msgid "Molotov cocktail"
-msgstr ""
-
-#: install.tra:21
-msgid "Fire damage and burning death animation"
-msgstr ""
-
-#: install.tra:22
-msgid "Grenades ignore armor class"
-msgstr ""
-
-#: install.tra:23
-msgid "Start at level 4"
-msgstr ""
-
-#: install.tra:24
-msgid "Silence idle fake reload animation for SMG and rifles"
-msgstr ""
-
-#: install.tra:25
-msgid "Stretch game plotline"
-msgstr ""
-
-#: install.tra:26
-msgid "Oxygen tank protects from radon in Broken Hills mine"
-msgstr ""
-
-#: install.tra:27
-msgid "No close range penalty for scoped weapons"
-msgstr ""
-
-#: install.tra:28
-msgid "Remove Kaga"
-msgstr ""
-
-#: install.tra:29
-msgid "Disable Knockback"
-msgstr ""
-
-#: install.tra:30
-msgid "Installing Sfall"
-msgstr ""
-
-#: install.tra:31
-msgid "Updating Sfall"
-msgstr ""
-
-#: install.tra:32
-msgid "Map hotkey"
-msgstr ""
-
-#: install.tra:34
-msgid "Good Sfall version found!"
-msgstr ""
-
-#: install.tra:35
-msgid "Clearer Miria dialog"
-msgstr ""
-
-#: install.tra:36
-msgid "Automatically walk through unlocked doors"
-msgstr ""
-
-#: strings.tra:101
-msgid ""
-"The archives list only two vaults: Vault 8 (this Vault) and Vault 15, "
-"located far to the south."
-msgstr ""
-
-#: strings.tra:102
-msgid ""
-"The archives list only two vaults: Vault 8 (this Vault) and Vault 15. "
-"Unfortunately, coordinates are not recorded."
-msgstr ""
-
-#: strings.tra:103
-msgid ""
-"Hello there. I'm Lou. Owner of the Malamute Saloon, finest house north of "
-"San Fran."
-msgstr ""
-
-#: strings.tra:104
-msgid "Hello there. I'm Lou, owner of the Malamute Saloon."
-msgstr ""
-
-#: strings.tra:105
-msgid ""
-"You access the computer and quickly scan all available files. You find the "
-"location of Vault 13%WNL% and copy it to your PIP-Boy."
-msgstr ""
-
-#: strings.tra:106
-msgid ""
-"You access the computer and quickly scan all available files. Unfortunately,"
-" you can't find location of Vault 13."
-msgstr ""
-
-#: strings.tra:107
-msgid ""
-"Other than the location of Vault 13, the computer contains no useful "
-"information."
-msgstr ""
-
-#: strings.tra:108
-msgid "The computer contains no useful information."
-msgstr ""
-
-#: strings.tra:109
-msgid "[You smile and start to undress.]"
-msgstr ""
-
-#: strings.tra:110
-msgid "[You smile, then jump at her and start ripping her clothes off.]"
+#: game/g_map_hotkey.msg:1
+msgid "Nah... I think I'm gonna take the ladder."
 msgstr ""
