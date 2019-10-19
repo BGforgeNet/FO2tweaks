@@ -1,0 +1,225 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Russian (Fallout)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-10-19 10:19+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <https://tra.bgforge.net/projects/fallout/fo2tweaks/"
+"ru/>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.1.1\n"
+
+#: install.tra:1
+msgid ""
+"You must have either Killap's patch OR restoration project installed before "
+"installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
+msgstr ""
+"Вы должны установить Killap's patch или Restoration Project перед установкой "
+"FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
+
+#: install.tra:2
+msgid "Party"
+msgstr "Группа"
+
+#: install.tra:3
+msgid "Inventory"
+msgstr "Инвентарь"
+
+#: install.tra:4
+msgid "Miscellaneous"
+msgstr "Разное"
+
+#: install.tra:5
+msgid "Speed"
+msgstr "Скорость"
+
+#: install.tra:6
+msgid "Requires Killap's restoration project"
+msgstr "Требует Restoration Project от Киллапа"
+
+#: install.tra:7,
+#: install.tra:33
+msgid "Unknown Sfall version, not updating!"
+msgstr "Неизвестная версия Sfall, обновление не будет произведено!"
+
+#: install.tra:8
+msgid "Unlimited carry weight"
+msgstr "Неограниченный вес инвентаря"
+
+#: install.tra:9
+msgid "Inventory filter"
+msgstr "Фильтр для инвентаря"
+
+#: install.tra:10
+msgid "Unlimited trunk"
+msgstr "Бездонный багажник"
+
+#: install.tra:11
+msgid "Unlimited party"
+msgstr "Неограниченная группа"
+
+#: install.tra:12
+msgid "Companions never use burst fire"
+msgstr "Члены группы никогда не стреляют очередями"
+
+#: install.tra:13
+msgid "Unrestricted party combat AI"
+msgstr "Снятие ограничения на поведение членов группы в бою"
+
+#: install.tra:14
+msgid "Armor doesn't reduce Chosen's run speed"
+msgstr "Броня не замедляет скорость бега Избранного"
+
+#: install.tra:15
+msgid "Increased run speed"
+msgstr "Увеличенная скорость бега"
+
+#: install.tra:16
+msgid "Party NPC can run as well as Chosen"
+msgstr "Члены группы бегают не хуже Избранного"
+
+#: install.tra:17
+msgid "Both of the above options"
+msgstr "И то, и другое"
+
+#: install.tra:18
+msgid "General game speedup"
+msgstr "Общее ускорение игры"
+
+#: install.tra:19
+msgid "Fire damage"
+msgstr "Тип повреждения: огонь"
+
+#: install.tra:20
+msgid "Molotov cocktail"
+msgstr "Коктейль Молотова"
+
+#: install.tra:21
+msgid "Fire damage and burning death animation"
+msgstr "Тип повреждения: огонь, и анимация горящего существа"
+
+#: install.tra:22
+msgid "Grenades ignore armor class"
+msgstr "Гранаты игнорируют класс брони"
+
+#: install.tra:23
+msgid "Start at level 4"
+msgstr "Начать с 4 уровня"
+
+#: install.tra:24
+msgid "Silence idle fake reload animation for SMG and rifles"
+msgstr "Убрать фальшивый звук перезарядки пистолетов-пулеметов и винтовок"
+
+#: install.tra:25
+msgid "Stretch game plotline"
+msgstr "Растянуть сюжет игры"
+
+#: install.tra:26
+msgid "Oxygen tank protects from radon in Broken Hills mine"
+msgstr "Кислородный баллон защищает от радона в шахте Сломанных Холмов"
+
+#: install.tra:27
+msgid "No close range penalty for scoped weapons"
+msgstr "Убрать штрафы при использовании оружия с прицелом в ближнем бою"
+
+#: install.tra:28
+msgid "Remove Kaga"
+msgstr "Убрать Кагу"
+
+#: install.tra:29
+msgid "Disable Knockback"
+msgstr "Отключить отбрасывание оружием ближнего боя"
+
+#: install.tra:30
+msgid "Installing Sfall"
+msgstr "Установка Sfall"
+
+#: install.tra:31
+msgid "Updating Sfall"
+msgstr "Обновление Sfall"
+
+#: install.tra:32
+msgid "Map hotkey"
+msgstr "Горячая клавиша для вызова карты"
+
+#: install.tra:34
+msgid "Good Sfall version found!"
+msgstr "Найдена подходящая версия Sfall!"
+
+#: install.tra:35
+msgid "Clearer Miria dialog"
+msgstr "Более понятный диалог с Мирией"
+
+#: install.tra:36
+msgid "Automatically walk through unlocked doors"
+msgstr "Автоматически проходить через закрытые двери"
+
+#: strings.tra:101
+msgid ""
+"The archives list only two vaults: Vault 8 (this Vault) and Vault 15, "
+"located far to the south."
+msgstr ""
+"В архивах упоминается только два убежища: Убежище 8 (это Убежище) и Убежище "
+"15, которое находится далеко на юге."
+
+#: strings.tra:102
+msgid ""
+"The archives list only two vaults: Vault 8 (this Vault) and Vault 15. "
+"Unfortunately, coordinates are not recorded."
+msgstr ""
+"В архивах упоминается только два убежища: Убежище 8 (это Убежище) и Убежище "
+"15, которое находится далеко на юге. К несчастью, координат нет в записях."
+
+#: strings.tra:103
+msgid ""
+"Hello there. I'm Lou. Owner of the Malamute Saloon, finest house north of "
+"San Fran."
+msgstr ""
+"Привет. Я Лу. Хозяйка салуна \"Маламьют\" - лучшего заведения к северу от "
+"Сан-Франциско."
+
+#: strings.tra:104
+msgid "Hello there. I'm Lou, owner of the Malamute Saloon."
+msgstr "Привет. Я Лу, хозяйка салуна \"Маламьют\"."
+
+#: strings.tra:105
+msgid ""
+"You access the computer and quickly scan all available files. You find the "
+"location of Vault 13%WNL% and copy it to your PIP-Boy."
+msgstr ""
+"Вы входите в систему и быстро сканируете все доступные файлы. Вы находите "
+"данные об Убежище 13 и копируете их в ваш Пип-Бой."
+
+#: strings.tra:106
+msgid ""
+"You access the computer and quickly scan all available files. Unfortunately, "
+"you can't find location of Vault 13."
+msgstr ""
+"Вы входите в систему и быстро сканируете все доступные файлы. К сожалению, "
+"вы не можете найти координаты Убежища 13."
+
+#: strings.tra:107
+msgid ""
+"Other than the location of Vault 13, the computer contains no useful "
+"information."
+msgstr ""
+"В этом компьютере нет никакой ценной информации, кроме данных о "
+"местонахождении Убежища 13."
+
+#: strings.tra:108
+msgid "The computer contains no useful information."
+msgstr "В этом компьютере нет никакой ценной информации."
+
+#: strings.tra:109
+msgid "[You smile and start to undress.]"
+msgstr "[Вы улыбаетесь и начинаете раздеваться.]"
+
+#: strings.tra:110
+msgid "[You smile, then jump at her and start ripping her clothes off.]"
+msgstr "[Улыбнуться, затем прыгнуть на нее и начать срывать одежду]"
