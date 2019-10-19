@@ -21,10 +21,6 @@
 #define sec_healing_revision "healing_revision"
 
 #define set_healing_living_anatomy_min_doctor "living_anatomy_min_doctor"
-#define set_healing_use_items "use_items"
-#define sec_healing_doctor_items "healing_revision_doctor_items"
-#define sec_healing_fa_items "healing_revision_first_aid_items"
-
 
 #define msg_file "g_healing_revision.msg"
 #define msg_heal_disabilities 1
@@ -43,17 +39,11 @@ procedure start;
 procedure healing_handler;
 procedure missing_hp(variable who);
 procedure grant_xp(variable hp, variable skill);
-procedure get_best_helper_item(variable skill);
-procedure get_max_charges(variable pid);
-procedure get_skill_bonus(variable item);
-procedure spend_charge(variable item);
-procedure useobjon_handler;
 
 variable begin
   doctor_used;
   fa_used;
   enabled;
-  use_items := 0;
   doctor_min := 20;
   doctor_mult := 10;
   fa_mult := 5;
@@ -62,8 +52,6 @@ variable begin
   last_month;
   cur_day;
   last_day;
-  doctor_items;
-  fa_items;
   living_anatomy_min_doctor;
   msg;
 end
@@ -128,7 +116,6 @@ procedure get_fa_healed(variable target, variable fa_level) begin
   return healed;
 end
 
-
 procedure missing_hp(variable target) begin
   variable max_hp := get_critter_stat(target, STAT_max_hp);
   variable cur_hp := get_critter_stat(target, STAT_current_hp);
@@ -137,7 +124,7 @@ procedure missing_hp(variable target) begin
 end
 
 procedure use_doctor(variable user, variable target, variable skill_bonus, variable interactive := true) begin
-  variable tmp, doctor_level, fa_level, effective_doctor, i, item;
+  variable tmp, doctor_level, fa_level, effective_doctor, i;
   tmp := get_party_skill_level(SKILL_DOCTOR);
   doctor_level := tmp[1];
   tmp := get_party_skill_level(SKILL_FIRST_AID);
@@ -158,29 +145,6 @@ procedure use_doctor(variable user, variable target, variable skill_bonus, varia
     end
   end
 
-/*
-  //if dude or companion using skill not in manual mode, search for a helper item in all of party inventory
-  if use_items == 1 and in_party(user) then begin
-    if fa_level < 100 then begin
-      item := get_best_helper_item(SKILL_FIRST_AID);
-      if item then begin
-        skill_bonus := get_skill_bonus(item);
-        call spend_charge(item);
-        fa_level := fa_level + skill_bonus;
-      end
-    end
-
-    if effective_doctor < 100 and skill_bonus == 0 then begin
-      item := get_best_helper_item(SKILL_DOCTOR);
-      if item then begin
-        skill_bonus := get_skill_bonus(item);
-        call spend_charge(item);
-        effective_doctor := effective_doctor + skill_bonus;
-      end
-    end
-  end
-*/
-
   ndebug("user " + user + ", target " + target + ", eff. doctor " + effective_doctor);
   ndebug("critter state " + sprintf("%d", critter_state(target)));
 
@@ -194,14 +158,12 @@ procedure use_doctor(variable user, variable target, variable skill_bonus, varia
     call array_push(doctor_used, obj_pid(target));
     set_sfall_global("g_heal_d", get_day);
 
-//    gfade_in(1);
     game_time_advance(game_ticks(3600));
     if hp < 1 then begin
       display_mymsg(msg_fail);
       return false;
     end
     critter_heal(target, hp);
-//    gfade_out(1);
     display_msg(parse_str_2(mymsg(msg_healed_for), obj_name(target), hp));
     call grant_xp(hp, SKILL_DOCTOR);
   end
@@ -236,33 +198,15 @@ procedure use_first_aid(variable user, variable target, variable skill_bonus, va
     call array_push(fa_used, obj_pid(target));
     set_sfall_global("g_heal_d", get_day);
 
-//    gfade_in(1); //fade out doesn't work?
     game_time_advance(game_ticks(1800));
     if hp < 1 then begin
       display_mymsg(msg_fail);
       return false;
     end
     critter_heal(target, hp);
-//    gfade_out(1);
     display_msg(obj_name(target) + " healed for " + hp + " HP");
     call grant_xp(hp, SKILL_FIRST_AID);
   end
-end
-
-procedure get_item_skill_bonus(variable skill) begin
-  variable who, item, items, i;
-  if skill == SKILL_DOCTOR then items := doctor_items;
-  if skill == SKILL_FIRST_AID then items := fa_items;
-  foreach i in items begin
-    foreach who in party_member_list_critters begin
-      item := obj_carrying_pid_obj(who, obj_pid(i));
-      if item then begin
-        ndebug(obj_name(who) + " is carrying " + obj_name(item) + ", using it for " + mstr_skill(skill));
-        return item;
-      end
-    end
-  end
-  return false;
 end
 
 procedure reset_heal_arrays begin
@@ -327,7 +271,7 @@ procedure rest_handler begin
   call update_heal_arrays;
   foreach who in party_member_list_critters begin
     if not is_healthy(who) and not is_in_array(obj_pid(who), doctor_used) then begin
-      call use_doctor(dude_obj, who, 0, false); // best item will be found automatically
+      call use_doctor(dude_obj, who, 0, false);
     end
     if not is_healthy(who) and not is_in_array(obj_pid(who), fa_used) then begin
       call use_first_aid(dude_obj, who, 0, false);
@@ -341,7 +285,7 @@ procedure travel_handler begin
   ndebug("travel ping");
   foreach who in party_member_list_critters begin
     if not is_healthy(who) and not is_in_array(obj_pid(who), doctor_used) then begin
-      call use_doctor(dude_obj, who, 0, false); // best item will be found automatically
+      call use_doctor(dude_obj, who, 0, false);
     end
     if not is_healthy(who) and not is_in_array(obj_pid(who), fa_used) then begin
       call use_first_aid(dude_obj, who, 0, false);
@@ -365,109 +309,12 @@ procedure map_enter_p_proc begin
   end
 end
 
-procedure set_max_charges(variable skill_items) begin
-  variable max_charges, k, v;
-  foreach k: v in skill_items begin
-    max_charges := get_max_charges(k);
-    set_proto_data(k, PROTO_MI_CHARGES, max_charges);
-    ndebug("set max charges to " + max_charges + " for item pid " + k);
-  end
-end
-
-procedure spend_charge(variable item) begin
-  variable count, new_count;
-  count := get_weapon_ammo_count(item);
-  count := count - 1;
-  if count == 0 then begin
-    ndebug(obj_name(item) + " is depleted, destroying");
-    destroy_object(item);
-  end else begin
-    set_weapon_ammo_count(item, count);
-    ndebug("reduced " + obj_name(item) + " charges to " + count);
-  end
-  intface_redraw; //in case item is in dude's hands
-end
-
-
-procedure get_max_charges(variable pid) begin
-  variable max_charges := 0;
-  if doctor_items[pid] != 0 then begin
-    max_charges := string_split(doctor_items[pid],",");
-    max_charges := atoi(max_charges[1]);
-  end
-  if fa_items[pid] != 0 then begin
-    max_charges := string_split(fa_items[pid],",");
-    max_charges := atoi(max_charges[1]);
-  end
-  return max_charges;
-end
-
-procedure set_max_if_empty(variable obj) begin
-  variable pid := obj_pid(obj);
-  variable max_charges;
-  if (doctor_items[pid] != 0 or fa_items[pid] != 0) then begin
-    max_charges := get_max_charges(pid);
-    if get_weapon_ammo_count(obj) == 0 or get_weapon_ammo_count(obj) > max_charges then begin
-      set_weapon_ammo_count(obj, max_charges);
-    end
-  end
-end
-
-procedure load_charges begin
-  variable i, o, inven, tmp, k, v;
-
-  //convert item list keys to ints
-  tmp := temp_array_map;
-  foreach k: v in doctor_items begin
-    tmp[atoi(k)] := doctor_items[k];
-  end
-  doctor_items := tmp;
-  fix_array(doctor_items);
-  tmp := temp_array_map;
-  foreach k: v in fa_items begin
-    tmp[atoi(k)] := fa_items[k];
-  end
-  fa_items := tmp;
-  fix_array(fa_items);
-
-  //set proto data
-  call set_max_charges(doctor_items);
-  call set_max_charges(fa_items);
-
-  foreach i in list_as_array(LIST_GROUNDITEMS) begin
-    call set_max_if_empty(i);
-  end
-
-  //add charges for items that are missing them
-  foreach o in list_as_array(LIST_SCENERY) begin
-    if not is_container(o) then continue;
-    inven := inven_as_array(o);
-    foreach i in inven begin
-      call set_max_if_empty(i);
-    end
-  end
-
-  foreach o in list_as_array(LIST_CRITTERS) begin
-    inven := inven_as_array(o);
-    foreach i in inven begin
-      call set_max_if_empty(i);
-    end
-  end
-  intface_redraw;
-end
-
 procedure start begin
   if game_loaded then begin
     enabled := fo2tweaks_setting(sec_main, set_healing_revision);
     if enabled == 1 then begin
-      use_items := fo2tweaks_setting(sec_healing_revision, set_healing_use_items);
 
       living_anatomy_min_doctor := fo2tweaks_setting(sec_healing_revision, set_healing_living_anatomy_min_doctor);
-
-//      doctor_items := get_ini_section(fo2tweaks_ini, sec_healing_doctor_items);
-//      fix_array(doctor_items);
-//      fa_items := get_ini_section(fo2tweaks_ini, sec_healing_fa_items);
-//      fix_array(fa_items);
 
       doctor_used := load_array(doctor_used_array);
       if doctor_used == 0 then begin
@@ -482,13 +329,11 @@ procedure start begin
 
       register_hook_proc(HOOK_USESKILL, healing_handler);
       register_hook_proc(HOOK_RESTTIMER, rest_handler);
-//      register_hook_proc(HOOK_USEOBJON, useobjon_handler);
 
       //reset healed arrays at midnight, any screen except dialog
       set_global_script_type(3);
       set_global_script_repeat(1800);
 
-//      call load_charges;
       msg := add_extra_msg_file(msg_file);
       display_msg("msg is " + msg);
       ndebug("initialized");
@@ -501,76 +346,4 @@ procedure start begin
       end
     end
   end
-end
-
-procedure get_best_helper_item(variable skill) begin
-  variable k, v, pm, i, ar;
-  if skill == SKILL_DOCTOR then ar := doctor_items;
-  if skill == SKILL_FIRST_AID then ar := fa_items;
-
-  foreach k: v in ar begin
-    foreach pm in party_member_list_critters begin
-      i := obj_carrying_pid_obj(pm, k);
-      if i then return i;
-    end
-  end
-
-  return false;
-end
-
-procedure get_skill_bonus(variable item) begin
-  variable pid, bonus := false;
-  pid := obj_pid(item);
-  if doctor_items[pid] != 0 then begin
-    bonus := string_split(doctor_items[pid],",");
-    bonus := atoi(bonus[0]);
-  end
-  if fa_items[pid] != 0 then begin
-    bonus := string_split(fa_items[pid],",");
-    bonus := atoi(bonus[0]);
-  end
-  return bonus;
-end
-
-
-procedure useobjon_handler begin
-  variable target := get_sfall_arg,
-    user := get_sfall_arg,
-    obj := get_sfall_arg,
-    pid := obj_pid(obj), bonus, charges, ret := -1;
-
-  if doctor_items[pid] != 0 then begin
-    bonus := get_skill_bonus(obj);
-    //have to spend charges separately because destroying object in the hook crashed the game
-    charges := get_weapon_ammo_count(obj);
-    if charges == 1 then begin
-      ndebug(obj_name(obj) + " is depleted, destroying");
-      ret := 1; //destroy
-    end else begin
-      charges := charges - 1;
-      set_weapon_ammo_count(obj, charges);
-      ndebug("reduced " + obj_name(obj) + " charges to " + charges);
-      ret := 0;
-    end
-//    call use_doctor(user, target, bonus, true);
-    //override
-  end
-  else
-    if fa_items[pid] != 0 then begin
-    bonus := get_skill_bonus(obj);
-    charges := get_weapon_ammo_count(obj);
-    if charges == 1 then begin
-      ndebug(obj_name(obj) + " is depleted, destroying");
-      ret := 1; //destroy
-    end else begin
-      charges := charges - 1;
-      set_weapon_ammo_count(obj, charges);
-      ndebug("reduced " + obj_name(obj) + " charges to " + charges);
-      ret := 0;
-    end
-//    call use_first_aid(user, target, bonus, true);
-  end
-  ndebug("useobjon:" + ret);
-  set_sfall_return(ret);
-  if ret == 0 then intface_redraw;
 end
