@@ -4,69 +4,71 @@ msgstr ""
 "Project-Id-Version: Russian (Fallout)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Russian <https://tra.bgforge.net/projects/fallout/fo2tweaks/ru/>\n"
-"Language: ru\n"
+"PO-Revision-Date: 2019-10-19 10:50+0000\n"
+"Last-Translator: Magus <magus@bgforge.net>\n"
+"Language-Team: Russian <https://tra.bgforge.net/projects/fallout/fo2tweaks/"
+"ru/>\n"
+"Language: russian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 3.1.1\n"
 
 #: game/g_healing_revision.msg:1
 msgid "Disabilities healed."
-msgstr ""
+msgstr "Повреждения излечены."
 
 #: game/g_healing_revision.msg:2
 msgid "Failed to heal disabilities."
-msgstr ""
+msgstr "Не удалось излечить повреждения."
 
 #: game/g_healing_revision.msg:3
 msgid "You can't do this in combat."
-msgstr ""
+msgstr "Вы не можете сделать это в бою."
 
 #: game/g_healing_revision.msg:4
 msgid "You don't think there's any chance you could heal this."
-msgstr ""
+msgstr "Непохоже, что у вас есть шанс излечить это."
 
 #: game/g_healing_revision.msg:5
 msgid "This critter is already healthy."
-msgstr ""
+msgstr "Пациент здоров."
 
 #: game/g_healing_revision.msg:6
 msgid "You have already used this skill on this critter today."
-msgstr ""
+msgstr "Вы уже использовали этот навык на этого пациента сегодня."
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
-msgstr ""
+msgstr "У вас не получается исцеление."
 
 #: game/g_healing_revision.msg:8
 msgid "Wow, now I really know how to hurt 'em!"
-msgstr ""
+msgstr "Ого, теперь-то я знаю, как делать больнее!"
 
 #: game/g_healing_revision.msg:9
 msgid "has earned Living Anatomy perk."
-msgstr ""
+msgstr "получает способность Практическая анатомия."
 
 #: game/g_healing_revision.msg:10
 msgid "You receive %1% experience for successful use of %2% skill."
-msgstr ""
+msgstr "Вы получаете %1% очков опыта за успешное применение навыка %2%."
 
 #: game/g_healing_revision.msg:11
 msgid "%1% healed for %2% HP."
-msgstr ""
+msgstr "%1% восстанавливает %2% ед.здоровья."
 
 #: game/g_level5.msg:1
 msgid ""
 "You receive 9500 experience points, because you're a cheating little "
 "bastard."
-msgstr ""
+msgstr "Вы получаете 9500 очков опыта, потому что вы читер позорный."
 
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."
-msgstr ""
+msgstr "Не... думаю, я лучше по лестнице."
 
 #~ msgid ""
 #~ "You must have either Killap's patch OR restoration project installed before "
