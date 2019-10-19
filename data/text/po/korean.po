@@ -1,12 +1,12 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Korean (Fallout)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-19 10:20+0000\n"
+"POT-Creation-Date: 1970-1-01 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Korean <https://tra.bgforge.net/projects/fallout/fo2tweaks/ko/"
-">\n"
+"Language-Team: Korean <https://tra.bgforge.net/projects/fallout/fo2tweaks/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14,200 +14,208 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 3.1.1\n"
 
-#: install.tra:1
-msgid ""
-"You must have either Killap's patch OR restoration project installed before "
-"installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
+#: game/g_healing_revision.msg:1
+msgid "Disabilities healed."
 msgstr ""
-"=FO2tweaks을 설치하기 전에 Killap의 패치 혹은 복원 계획(Restoration Project)을 설치하셔야 합니다. "
-"http://killap.net/fallout2/web/Downloads.html"
 
-#: install.tra:2
-msgid "Party"
-msgstr "=동료"
-
-#: install.tra:3
-msgid "Inventory"
-msgstr "=인벤토리"
-
-#: install.tra:4
-msgid "Miscellaneous"
-msgstr "=기타"
-
-#: install.tra:5
-msgid "Speed"
-msgstr "=속도"
-
-#: install.tra:6
-msgid "Requires Killap's restoration project"
-msgstr "=Killap의 restoration project 필요"
-
-#: install.tra:7,
-#: install.tra:33
-msgid "Unknown Sfall version, not updating!"
-msgstr "=알수없는 Sfall 버전, 업데이트 중단!"
-
-#: install.tra:8
-msgid "Unlimited carry weight"
-msgstr "=소지 무게 무제한"
-
-#: install.tra:9
-msgid "Inventory filter"
-msgstr "=인벤토리 필터"
-
-#: install.tra:10
-msgid "Unlimited trunk"
-msgstr "=트렁크 무제한"
-
-#: install.tra:11
-msgid "Unlimited party"
-msgstr "=동료 무제한"
-
-#: install.tra:12
-msgid "Companions never use burst fire"
-msgstr "=동료가 절대 난사 하지 않음"
-
-#: install.tra:13
-msgid "Unrestricted party combat AI"
-msgstr "=동료 전투 AI 제한 없음"
-
-#: install.tra:14
-msgid "Armor doesn't reduce Chosen's run speed"
-msgstr "=방어구가 선택받은 자의 속도를 저하시키지 않음"
-
-#: install.tra:15
-msgid "Increased run speed"
-msgstr "=달리기 속도 증가"
-
-#: install.tra:16
-msgid "Party NPC can run as well as Chosen"
-msgstr "=동료 NPC가 선택받은 자 만큼 잘 뜀"
-
-#: install.tra:17
-msgid "Both of the above options"
-msgstr "=위의 두 옵션 전부 선택"
-
-#: install.tra:18
-msgid "General game speedup"
-msgstr "=기본 게임 속도 증가"
-
-#: install.tra:19
-msgid "Fire damage"
-msgstr "=화염 공격력"
-
-#: install.tra:20
-msgid "Molotov cocktail"
-msgstr "=화염병"
-
-#: install.tra:21
-msgid "Fire damage and burning death animation"
-msgstr "=화염 공격력과 불타는 죽음 애니메이션"
-
-#: install.tra:22
-msgid "Grenades ignore armor class"
-msgstr "=수류탄이 방어 등급을 무시"
-
-#: install.tra:23
-msgid "Start at level 4"
-msgstr "=4레벨로 시작"
-
-#: install.tra:24
-msgid "Silence idle fake reload animation for SMG and rifles"
-msgstr "=기관 단총과 소총이 쓸데없이 가짜 재장전을 하지 않음"
-
-#: install.tra:25
-msgid "Stretch game plotline"
-msgstr "=게임 대사 속도 늘이기"
-
-#: install.tra:26
-msgid "Oxygen tank protects from radon in Broken Hills mine"
-msgstr "=산소 탱크가 브로큰 힐 광산의 가스를 막아줌"
-
-#: install.tra:27
-msgid "No close range penalty for scoped weapons"
-msgstr "=조준경이 있는 무기의 근접 거리 패널티 삭제"
-
-#: install.tra:28
-msgid "Remove Kaga"
-msgstr "=카가 삭제"
-
-#: install.tra:29
-msgid "Disable Knockback"
-msgstr "=넉백 제거"
-
-#: install.tra:30
-msgid "Installing Sfall"
-msgstr "=Sfall 설치"
-
-#: install.tra:31
-msgid "Updating Sfall"
-msgstr "=Sfall 업데이트"
-
-#: install.tra:32
-msgid "Map hotkey"
-msgstr "=지도 단축키"
-
-#: install.tra:34
-msgid "Good Sfall version found!"
-msgstr "=적절한 Sfall 버전 인식!"
-
-#: install.tra:35
-msgid "Clearer Miria dialog"
-msgstr "=알기 쉬운 미리아의 대사"
-
-#: install.tra:36
-msgid "Automatically walk through unlocked doors"
-msgstr "=자동으로 잠기지 않은 문을 지나감"
-
-#: strings.tra:101
-msgid ""
-"The archives list only two vaults: Vault 8 (this Vault) and Vault 15, "
-"located far to the south."
-msgstr "=기록된 목록은 두 볼트 뿐이다: 볼트 8 (현재 볼트) 그리고 볼트 15. 남쪽 멀리 위치해있다."
-
-#: strings.tra:102
-msgid ""
-"The archives list only two vaults: Vault 8 (this Vault) and Vault 15. "
-"Unfortunately, coordinates are not recorded."
-msgstr "=기록된 목록은 두 볼트 뿐이다: 볼트 8 (현재 볼트) 그리고 볼트 15 안타깝게도, 위치는 기록되어있지 않다."
-
-#: strings.tra:103
-msgid ""
-"Hello there. I'm Lou. Owner of the Malamute Saloon, finest house north of "
-"San Fran."
-msgstr "=안녕하세요. 저는 루. 샌프란시스코 최고의 주점인 말라뮤트의 주인이죠."
-
-#: strings.tra:104
-msgid "Hello there. I'm Lou, owner of the Malamute Saloon."
-msgstr "=안녕하세요. 저는 루. 여기 말라뮤트 주점의 주인이죠."
-
-#: strings.tra:105
-msgid ""
-"You access the computer and quickly scan all available files. You find the "
-"location of Vault 13%WNL% and copy it to your PIP-Boy."
+#: game/g_healing_revision.msg:2
+msgid "Failed to heal disabilities."
 msgstr ""
-"=당신은 컴퓨터에 접속하고 재빠르게 가능한 모든 파일을 뒤진다. 당신은 볼트 13%WNL%의 위치를 찾아내고 PiP-Boy에 복사한다."
 
-#: strings.tra:106
+#: game/g_healing_revision.msg:3
+msgid "You can't do this in combat."
+msgstr ""
+
+#: game/g_healing_revision.msg:4
+msgid "You don't think there's any chance you could heal this."
+msgstr ""
+
+#: game/g_healing_revision.msg:5
+msgid "This critter is already healthy."
+msgstr ""
+
+#: game/g_healing_revision.msg:6
+msgid "You have already used this skill on this critter today."
+msgstr ""
+
+#: game/g_healing_revision.msg:7
+msgid "You fail to do any healing."
+msgstr ""
+
+#: game/g_healing_revision.msg:8
+msgid "Wow, now I really know how to hurt 'em!"
+msgstr ""
+
+#: game/g_healing_revision.msg:9
+msgid "has earned Living Anatomy perk."
+msgstr ""
+
+#: game/g_healing_revision.msg:10
+msgid "You receive %1% experience for successful use of %2% skill."
+msgstr ""
+
+#: game/g_healing_revision.msg:11
+msgid "%1% healed for %2% HP."
+msgstr ""
+
+#: game/g_level5.msg:1
 msgid ""
-"You access the computer and quickly scan all available files. Unfortunately, "
-"you can't find location of Vault 13."
-msgstr "=당신은 컴퓨터에 접속하고 재빠르게 가능한 모든 파일을 뒤진다. 안타깝지만, 당신은 볼트 13의 위치를 찾지 못 한다."
+"You receive 9500 experience points, because you're a cheating little "
+"bastard."
+msgstr ""
 
-#: strings.tra:107
-msgid ""
-"Other than the location of Vault 13, the computer contains no useful "
-"information."
-msgstr "=볼트 13의 위치 이외에는, 컴퓨터엔 쓸만한 정보가 하나도 없다."
+#: game/g_map_hotkey.msg:1
+msgid "Nah... I think I'm gonna take the ladder."
+msgstr ""
 
-#: strings.tra:108
-msgid "The computer contains no useful information."
-msgstr "=컴퓨터엔 쓸만한 정보가 하나도 없다."
+#~ msgid ""
+#~ "You must have either Killap's patch OR restoration project installed before "
+#~ "installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
+#~ msgstr ""
+#~ "=FO2tweaks을 설치하기 전에 Killap의 패치 혹은 복원 계획(Restoration Project)을 설치하셔야 합니다. "
+#~ "http://killap.net/fallout2/web/Downloads.html"
 
-#: strings.tra:109
-msgid "[You smile and start to undress.]"
-msgstr "=[당신은 미소지으면 옷을 벗기 시작한다.]"
+#~ msgid "Party"
+#~ msgstr "=동료"
 
-#: strings.tra:110
-msgid "[You smile, then jump at her and start ripping her clothes off.]"
-msgstr "=[당신은 미소짓고는, 그녀에게 뛰어들어 옷을 마구 벗기기 시작한다.]"
+#~ msgid "Inventory"
+#~ msgstr "=인벤토리"
+
+#~ msgid "Miscellaneous"
+#~ msgstr "=기타"
+
+#~ msgid "Speed"
+#~ msgstr "=속도"
+
+#~ msgid "Requires Killap's restoration project"
+#~ msgstr "=Killap의 restoration project 필요"
+
+#~ msgid "Unknown Sfall version, not updating!"
+#~ msgstr "=알수없는 Sfall 버전, 업데이트 중단!"
+
+#~ msgid "Unlimited carry weight"
+#~ msgstr "=소지 무게 무제한"
+
+#~ msgid "Inventory filter"
+#~ msgstr "=인벤토리 필터"
+
+#~ msgid "Unlimited trunk"
+#~ msgstr "=트렁크 무제한"
+
+#~ msgid "Unlimited party"
+#~ msgstr "=동료 무제한"
+
+#~ msgid "Companions never use burst fire"
+#~ msgstr "=동료가 절대 난사 하지 않음"
+
+#~ msgid "Unrestricted party combat AI"
+#~ msgstr "=동료 전투 AI 제한 없음"
+
+#~ msgid "Armor doesn't reduce Chosen's run speed"
+#~ msgstr "=방어구가 선택받은 자의 속도를 저하시키지 않음"
+
+#~ msgid "Increased run speed"
+#~ msgstr "=달리기 속도 증가"
+
+#~ msgid "Party NPC can run as well as Chosen"
+#~ msgstr "=동료 NPC가 선택받은 자 만큼 잘 뜀"
+
+#~ msgid "Both of the above options"
+#~ msgstr "=위의 두 옵션 전부 선택"
+
+#~ msgid "General game speedup"
+#~ msgstr "=기본 게임 속도 증가"
+
+#~ msgid "Fire damage"
+#~ msgstr "=화염 공격력"
+
+#~ msgid "Molotov cocktail"
+#~ msgstr "=화염병"
+
+#~ msgid "Fire damage and burning death animation"
+#~ msgstr "=화염 공격력과 불타는 죽음 애니메이션"
+
+#~ msgid "Grenades ignore armor class"
+#~ msgstr "=수류탄이 방어 등급을 무시"
+
+#~ msgid "Start at level 4"
+#~ msgstr "=4레벨로 시작"
+
+#~ msgid "Silence idle fake reload animation for SMG and rifles"
+#~ msgstr "=기관 단총과 소총이 쓸데없이 가짜 재장전을 하지 않음"
+
+#~ msgid "Stretch game plotline"
+#~ msgstr "=게임 대사 속도 늘이기"
+
+#~ msgid "Oxygen tank protects from radon in Broken Hills mine"
+#~ msgstr "=산소 탱크가 브로큰 힐 광산의 가스를 막아줌"
+
+#~ msgid "No close range penalty for scoped weapons"
+#~ msgstr "=조준경이 있는 무기의 근접 거리 패널티 삭제"
+
+#~ msgid "Remove Kaga"
+#~ msgstr "=카가 삭제"
+
+#~ msgid "Disable Knockback"
+#~ msgstr "=넉백 제거"
+
+#~ msgid "Installing Sfall"
+#~ msgstr "=Sfall 설치"
+
+#~ msgid "Updating Sfall"
+#~ msgstr "=Sfall 업데이트"
+
+#~ msgid "Map hotkey"
+#~ msgstr "=지도 단축키"
+
+#~ msgid "Good Sfall version found!"
+#~ msgstr "=적절한 Sfall 버전 인식!"
+
+#~ msgid "Clearer Miria dialog"
+#~ msgstr "=알기 쉬운 미리아의 대사"
+
+#~ msgid "Automatically walk through unlocked doors"
+#~ msgstr "=자동으로 잠기지 않은 문을 지나감"
+
+#~ msgid ""
+#~ "The archives list only two vaults: Vault 8 (this Vault) and Vault 15, "
+#~ "located far to the south."
+#~ msgstr "=기록된 목록은 두 볼트 뿐이다: 볼트 8 (현재 볼트) 그리고 볼트 15. 남쪽 멀리 위치해있다."
+
+#~ msgid ""
+#~ "The archives list only two vaults: Vault 8 (this Vault) and Vault 15. "
+#~ "Unfortunately, coordinates are not recorded."
+#~ msgstr "=기록된 목록은 두 볼트 뿐이다: 볼트 8 (현재 볼트) 그리고 볼트 15 안타깝게도, 위치는 기록되어있지 않다."
+
+#~ msgid ""
+#~ "Hello there. I'm Lou. Owner of the Malamute Saloon, finest house north of "
+#~ "San Fran."
+#~ msgstr "=안녕하세요. 저는 루. 샌프란시스코 최고의 주점인 말라뮤트의 주인이죠."
+
+#~ msgid "Hello there. I'm Lou, owner of the Malamute Saloon."
+#~ msgstr "=안녕하세요. 저는 루. 여기 말라뮤트 주점의 주인이죠."
+
+#~ msgid ""
+#~ "You access the computer and quickly scan all available files. You find the "
+#~ "location of Vault 13%WNL% and copy it to your PIP-Boy."
+#~ msgstr ""
+#~ "=당신은 컴퓨터에 접속하고 재빠르게 가능한 모든 파일을 뒤진다. 당신은 볼트 13%WNL%의 위치를 찾아내고 PiP-Boy에 복사한다."
+
+#~ msgid ""
+#~ "You access the computer and quickly scan all available files. Unfortunately,"
+#~ " you can't find location of Vault 13."
+#~ msgstr "=당신은 컴퓨터에 접속하고 재빠르게 가능한 모든 파일을 뒤진다. 안타깝지만, 당신은 볼트 13의 위치를 찾지 못 한다."
+
+#~ msgid ""
+#~ "Other than the location of Vault 13, the computer contains no useful "
+#~ "information."
+#~ msgstr "=볼트 13의 위치 이외에는, 컴퓨터엔 쓸만한 정보가 하나도 없다."
+
+#~ msgid "The computer contains no useful information."
+#~ msgstr "=컴퓨터엔 쓸만한 정보가 하나도 없다."
+
+#~ msgid "[You smile and start to undress.]"
+#~ msgstr "=[당신은 미소지으면 옷을 벗기 시작한다.]"
+
+#~ msgid "[You smile, then jump at her and start ripping her clothes off.]"
+#~ msgstr "=[당신은 미소짓고는, 그녀에게 뛰어들어 옷을 마구 벗기기 시작한다.]"
