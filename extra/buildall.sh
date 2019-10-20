@@ -50,6 +50,6 @@ files=$(cat $extra_dir/build.list)
 mkdir -p $dst
 cd source
 for f in $files; do
-  int_name="$(echo $f | tr "[A-Z]" "[a-z]" | sed 's|\.ssl$|.int|')"
+  int_name="$(echo $f | sed 's|\.ssl$|.int|')"
   wine $compile -l -O2 -p -s -q -n "$f" -o "$dst/$int_name"
 done
