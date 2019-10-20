@@ -335,7 +335,6 @@ procedure start begin
       set_global_script_repeat(1800);
 
       msg := add_extra_msg_file(msg_file);
-      display_msg("msg is " + msg);
       ndebug("initialized");
     end
   end else begin
