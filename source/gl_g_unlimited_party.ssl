@@ -38,7 +38,7 @@ procedure allow_join(variable cri) begin
   if not is_in_array(obj_pid(cri), potential_party_member_pids) then begin
     ndebug(obj_name(cri) + " is not a joinable NPC, skipping");
     return;
-  end else ndebug(obj_name(cri) + " is a joinable NPC, applyting unlimited tweak");
+  end else ndebug(obj_name(cri) + " is a joinable NPC, applying unlimited tweak");
 
   //drop everyone else
   foreach who in party_members begin
@@ -82,14 +82,18 @@ end
 procedure gamemode_handler begin
   new_mode := get_game_mode;
   if mode_ended(DIALOG, old_mode, new_mode) then call reset_state;
+  if mode_started(DIALOG, old_mode, new_mode) and obj_pid(dialog_obj) != PID_DOGMEAT then call allow_join(dialog_obj);
   old_mode := new_mode;
 end
 
-procedure talk_handler begin
+procedure talk_handler begin // Dogmeat only
   variable proc := get_sfall_arg;
   variable self := get_sfall_arg;
-  variable source := get_sfall_arg;
-  if proc == talk_proc then call allow_join(self);
+  variable armor := critter_inven_obj(dude_obj, INVEN_TYPE_WORN);
+  if proc == talk_proc
+    and obj_pid(self) == PID_DOGMEAT
+    and not armor
+  then call allow_join(self);
 end
 
 procedure start begin
@@ -101,7 +105,7 @@ procedure start begin
       potential_party_member_pids := array_append(potential_party_member_pids, mod_npc_pids);
       fix_array(potential_party_member_pids);
       register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
-      register_hook_proc(HOOK_STDPROCEDURE, talk_handler);
+      register_hook_proc(HOOK_STDPROCEDURE, talk_handler); //specifically for Dogmeat, who checks party limit outside of dialog mode
       ndebug("initialized");
     end
   end
