@@ -1,12 +1,12 @@
 ## Changelog
 
 * Version 10:
-  - Remapped some keys that were conflicting with Party Orders.
+  - Remapped some keys that were conflicting with [Party Orders](https://github.com/BGforgeNet/Fallout2_Party_Orders).
   - Replaced free Night Vision with minimal light level.
   - Ammobox will only show up for guns with ammo.
   - Restored general speedup component.
   - Fixed bug with Robobrain still checking party limit.
-  - Packed int .dat.
+  - Packed into .dat.
 
 * Version 9.4:
   - Fixed bug with combat difficulty multiplier being applied to player damage.
@@ -26,7 +26,7 @@
 * Version 9:
   - Massive overhaul with compatibility in mind. Now featuring only fully pluggable components.
   - Removed inventory filter.
-  - Removed burst control (merged into [Party Orders](https://github.com/BGforgeNet/fallout2-party-orders)).
+  - Removed burst control (merged into [Party Orders](https://github.com/BGforgeNet/Fallout2_Party_Orders)).
   - Removed unrestricted party AI.
   - Removed general speedup and run speed.
   - Removed silence fake reload.
