@@ -19,15 +19,17 @@ It is highly configurable, any component can be used with or without others. Som
     - [Unlimited carry weight](#unlimited-carry-weight)
     - [Unlimited trunk](#unlimited-trunk)
     - [Auto reload](#auto-reload)
+    - [Don't drop items on death](#dont-drop-items-on-death)
   - [Party](#party)
     - [Unlimited party](#unlimited-party)
     - [Party level match](#party-level-match)
   - [Speed](#speed)
     - [General game speedup](#general-game-speedup)
+    - [Party run speed](#party-run-speed)
   - [Combat](#combat)
     - [Ammobox](#ammobox)
     - [Damage mod](#damage-mod)
-    - [Disable knockback](#disable-knockback)
+    - [Limit knockback](#limit-knockback)
     - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
     - [Grenades ignore armor class](#grenades-ignore-armor-class)
     - [No close range penalty for scoped weapons](#no-close-range-penalty-for-scoped-weapons)
@@ -62,6 +64,9 @@ Inventory pain killer, part 2. Never worry about trunk filling up.
 #### Auto reload
 Dude will automatically reload both weapons after combat has ended.
 
+#### Don't drop items on death
+Certain violent death animations (exploded, electrified, etc) cause enemies to drop all their inventory to the ground. It's annoying to pick up all that. Now you can disable this behaviour and loot all remains normally.
+
 ### Party
 
 #### Unlimited party
@@ -95,6 +100,9 @@ player_speedup=1
 running=1
 ```
 
+#### Party run speed
+Are you tired of Marcus, Skynet, Lenny lagging behind? Then this component is for you. Also allows to increase Chosen's run speed (when in heavy armor).
+
 ### Combat
 #### Ammobox
 Current ammo type will be displayed in a notification box during combat.
@@ -120,8 +128,8 @@ Effect on the game:
 It's designed for vanilla game ammo/weapons/armor. It will *work* with various mods such as [EcCo](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/),
 however that may require tinkering with individual ammo modifiers in `fo2tweaks.ini`, and satisfactory result is not guaranteed.
 
-#### Disable knockback
-Disable knockback. That affects all weapons and explosives. These long trips over the screen from a Super Sledge can be really annoying.
+#### Limit knockback
+Allows to limit max knockback distance. That affects all weapons and explosives. These long trips over the screen from a Super Sledge can be really annoying.
 
 #### Molotov cocktail: fire damage
 Let Molotov cocktail do fire damage instead of explosive (and optionally, enable "burning death" animation)

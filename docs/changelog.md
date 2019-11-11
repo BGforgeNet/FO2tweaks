@@ -1,5 +1,17 @@
 ## Changelog
 
+* Version 11:
+  - Fixed being able to walk through watched doors when autodoors is disabled.
+  - Fixed attacker self-damage calculation in damage mod.
+  - Fixed being unable to use 'j' key when naming savegames.
+  - Fixed auto reload for solar scorcher.
+  - Fixed unlimited party setting not working for Dogmeat.
+  - Re-added party run speed component.
+  - Added Nirran's tweak for avoiding items being dropped on death.
+  - Allowed to limit knockback instead of disabling it completely.
+  - Re-added translations.
+  - Fixed savegame corruption.
+
 * Version 10:
   - Remapped some keys that were conflicting with [Party Orders](https://github.com/BGforgeNet/Fallout2_Party_Orders).
   - Replaced free Night Vision with minimal light level.
