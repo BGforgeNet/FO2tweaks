@@ -3,6 +3,7 @@
 [![Translation status](https://tra.bgforge.net/widgets/fallout/-/fo2tweaks/svg-badge.svg)](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
 [![Build Status](https://travis-ci.org/BGforgeNet/FO2tweaks.svg?branch=master)](https://travis-ci.org/BGforgeNet/FO2tweaks)
 [![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![Support us on Patreon](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/BGforge)
 
 [__Download__](https://github.com/BGforgeNet/FO2tweaks/releases/latest)
  | [__Installation__](#installation)
