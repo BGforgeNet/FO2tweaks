@@ -219,7 +219,7 @@ Delete `mods/fo2tweaks.*` files.
 
 ## Reporting issues
 1. Discussion and questions: see the [forum](https://forums.bgforge.net/viewforum.php?f=26).
-1. Bug reports the instruction is the same as for [killap's Unofficial Patch](https://github.com/BGforgeNet/Fallout2_Unofficial_Patch/blob/master/docs/reporting.md):
+1. Bug reports: the instruction is the same as for [killap's Unofficial Patch](https://github.com/BGforgeNet/Fallout2_Unofficial_Patch/blob/master/docs/reporting.md):
     * describe the bug
     * attach a savegame
     * detail the steps to trigger the bug
