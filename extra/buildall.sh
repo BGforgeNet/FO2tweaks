@@ -48,7 +48,7 @@ cd ..
 
 mkdir -p $dst
 cd source
-for f in $(ls); do
+for f in $(ls | grep "\.ssl$"); do
   int_name="$(echo $f | sed 's|\.ssl$|.int|')"
   wine $compile -l -O2 -p -s -q -n "$f" -o "$dst/$int_name"
 done
