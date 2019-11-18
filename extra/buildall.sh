@@ -29,7 +29,7 @@ if [[ -d party_orders ]]; then
   git pull
   cd ..
 else
-  git clone https://github.com/BGforgeNet/fallout2-party-orders.git party_orders
+  git clone https://github.com/BGforgeNet/Fallout2_Party_Orders.git party_orders
 fi
 rm -f  "$headers_dir/party_orders"
 ln -sf "$external_dir/party_orders/source/headers/party_orders" "$headers_dir/party_orders"
@@ -46,10 +46,9 @@ ln -sf "$external_dir/sfall/artifacts/scripting/headers" "$headers_dir/sfall"
 
 cd ..
 
-files=$(cat $extra_dir/build.list)
 mkdir -p $dst
 cd source
-for f in $files; do
+for f in $(ls); do
   int_name="$(echo $f | sed 's|\.ssl$|.int|')"
   wine $compile -l -O2 -p -s -q -n "$f" -o "$dst/$int_name"
 done
