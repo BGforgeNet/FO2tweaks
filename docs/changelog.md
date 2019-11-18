@@ -1,5 +1,9 @@
 ## Changelog
 
+* Version 11.1:
+  - Fixed knockback limit and no dropping items on death not working due to missing scripts.
+  - Fixed quicksave/quickload shortcuts getting stuck.
+
 * Version 11:
   - Fixed being able to walk through watched doors when autodoors is disabled.
   - Fixed attacker self-damage calculation in damage mod.
