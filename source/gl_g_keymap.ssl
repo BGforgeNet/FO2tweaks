@@ -7,27 +7,21 @@
 variable enabled;
 variable keymap;
 
-#define invalid_game_mode ( \
-  get_game_mode bwand \
-  ( WORLDMAP bwor DIALOG bwor ESCMENU bwor SAVEGAME bwor LOADGAME \
-  bwor OPTIONS bwor HELP bwor CHARSCREEN bwor PIPBOY bwor INVENTORY \
-  bwor AUTOMAP bwor BARTER bwor HEROWIN bwor DIALOGVIEW) \
-)
-
 procedure start;
 
 procedure keypress_handler begin
   variable pressed := get_sfall_arg, key := get_sfall_arg;
   variable k, v, new_key;
 
-  //skip various game modes in which we don't need remapping
-  if invalid_game_mode then return;
-
   new_key := scan_array(keymap, key);
+
+  // Default save shortcuts: F4, F6. Any other shortcuts shouldn't be needed in savegame mode.
+  if (get_game_mode bwand SAVEGAME) and not ( (new_key == DIK_F4) or (new_key == DIK_F6) ) then return;
 
   //remap
   if new_key != -1 then begin
-    ndebug("key " + key + " changed to " + new_key);
+    if pressed then ndebug("pressed key " + key + " changed to " + new_key);
+    else ndebug("released key " + key + " changed to " + new_key);
     set_sfall_return(new_key);
     return;
   end
@@ -41,10 +35,6 @@ end
 
 procedure start begin
   if game_loaded then begin
-    variable o;
-    foreach o in list_as_array(LIST_CRITTERS) begin
-      ndebug(obj_name(o) + " has pointer " + o);
-    end
     enabled := fo2tweaks_setting(sec_main, set_keymap);
     if enabled == 1 then begin
       variable tmp := get_ini_section(fo2tweaks_ini, sec_keymap);
