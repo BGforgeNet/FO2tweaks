@@ -36,7 +36,7 @@ procedure deathanim2_handler begin
     variable box := create_object_sid(PID_FOOTLOCKER_CLEAN_LEFT, 0, 0, -1);
     move_obj_inven_to_obj(target, box);
     critters_boxes[target] := box;
-    ndebug("moved inventory from " + obj_name(target) + "to temp box");
+    ndebug("moved inventory from " + obj_name(target) + " to temp box");
   end
 end
 
