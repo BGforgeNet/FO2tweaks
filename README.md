@@ -102,7 +102,11 @@ running=1
 ```
 
 #### Party run speed
-Are you tired of Marcus, Skynet, Lenny lagging behind? Then this component is for you. Also allows to increase Chosen's run speed (when in heavy armor).
+Are you tired of Marcus, Skynet, Lenny lagging behind? Then this coomponent is for you. It has two separate options:
+* Make Chosen's run speed constant. In vanilla game, wearing heavy armor descreases run speed by approximately 20%. This option disables the penalty for the Chosen.
+* Increase companions run speed:
+  - All NPCs get a slight boost (like Chosen above).
+  - NPCs who have no running animation (Marcus, Skynet, Lenny) get one, so they will be able to catch up with the Chosen.
 
 ### Combat
 #### Ammobox
