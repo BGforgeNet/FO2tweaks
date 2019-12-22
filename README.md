@@ -116,6 +116,7 @@ Current ammo type will be displayed in a notification box during combat.
 
 #### Damage mod
 Damage mod is a massive overhaul of Fallout's damage formula, intended to make AP ammo useful. It only affects __firearms__.
+(**Note**: you must set `DamageFormula=0` in `ddraw.ini` for this component to work correctly.)
 
 In a nutshell:
 - DR mod is now DR/DT mod, and it multiplies both values, rather then adding/subtracting.
