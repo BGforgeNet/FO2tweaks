@@ -54,12 +54,13 @@ procedure get_ammo_pids;
 procedure update_dr_mod(variable dr_mod_list);
 procedure get_real_damage_type(variable weapon);
 procedure load_ammo_damage_type(variable type_ammo);
+procedure check_damage_formula;
 
 procedure start begin
   if game_loaded then begin
     enabled := fo2tweaks_setting(sec_main, set_damage_mod);
     if enabled == 1 then begin
-
+      call check_damage_formula;
       //custom DR values
       dr_mod_list := get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_dr);
       fix_array(dr_mod_list);
@@ -82,7 +83,6 @@ procedure start begin
       damage_difficulty := fo2tweaks_setting(sec_damage_mod, set_damage_mod_difficulty);
 
       register_hook_proc(HOOK_COMBATDAMAGE, damage_handler);
-
       ndebug("initialized");
     end
   end
@@ -105,9 +105,21 @@ end
 
 procedure map_enter_p_proc begin
   if enabled then begin
+    call check_damage_formula;
     call update_dr_mod(dr_mod_list);
     call fix_ammo_stats(ammo_pids);
   end
+end
+
+procedure check_damage_formula begin
+  variable damage_formula := get_ini_setting("ddraw.ini|Misc|DamageFormula");
+  if damage_formula != 0 then begin
+    ndebug("Damage Formula set to, resetting" + damage_formula);
+    set_ini_setting("ddraw.ini|Misc|DamageFormula", 0);
+    float_msg(dude_obj, "FO2tweaks: damage formula setting in ddraw.ini was incorrect, damage mod failed to load. The setting is fixed now. EXIT AND RE-LAUNCH THE GAME now.", FLOAT_MSG_WARNING);
+    return false;
+  end
+  return true;
 end
 
 procedure update_dr_mod(variable dr_mod_list) begin
