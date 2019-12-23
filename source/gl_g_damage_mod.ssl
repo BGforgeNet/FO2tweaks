@@ -125,7 +125,7 @@ procedure get_default_dr_mod_list begin
     PID_10MM_AP: -25,
     PID_44_MAGNUM_JHP: 20,
     PID_FLAMETHROWER_FUEL: 25,
-    PID_14MM_AP: -35,
+    PID_14MM_AP: -35, //vanilla is -50
     PID_223_FMJ: -20,
     PID_5MM_JHP: 35,
     PID_5MM_AP: -35,
