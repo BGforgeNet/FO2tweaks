@@ -2,6 +2,16 @@
 
 #include "headers/fo2tweaks/fo2tweaks.h"
 
+//ecco ammo
+#define PID_PBS_50_AMMO             (610)
+#define PID_PBS_SHOTGUN_SLUGS       (614)
+#define PID_PBS_223_AP              (615)
+#define PID_PBS_9MM_SMG             (629)
+#define PID_PBS_40MM_HE             (631)
+#define PID_PBS_40MM_IC             (632)
+#define PID_PBS_14MM_JHP            (633)
+#define PID_PBS_SHOTGUN_BUCKSHOTS   (641)
+
 #define BODYPART_HEAD 0
 #define BODYPART_LEFT_ARM 1
 #define BODYPART_RIGHT_ARM 2
@@ -55,14 +65,18 @@ procedure update_dr_mod(variable dr_mod_list);
 procedure get_real_damage_type(variable weapon);
 procedure load_ammo_damage_type(variable type_ammo);
 procedure check_damage_formula;
+procedure get_default_dr_mod_list;
 
 procedure start begin
   if game_loaded then begin
     enabled := fo2tweaks_setting(sec_main, set_damage_mod);
     if enabled == 1 then begin
+      variable default_dr_mod_list, custom_dr_mod_list;
       call check_damage_formula;
       //custom DR values
-      dr_mod_list := get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_dr);
+      default_dr_mod_list := get_default_dr_mod_list;
+      custom_dr_mod_list := get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_dr);
+      dr_mod_list := array_append(default_dr_mod_list, custom_dr_mod_list);
       fix_array(dr_mod_list);
       ndebug("dr_mod_list length is " + len_array(dr_mod_list));
       call update_dr_mod(dr_mod_list);
@@ -103,6 +117,48 @@ procedure load_ammo_damage_type(variable type_ammo) begin
   return ar;
 end
 
+procedure get_default_dr_mod_list begin
+  variable mod_list;
+  mod_list := {
+    PID_EXPLOSIVE_ROCKET: 35, //vanilla is -25
+    PID_10MM_JHP: 25,
+    PID_10MM_AP: -25,
+    PID_44_MAGNUM_JHP: 20,
+    PID_FLAMETHROWER_FUEL: 25,
+    PID_14MM_AP: -35,
+    PID_223_FMJ: -20,
+    PID_5MM_JHP: 35,
+    PID_5MM_AP: -35,
+    PID_ROCKET_AP: -35, //vanilla is -50
+    PID_SMALL_ENERGY_CELL: 0,
+    PID_MICRO_FUSION_CELL: 0,
+    PID_SHOTGUN_SHELLS: 0,
+    PID_44_FMJ_MAGNUM: -20,
+    PID_9MM_BALL: -20,
+    PID_BBS: 0,
+    PID_ROBO_ROCKET_AMMO: -25,
+    PID_45_CALIBER_AMMO: 0,
+    PID_2MM_EC_AMMO: -20,
+    PID_4_7MM_CASELESS: -10,
+    PID_9MM_AMMO: 0,
+    PID_HN_NEEDLER_CARTRIDGE: 0,
+    PID_HN_AP_NEEDLER_CARTRIDGE: -35, //vanilla is 0
+    PID_7_62MM_AMMO: -20,
+    PID_FLAMETHROWER_FUEL_MK_II: 0,
+
+    //ecco ammo
+    PID_PBS_50_AMMO: -18,
+    PID_PBS_SHOTGUN_SLUGS: -20,
+    PID_PBS_223_AP: -35,
+    PID_PBS_40MM_HE: 0,
+    PID_PBS_40MM_IC: 35,
+    PID_PBS_14MM_JHP: 35,
+    PID_PBS_SHOTGUN_BUCKSHOTS: 20
+
+  };
+  return mod_list;
+end
+
 procedure map_enter_p_proc begin
   if enabled then begin
     call check_damage_formula;
@@ -125,8 +181,9 @@ end
 procedure update_dr_mod(variable dr_mod_list) begin
   variable pid, mod, type;
   foreach pid: mod in dr_mod_list begin
-    pid := atoi(pid); //have to pass strings, as 0's can't be stored in a map
-    mod := atoi(mod);
+    //have to pass strings, as 0's can't be stored in a map
+    if typeof(pid) != VALTYPE_INT then pid := atoi(pid);
+    if typeof(mod) != VALTYPE_INT then mod := atoi(mod);
 
     if not is_ammo_pid(pid) then begin //not ammo, how did it get here?
       ndebug("warning | item pid " + pid + " is not ammo");
