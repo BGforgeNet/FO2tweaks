@@ -134,13 +134,13 @@ procedure get_default_dr_mod_list begin
     PID_MICRO_FUSION_CELL: 0,
     PID_SHOTGUN_SHELLS: 0,
     PID_44_FMJ_MAGNUM: -20,
-    PID_9MM_BALL: -20,
+    PID_9MM_BALL: -20, //vanilla is 0
     PID_BBS: 0,
     PID_ROBO_ROCKET_AMMO: -25,
     PID_45_CALIBER_AMMO: 0,
     PID_2MM_EC_AMMO: -20,
     PID_4_7MM_CASELESS: -10,
-    PID_9MM_AMMO: 0,
+    PID_9MM_AMMO: 0, //vanilla is 10
     PID_HN_NEEDLER_CARTRIDGE: 0,
     PID_HN_AP_NEEDLER_CARTRIDGE: -35, //vanilla is 0
     PID_7_62MM_AMMO: -20,
