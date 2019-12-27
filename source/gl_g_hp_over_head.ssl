@@ -4,7 +4,7 @@
 
 #define set_hp_over_head "hp_over_head"
 
-variable enabled;
+variable enabled, fog;
 variable old_mode := 0, new_mode;
 
 procedure clear_all_floats;
@@ -14,6 +14,9 @@ procedure update_hp begin
   ndebug("update_hp ping");
 
   foreach who in list_as_array(LIST_CRITTERS) begin
+    // if fog is enabled, display only for critter in LoS
+    if fog and not obj_can_see_obj(dude_obj, who) then continue;
+
     if is_dead(who) then continue;
     //float only nearby or party. Too many floats won't work
     if (not in_party(who)) and tile_distance_objs(dude_obj, who) > 30 then continue;
@@ -64,12 +67,13 @@ procedure start begin
   if game_loaded then begin
     enabled := fo2tweaks_setting(sec_main, set_hp_over_head);
     if enabled == 1 then begin
-      ndebug("initialized");
+      fog := get_ini_setting("f2_res.ini|MAPS|FOG_OF_WAR");
       register_hook_proc(HOOK_COMBATTURN, update_hp);
       register_hook_proc(HOOK_USEOBJ, update_hp);
       register_hook_proc(HOOK_USEOBJON, update_hp);
       register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
       register_hook_proc(HOOK_ONDEATH, clear_dead_float);
+      ndebug("initialized");
     end
   end else begin
     if enabled == 1 then begin
