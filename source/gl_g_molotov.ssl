@@ -74,9 +74,7 @@ procedure damage_hook begin
    Item    arg3 - The weapon used. (0 if unarmed)
 */
   variable weapon;
-  global_temp := get_sfall_arg;
-  global_temp := get_sfall_arg;
-  weapon := get_sfall_arg;
+  weapon := get_sfall_arg_at(2);
   if weapon and obj_pid(weapon) == PID_MOLOTOV_COCKTAIL then call set_attack_fire;
 end
 

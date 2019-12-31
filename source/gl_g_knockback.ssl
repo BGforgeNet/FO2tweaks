@@ -59,11 +59,7 @@ procedure combat_damage_hook begin
   attacker_damage := get_sfall_arg;
   target_flags := get_sfall_arg;
   attacker_flags := get_sfall_arg;
-  tmp := get_sfall_arg;
-  tmp := get_sfall_arg;
-  tmp := get_sfall_arg;
-  tmp := get_sfall_arg;
-  knockback := get_sfall_arg;
+  knockback := get_sfall_arg_at(10);
 
   if knockback > max_knockback then begin
     set_sfall_return(target_damage);
