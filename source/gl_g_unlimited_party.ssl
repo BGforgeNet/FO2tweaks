@@ -6,8 +6,6 @@
 #define set_unlimited_party_npc_pids "npc_pids"
 
 variable begin
-  old_mode := 0;
-  new_mode;
   party_members;
   potential_party_member_pids;
   mod_npc_pids;
@@ -80,10 +78,10 @@ procedure reset_state begin
 end
 
 procedure gamemode_handler begin
-  new_mode := get_game_mode;
+  variable old_mode := get_sfall_arg_at(1);
+  variable new_mode := get_game_mode;
   if mode_ended(DIALOG, old_mode, new_mode) then call reset_state;
   if mode_started(DIALOG, old_mode, new_mode) and obj_pid(dialog_obj) != PID_DOGMEAT then call allow_join(dialog_obj);
-  old_mode := new_mode;
 end
 
 procedure talk_handler begin // Dogmeat only

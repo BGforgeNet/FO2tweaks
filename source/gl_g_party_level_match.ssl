@@ -19,7 +19,6 @@ variable begin
   stage5_start;
   stage6_start;
   pid_maxstage;
-  old_mode, new_mode;
 end
 
 procedure levelup begin
@@ -76,9 +75,9 @@ procedure levelup begin
 end
 
 procedure gamemode_handler begin
-  new_mode := get_game_mode;
+  variable old_mode := get_sfall_arg_at(1);
+  variable new_mode := get_game_mode;
   if mode_ended(DIALOG, old_mode, new_mode) then call levelup;
-  old_mode := new_mode;
 end
 
 procedure start begin

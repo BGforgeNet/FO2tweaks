@@ -5,7 +5,6 @@
 #define set_hp_over_head "hp_over_head"
 
 variable enabled, fog;
-variable old_mode := 0, new_mode;
 
 procedure clear_all_floats;
 
@@ -35,7 +34,8 @@ procedure update_hp begin
 end
 
 procedure gamemode_handler begin
-  new_mode := get_game_mode;
+  varrable old_mode := get_sfall_arg_at(1);
+  variable new_mode := get_game_mode;
   if mode_ended(COMBAT, old_mode, new_mode) then begin
     ndebug("combat ended, clearing floats");
     call clear_all_floats;
@@ -46,7 +46,6 @@ procedure gamemode_handler begin
     call update_hp;
     set_global_script_repeat(12); // this is ugly, but I can't find a better solution
   end
-  old_mode := new_mode;
 end
 
 procedure clear_all_floats begin
