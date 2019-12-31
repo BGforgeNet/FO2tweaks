@@ -34,7 +34,7 @@ procedure update_hp begin
 end
 
 procedure gamemode_handler begin
-  varrable old_mode := get_sfall_arg_at(1);
+  variable old_mode := get_sfall_arg_at(1);
   variable new_mode := get_game_mode;
   if mode_ended(COMBAT, old_mode, new_mode) then begin
     ndebug("combat ended, clearing floats");
