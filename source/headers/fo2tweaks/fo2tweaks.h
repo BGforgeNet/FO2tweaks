@@ -98,6 +98,14 @@ procedure fo2tweaks_comsep_setting(variable section, variable setting) begin
   variable ar := load_comsep_ini_setting(fo2tweaks_ini, section, setting);
   return ar;
 end
+procedure fo2tweaks_comsep_setting_ints(variable section, variable setting) begin
+  variable a, ar2;
+  variable ar := load_comsep_ini_setting(fo2tweaks_ini, section, setting);
+  foreach a in ar begin
+    ar2 := array_push(ar2, atoi(a));
+  end
+  return ar2;
+end
 
 procedure in_party(variable obj) begin
   if is_in_array(obj, party_member_list_critters) then return true;
@@ -497,9 +505,6 @@ procedure get_ini_section_ints(variable file, variable section) begin
   foreach k: v in ar begin
     ndebug(k + " " + v);
     ar2[atoi(k)] := atoi(v);
-  end
-  foreach k: v in ar2 begin
-    ndebug(k + " " + v);
   end
   return ar2;
 end
