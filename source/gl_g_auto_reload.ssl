@@ -3,7 +3,6 @@
 #include "headers/party_orders/party_orders.h"
 
 #define set_auto_reload "auto_reload"
-variable old_game_mode := 0, new_game_mode;
 variable enabled;
 
 procedure auto_reload begin
@@ -17,24 +16,21 @@ procedure auto_reload begin
     caliber;
     magsize;
     who := dude_obj;
+    old_mode := get_sfall_arg_at(1);
+    new_mode := get_game_mode;
   end
 
-  new_game_mode := get_game_mode;
-  ndebug("old mode " + old_game_mode + ", new mode " + new_game_mode);
+  ndebug("old mode " + old_mode + ", new mode " + new_mode);
 
   if in_combat then begin //don't do anything in combat
     ndebug("in combat, pass");
-    old_game_mode := new_game_mode; //track current mode for next invocation
     return;
   end
 
-  if old_game_mode bwand COMBAT == 0 then begin //if not coming from combat mode then skip
+  if old_mode bwand COMBAT == 0 then begin //if not coming from combat mode then skip
     ndebug("not coming from combat, pass");
-    old_game_mode := new_game_mode;
     return;
   end
-
-  old_game_mode := new_game_mode;
 
   i := 1;
   for (i := 1; i <= 2; i++) begin //right, left hands
