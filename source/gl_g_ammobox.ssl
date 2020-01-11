@@ -32,9 +32,9 @@ end
 
 //combat start/stop
 procedure gamemode_hook begin
-  variable old_game_mode := get_sfall_arg_at(1);
-  variable new_game_mode := get_game_mode;
-  if (old_game_mode bwand COMBAT) != (new_game_mode bwand COMBAT) then begin
+  variable old_mode := get_sfall_arg_at(1);
+  variable new_mode := get_game_mode;
+  if (old_mode bwand COMBAT) != (new_mode bwand COMBAT) then begin
     call update_box(1);
     ndebug("update box - gamemode");
   end
