@@ -1,5 +1,10 @@
 ## Changelog
 
+* Version 11.2:
+  - More robust damage mod: make sure correct `ddraw.ini` settings are correct and ammo modifiers are not reset by other mods.
+  - If fog of war is enabled, don't display HP for critters in the fog.
+  - Minor optimizations.
+
 * Version 11.1:
   - Fixed knockback limit and no dropping items on death not working due to missing scripts.
   - Fixed quicksave/quickload shortcuts getting stuck.
