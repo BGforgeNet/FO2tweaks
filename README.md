@@ -3,14 +3,14 @@
 [![Translation status](https://tra.bgforge.net/widgets/fallout/-/fo2tweaks/svg-badge.svg)](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
 [![Build Status](https://travis-ci.org/BGforgeNet/FO2tweaks.svg?branch=master)](https://travis-ci.org/BGforgeNet/FO2tweaks)
 [![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![Discord chat](https://img.shields.io/discord/420268540700917760?logo=discord)](https://discord.gg/4Yqfggm)
 <a href="https://www.patreon.com/BGforge"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" width="100" alt="Support us on Patreon"></a>
 
 [__Download__](https://github.com/BGforgeNet/FO2tweaks/releases/latest)
- | [__Installation__](#installation)
- | [__Reporting issues__](#reporting-issues)
+ | [__Install__](#installation)
+ | [__Report issues__](#reporting-issues)
  | [__Forum__](https://forums.bgforge.net/viewforum.php?f=26)
- | [__Discord__](https://discord.gg/4Yqfggm)
- | [__Help translating__](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
+ | [__Translate__](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
 
 This is a collection of convenience tweaks, common sense changes, and cheats for Fallout 2.
 It is highly configurable, any component can be used with or without others. Some components also allow fine tuning.
