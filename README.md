@@ -94,7 +94,7 @@ Note:
 [Full list of changed settings](docs/speedup.md).
 
 In addition to that, you will probably want to set the following options in `fallout2.cfg`:
-```
+```ini
 [preferences]
 combat_speed=50
 player_speedup=1
