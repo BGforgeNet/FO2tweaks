@@ -9,7 +9,7 @@
 [__Download__](https://github.com/BGforgeNet/FO2tweaks/releases/latest)
  | [__Install__](#installation)
  | [__Report issues__](#reporting-issues)
- | [__Forum__](https://forums.bgforge.net/viewforum.php?f=26)
+ | [__Discuss__](https://forums.bgforge.net/viewforum.php?f=26)
  | [__Translate__](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
 
 This is a collection of convenience tweaks, common sense changes, and cheats for Fallout 2.
