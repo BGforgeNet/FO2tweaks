@@ -12,22 +12,22 @@ procedure update_hp begin
   variable who, cur_hp, max_hp, color, msg;
   ndebug("update_hp ping");
 
+  if not combat_is_initialized then return;
+
   foreach who in list_as_array(LIST_CRITTERS) begin
     // if fog is enabled, display only for critter in LoS
     if fog and not obj_can_see_obj(dude_obj, who) then continue;
 
     if is_dead(who) then continue;
+    if not obj_is_visible_flag(who) then continue;
     //float only nearby or party. Too many floats won't work
-    if (not in_party(who)) and tile_distance_objs(dude_obj, who) > 30 then continue;
+    if (not in_party(who)) and tile_distance_objs(dude_obj, who) > 25 then continue;
 
     color := FLOAT_MSG_RED;
     if in_party(who) then color := FLOAT_MSG_GREEN;
 
-    if combat_is_initialized then begin
-      cur_hp := get_critter_stat(who, STAT_current_hp);
-      msg := sprintf("%d", cur_hp);
-    end else msg := "";
-
+    cur_hp := get_critter_stat(who, STAT_current_hp);
+    msg := sprintf("%d", cur_hp);
     float_msg(who, msg, color);
   end
 
