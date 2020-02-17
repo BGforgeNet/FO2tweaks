@@ -16,10 +16,8 @@ bin_dir="$(realpath extra/bin)"
 mkdir -p "$cache_dir" "$bin_dir"
 
 # compile.exe, check cache
-if [[ ! -f "$cache_dir/$compile_exe" ]]; then
-  wget -q "$mpack_url" -O mpack.7z
-  7zr e mpack.7z "$mpack_compile"
-  mv -f "$compile_exe" "$cache_dir/"
-fi
+wget -q "$mpack_url" -O mpack.7z
+7zr e mpack.7z "$mpack_compile"
+mv -f "$compile_exe" "$cache_dir/"
 # copy
 cp -f "$cache_dir/$compile_exe" "$bin_dir/"
