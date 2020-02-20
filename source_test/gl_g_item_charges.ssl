@@ -14,10 +14,6 @@ procedure useobjon_handler;
 
 variable enabled, items;
 
-// procedure map_enter_p_proc begin
-//   if enabled then begin
-//   end
-// end
 
 procedure set_proto_charges(variable item_list) begin
   variable k, v;
