@@ -196,9 +196,9 @@ procedure update_dr_mod(variable dr_mod_list) begin
 end
 
 procedure fix_ammo_stats(variable pids) begin
-  variable pid, type, mult, div, dr_mod, cd;
+  variable pid, type, mult, divisor, dr_mod, cd; // div is now a keyword in sfall
   foreach pid in pids begin
-    div := 100;
+    divisor := 100;
 
     if not is_ammo_pid(pid) then begin //not ammo, how did it get here?
       ndebug("warning | item pid " + pid + " is not ammo");
@@ -208,12 +208,12 @@ procedure fix_ammo_stats(variable pids) begin
     dr_mod := get_proto_data(pid, PROTO_AM_DR_MOD);
     mult := 100 + dr_mod;
 
-    cd := gcd(div, mult);
-    div := div / cd;
+    cd := gcd(divisor, mult);
+    divisor := divisor / cd;
     mult := mult / cd;
 
     set_proto_data(pid, PROTO_AM_DMG_MULT, mult);
-    set_proto_data(pid, PROTO_AM_DMG_DIV, div);
+    set_proto_data(pid, PROTO_AM_DMG_DIV, divisor);
     ndebug("fixed stats for ammo pid " + pid);
   end
   ndebug("beautified ammo stats");
@@ -442,7 +442,7 @@ procedure damage_handler begin
     int     arg6  - The special effect flags for the attacker
     int     arg7  - The weapon used in the attack
     int     arg8  - The bodypart that was struck
-    int     arg9  - Damage Multiplier (this is divided by 2, so a value of 3 does 1.5x damage, and 8 does 4x damage. Usually it's 2, but with Silent Death perk and the corresponding attack conditions, it's 4; for critical hits, the value is taken from the critical table)
+    int     arg9  - Damage Multiplier (this is divisorided by 2, so a value of 3 does 1.5x damage, and 8 does 4x damage. Usually it's 2, but with Silent Death perk and the corresponding attack conditions, it's 4; for critical hits, the value is taken from the critical table)
     int     arg10 - Number of bullets actually hit the target (1 for melee attacks)
     int     arg11 - The amount of knockback to the target
     int     arg12 - Attack Type (see ATKTYPE_* constants)
