@@ -17,9 +17,9 @@ procedure mouseclick_hook;
 
 procedure start begin
   if game_loaded then begin
-    variable enabled := fo2tweaks_setting(sec_main, set_ammobox);
-    box_num := fo2tweaks_setting(sec_ammobox, set_ammobox_number);
-    box_color := fo2tweaks_setting(sec_ammobox, set_ammobox_color);
+    variable enabled = fo2tweaks_setting(sec_main, set_ammobox);
+    box_num = fo2tweaks_setting(sec_ammobox, set_ammobox_number);
+    box_color = fo2tweaks_setting(sec_ammobox, set_ammobox_color);
     if enabled == 1 then begin
       register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_hook);
       register_hook_proc(HOOK_KEYPRESS, keypress_hook);
@@ -32,8 +32,8 @@ end
 
 //combat start/stop
 procedure gamemode_hook begin
-  variable old_mode := get_sfall_arg_at(1);
-  variable new_mode := get_game_mode;
+  variable old_mode = get_sfall_arg_at(1);
+  variable new_mode = get_game_mode;
   if (old_mode bwand COMBAT) != (new_mode bwand COMBAT) then begin
     call update_box(1);
     ndebug("update box - gamemode");
@@ -42,8 +42,8 @@ end
 
 //keyboard B
 procedure keypress_hook begin
-  variable pressed := get_sfall_arg;
-  variable key := get_sfall_arg;
+  variable pressed = get_sfall_arg;
+  variable key = get_sfall_arg;
   if not in_combat then return;
   if not pressed then return;
   if hotkey_pressed_now(DIK_B, key) then begin
@@ -53,8 +53,8 @@ procedure keypress_hook begin
 end
 //middle mouse
 procedure mouseclick_hook begin
-  variable pressed := get_sfall_arg;
-  variable button := get_sfall_arg;
+  variable pressed = get_sfall_arg;
+  variable button = get_sfall_arg;
   if not in_combat then return;
   if not pressed then return;
   if button == MOUSE_BTN_MIDDLE then begin //middle
@@ -71,14 +71,14 @@ procedure update_box(variable show_new) begin
   if in_combat then begin
 
     if show_new == 1 then begin
-      ammo_pid := get_active_ammo_pid(dude_obj);
-      weapon := get_active_weapon(dude_obj);
+      ammo_pid = get_active_ammo_pid(dude_obj);
+      weapon = get_active_weapon(dude_obj);
     end else begin
-      ammo_pid := get_dude_inactive_ammo_pid;
-      weapon := get_dude_inactive_weapon;
+      ammo_pid = get_dude_inactive_ammo_pid;
+      weapon = get_dude_inactive_weapon;
     end
     if ammo_pid and is_gun(weapon) then begin
-      ammo_label := message_str_game(GAME_MSG_PRO_ITEM, ammo_pid * 100);
+      ammo_label = message_str_game(GAME_MSG_PRO_ITEM, ammo_pid * 100);
       set_iface_tag_text(box_num, ammo_label, box_color);
       if not is_iface_tag_active(box_num) then begin
         show_iface_tag(box_num);

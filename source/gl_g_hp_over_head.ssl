@@ -23,19 +23,19 @@ procedure update_hp begin
     //float only nearby or party. Too many floats won't work
     if (not in_party(who)) and tile_distance_objs(dude_obj, who) > 25 then continue;
 
-    color := FLOAT_MSG_RED;
-    if in_party(who) then color := FLOAT_MSG_GREEN;
+    color = FLOAT_MSG_RED;
+    if in_party(who) then color = FLOAT_MSG_GREEN;
 
-    cur_hp := get_critter_stat(who, STAT_current_hp);
-    msg := sprintf("%d", cur_hp);
+    cur_hp = get_critter_stat(who, STAT_current_hp);
+    msg = sprintf("%d", cur_hp);
     float_msg(who, msg, color);
   end
 
 end
 
 procedure gamemode_handler begin
-  variable old_mode := get_sfall_arg_at(1);
-  variable new_mode := get_game_mode;
+  variable old_mode = get_sfall_arg_at(1);
+  variable new_mode = get_game_mode;
   if mode_ended(COMBAT, old_mode, new_mode) then begin
     ndebug("combat ended, clearing floats");
     call clear_all_floats;
@@ -58,15 +58,15 @@ procedure clear_all_floats begin
 end
 
 procedure clear_dead_float begin
-  variable who := get_sfall_arg;
+  variable who = get_sfall_arg;
   float_msg(who, "", 0);
 end
 
 procedure start begin
   if game_loaded then begin
-    enabled := fo2tweaks_setting(sec_main, set_hp_over_head);
+    enabled = fo2tweaks_setting(sec_main, set_hp_over_head);
     if enabled == 1 then begin
-      fog := get_ini_setting("f2_res.ini|MAPS|FOG_OF_WAR");
+      fog = get_ini_setting("f2_res.ini|MAPS|FOG_OF_WAR");
       register_hook_proc(HOOK_COMBATTURN, update_hp);
       register_hook_proc(HOOK_USEOBJ, update_hp);
       register_hook_proc(HOOK_USEOBJON, update_hp);

@@ -12,7 +12,7 @@ variable townmap_key;
 
 procedure blowing_shitter begin
   if cur_map_index == MAP_MODOC_DOWNTHESHITTER and not shitter_has_blown then begin
-    variable msg := add_extra_msg_file("g_map_hotkey.msg");
+    variable msg = add_extra_msg_file("g_map_hotkey.msg");
     float_msg(dude_obj, message_str_game(msg,1), FLOAT_MSG_NORMAL);
     ndebug("blowing shitter, pass");
     return true;
@@ -21,8 +21,8 @@ procedure blowing_shitter begin
 end
 
 procedure keypress_hook_handler begin
-  variable pressed := get_sfall_arg;
-  variable key := get_sfall_arg;
+  variable pressed = get_sfall_arg;
+  variable key = get_sfall_arg;
   if not pressed then return; //released
   if get_game_mode then return; //non-zero mode
 
@@ -42,8 +42,8 @@ end
 
 procedure start begin
   if game_loaded then begin
-    worldmap_key := fo2tweaks_setting(sec_main, set_worldmap_key);
-    townmap_key := fo2tweaks_setting(sec_main, set_townmap_key);
+    worldmap_key = fo2tweaks_setting(sec_main, set_worldmap_key);
+    townmap_key = fo2tweaks_setting(sec_main, set_townmap_key);
     if worldmap_key or townmap_key then begin
       ndebug("initialized, worldmap key is " + worldmap_key + ", town map key is " + townmap_key);
       register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);

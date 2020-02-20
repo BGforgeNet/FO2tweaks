@@ -1,30 +1,39 @@
-//#include "headers/fo2tweaks/fo2tweaks.h"
-//#define SCRIPT_REALNAME "gl_g_reload_sound"
+  #define SCRIPT_REALNAME "gl_g_reload_sound"
+  #include "headers/fo2tweaks/fo2tweaks.h"
+  #include "headers/rp/modreact.h"
 
-procedure start begin
-  if game_loaded then begin
-    variable file, path := "sound\\sfx\\ib1p1xx1.acm";
-//    file := fs_copy(path, path);
-    // file := fs_create("sound\\sfx\\hmxxxxia.acm", 1);
-    // tmp := fs_write_int(file, 0);
-    // file := fs_create("sound\\sfx\\hmxxxxja.acm", 1);
-    // tmp := fs_write_int(file, 0);
-//    file := fs_copy("sound\\sfx\\hmxxxxia.acm", "sound\\sfx\\empty.acm"); // smg
-//    file := fs_copy("sound\\sfx\\empty.acm", "sound\\sfx\\hmxxxxia.acm"); // smg
-      //file := fs_copy("sound\\sfx\\empty.acm", "sound\\sfx\\ib1p1xx1.acm");
-      // file := fs_copy("sound\\sfx\\ib1p1xx1.acm", "sound\\sfx\\empty.acm");
-      // ndebug(file);
-    //   file := fs_copy("sound\\sfx\\ib1p1xx1.acm", "sound\\sfx\\ib1p1xx1.acm");
-    // ndebug("file is " + file);
-//    file := fs_copy(path, path); // smg
-//    fs_seek(file, 0);
-    //fs_write_int(file, 0);
 
-//    fs_resize(file, 0);
-  //  ndebug("file is " + file);
-  //  file := fs_copy("sound\\sfx\\hmxxxxja.acm", "sound\\sfx\\blank.acm"); // right
-  //  ndebug("file is " + file);
-    // file := fs_copy("sound\\sfx\\empty.acm", "sound\\sfx\\hmxxxxia.acm"); // smg
-    // file := fs_copy("sound\\sfx\\empty.acm", "sound\\sfx\\hmxxxxja.acm"); // right
+  procedure start begin
+    if game_loaded then begin
+      Karma_Perception = KARMA_PERCEPTION1;
+      display_msg(parse_str_2("%1%", check_general_rep, 0));
+      display_msg(parse_str_2("%1%", REACTION_BONUS_COMP_KARMA, 0));
+      display_msg(parse_str_2("%1%", REACTION_BONUS_COMP_KARMA/KARMA_MODIFIER, 0));
+      display_msg(parse_str_2("%1%", (-1*REACTION_BONUS_COMP_KARMA)/KARMA_MODIFIER, 0));
+      display_msg(parse_str_2("%1%", -1.0*REACTION_BONUS_COMP_KARMA/KARMA_MODIFIER, 0));
+
+  //    variable file, path = "sound\\sfx\\ib1p1xx1.acm";
+  //    file = fs_copy(path, path);
+      // file = fs_create("sound\\sfx\\hmxxxxia.acm", 1);
+      // tmp = fs_write_int(file, 0);
+      // file = fs_create("sound\\sfx\\hmxxxxja.acm", 1);
+      // tmp = fs_write_int(file, 0);
+  //    file = fs_copy("sound\\sfx\\hmxxxxia.acm", "sound\\sfx\\empty.acm"); // smg
+  //    file = fs_copy("sound\\sfx\\empty.acm", "sound\\sfx\\hmxxxxia.acm"); // smg
+        //file = fs_copy("sound\\sfx\\empty.acm", "sound\\sfx\\ib1p1xx1.acm");
+        // file = fs_copy("sound\\sfx\\ib1p1xx1.acm", "sound\\sfx\\empty.acm");
+        // ndebug(file);
+      //   file = fs_copy("sound\\sfx\\ib1p1xx1.acm", "sound\\sfx\\ib1p1xx1.acm");
+      // ndebug("file is " + file);
+  //    file = fs_copy(path, path); // smg
+  //    fs_seek(file, 0);
+      //fs_write_int(file, 0);
+
+  //    fs_resize(file, 0);
+    //  ndebug("file is " + file);
+    //  file = fs_copy("sound\\sfx\\hmxxxxja.acm", "sound\\sfx\\blank.acm"); // right
+    //  ndebug("file is " + file);
+      // file = fs_copy("sound\\sfx\\empty.acm", "sound\\sfx\\hmxxxxia.acm"); // smg
+      // file = fs_copy("sound\\sfx\\empty.acm", "sound\\sfx\\hmxxxxja.acm"); // right
+    end
   end
-end

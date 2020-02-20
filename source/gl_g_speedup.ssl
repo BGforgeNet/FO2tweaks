@@ -8,7 +8,7 @@ procedure set_settings begin
   set_ini_setting("f2_res.ini|OTHER_SETTINGS|FADE_TIME_MODIFIER", 0);
 
   set_ini_setting("ddraw.ini|Speed|SpeedMultiInitial", 115);
-  misc := {
+  misc = {
     "SpeedInterfaceCounterAnims": 3,
     "SpeedInventoryPCRotation": 880,
     "CombatPanelAnimDelay": 0,
@@ -28,7 +28,7 @@ end
 
 procedure start begin
   if game_loaded then begin
-    variable enabled := fo2tweaks_setting(sec_main, set_speedup);
+    variable enabled = fo2tweaks_setting(sec_main, set_speedup);
     if enabled == 1 then begin
       call set_settings;
       ndebug("initialized");

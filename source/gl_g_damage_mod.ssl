@@ -44,7 +44,7 @@
 #define is_bypassing_armor(flags) ((flags bwand DAM_BYPASS) != 0)
 
 variable begin
-  old_total := 0, new_total := 0;
+  old_total = 0, new_total := 0;
   ammo_pids;
   mod_ammo_pids;
   enabled;
@@ -69,32 +69,32 @@ procedure get_default_dr_mod_list;
 
 procedure start begin
   if game_loaded then begin
-    enabled := fo2tweaks_setting(sec_main, set_damage_mod);
+    enabled = fo2tweaks_setting(sec_main, set_damage_mod);
     if enabled == 1 then begin
       variable default_dr_mod_list, custom_dr_mod_list;
       call check_damage_formula;
       //custom DR values
-      default_dr_mod_list := get_default_dr_mod_list;
-      custom_dr_mod_list := get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_dr);
-      dr_mod_list := array_append(default_dr_mod_list, custom_dr_mod_list);
+      default_dr_mod_list = get_default_dr_mod_list;
+      custom_dr_mod_list = get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_dr);
+      dr_mod_list = array_append(default_dr_mod_list, custom_dr_mod_list);
       fix_array(dr_mod_list);
       ndebug("dr_mod_list length is " + len_array(dr_mod_list));
       call update_dr_mod(dr_mod_list);
 
       //cosmetic change
-      ammo_pids := f2_ammo_pids;
-      mod_ammo_pids := fo2tweaks_comsep_setting(sec_damage_mod, set_damage_mod_ammo_pids);
-      ammo_pids := array_append(ammo_pids, mod_ammo_pids);
+      ammo_pids = f2_ammo_pids;
+      mod_ammo_pids = fo2tweaks_comsep_setting(sec_damage_mod, set_damage_mod_ammo_pids);
+      ammo_pids = array_append(ammo_pids, mod_ammo_pids);
       fix_array(ammo_pids);
       call fix_ammo_stats(ammo_pids);
 
       //ammo types dealing alternative damage
-      type_ammo := get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_type);
-      ammo_damage := load_ammo_damage_type(type_ammo);
+      type_ammo = get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_type);
+      ammo_damage = load_ammo_damage_type(type_ammo);
       fix_array(ammo_damage);
 
-      party_scale_damage := fo2tweaks_setting(sec_damage_mod, set_damage_mod_party_scale_damage);
-      damage_difficulty := fo2tweaks_setting(sec_damage_mod, set_damage_mod_difficulty);
+      party_scale_damage = fo2tweaks_setting(sec_damage_mod, set_damage_mod_party_scale_damage);
+      damage_difficulty = fo2tweaks_setting(sec_damage_mod, set_damage_mod_difficulty);
 
       register_hook_proc(HOOK_COMBATDAMAGE, damage_handler);
       ndebug("initialized");
@@ -104,13 +104,13 @@ end
 
 procedure load_ammo_damage_type(variable type_ammo) begin
   variable k, v, pid, ar, tmp, t, dmg_type;
-  ar := temp_array_map;
+  ar = temp_array_map;
   foreach k: v in type_ammo begin
-    tmp := string_split(v, ",");
+    tmp = string_split(v, ",");
     foreach t in tmp begin
-      pid := atoi(t);
-      dmg_type := atoi(k);
-      ar[pid] := dmg_type;
+      pid = atoi(t);
+      dmg_type = atoi(k);
+      ar[pid] = dmg_type;
       ndebug("set ammo pid " + pid + " to do damage type " + dmg_type);
     end
   end
@@ -119,7 +119,7 @@ end
 
 procedure get_default_dr_mod_list begin
   variable mod_list;
-  mod_list := {
+  mod_list = {
     PID_EXPLOSIVE_ROCKET: 35, //vanilla is -25
     PID_10MM_JHP: 25,
     PID_10MM_AP: -25,
@@ -168,7 +168,7 @@ procedure map_enter_p_proc begin
 end
 
 procedure check_damage_formula begin
-  variable damage_formula := get_ini_setting("ddraw.ini|Misc|DamageFormula");
+  variable damage_formula = get_ini_setting("ddraw.ini|Misc|DamageFormula");
   if damage_formula != 0 then begin
     ndebug("Damage Formula set to, resetting" + damage_formula);
     set_ini_setting("ddraw.ini|Misc|DamageFormula", 0);
@@ -182,8 +182,8 @@ procedure update_dr_mod(variable dr_mod_list) begin
   variable pid, mod, type;
   foreach pid: mod in dr_mod_list begin
     //have to pass strings, as 0's can't be stored in a map
-    if typeof(pid) != VALTYPE_INT then pid := atoi(pid);
-    if typeof(mod) != VALTYPE_INT then mod := atoi(mod);
+    if typeof(pid) != VALTYPE_INT then pid = atoi(pid);
+    if typeof(mod) != VALTYPE_INT then mod = atoi(mod);
 
     if not is_ammo_pid(pid) then begin //not ammo, how did it get here?
       ndebug("warning | item pid " + pid + " is not ammo");
@@ -198,19 +198,19 @@ end
 procedure fix_ammo_stats(variable pids) begin
   variable pid, type, mult, divisor, dr_mod, cd; // div is now a keyword in sfall
   foreach pid in pids begin
-    divisor := 100;
+    divisor = 100;
 
     if not is_ammo_pid(pid) then begin //not ammo, how did it get here?
       ndebug("warning | item pid " + pid + " is not ammo");
       continue;
     end
 
-    dr_mod := get_proto_data(pid, PROTO_AM_DR_MOD);
-    mult := 100 + dr_mod;
+    dr_mod = get_proto_data(pid, PROTO_AM_DR_MOD);
+    mult = 100 + dr_mod;
 
-    cd := gcd(divisor, mult);
-    divisor := divisor / cd;
-    mult := mult / cd;
+    cd = gcd(divisor, mult);
+    divisor = divisor / cd;
+    mult = mult / cd;
 
     set_proto_data(pid, PROTO_AM_DMG_MULT, mult);
     set_proto_data(pid, PROTO_AM_DMG_DIV, divisor);
@@ -221,9 +221,9 @@ end
 
 // 1.2 damage has 20% chance to be rounded up to 2
 procedure round_chance(variable dmg) begin
-  variable base_dmg := floor2(dmg);
-  variable chance := (dmg - base_dmg)*100;
-  variable rnd := random(1, 100);
+  variable base_dmg = floor2(dmg);
+  variable chance = (dmg - base_dmg)*100;
+  variable rnd = random(1, 100);
   variable final_dmg;
 
   if dmg < 0 then begin
@@ -233,33 +233,33 @@ procedure round_chance(variable dmg) begin
 
   ndebug("dmg is " + dmg + ", chance to round up is " + chance + "%, rnd is " + rnd);
   if chance > rnd then begin
-    final_dmg := base_dmg + 1;
+    final_dmg = base_dmg + 1;
   end else begin
-    final_dmg := base_dmg;
+    final_dmg = base_dmg;
   end
   ndebug("rounded dmg is " + final_dmg);
   return final_dmg;
 end
 
 procedure get_critical_level(variable who) begin
-  variable level := random(0, 4);
-  if (who == dude_obj) and has_trait(TRAIT_PERK, who, PERK_better_criticals) then level := level + 1;
+  variable level = random(0, 4);
+  if (who == dude_obj) and has_trait(TRAIT_PERK, who, PERK_better_criticals) then level = level + 1;
   return level;
 end
 
 // returns [critical mult, critical effect flags]
 procedure get_critical_type(variable attacker, variable target) begin
-  variable mult := 2; //default
-  variable flags := 0; //default
-  variable chance := get_critter_stat(attacker, STAT_crit_chance);
-  variable rnd := random(0,100);
+  variable mult = 2; //default
+  variable flags = 0; //default
+  variable chance = get_critter_stat(attacker, STAT_crit_chance);
+  variable rnd = random(0,100);
   variable crit_level;
 
   if rnd > chance then return [mult/2.0, flags]; //not critical
 
-  crit_level := get_critical_level(attacker);
-  mult := get_critical_table(critter_kill_type(target), BODYPART_TORSO_UNCALLED, crit_level, CRITICAL_VALUE_TYPE_MULT);
-  flags := get_critical_table(critter_kill_type(target), BODYPART_TORSO_UNCALLED, crit_level, CRITICAL_VALUE_TYPE_EFFECTS);
+  crit_level = get_critical_level(attacker);
+  mult = get_critical_table(critter_kill_type(target), BODYPART_TORSO_UNCALLED, crit_level, CRITICAL_VALUE_TYPE_MULT);
+  flags = get_critical_table(critter_kill_type(target), BODYPART_TORSO_UNCALLED, crit_level, CRITICAL_VALUE_TYPE_EFFECTS);
   ndebug("critical level " + crit_level + ", critical mult " + mult + ", flags " + flags);
   return [mult/2.0, flags];
 end
@@ -267,7 +267,7 @@ end
 procedure get_bullet_damage(variable dmg_min, variable dmg_max, variable ranged_bonus, variable dt,
   variable ammo_mult, variable critical_mult, variable difficulty_mult, variable dr_mult)
 begin
-  variable rnd := random(dmg_min, dmg_max);
+  variable rnd = random(dmg_min, dmg_max);
 
   /* original formula
     ND = net damage value
@@ -282,17 +282,17 @@ begin
     CD = combat difficulty multiplier (Easy=75, Normal=100, Hard=125)
 
     ND = ( ((RD+RB)*(X*CM)/Y/2 * CD/100) - ADT) * ((100-(ADR+RM))/100 )
-    nd := ( ((rd + rb) * (x * cm) / y / 2.0 * (cd / 100.0) ) - adt) * ( (100.0 - (adr + rm)) / 100.0 ); // original
-    nd := ( ((rd + rb) * (1.0*x/y) * (cm/2.0) * (cd/100.0) ) - adt) * ( (100.0 - (adr + rm)) / 100.0 ); // original, ease of reading
+    nd = ( ((rd + rb) * (x * cm) / y / 2.0 * (cd / 100.0) ) - adt) * ( (100.0 - (adr + rm)) / 100.0 ); // original
+    nd = ( ((rd + rb) * (1.0*x/y) * (cm/2.0) * (cd/100.0) ) - adt) * ( (100.0 - (adr + rm)) / 100.0 ); // original, ease of reading
   */
 
   /* new formula: dt is subtracted first, then the rest is multiplied by corresponding miltipliers */
 
-  variable dmg := round_chance(1.0 * (rnd + ranged_bonus - dt) * ammo_mult * critical_mult * difficulty_mult * dr_mult);
+  variable dmg = round_chance(1.0 * (rnd + ranged_bonus - dt) * ammo_mult * critical_mult * difficulty_mult * dr_mult);
   ndebug("rnd " + rnd + " ranged_bonus " + ranged_bonus + " dt " + dt + " ammo_mult " + ammo_mult
         + " critical_mult " + critical_mult + " difficulty_mult " + difficulty_mult + " dr_mult " + dr_mult
         + ", dmg " + dmg);
-  if dmg < 0 then dmg := 0;
+  if dmg < 0 then dmg = 0;
   return dmg;
 end
 
@@ -302,27 +302,27 @@ procedure get_total_damage (
   variable ranged_bonus, variable ammo_mult, variable critical_mult, variable difficulty_mult,
   variable bullets_number, variable flags, variable penetrate)
 begin
-  variable total_damage := 0, bullet_damage := 0, i, critical_type, dr_dt,
+  variable total_damage = 0, bullet_damage := 0, i, critical_type, dr_dt,
   dr_mult, dt;
 
   //first bullet to hit keeps all the original mults
-  dr_dt := get_dr_dt(attacker, target, dmg_type, dr_mod, flags, penetrate);
-  dr_mult := dr_dt[0];
-  dt := dr_dt[1];
+  dr_dt = get_dr_dt(attacker, target, dmg_type, dr_mod, flags, penetrate);
+  dr_mult = dr_dt[0];
+  dt = dr_dt[1];
 
-  total_damage := get_bullet_damage(dmg_min, dmg_max, ranged_bonus, dt, ammo_mult, critical_mult, difficulty_mult, dr_mult);
+  total_damage = get_bullet_damage(dmg_min, dmg_max, ranged_bonus, dt, ammo_mult, critical_mult, difficulty_mult, dr_mult);
 
   //burst: consecutive bullets roll their own critical damage, including armor bypass, but excluding crippling effects
   if bullets_number > 1 then begin
-    for (i := 2; i <= bullets_number; i++) begin
-      critical_type := get_critical_type(attacker, target);
-      critical_mult := critical_type[0];
-      flags := critical_type[1];
-      dr_dt := get_dr_dt(attacker, target, dmg_type, dr_mod, flags, penetrate);
-      dr_mult := dr_dt[0];
-      dt := dr_dt[1];
+    for (i = 2; i <= bullets_number; i++) begin
+      critical_type = get_critical_type(attacker, target);
+      critical_mult = critical_type[0];
+      flags = critical_type[1];
+      dr_dt = get_dr_dt(attacker, target, dmg_type, dr_mod, flags, penetrate);
+      dr_mult = dr_dt[0];
+      dt = dr_dt[1];
 
-      bullet_damage := get_bullet_damage(dmg_min, dmg_max, ranged_bonus, dt, ammo_mult, critical_mult, difficulty_mult, dr_mult);
+      bullet_damage = get_bullet_damage(dmg_min, dmg_max, ranged_bonus, dt, ammo_mult, critical_mult, difficulty_mult, dr_mult);
       total_damage += bullet_damage;
     end
   end
@@ -333,7 +333,7 @@ begin
     and dmg_type == DMG_fire
   then begin
     ndebug("pyromaniac: +5 dmg");
-    total_damage := total_damage + 5;
+    total_damage = total_damage + 5;
   end
   //living anatomy
   if attacker == dude_obj
@@ -341,7 +341,7 @@ begin
     and critter_kill_type(target) != KILL_TYPE_robot_kills
   then begin
     ndebug("living anatomy: +5 dmg");
-    total_damage := total_damage + 5;
+    total_damage = total_damage + 5;
   end
 
   return total_damage;
@@ -352,29 +352,29 @@ procedure get_resist_defines(variable dmg_type) begin
 
   switch dmg_type begin
     case DMG_normal_dam:
-      cr_dr_type := STAT_dmg_resist;
-      cr_dt_type := STAT_dmg_thresh;
+      cr_dr_type = STAT_dmg_resist;
+      cr_dt_type = STAT_dmg_thresh;
     case DMG_laser:
-      cr_dr_type := STAT_dmg_resist_laser;
-      cr_dt_type := STAT_dmg_thresh_laser;
+      cr_dr_type = STAT_dmg_resist_laser;
+      cr_dt_type = STAT_dmg_thresh_laser;
     case DMG_fire:
-      cr_dr_type := STAT_dmg_resist_fire;
-      cr_dt_type := STAT_dmg_thresh_fire;
+      cr_dr_type = STAT_dmg_resist_fire;
+      cr_dt_type = STAT_dmg_thresh_fire;
     case DMG_plasma:
-      cr_dr_type := STAT_dmg_resist_plasma;
-      cr_dt_type := STAT_dmg_thresh_plasma;
+      cr_dr_type = STAT_dmg_resist_plasma;
+      cr_dt_type = STAT_dmg_thresh_plasma;
     case DMG_electrical:
-      cr_dr_type := STAT_dmg_resist_electrical;
-      cr_dt_type := STAT_dmg_thresh_electrical;
+      cr_dr_type = STAT_dmg_resist_electrical;
+      cr_dt_type = STAT_dmg_thresh_electrical;
     case DMG_emp:
-      cr_dr_type := STAT_dmg_resist_emp;
-      cr_dt_type := STAT_dmg_thresh_emp;
+      cr_dr_type = STAT_dmg_resist_emp;
+      cr_dt_type = STAT_dmg_thresh_emp;
     case DMG_explosion:
-      cr_dr_type := STAT_dmg_resist_explosion;
-      cr_dt_type := STAT_dmg_thresh_explosion;
+      cr_dr_type = STAT_dmg_resist_explosion;
+      cr_dt_type = STAT_dmg_thresh_explosion;
     default: //should never fire, but just in case
-      cr_dr_type := STAT_dmg_resist;
-      cr_dt_type := STAT_dmg_thresh;
+      cr_dr_type = STAT_dmg_resist;
+      cr_dt_type = STAT_dmg_thresh;
   end
 
   return [cr_dr_type, cr_dt_type];
@@ -387,40 +387,40 @@ begin
     resist_defines, dr_type, dt_type;
 
   //determine resits types
-  resist_defines := get_resist_defines(dmg_type);
-  dr_type := resist_defines[0];
-  dt_type := resist_defines[1];
+  resist_defines = get_resist_defines(dmg_type);
+  dr_type = resist_defines[0];
+  dt_type = resist_defines[1];
   ndebug("critter dr type is " + dr_type + ", dt type is " + dt_type);
 
   //get critter resists
-  target_dr := get_critter_stat(target, dr_type); //includes armor and drugs
-  target_dt := get_critter_stat(target, dt_type);
+  target_dr = get_critter_stat(target, dr_type); //includes armor and drugs
+  target_dt = get_critter_stat(target, dt_type);
 
   if attacker == dude_obj and has_trait(TRAIT_TRAIT, attacker, TRAIT_finesse) then begin
     ndebug("attacking with finesse, extra 30% to dr");
-    target_dr := target_dr + 30;
+    target_dr = target_dr + 30;
   end
   ndebug("target dr is " + target_dr + ", target_dt is " + target_dt);
 
-  if target_dr > 90 then target_dr := 90; //cap DR
+  if target_dr > 90 then target_dr = 90; //cap DR
   if is_bypassing_armor(target_flags) then begin //critical bypass armor
     ndebug("armor bypassing critical, reducing dt and dr by magnitude of 5");
-    target_dr := target_dr * 0.2;
-    target_dt := target_dt * 0.2;
+    target_dr = target_dr * 0.2;
+    target_dt = target_dt * 0.2;
   end else if penetrate then begin //weapon penetrate perk
     ndebug("weapon has penetrate perk, reducing dt by magnitude of 5");
-    target_dt := target_dt * 0.2;
+    target_dt = target_dt * 0.2;
   end
 
   ndebug("target dr is " + target_dr + ", dr_mod is " + dr_mod);
-  final_dr := 1.0 * target_dr * (100.0 + dr_mod) / 100.0;
+  final_dr = 1.0 * target_dr * (100.0 + dr_mod) / 100.0;
   ndebug("final dr is " + final_dr);
-  if final_dr < 0 then final_dr := 0;
-  if final_dr > 90 then final_dr := 90.0;
-  dr_mult := (100.0 - final_dr) / 100.0;
+  if final_dr < 0 then final_dr = 0;
+  if final_dr > 90 then final_dr = 90.0;
+  dr_mult = (100.0 - final_dr) / 100.0;
 
-  final_dt := target_dt * (100.0 + dr_mod) / 100.0;
-  if final_dt < 0 then final_dt := 0;
+  final_dt = target_dt * (100.0 + dr_mod) / 100.0;
+  if final_dt < 0 then final_dt = 0;
   ndebug("dr_mult is " + dr_mult);
   ndebug("final dt is " + final_dt);
 
@@ -454,20 +454,20 @@ procedure damage_handler begin
     int     ret5 - The amount of knockback to the target
   */
 
-  variable target := get_sfall_arg;
-  variable attacker := get_sfall_arg;
-  variable target_damage := get_sfall_arg;
-  variable attacker_damage := get_sfall_arg;
-  variable target_flags := get_sfall_arg;
-  variable attacker_flags := get_sfall_arg;
-  variable weapon := get_sfall_arg;
-  variable bodypart := get_sfall_arg;
-  variable damage_multiplier := get_sfall_arg;
-  variable bullets_number := get_sfall_arg;
-  variable knockback_distance := get_sfall_arg;
-  variable attack_type := get_sfall_arg;
+  variable target = get_sfall_arg;
+  variable attacker = get_sfall_arg;
+  variable target_damage = get_sfall_arg;
+  variable attacker_damage = get_sfall_arg;
+  variable target_flags = get_sfall_arg;
+  variable attacker_flags = get_sfall_arg;
+  variable weapon = get_sfall_arg;
+  variable bodypart = get_sfall_arg;
+  variable damage_multiplier = get_sfall_arg;
+  variable bullets_number = get_sfall_arg;
+  variable knockback_distance = get_sfall_arg;
+  variable attack_type = get_sfall_arg;
 
-  variable nd := 0, rd, ranged_bonus := 0, cm, dr_mod := 0, cd;
+  variable nd = 0, rd, ranged_bonus := 0, cm, dr_mod := 0, cd;
   variable begin
     dmg_type;
     cd_setting;
@@ -485,11 +485,11 @@ procedure damage_handler begin
 
   if weapon then begin
     ndebug("weapon name is " + obj_name(weapon));
-    weapon_pid := obj_pid(weapon);
-    dmg_min := get_proto_data(weapon_pid, PROTO_WP_DMG_MIN);
-    dmg_max := get_proto_data(weapon_pid, PROTO_WP_DMG_MAX);
+    weapon_pid = obj_pid(weapon);
+    dmg_min = get_proto_data(weapon_pid, PROTO_WP_DMG_MIN);
+    dmg_max = get_proto_data(weapon_pid, PROTO_WP_DMG_MAX);
     ndebug("dmg_minmax - " + dmg_min + ":" + dmg_max);
-    ammo_pid := get_active_ammo_pid(attacker);
+    ammo_pid = get_active_ammo_pid(attacker);
   end else begin //unarmed
     ndebug("unarmed attack, skipping");
     return;
@@ -508,48 +508,48 @@ procedure damage_handler begin
   // hook gets invoked twice when an explosion hits both attacker and target. Need to distinguish.
   if (attacker_flags bwand DAM_BACKWASH) != 0 then begin
     ndebug(obj_name(attacker) + " hurts self! Setting target to attacker, recalculating attacker self damage.");
-    target := attacker;
-    target_flags := attacker_flags; // this should work correctly, right?
+    target = attacker;
+    target_flags = attacker_flags; // this should work correctly, right?
   end
 
   //ranged_bonus - bonus ranged damage perk
-  ranged_bonus := 0;
+  ranged_bonus = 0;
   if attacker == dude_obj then begin
-    ranged_bonus := 2 * has_trait(TRAIT_PERK, dude_obj, PERK_bonus_ranged_damage);
+    ranged_bonus = 2 * has_trait(TRAIT_PERK, dude_obj, PERK_bonus_ranged_damage);
     ndebug("ranged bonus: added " + ranged_bonus + " damage");
   end
 
   //weapon penetrate perk
-  penetrate := false;
-  if get_proto_data(obj_pid(weapon), PROTO_WP_PERK) == PERK_weapon_penetrate then penetrate := true;
+  penetrate = false;
+  if get_proto_data(obj_pid(weapon), PROTO_WP_PERK) == PERK_weapon_penetrate then penetrate = true;
 
   //cm - critical hit multiplier, default 2
-  cm := damage_multiplier;
+  cm = damage_multiplier;
 
   //ammo: damage resistance mod
   if ammo_pid then begin
-    dr_mod := get_proto_data(ammo_pid, PROTO_AM_DR_MOD);
+    dr_mod = get_proto_data(ammo_pid, PROTO_AM_DR_MOD);
     ndebug("ammo dr mod is " + dr_mod);
   end else begin //solar scorcher
-    dr_mod := 0;
+    dr_mod = 0;
     ndebug("weapon has no ammo, no dr mod");
   end
 
-  dmg_type := get_real_damage_type(weapon);
+  dmg_type = get_real_damage_type(weapon);
   ndebug("damage type is " + dmg_type);
 
   //cd - combat difficulty  multiplier
-  if party_scale_damage and in_party(attacker) then cd := 100; //party, vanilla
+  if party_scale_damage and in_party(attacker) then cd = 100; //party, vanilla
   else begin
-    if damage_difficulty then cd := 75 + (damage_difficulty - 1) * 25; //all, decoupled
-    else cd := 75 + combat_difficulty * 25; //all, coupled
+    if damage_difficulty then cd = 75 + (damage_difficulty - 1) * 25; //all, decoupled
+    else cd = 75 + combat_difficulty * 25; //all, coupled
   end
 
-  difficulty_mult := cd / 100.0;
-  ammo_mult := (100 + dr_mod) / 100.0;
-  critical_mult := damage_multiplier / 2.0;
+  difficulty_mult = cd / 100.0;
+  ammo_mult = (100 + dr_mod) / 100.0;
+  critical_mult = damage_multiplier / 2.0;
 
-  nd := get_total_damage(attacker, target, dmg_type, dr_mod, dmg_min, dmg_max,
+  nd = get_total_damage(attacker, target, dmg_type, dr_mod, dmg_min, dmg_max,
     ranged_bonus, ammo_mult, critical_mult, difficulty_mult, bullets_number, target_flags, penetrate);
 
   ndebug("ranged_bonus " +  ranged_bonus + ", cm " +  cm + ", cd " +  cd + ", dmg_type " + dmg_type
@@ -579,8 +579,8 @@ procedure damage_handler begin
 end
 
 procedure get_real_damage_type(variable weapon) begin
-  variable ammo_pid := get_weapon_ammo_pid(weapon), type;
-  type := ammo_damage[ammo_pid];
+  variable ammo_pid = get_weapon_ammo_pid(weapon), type;
+  type = ammo_damage[ammo_pid];
   if type != 0 then begin
     ndebug("damage type changed to " + type);
     return type;

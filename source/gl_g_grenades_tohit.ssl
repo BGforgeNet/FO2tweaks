@@ -16,11 +16,11 @@ end
 
 procedure start begin
   if game_loaded then begin
-    variable enabled := fo2tweaks_setting(sec_main, set_grenades_chance);
+    variable enabled = fo2tweaks_setting(sec_main, set_grenades_chance);
     if enabled == 1 then begin
-      explosive_weapon_pids := fo2tweaks_comsep_setting(sec_grenades_chance, set_grenades_weapons);
+      explosive_weapon_pids = fo2tweaks_comsep_setting(sec_grenades_chance, set_grenades_weapons);
       fix_array(explosive_weapon_pids);
-      explosive_ammo_pids := fo2tweaks_comsep_setting(sec_grenades_chance, set_grenades_ammo);
+      explosive_ammo_pids = fo2tweaks_comsep_setting(sec_grenades_chance, set_grenades_ammo);
       fix_array(explosive_ammo_pids);
       register_hook_proc(HOOK_TOHIT, tohit_hook);
       ndebug("initialized");
@@ -31,28 +31,28 @@ end
 procedure tohit_hook begin
   variable tohit, attacker, target, weapon_pid, ammo_pid;
 
-  tohit := get_sfall_arg;
-  attacker := get_sfall_arg;
-  target := get_sfall_arg;
+  tohit = get_sfall_arg;
+  attacker = get_sfall_arg;
+  target = get_sfall_arg;
 
-  weapon_pid := get_active_weapon_pid(attacker);
+  weapon_pid = get_active_weapon_pid(attacker);
   if not weapon_pid then return; //no weapon
-  ammo_pid := get_active_ammo_pid(attacker); //explosive weapon with no ammo? hmmm...
+  ammo_pid = get_active_ammo_pid(attacker); //explosive weapon with no ammo? hmmm...
 
   //add target's armor ac to hit chance
   if is_in_array(weapon_pid, explosive_weapon_pids)
     or is_in_array(ammo_pid, explosive_ammo_pids)
   then begin
     variable armor, armor_ac;
-    armor := critter_inven_obj(target, INVEN_TYPE_WORN);
+    armor = critter_inven_obj(target, INVEN_TYPE_WORN);
     if armor and is_armor(armor) then begin
-      armor_ac := get_proto_data(obj_pid(armor), PROTO_AR_AC);
-      tohit := tohit + armor_ac;
+      armor_ac = get_proto_data(obj_pid(armor), PROTO_AR_AC);
+      tohit = tohit + armor_ac;
       ndebug("chance to hit increased by " + armor_ac);
 
       //cap chance
       if (tohit > 95) then begin
-        tohit := 95;
+        tohit = 95;
       end
       set_sfall_return(tohit);
       set_sfall_arg(0, tohit);

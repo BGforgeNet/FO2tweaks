@@ -1,19 +1,129 @@
 #define SCRIPT_REALNAME "gl_g_grenades_anywhere"
 
 #include "headers/fo2tweaks/fo2tweaks.h"
+procedure grenade_throwing_proc;
+variable weapon_check_once;
+
+procedure TargetObjectHandler;
+procedure ToHitHandler;
+procedure ExplosionHandler;
+procedure GameModeHandler;
+procedure DestroyTarget;
+
+/* Local variables which do not need to be saved between map changes */
+variable targetObject, only_once;
+variable pids;
 
 procedure start begin
   if game_loaded then begin
-    set_global_script_repeat(300);
-  end else begin
-    if in_combat then begin
-      if get_game_mode bwand PCOMBAT then begin
-        if get_active_weapon_pid(dude_obj) == PID_MOLOTOV_COCKTAIL then begin
-          if get_cursor_mode == CURSOR_TARGETING then begin
-            create_object(PID_SLAGGED_DOOR_BOTTOM, tile_under_cursor, elevation(dude_obj));
-          end
-        end
+    pids = fo2tweaks_comsep_setting("grenades_anywhere", "pids");
+    fix_array(pids);
+
+//    if (GetConfig("HexAttack", "Mode", 1)) then begin
+      register_hook_proc(HOOK_TARGETOBJECT, TargetObjectHandler);
+      register_hook_proc(HOOK_TOHIT, ToHitHandler);
+      register_hook_proc(HOOK_ONEXPLOSION, ExplosionHandler);
+      register_hook_proc(HOOK_GAMEMODECHANGE, GameModeHandler);
+      ndebug("initialized");
+//    end
+  end
+end
+
+procedure TargetObjectHandler begin
+  variable slot, attack_mode, attack_type, weapon, tile, object, list;
+  ndebug("hook targetobj");
+  if (get_cursor_mode == CURSOR_TARGETING) then begin
+    ndebug("targeting");
+    if (get_sfall_arg == 0) then begin // type
+      if (get_sfall_arg) then begin   // exit on valid target
+        ndebug("valid target");
+        if (targetObject) then call DestroyTarget;
+        return;
       end
+      slot = INVEN_TYPE_RIGHT_HAND if (active_hand) else INVEN_TYPE_LEFT_HAND;
+      weapon = critter_inven_obj(dude_obj, slot);
+      // get and check weapon mode
+      attack_mode = get_proto_data(obj_pid(weapon), PROTO_IT_FLAGS);
+      attack_type = get_attack_type;
+
+      if (attack_type == ATKTYPE_LWEP2) or (attack_type == ATKTYPE_RWEP2) then
+        attack_mode = (attack_mode bwand 0xF0) / 16; // shift by 4 bits to right
+      else
+        attack_mode = (attack_mode bwand 0x0F);
+
+      if not(is_in_array(obj_pid(weapon) bwand 0xFFFFFF, pids)) then begin
+        ndebug("not in array");
+        if (targetObject) then begin
+          ndebug("targetobj");
+          destroy_object(targetObject);
+          targetObject = 0;
+        end
+        return;
+      end
+
+      tile = tile_under_cursor;
+      if (tile == dude_tile or tile == -1) then return; // TODO: need fix bug explosion on dude tile
+      if (targetObject) then begin
+        ndebug("Replacement throwing target to: " + tile);
+        move_to(targetObject, tile, dude_elevation);
+      end
+      else begin
+        ndebug("Create throwing target at: " + tile);
+        // 0x500000C = scroll blocker
+        // 0x5000033 = new "ground" object
+        targetObject = create_object(0x5000033, tile, dude_elevation);
+        //targetObject = create_object(PID_GOLDEN_GECKO, tile, dude_elevation);
+      end
+      set_sfall_arg(1, 1); // set valid target
+      set_sfall_arg(2, targetObject);
+      set_sfall_return(targetObject);
+    end
+    else begin
+      only_once = true;
+      //if (get_sfall_arg) then return;
     end
   end
+  else if (targetObject) then begin
+    ndebug("destroy target");
+    call DestroyTarget;
+  end
+end
+
+procedure ToHitHandler begin
+   variable toHit = -40;
+   if (targetObject == 0) then return;
+   if (get_sfall_arg_at(2) == targetObject) then begin
+      ndebug("ToHitHandler");
+      toHit += get_sfall_arg + get_bodypart_hit_modifier(BODY_UNCALLED);
+      set_sfall_arg(0, toHit);
+      set_sfall_return(toHit);
+   end
+end
+
+#define _attacker    1
+#define _throw       6
+
+procedure ExplosionHandler begin
+variable object, list, tile;
+   if (only_once and targetObject and get_sfall_arg_at(_throw) and get_sfall_arg_at(_attacker) == dude_obj) then begin
+      ndebug("ExplosionHandler");
+      tile = tile_num(targetObject);
+      list = objects_in_radius(tile, random(4, 6), dude_elevation, 1);
+      foreach (object in list) begin
+        if (object != dude_obj) then set_object_data(object, OBJ_DATA_WHO_HIT_ME, dude_obj);
+      end
+      only_once = false;
+   end
+end
+
+procedure GameModeHandler begin
+  if (targetObject and get_game_mode != PCOMBAT) then begin
+    call DestroyTarget;
+  end
+end
+
+procedure DestroyTarget begin
+  ndebug("Destroy throwing target.");
+  destroy_object(targetObject);
+  targetObject = 0;
 end

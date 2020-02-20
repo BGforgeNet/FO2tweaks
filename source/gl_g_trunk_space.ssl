@@ -14,7 +14,7 @@ procedure start begin
 end
 
 procedure bloat_trunk begin
-  variable enabled := fo2tweaks_setting(sec_main, set_trunk_space);
+  variable enabled = fo2tweaks_setting(sec_main, set_trunk_space);
   if enabled == 1 then begin
     set_proto_data(PID_CAR_TRUNK, PROTO_CN_MAX_SIZE, 99999);
     ndebug("trunk space set to 99999");

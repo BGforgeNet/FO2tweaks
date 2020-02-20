@@ -16,17 +16,17 @@ procedure set_run_fps(variable model, variable new_fps);
 procedure start begin
 
   if game_loaded then begin
-    variable fs_override := check_filesystem_override;
-    enabled := fo2tweaks_setting(sec_main, set_run_speed);
+    variable fs_override = check_filesystem_override;
+    enabled = fo2tweaks_setting(sec_main, set_run_speed);
     if enabled and fs_override then begin
       variable frm, frms, fps, path;
-      variable dude := fo2tweaks_setting(sec_run_speed, set_run_speed_dude);
-      variable party := fo2tweaks_setting(sec_run_speed, set_run_speed_party);
+      variable dude = fo2tweaks_setting(sec_run_speed, set_run_speed_dude);
+      variable party = fo2tweaks_setting(sec_run_speed, set_run_speed_party);
       ndebug("initialized");
       if dude then begin
         ndebug("dude enabled");
-        fps := 20; // same as no armor fps
-        frms := [ // vanilla PC
+        fps = 20; // same as no armor fps
+        frms = [ // vanilla PC
           "hanpwr",
           "hapowr",
           "harobe",
@@ -44,12 +44,12 @@ procedure start begin
           "hmwarr"
         ];
         foreach frm in frms begin
-          path := "art\\critters\\" + frm;
+          path = "art\\critters\\" + frm;
           call set_run_fps(path, fps);
         end
 
 /* Not working. Maybe it doesn't need to work, and engine sees them as standard hfjmps?
-        frms := [ // hero appearance
+        frms = [ // hero appearance
           "art\\critters\\_hfjmps",
           "art\\critters\\_hflthr",
           "art\\critters\\_hfmaxx",
@@ -57,8 +57,8 @@ procedure start begin
           "art\\critters\\_hfprim"
         ];
         foreach frm in frms begin
-          //path := "appearance\\" + frm;
-          path := frm;
+          //path = "appearance\\" + frm;
+          path = frm;
           call set_run_fps(path, fps);
         end
 */
@@ -66,7 +66,7 @@ procedure start begin
 
       if party then begin
         ndebug("party enabled");
-        frms := [
+        frms = [
           // vanilla
           "macybr", //cyberdog, k-9
           "maddog", //dogmeat
@@ -82,7 +82,7 @@ procedure start begin
           "laghul"  //lenny RP new
         ];
         foreach frm in frms begin
-          path := "art\\critters\\" + frm;
+          path = "art\\critters\\" + frm;
           call set_run_fps(path, fps);
         end
 
@@ -96,12 +96,12 @@ end
 
 procedure set_run_fps(variable path, variable new_fps) begin
   variable file;
-  variable path_ab := path + "ab.frm";
-  variable path_at := path + "at.frm";
-  file := fs_copy(path_at, path_at);
+  variable path_ab = path + "ab.frm";
+  variable path_at = path + "at.frm";
+  file = fs_copy(path_at, path_at);
   if file == -1 then begin
     ndebug(path_at + " is missing, copying from " + path_ab);
-    file := fs_copy(path_at, path_ab);
+    file = fs_copy(path_at, path_ab);
   end
   if file == -1 then begin
     ndebug("warning: couldn't find or create " + path_at);

@@ -10,10 +10,10 @@ variable keymap;
 procedure start;
 
 procedure keypress_handler begin
-  variable pressed := get_sfall_arg, key := get_sfall_arg;
+  variable pressed = get_sfall_arg, key := get_sfall_arg;
   variable k, v, new_key;
 
-  new_key := scan_array(keymap, key);
+  new_key = scan_array(keymap, key);
 
   // Default save shortcuts: F4, F6. Any other shortcuts shouldn't be needed in savegame mode.
   if (get_game_mode bwand SAVEGAME) and not ( (new_key == DIK_F4) or (new_key == DIK_F6) ) then return;
@@ -35,13 +35,13 @@ end
 
 procedure start begin
   if game_loaded then begin
-    enabled := fo2tweaks_setting(sec_main, set_keymap);
+    enabled = fo2tweaks_setting(sec_main, set_keymap);
     if enabled == 1 then begin
-      variable tmp := get_ini_section(fo2tweaks_ini, sec_keymap);
+      variable tmp = get_ini_section(fo2tweaks_ini, sec_keymap);
       variable k, v;
-      keymap := temp_array_map;
+      keymap = temp_array_map;
       foreach k: v in tmp begin
-        keymap[atoi(v)] := atoi(k); // reversed for array check
+        keymap[atoi(v)] = atoi(k); // reversed for array check
         ndebug("remapped key code " + v + " to " + k);
       end
       fix_array(keymap);

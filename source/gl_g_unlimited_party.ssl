@@ -10,8 +10,8 @@ variable begin
   potential_party_member_pids;
   mod_npc_pids;
   dude_cha;
-  boosted := 0;
-  dropped := 0;
+  boosted = 0;
+  dropped = 0;
 end
 
 procedure start;
@@ -19,7 +19,7 @@ procedure gamemode_handler;
 
 procedure allow_join(variable cri) begin
   variable who;
-  party_members := party_member_list_critters;
+  party_members = party_member_list_critters;
   fix_array(party_members);
 
   ndebug("current party members:");
@@ -43,17 +43,17 @@ procedure allow_join(variable cri) begin
     if who != dude_obj then begin
       party_remove(who);
       ndebug("dropped " + obj_name(who) + " from party");
-      dropped := 1;
+      dropped = 1;
     end
   end
 
   //boost charisma
-  dude_cha := dude_charisma;
+  dude_cha = dude_charisma;
   ndebug("dude charisma is " + dude_cha);
   if dude_cha < 2 then begin
     set_critter_stat(dude_obj, STAT_ch, 2);
     ndebug("boosted charisma from " + dude_cha + " to 2");
-    boosted := 1;
+    boosted = 1;
   end
 
 end
@@ -64,7 +64,7 @@ procedure reset_state begin
   if boosted then begin
     set_critter_stat(dude_obj, STAT_ch, dude_cha);
     ndebug("reset charisma to " + dude_cha);
-    boosted := 0;
+    boosted = 0;
   end
   if dropped then begin
     foreach who in party_members begin
@@ -73,21 +73,21 @@ procedure reset_state begin
         ndebug("added " + obj_name(who) + " back to party");
       end
     end
-    dropped := 0;
+    dropped = 0;
   end
 end
 
 procedure gamemode_handler begin
-  variable old_mode := get_sfall_arg_at(1);
-  variable new_mode := get_game_mode;
+  variable old_mode = get_sfall_arg_at(1);
+  variable new_mode = get_game_mode;
   if mode_ended(DIALOG, old_mode, new_mode) then call reset_state;
   if mode_started(DIALOG, old_mode, new_mode) and obj_pid(dialog_obj) != PID_DOGMEAT then call allow_join(dialog_obj);
 end
 
 procedure talk_handler begin // Dogmeat only
-  variable proc := get_sfall_arg;
-  variable self := get_sfall_arg;
-  variable armor := critter_inven_obj(dude_obj, INVEN_TYPE_WORN);
+  variable proc = get_sfall_arg;
+  variable self = get_sfall_arg;
+  variable armor = critter_inven_obj(dude_obj, INVEN_TYPE_WORN);
   if proc == talk_proc
     and obj_pid(self) == PID_DOGMEAT
     and not armor
@@ -96,11 +96,11 @@ end
 
 procedure start begin
   if game_loaded then begin
-    variable enabled := fo2tweaks_setting(sec_main, set_unlimited_party);
+    variable enabled = fo2tweaks_setting(sec_main, set_unlimited_party);
     if enabled == 1 then begin
-      potential_party_member_pids := f2rp_party_member_pids;
-      mod_npc_pids := fo2tweaks_comsep_setting(sec_unlimited_party, set_unlimited_party_npc_pids);
-      potential_party_member_pids := array_append(potential_party_member_pids, mod_npc_pids);
+      potential_party_member_pids = f2rp_party_member_pids;
+      mod_npc_pids = fo2tweaks_comsep_setting(sec_unlimited_party, set_unlimited_party_npc_pids);
+      potential_party_member_pids = array_append(potential_party_member_pids, mod_npc_pids);
       fix_array(potential_party_member_pids);
       register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
       register_hook_proc(HOOK_STDPROCEDURE, talk_handler); //specifically for Dogmeat, who checks party limit outside of dialog mode

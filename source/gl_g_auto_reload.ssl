@@ -8,16 +8,16 @@ variable enabled;
 procedure auto_reload begin
   variable begin
     i;
-    weapon := 0;
-    ammopid := 0;
+    weapon = 0;
+    ammopid = 0;
     list;
     item;
     ammo;
     caliber;
     magsize;
-    who := dude_obj;
-    old_mode := get_sfall_arg_at(1);
-    new_mode := get_game_mode;
+    who = dude_obj;
+    old_mode = get_sfall_arg_at(1);
+    new_mode = get_game_mode;
   end
 
   ndebug("old mode " + old_mode + ", new mode " + new_mode);
@@ -32,36 +32,36 @@ procedure auto_reload begin
     return;
   end
 
-  i := 1;
-  for (i := 1; i <= 2; i++) begin //right, left hands
-    weapon := critter_inven_obj2(who, i);
+  i = 1;
+  for (i = 1; i <= 2; i++) begin //right, left hands
+    weapon = critter_inven_obj2(who, i);
 
     if obj_pid(weapon) == PID_SOLAR_SCORCHER and get_light_level == 65536 then begin
       ndebug("solar scorcher: 100% light, reloading");
-      magsize := get_proto_data(obj_pid(weapon), PROTO_WP_MAG_SIZE);
+      magsize = get_proto_data(obj_pid(weapon), PROTO_WP_MAG_SIZE);
       set_weapon_ammo_count(weapon, magsize);
       continue;
     end
 
     if not weapon or not is_weapon(weapon) then continue;
-    ammopid := get_weapon_ammo_pid(weapon);
+    ammopid = get_weapon_ammo_pid(weapon);
     if ammopid == -1 then continue;
 
-    caliber := get_proto_data(obj_pid(weapon), PROTO_WP_CALIBER);
-    magsize := get_proto_data(obj_pid(weapon), PROTO_WP_MAG_SIZE);
+    caliber = get_proto_data(obj_pid(weapon), PROTO_WP_CALIBER);
+    magsize = get_proto_data(obj_pid(weapon), PROTO_WP_MAG_SIZE);
 
     ndebug("found weapon " + obj_name(weapon) + " with caliber " + caliber + ", ammo pid " + ammopid);
     ndebug("magsize is " + magsize + " ammo count " + get_weapon_ammo_count(weapon));
 
     if magsize > get_weapon_ammo_count(weapon) then begin
-      ammo := obj_carrying_pid_obj(who, ammopid);
+      ammo = obj_carrying_pid_obj(who, ammopid);
       if ammo then begin
         ndebug("found inven ammo pid " + ammopid);
         // first, unload existing ammo
         call inc_ammo_count(who, ammopid, get_weapon_ammo_count(weapon));
         // then, load new ammo
         set_weapon_ammo_pid(weapon, ammopid);
-        if (actual_ammo_count(who, ammo) < magsize) then magsize := actual_ammo_count(who, ammo);
+        if (actual_ammo_count(who, ammo) < magsize) then magsize = actual_ammo_count(who, ammo);
         set_weapon_ammo_count(weapon, magsize);
         call inc_ammo_count(who, ammopid, - magsize);
         reg_anim_clear(who);
@@ -74,7 +74,7 @@ end
 
 procedure start begin
   if game_loaded then begin
-    enabled := fo2tweaks_setting(sec_main, set_auto_reload);
+    enabled = fo2tweaks_setting(sec_main, set_auto_reload);
     if enabled == 1 then begin
       ndebug("initialized");
       register_hook_proc(HOOK_GAMEMODECHANGE, auto_reload);

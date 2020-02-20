@@ -12,7 +12,7 @@ variable armor_pids;
 variable item_pids;
 
 procedure apply_radon_damage(variable critter) begin
-  variable damage := random(1, 2);
+  variable damage = random(1, 2);
   critter_dmg(critter, damage, ( DMG_normal_dam BWOR DMG_NOANIMATE BWOR DMG_BYPASS_ARMOR ));
 end
 
@@ -20,8 +20,8 @@ procedure map_enter_p_proc begin
   if cur_map_index == MAP_BROKEN_HILLS2 then begin
     ndebug("initialized");
     set_global_script_repeat(10);
-    armor_pids := load_comsep_ini_setting(fo2tweaks_ini, sec_radon, set_radon_armor);
-    item_pids := load_comsep_ini_setting(fo2tweaks_ini, sec_radon, set_radon_items);
+    armor_pids = load_comsep_ini_setting(fo2tweaks_ini, sec_radon, set_radon_armor);
+    item_pids = load_comsep_ini_setting(fo2tweaks_ini, sec_radon, set_radon_items);
   end else begin
     ndebug("stopped");
     set_global_script_repeat(0);
@@ -32,7 +32,7 @@ procedure start begin
   variable g_bradon;
   ndebug("started");
   if elevation(dude_obj) == 2 then begin
-    g_bradon := get_sfall_global_int("g_bradon");
+    g_bradon = get_sfall_global_int("g_bradon");
     if g_bradon == 0 then begin
       ndebug("trying to cause damage");
       call CauseDamage;
@@ -42,12 +42,12 @@ procedure start begin
 end
 
 procedure has_protective_item(variable critter) begin
-  variable has_item := false;
+  variable has_item = false;
   variable pid;
   ndebug("checking for protective items");
   foreach pid in item_pids begin
     if obj_is_carrying_obj_pid(critter, pid) then begin
-      has_item := true;
+      has_item = true;
       break;
     end
   end
@@ -55,12 +55,12 @@ procedure has_protective_item(variable critter) begin
 end
 
 procedure is_wearing_protective_armor(variable critter) begin
-  variable is_wearing := false;
+  variable is_wearing = false;
   variable pid;
   ndebug("checking for protective gear");
   foreach pid in armor_pids begin
     if obj_pid(critter_inven_obj( critter, INVEN_TYPE_WORN )) == pid then begin
-      is_wearing := true;
+      is_wearing = true;
       break;
     end
   end
@@ -68,7 +68,7 @@ procedure is_wearing_protective_armor(variable critter) begin
 end
 
 procedure CauseDamage begin
-    variable damage := 0;
+    variable damage = 0;
     variable who;
     ndebug("looping through party");
   foreach who in party_member_list_critters begin

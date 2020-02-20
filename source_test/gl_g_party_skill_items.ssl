@@ -9,19 +9,19 @@ procedure skill_handler;
 variable enabled;
 
 procedure skill_handler begin
-  variable user := get_sfall_arg;
-  variable target := get_sfall_arg;
-  variable skill := get_sfall_arg;
-  variable skill_bonus := get_sfall_arg;
-  variable skill_level := critter_skill_level(user, skill);
+  variable user = get_sfall_arg;
+  variable target = get_sfall_arg;
+  variable skill = get_sfall_arg;
+  variable skill_bonus = get_sfall_arg;
+  variable skill_level = critter_skill_level(user, skill);
   variable item;
-  variable skill_points := get_critter_skill_points(user, skill);
+  variable skill_points = get_critter_skill_points(user, skill);
   ndebug("user is " + obj_name(user) + ", target is " + obj_name(target)
     + ", skill is " + skill + ", skill level is " + skill_level + ", bonus is " + skill_bonus
     + ", skill points is " + skill_points);
 
   if skill == SKILL_REPAIR then begin
-    item := create_object(PID_SUPER_TOOL_KIT, 0, 0);
+    item = create_object(PID_SUPER_TOOL_KIT, 0, 0);
     add_obj_to_inven(user, item);
     call use_obj_on_obj2(user, item, target);
   end
@@ -30,7 +30,7 @@ end
 
 procedure start begin
   if game_loaded then begin
-   enabled := fo2tweaks_setting(sec_main, set_party_skill_items);
+   enabled = fo2tweaks_setting(sec_main, set_party_skill_items);
     if enabled == 1 then begin
       register_hook_proc(HOOK_USESKILL, skill_handler);
       ndebug("initialized");

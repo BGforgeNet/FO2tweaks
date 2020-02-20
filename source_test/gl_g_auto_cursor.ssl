@@ -2,31 +2,31 @@
 
 #include "headers/fo2tweaks/fo2tweaks.h"
 
-variable old_tile := 0;
+variable old_tile = 0;
 
 procedure start;
 
 procedure get_south_tile(variable tile) begin
   variable tile_south;
-  variable tile_southeast := tile_num_in_direction(tile, TILE_DIRECTION_SE, 1);
+  variable tile_southeast = tile_num_in_direction(tile, TILE_DIRECTION_SE, 1);
   ndebug("tile is " + tile + ", tile_se is " + tile_southeast);
-  tile_south := tile_num_in_direction(tile_southeast, TILE_DIRECTION_SW, 1);
+  tile_south = tile_num_in_direction(tile_southeast, TILE_DIRECTION_SW, 1);
   ndebug("tile_south is " + tile_south);
   return tile_south;
 end
 
 procedure tile_has_critters(variable tile) begin
   variable o;
-  variable elev := elevation(dude_obj);
-  variable objects := tile_get_objs(tile, elev);
-  variable has_critters := false;
-  variable num_objects := 0;
+  variable elev = elevation(dude_obj);
+  variable objects = tile_get_objs(tile, elev);
+  variable has_critters = false;
+  variable num_objects = 0;
 
   foreach o in objects begin
     if obj_pid(o) != -1 then begin
       num_objects++;
       ndebug("tile " + tile + ", pid " + obj_pid(o) + ", name " + obj_name(o));
-      if is_critter(o) then has_critters := true;
+      if is_critter(o) then has_critters = true;
     end
   end
   ndebug("tile " + tile + " total number of objects: " + num_objects);
@@ -35,13 +35,13 @@ procedure tile_has_critters(variable tile) begin
 end
 
 procedure update_cursor begin
-//  variable current_tile := tile_under_cursor;
-//  variable tile_south := get_south_tile(current_tile);
-  //variable tile_south2 := get_south_tile(tile_south);
+//  variable current_tile = tile_under_cursor;
+//  variable tile_south = get_south_tile(current_tile);
+  //variable tile_south2 = get_south_tile(tile_south);
 
 
   if in_combat then begin
-    variable obj := call_offset_r3(0x44CEC4, 1, 1, elevation(dude_obj));
+    variable obj = call_offset_r3(0x44CEC4, 1, 1, elevation(dude_obj));
 
     if obj and is_critter(obj) and not is_dead(obj) then begin
       ndebug("obj is " + obj_name(obj));
@@ -74,11 +74,11 @@ procedure start begin
     set_global_script_repeat(10);
     register_hook_proc(34, desc_handler);
   end else begin
-    variable new_tile := tile_under_cursor;
+    variable new_tile = tile_under_cursor;
     if new_tile != old_tile then begin
       ndebug("tile changed, old tile " + old_tile + " new tile " + new_tile);
       call update_cursor;
-      old_tile := new_tile;
+      old_tile = new_tile;
     end
   end
 end

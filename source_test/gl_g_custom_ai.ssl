@@ -9,13 +9,13 @@ procedure start;
 procedure start begin
 
   if game_loaded then begin
-    variable fs_override := check_filesystem_override;
-//    enabled := fo2tweaks_setting(sec_main, set_run_speed);
-    variable enabled := true;
+    variable fs_override = check_filesystem_override;
+//    enabled = fo2tweaks_setting(sec_main, set_run_speed);
+    variable enabled = true;
     if enabled and fs_override then begin
-      variable old_party := "data\\party.txt";
-      variable new_party := "data\\custom_party.txt";
-      variable file := fs_copy(new_party, old_party);
+      variable old_party = "data\\party.txt";
+      variable new_party = "data\\custom_party.txt";
+      variable file = fs_copy(new_party, old_party);
       ndebug("file is " + file);
       ndebug("initialized");
     end

@@ -6,11 +6,11 @@
 variable min_light_level;
 
 procedure lightning_handler begin
-  variable obj := get_sfall_arg;
-  variable light_level := get_sfall_arg;
+  variable obj = get_sfall_arg;
+  variable light_level = get_sfall_arg;
   variable pct_ll;
   if (obj == -1) then begin //map
-    pct_ll := light_level_abs_to_pct(light_level);
+    pct_ll = light_level_abs_to_pct(light_level);
     if pct_ll < min_light_level then begin
       ndebug("light level too low, increasing to " + min_light_level);
       set_sfall_return(light_level_pct_to_abs(min_light_level));
@@ -24,7 +24,7 @@ end
 
 procedure start begin
   if game_loaded then begin
-    min_light_level := fo2tweaks_setting(sec_main, set_min_light_level);
+    min_light_level = fo2tweaks_setting(sec_main, set_min_light_level);
     if set_min_light_level then begin
       register_hook_proc(HOOK_SETLIGHTING, lightning_handler);
       ndebug("initialized");

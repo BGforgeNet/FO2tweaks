@@ -85,7 +85,7 @@ variable begin
 end
 
 procedure is_stairs(variable scenery_obj) begin
-  variable type := get_proto_data(obj_pid(scenery_obj), PRODATA_SC_TYPE);
+  variable type = get_proto_data(obj_pid(scenery_obj), PRODATA_SC_TYPE);
   if type == SC_TYPE_STAIRS
     or type == SC_TYPE_LADDER_BOTTOM
     or type == SC_TYPE_LADDER_TOP
@@ -94,7 +94,7 @@ procedure is_stairs(variable scenery_obj) begin
 end
 
 procedure get_color(variable obj) begin
-  variable color := OUTLINE_NONE;
+  variable color = OUTLINE_NONE;
 
   if not obj then begin
     ndebug("skipping, not an object");
@@ -128,7 +128,7 @@ procedure get_color(variable obj) begin
 
       //don't change critter outline in combat
       if in_combat and get_cursor_mode == CURSOR_TARGETING then begin
-        variable current_outline := get_outline(obj);
+        variable current_outline = get_outline(obj);
         if current_outline != OUTLINE_NONE then begin
           ndebug("already outlined, keeping color");
           return current_outline;
@@ -173,25 +173,25 @@ procedure get_color(variable obj) begin
 end
 
 procedure enable_highlight begin
-  variable obj, color := OUTLINE_NONE;
+  variable obj, color = OUTLINE_NONE;
 
   if color_items or color_containers or color_containers_locked then begin
     foreach obj in list_as_array(LIST_GROUNDITEMS) begin
-      color := get_color(obj);
+      color = get_color(obj);
       if color != OUTLINE_NONE then set_outline(obj, color);
     end
   end
 
   if color_corpses or color_critters then begin
     foreach obj in list_as_array(LIST_CRITTERS) begin
-      color := get_color(obj);
+      color = get_color(obj);
       if color != OUTLINE_NONE then set_outline(obj, color);
     end
   end
 
   if color_traps or color_doors_locked or color_transitions then begin
     foreach obj in list_as_array(LIST_SCENERY) begin
-      color := get_color(obj);
+      color = get_color(obj);
       //ndebug("item is " + obj_name(obj) + ", pid is " + obj_pid(obj) + ", color is " + color);
       if color != OUTLINE_NONE then set_outline(obj, color);
     end
@@ -229,8 +229,8 @@ procedure reset_highlight begin
 end
 
 procedure keypress_handler begin
-  variable pressed := get_sfall_arg,
-        key := get_sfall_arg,
+  variable pressed = get_sfall_arg,
+        key = get_sfall_arg,
         scanner, charges;
 
   if key != highlight_key then return;
@@ -242,14 +242,14 @@ procedure keypress_handler begin
 
   if not in_loot_mode then begin
     if motion_scanner then begin
-      scanner := obj_carrying_pid_obj(dude_obj, PID_MOTION_SENSOR);
+      scanner = obj_carrying_pid_obj(dude_obj, PID_MOTION_SENSOR);
       if not scanner then begin
         display_msg(msg_no_sensor);
         return;
       end
 
       if motion_scanner >= 2 then begin
-        charges := get_weapon_ammo_count(scanner);
+        charges = get_weapon_ammo_count(scanner);
         if not charges > 0 then begin
           display_msg(msg_sensor_no_charges);
           return;
@@ -265,33 +265,33 @@ end
 
 procedure start begin
   if game_loaded then begin
-    variable enabled := fo2tweaks_setting(sec_main, set_highlight);
+    variable enabled = fo2tweaks_setting(sec_main, set_highlight);
     if enabled == 1 then begin
       variable i;
       ndebug("initialized");
-      highlight_key := fo2tweaks_setting(sec_highlight, set_highlight_key);
-      check_los := fo2tweaks_setting(sec_highlight, set_highlight_check_los);
-      motion_scanner := fo2tweaks_setting(sec_highlight, set_highlight_motion_scanner);
-      ignore_nohighlight := fo2tweaks_setting(sec_highlight, set_highlight_ignore_nohighlight);
+      highlight_key = fo2tweaks_setting(sec_highlight, set_highlight_key);
+      check_los = fo2tweaks_setting(sec_highlight, set_highlight_check_los);
+      motion_scanner = fo2tweaks_setting(sec_highlight, set_highlight_motion_scanner);
+      ignore_nohighlight = fo2tweaks_setting(sec_highlight, set_highlight_ignore_nohighlight);
 
-      color_critters := fo2tweaks_setting(sec_highlight, set_highlight_color_critters);
-      color_hostile_critters := fo2tweaks_setting(sec_highlight, set_highlight_color_hostile_critters);
-      color_corpses := fo2tweaks_setting(sec_highlight, set_highlight_color_corpses);
-      color_containers := fo2tweaks_setting(sec_highlight, set_highlight_color_containers);
-      color_containers_locked := fo2tweaks_setting(sec_highlight, set_highlight_color_containers_locked);
-      color_traps := fo2tweaks_setting(sec_highlight, set_highlight_color_traps);
-      color_party := fo2tweaks_setting(sec_highlight, set_highlight_color_party);
-      color_dude := fo2tweaks_setting(sec_highlight, set_highlight_color_dude);
-      color_doors_locked := fo2tweaks_setting(sec_highlight, set_highlight_color_doors_locked);
-      color_items := fo2tweaks_setting(sec_highlight, set_highlight_color_items);
-      color_transitions := fo2tweaks_setting(sec_highlight, set_highlight_color_transitions);
-      skip_empty := fo2tweaks_setting(sec_highlight, set_highlight_skip_empty);
+      color_critters = fo2tweaks_setting(sec_highlight, set_highlight_color_critters);
+      color_hostile_critters = fo2tweaks_setting(sec_highlight, set_highlight_color_hostile_critters);
+      color_corpses = fo2tweaks_setting(sec_highlight, set_highlight_color_corpses);
+      color_containers = fo2tweaks_setting(sec_highlight, set_highlight_color_containers);
+      color_containers_locked = fo2tweaks_setting(sec_highlight, set_highlight_color_containers_locked);
+      color_traps = fo2tweaks_setting(sec_highlight, set_highlight_color_traps);
+      color_party = fo2tweaks_setting(sec_highlight, set_highlight_color_party);
+      color_dude = fo2tweaks_setting(sec_highlight, set_highlight_color_dude);
+      color_doors_locked = fo2tweaks_setting(sec_highlight, set_highlight_color_doors_locked);
+      color_items = fo2tweaks_setting(sec_highlight, set_highlight_color_items);
+      color_transitions = fo2tweaks_setting(sec_highlight, set_highlight_color_transitions);
+      skip_empty = fo2tweaks_setting(sec_highlight, set_highlight_skip_empty);
 
-      exclude_items := fo2tweaks_comsep_setting(sec_highlight, set_highlight_exclude_items);
+      exclude_items = fo2tweaks_comsep_setting(sec_highlight, set_highlight_exclude_items);
       fix_array(exclude_items);
-      pits := fo2tweaks_comsep_setting(sec_highlight, set_highlight_pits);
+      pits = fo2tweaks_comsep_setting(sec_highlight, set_highlight_pits);
       fix_array(pits);
-      transitions := fo2tweaks_comsep_setting(sec_highlight, set_highlight_transitions);
+      transitions = fo2tweaks_comsep_setting(sec_highlight, set_highlight_transitions);
       fix_array(transitions);
 
       register_hook_proc(HOOK_KEYPRESS, keypress_handler);

@@ -4,7 +4,7 @@
 
 #define set_carry_weight "carry_weight"
 procedure start begin
-  variable enabled := fo2tweaks_setting(sec_main, set_carry_weight);
+  variable enabled = fo2tweaks_setting(sec_main, set_carry_weight);
   if enabled == 1 then begin
     set_pc_stat_max(12, 99999);
     set_pc_extra_stat(12, 99999);

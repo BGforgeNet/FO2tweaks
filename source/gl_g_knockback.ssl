@@ -10,7 +10,7 @@ variable max_knockback;
 
 procedure start begin
   if game_loaded then begin
-    variable max_knockback := fo2tweaks_setting(sec_main, set_max_knockback);
+    variable max_knockback = fo2tweaks_setting(sec_main, set_max_knockback);
     if max_knockback then begin
       register_hook_proc(HOOK_COMBATDAMAGE, combat_damage_hook);
       ndebug("initialized");
@@ -53,13 +53,13 @@ procedure combat_damage_hook begin
   variable attacker_flags;
   variable knockback, tmp;
 
-  target := get_sfall_arg;
-  attacker := get_sfall_arg;
-  target_damage := get_sfall_arg;
-  attacker_damage := get_sfall_arg;
-  target_flags := get_sfall_arg;
-  attacker_flags := get_sfall_arg;
-  knockback := get_sfall_arg_at(10);
+  target = get_sfall_arg;
+  attacker = get_sfall_arg;
+  target_damage = get_sfall_arg;
+  attacker_damage = get_sfall_arg;
+  target_flags = get_sfall_arg;
+  attacker_flags = get_sfall_arg;
+  knockback = get_sfall_arg_at(10);
 
   if knockback > max_knockback then begin
     set_sfall_return(target_damage);

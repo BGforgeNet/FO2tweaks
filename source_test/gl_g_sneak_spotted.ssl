@@ -11,10 +11,10 @@ procedure start;
 procedure start begin
   variable stop;
   variable spotted_msg;
-    stop := fo2tweaks_setting(set_sneak_spotted, set_sneak_spotted_stop);
-    spotted_msg := fo2tweaks_string(set_sneak_spotted, set_sneak_spotted_msg);
+    stop = fo2tweaks_setting(set_sneak_spotted, set_sneak_spotted_stop);
+    spotted_msg = fo2tweaks_string(set_sneak_spotted, set_sneak_spotted_msg);
   if game_loaded then begin
-    variable enabled := fo2tweaks_setting(sec_main, set_sneak_spotted);
+    variable enabled = fo2tweaks_setting(sec_main, set_sneak_spotted);
     if enabled == 1 then begin
       set_global_script_repeat(60);
       ndebug("initialized");

@@ -29,8 +29,8 @@ end
 
 // procedure spend_charge(variable item) begin
 //   variable count, new_count;
-//   count := get_weapon_ammo_count(item);
-//   count := count - 1;
+//   count = get_weapon_ammo_count(item);
+//   count = count - 1;
 //   if count == 0 then begin
 //     ndebug(obj_name(item) + " is depleted, destroying");
 //     destroy_object(item);
@@ -43,21 +43,21 @@ end
 
 
 // procedure get_max_charges(variable pid) begin
-//   variable max_charges := 0;
+//   variable max_charges = 0;
 //   if doctor_items[pid] != 0 then begin
-//     max_charges := string_split(doctor_items[pid],",");
-//     max_charges := atoi(max_charges[1]);
+//     max_charges = string_split(doctor_items[pid],",");
+//     max_charges = atoi(max_charges[1]);
 //   end
 //   if fa_items[pid] != 0 then begin
-//     max_charges := string_split(fa_items[pid],",");
-//     max_charges := atoi(max_charges[1]);
+//     max_charges = string_split(fa_items[pid],",");
+//     max_charges = atoi(max_charges[1]);
 //   end
 //   return max_charges;
 // end
 
 procedure set_max_if_empty(variable obj) begin
-  variable pid := obj_pid(obj);
-  variable max_charges := items[pid];
+  variable pid = obj_pid(obj);
+  variable max_charges = items[pid];
   if max_charges != 0 then begin
     if get_weapon_ammo_count(obj) == 0 or get_weapon_ammo_count(obj) > max_charges then begin
       set_weapon_ammo_count(obj, max_charges);
@@ -78,14 +78,14 @@ procedure load_charges begin
   //add charges for items that are missing them
   foreach o in list_as_array(LIST_SCENERY) begin
     if not is_container(o) then continue;
-    inven := inven_as_array(o);
+    inven = inven_as_array(o);
     foreach i in inven begin
       call set_max_if_empty(i);
     end
   end
 
   foreach o in list_as_array(LIST_CRITTERS) begin
-    inven := inven_as_array(o);
+    inven = inven_as_array(o);
     foreach i in inven begin
       call set_max_if_empty(i);
     end
@@ -96,20 +96,20 @@ end
 
 procedure useskillon_handler begin
   variable
-    target := get_sfall_arg,
-    user := get_sfall_arg,
-    skill := get_sfall_arg;
+    target = get_sfall_arg,
+    user = get_sfall_arg,
+    skill = get_sfall_arg;
   variable item, iname;
-  item := obj_being_used_with;
-  iname := obj_name(item);
+  item = obj_being_used_with;
+  iname = obj_name(item);
   ndebug("skill being used: " + skill + ", item: " + iname);
 end
 
 procedure start begin
   if game_loaded then begin
-    enabled := fo2tweaks_setting(sec_main, set_item_charges);
+    enabled = fo2tweaks_setting(sec_main, set_item_charges);
     if enabled == 1 then begin
-      items := get_ini_section_ints(fo2tweaks_ini, set_item_charges);
+      items = get_ini_section_ints(fo2tweaks_ini, set_item_charges);
       fix_array(items);
 
       register_hook_proc(HOOK_USEOBJON, useobjon_handler);
@@ -124,22 +124,22 @@ end
 
 procedure useobjon_handler begin
   variable
-    target := get_sfall_arg,
-    user := get_sfall_arg,
-    obj := get_sfall_arg,
-    pid := obj_pid(obj), charges, ret := -1;
+    target = get_sfall_arg,
+    user = get_sfall_arg,
+    obj = get_sfall_arg,
+    pid = obj_pid(obj), charges, ret := -1;
 
   if items[pid] != 0 then begin
     //have to spend charges separately because destroying object in the hook crashes the game
-    charges := get_weapon_ammo_count(obj);
+    charges = get_weapon_ammo_count(obj);
     if charges == 1 then begin
       ndebug(obj_name(obj) + " is depleted, destroying");
-      ret := 1; //destroy
+      ret = 1; //destroy
     end else begin
-      charges := charges - 1;
+      charges = charges - 1;
       set_weapon_ammo_count(obj, charges);
       ndebug("reduced " + obj_name(obj) + " charges to " + charges);
-      ret := 0;
+      ret = 0;
     end
     ndebug("useobjon:" + ret);
     set_sfall_return(ret);
