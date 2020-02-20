@@ -24,7 +24,7 @@ end
 procedure start begin
   if game_loaded then begin
     enabled = fo2tweaks_setting(sec_main, set_molotov_fire);
-    if enabled then begin
+    if enabled == 1 then begin
       flameboy = fo2tweaks_setting(sec_molotov_fire, set_molotov_flameboy);
       call set_molotov_stats;
       register_hook_proc(HOOK_AFTERHITROLL, afterhit_hook);
@@ -35,7 +35,7 @@ procedure start begin
 end
 
 procedure map_enter_p_proc begin
-  if enabled then call set_molotov_stats;
+  if enabled == 1 then call set_molotov_stats;
 end
 
 

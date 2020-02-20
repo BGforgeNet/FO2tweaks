@@ -30,7 +30,7 @@ procedure levelup begin
     party_names,
     expected_stage;
 
-  if enabled and true_party_size > 0 then begin
+  if enabled == 1 and true_party_size > 0 then begin
     variable who;
     pc_level = get_pc_stat(PCSTAT_level);
 
@@ -83,7 +83,7 @@ end
 procedure start begin
   if game_loaded then begin
     enabled = fo2tweaks_setting(sec_main, set_party_level_match);
-    if enabled then begin
+    if enabled == 1 then begin
       variable  tmp;
       fin_level = fo2tweaks_setting(sec_party_level_match, set_party_finlevel);
       stage3_start = fo2tweaks_setting(sec_party_level_match, set_party_3stages_start);

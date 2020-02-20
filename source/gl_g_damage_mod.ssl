@@ -160,7 +160,7 @@ procedure get_default_dr_mod_list begin
 end
 
 procedure map_enter_p_proc begin
-  if enabled then begin
+  if enabled == 1 then begin
     call check_damage_formula;
     call update_dr_mod(dr_mod_list);
     call fix_ammo_stats(ammo_pids);

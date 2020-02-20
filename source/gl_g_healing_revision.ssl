@@ -294,7 +294,7 @@ procedure travel_handler begin
 end
 
 procedure map_enter_p_proc begin
-  if enabled then begin
+  if enabled == 1 then begin
     ndebug("living_anatomy_min_doctor="+living_anatomy_min_doctor);
     if living_anatomy_min_doctor < 300 then begin
       if critter_skill_level(dude_obj, SKILL_DOCTOR) >= living_anatomy_min_doctor
