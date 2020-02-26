@@ -123,7 +123,7 @@ procedure useobjon_handler begin
     target = get_sfall_arg,
     user = get_sfall_arg,
     obj = get_sfall_arg,
-    pid = obj_pid(obj), charges, ret := -1;
+    pid = obj_pid(obj), charges, ret = -1;
 
   if items[pid] != 0 then begin
     //have to spend charges separately because destroying object in the hook crashes the game

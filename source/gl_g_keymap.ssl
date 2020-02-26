@@ -10,7 +10,7 @@ variable keymap;
 procedure start;
 
 procedure keypress_handler begin
-  variable pressed = get_sfall_arg, key := get_sfall_arg;
+  variable pressed = get_sfall_arg, key = get_sfall_arg;
   variable k, v, new_key;
 
   new_key = scan_array(keymap, key);

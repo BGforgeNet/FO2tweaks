@@ -10,7 +10,7 @@ procedure afterhit_hook;
 procedure damage_hook;
 procedure set_attack_fire;
 
-variable enabled = 0, flameboy := 0;
+variable enabled = 0, flameboy = 0;
 
 procedure set_molotov_stats begin
   set_proto_data(PID_MOLOTOV_COCKTAIL, PROTO_WP_DMG_TYPE, DMG_fire);

@@ -44,7 +44,7 @@
 #define is_bypassing_armor(flags) ((flags bwand DAM_BYPASS) != 0)
 
 variable begin
-  old_total = 0, new_total := 0;
+  old_total = 0, new_total = 0;
   ammo_pids;
   mod_ammo_pids;
   enabled;
@@ -302,7 +302,7 @@ procedure get_total_damage (
   variable ranged_bonus, variable ammo_mult, variable critical_mult, variable difficulty_mult,
   variable bullets_number, variable flags, variable penetrate)
 begin
-  variable total_damage = 0, bullet_damage := 0, i, critical_type, dr_dt,
+  variable total_damage = 0, bullet_damage = 0, i, critical_type, dr_dt,
   dr_mult, dt;
 
   //first bullet to hit keeps all the original mults
@@ -467,7 +467,7 @@ procedure damage_handler begin
   variable knockback_distance = get_sfall_arg;
   variable attack_type = get_sfall_arg;
 
-  variable nd = 0, rd, ranged_bonus := 0, cm, dr_mod := 0, cd;
+  variable nd = 0, rd, ranged_bonus = 0, cm, dr_mod = 0, cd;
   variable begin
     dmg_type;
     cd_setting;
