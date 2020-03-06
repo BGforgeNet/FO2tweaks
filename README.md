@@ -4,7 +4,7 @@
 [![Build Status](https://travis-ci.org/BGforgeNet/FO2tweaks.svg?branch=master)](https://travis-ci.org/BGforgeNet/FO2tweaks)
 [![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Discord chat](https://img.shields.io/discord/420268540700917760?logo=discord)](https://discord.gg/4Yqfggm)
-<a href="https://www.patreon.com/BGforge"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" width="100" alt="Support us on Patreon"></a>
+[![Support us on Patreon](https://img.shields.io/badge/support%20us-patreon-purple)](https://www.patreon.com/BGforge)
 
 [__Download__](https://github.com/BGforgeNet/FO2tweaks/releases/latest)
  | [__Install__](#installation)
