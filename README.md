@@ -216,7 +216,7 @@ You're free to try and share your experience, however.
 
 ## Installation
 - Download the [latest release](https://github.com/BGforgeNet/fo2tweaks/releases/latest).
-- Unzip the archive into the game directory. FO2tweaks requires sfall (`ddraw.dll`) version 4.1.2+, it's shipped with the mod. If you have a newer version, you don't need to overwite the dll when extracting the archive.
+- Unzip the archive into main game directory. FO2tweaks requires sfall (`ddraw.dll`) version 4.1.2+, it's shipped with the mod. If you have a newer version, you don't need to overwite the dll when extracting the archive.
 - Edit `mods/fo2tweaks.ini` to enable, disable or fine tune components as you desire.
 
 ## Uninstallation
