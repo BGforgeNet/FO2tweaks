@@ -9,7 +9,7 @@ procedure set_settings begin
 
   set_ini_setting("ddraw.ini|Speed|SpeedMultiInitial", 115);
   misc = {
-    "SpeedInterfaceCounterAnims": 3,
+    "SpeedInterfaceCounterAnims": 2,
     "SpeedInventoryPCRotation": 880,
     "CombatPanelAnimDelay": 0,
     "DialogPanelAnimDelay": 1,
