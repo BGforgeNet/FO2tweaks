@@ -3,11 +3,13 @@
 #define set_speedup "speedup"
 
 procedure set_settings begin
-  variable misc, k, v;
+  variable misc, k, v, speedmulti, speedmulti_string = "ddraw.ini|Speed|SpeedMultiInitial";
   set_ini_setting("f2_res.ini|OTHER_SETTINGS|SPLASH_SCRN_TIME", 0);
   set_ini_setting("f2_res.ini|OTHER_SETTINGS|FADE_TIME_MODIFIER", 0);
 
-  set_ini_setting("ddraw.ini|Speed|SpeedMultiInitial", 115);
+  speedmulti = get_ini_setting(speedmulti_string);
+  if speedmulti < 115 then set_ini_setting(speedmulti_string, 115);
+
   misc = {
     "SpeedInterfaceCounterAnims": 2,
     "SpeedInventoryPCRotation": 880,
