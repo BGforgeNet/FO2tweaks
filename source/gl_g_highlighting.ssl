@@ -8,11 +8,6 @@
 #define sec_highlight "highlighting"
 #define set_highlight_check_los "check_los"
 #define set_highlight_key "key"
-#define set_highlight_containers "containers"
-#define set_highlight_critters "critters"
-#define set_highlight_corpses "corpses"
-#define set_highlight_traps "traps"
-#define set_highlight_doors "doors"
 #define set_highlight_ignore_nohighlight "ignore_nohighlight"
 #define set_highlight_motion_scanner "motion_scanner"
 #define set_highlight_color_critters "color_critters"
@@ -27,8 +22,8 @@
 #define set_highlight_color_items "color_items"
 #define set_highlight_color_transitions "color_transitions"
 #define set_highlight_skip_empty "skip_empty"
-#define set_highlight_exclude_items "exclude_items"
-#define set_highlight_pits "pits"
+#define set_highlight_skip_items "skip_items"
+#define set_highlight_traps "traps"
 #define set_highlight_transitions "transitions"
 
 #define CRITTER_IS_DEAD   (1)
@@ -47,7 +42,19 @@
   and not tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_METAL_FLOOR_TRAP_DEPRESSED) \
 )
 
-#define is_trap(obj) (TRAP_CAVE_ARMED(obj) or TRAP_METAL_ARMED(obj))
+// sonora
+#define PID_TRAP_SONORA_VISIBLE 33554435
+#define PID_TRAP_SONORA_DISARMED 33554436
+#define TRAP_SONORA_ARMED(obj) ( \
+  obj_pid(obj) == PID_TRAP_SONORA_VISIBLE \
+  and not tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_TRAP_SONORA_DISARMED) \
+)
+#define PID_BEARTRAP_SONORA 33554439
+#define BEARTRAP_SONORA_ARMED(obj) (obj_pid(obj) == PID_BEARTRAP_SONORA)
+
+#define is_trap(obj) ( \
+  TRAP_CAVE_ARMED(obj) or TRAP_METAL_ARMED(obj) or TRAP_SONORA_ARMED(obj) or BEARTRAP_SONORA_ARMED(obj) \
+)
 
 #define in_loot_mode (get_game_mode BWAND INTFACELOOT)
 #define obj_can_detect_obj(source, target) (obj_can_see_obj(source, target) or obj_can_hear_obj(source, target))
@@ -67,9 +74,9 @@ variable begin
   motion_scanner;
   ignore_nohighlight;
   skip_empty;
-  pits;
+  traps;
   transitions;
-  exclude_items;
+  skip_items;
 
   color_critters;
   color_hostile_critters;
@@ -82,6 +89,8 @@ variable begin
   color_doors_locked;
   color_items;
   color_transitions;
+
+  variant = "default"; // F2,RP
 end
 
 procedure is_stairs(variable scenery_obj) begin
@@ -143,7 +152,7 @@ procedure get_color(variable obj) begin
   //items and containers
   if obj_type(obj) == OBJ_TYPE_ITEM then begin
     //skip excluded
-    if is_in_array(obj_pid(obj), exclude_items) then return OUTLINE_NONE;
+    if is_in_array(obj_pid(obj), skip_items) then return OUTLINE_NONE;
 
     if obj_item_subtype(obj) == item_type_container then begin
       if obj_is_locked(obj) then return color_containers_locked;
@@ -154,17 +163,17 @@ procedure get_color(variable obj) begin
 
   //scenery: traps, doors, transitions
   if obj_type(obj) == OBJ_TYPE_SCENERY then begin
-    if is_trap(obj) or is_in_array(obj_pid(obj), pits) then return color_traps;
+    if (is_trap(obj) or is_in_array(obj_pid(obj), traps))
+      and (get_flags(obj) bwand FLAG_NOBLOCK) // Sonora re-uses F2 trap proto as bath. A trap should be walkable, though.
+    then return color_traps;
 
     if is_in_array(obj_pid(obj), transitions) then return color_transitions;
 
     if obj_is_locked(obj) and not obj_is_open(obj) and is_door(obj) then begin
-      //ndebug("name is " + obj_name(obj) + ", sc_type is " + get_proto_data(obj_pid(obj), PRODATA_SC_TYPE)); //very slow
       return color_doors_locked;
     end
 
     if is_stairs(obj) then begin
-      //ndebug("name is " + obj_name(obj) + ", sc_type is " + get_proto_data(obj_pid(obj), PRODATA_SC_TYPE)); //very slow
       return color_transitions;
     end
   end
@@ -174,7 +183,9 @@ end
 
 procedure enable_highlight begin
   variable obj, color = OUTLINE_NONE;
-
+  if tile_distance_objs(dude_obj, obj) < 2 then begin
+    float_msg(obj, "pid is " + obj_pid(obj) + ", color is " + color + ", script is " + get_script(obj), FLOAT_COLOR_GOOD);
+  end
   if color_items or color_containers or color_containers_locked then begin
     foreach obj in list_as_array(LIST_GROUNDITEMS) begin
       color = get_color(obj);
@@ -192,7 +203,6 @@ procedure enable_highlight begin
   if color_traps or color_doors_locked or color_transitions then begin
     foreach obj in list_as_array(LIST_SCENERY) begin
       color = get_color(obj);
-      //ndebug("item is " + obj_name(obj) + ", pid is " + obj_pid(obj) + ", color is " + color);
       if color != OUTLINE_NONE then set_outline(obj, color);
     end
   end
@@ -267,8 +277,8 @@ procedure start begin
   if game_loaded then begin
     variable enabled = fo2tweaks_setting(sec_main, set_highlight);
     if enabled == 1 then begin
-      variable i;
-      ndebug("initialized");
+
+      ndebug("enabled");
       highlight_key = fo2tweaks_setting(sec_highlight, set_highlight_key);
       check_los = fo2tweaks_setting(sec_highlight, set_highlight_check_los);
       motion_scanner = fo2tweaks_setting(sec_highlight, set_highlight_motion_scanner);
@@ -287,14 +297,16 @@ procedure start begin
       color_transitions = fo2tweaks_setting(sec_highlight, set_highlight_color_transitions);
       skip_empty = fo2tweaks_setting(sec_highlight, set_highlight_skip_empty);
 
-      exclude_items = fo2tweaks_comsep_setting(sec_highlight, set_highlight_exclude_items);
-      fix_array(exclude_items);
-      pits = fo2tweaks_comsep_setting(sec_highlight, set_highlight_pits);
-      fix_array(pits);
+      skip_items = fo2tweaks_comsep_setting(sec_highlight, set_highlight_skip_items);
+      fix_array(skip_items);
+      traps = fo2tweaks_comsep_setting(sec_highlight, set_highlight_traps);
+      fix_array(traps);
       transitions = fo2tweaks_comsep_setting(sec_highlight, set_highlight_transitions);
       fix_array(transitions);
 
       register_hook_proc(HOOK_KEYPRESS, keypress_handler);
+
+      ndebug("initialized");
     end
   end
 end
