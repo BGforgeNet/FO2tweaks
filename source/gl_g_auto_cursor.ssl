@@ -2,13 +2,23 @@
 
 #include "headers/fo2tweaks/fo2tweaks.h"
 
+#define in_pcombat (get_game_mode bwand PCOMBAT)
+
+variable who_tile = 0; // keep cursor form on the same tile to reduce flapping
+variable last_who = 0; // same
+variable cursor_manual = 0; // if player has changed cursor manually, stop updating until next turn
+
 procedure start;
-variable who_tile = 0;
-variable last_who = 0;
 
 procedure update_cursor begin
   variable who;
-  if not in_combat then return;
+
+  if (not in_pcombat) or cursor_manual then begin
+    set_global_script_repeat(0);
+    return;
+  end
+
+  set_global_script_repeat(6);
 
   who = obj_under_cursor(true, false);
   ndebug("who is " + who);
@@ -42,21 +52,41 @@ procedure update_cursor begin
   end
 end
 
-procedure to_combat begin
+procedure gamemode_handler begin
   variable old_mode = get_sfall_arg_at(1);
-  if mode_started(COMBAT, old_mode, get_game_mode) then begin
-    set_cursor_mode(CURSOR_TARGETING);
-    ndebug("combat started");
-    return;
+  if mode_started(PCOMBAT, old_mode, get_game_mode) then begin
+    cursor_manual = 0;
+    call update_cursor;
   end
+end
+
+procedure mouseclick_handler begin
+  variable pressed = get_sfall_arg;
+  variable button = get_sfall_arg;
+  if in_pcombat
+    and pressed
+    and (button == MOUSE_BTN_RIGHT)
+  then cursor_manual = 1;
+end
+
+procedure keypress_handler begin
+  variable pressed = get_sfall_arg;
+  variable key = get_sfall_arg;
+  if in_pcombat
+    and pressed
+    and (key == DIK_M)
+  then cursor_manual = 1;
 end
 
 procedure start begin
   if game_loaded then begin
-    set_global_script_repeat(5);
-    register_hook_proc(HOOK_GAMEMODECHANGE, update_cursor);
-//    register_hook_proc(HOOK_GAMEMODECHANGE, to_combat);
-    ndebug("enabled");
+    variable enabled = fo2tweaks_setting(sec_main, "auto_cursor");
+    if enabled == 1 then begin
+      register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+      register_hook_proc(HOOK_MOUSECLICK, mouseclick_handler);
+      register_hook_proc(HOOK_KEYPRESS, keypress_handler);
+      ndebug("enabled");
+    end
   end else begin
     call update_cursor;
   end
