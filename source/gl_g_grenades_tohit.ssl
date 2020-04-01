@@ -30,10 +30,14 @@ end
 
 procedure tohit_hook begin
   variable tohit, attacker, target, weapon_pid, ammo_pid;
-
   tohit = get_sfall_arg;
   attacker = get_sfall_arg;
   target = get_sfall_arg;
+
+  if not is_critter(target) then begin
+    ndebug(target + " is not a critter, pass");
+    return;
+  end
 
   weapon_pid = get_active_weapon_pid(attacker);
   if not weapon_pid then return; //no weapon
