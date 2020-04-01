@@ -1,0 +1,21 @@
+#define SCRIPT_REALNAME "gl_g_scenepid"
+
+#include "headers/fo2tweaks/fo2tweaks.h"
+
+procedure print_scenery begin
+  variable s, scenery = list_as_array(LIST_SCENERY);
+  ndebug("start print");
+  foreach s in scenery begin
+    ndebug( "name " +  obj_name(s) + ", script " + get_script(s) +  ", pid " + obj_pid(s) + ", script_id " + get_script(s) );
+  end
+  ndebug("end print");
+end
+
+procedure start begin
+  call print_scenery;
+  ndebug("initialized");
+end
+procedure map_enter_p_proc begin
+  call print_scenery;
+  ndebug("map initialized");
+end

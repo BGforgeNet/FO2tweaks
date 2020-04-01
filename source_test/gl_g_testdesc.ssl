@@ -1,0 +1,17 @@
+#include "headers/sfall/sfall.h"
+
+procedure desc_handler;
+
+procedure start begin
+  display_msg("desc hook");
+//  if game_loaded then begin
+    register_hook_proc(HOOK_DESCRIPTIONOBJ, desc_handler);
+    debug_msg("desc hook registered");
+//  end
+end
+
+procedure desc_handler begin
+  variable desc = get_string_pointer("Ground");
+  debug_msg("desc hook");
+  set_sfall_return(desc);
+end
