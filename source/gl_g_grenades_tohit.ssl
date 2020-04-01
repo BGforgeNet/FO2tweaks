@@ -2,10 +2,11 @@
 
 #include "headers/fo2tweaks/fo2tweaks.h"
 
-#define sec_grenades_chance "grenades_chance"
+#define sec_improved_grenades "improved_grenades"
 #define set_grenades_weapons "weapons"
 #define set_grenades_ammo "ammo"
-#define set_grenades_chance "grenades_chance"
+#define set_grenades_ac "no_ac_bonus"
+#define set_improved_grenades "improved_grenades"
 procedure start;
 procedure tohit_hook;
 
@@ -16,11 +17,12 @@ end
 
 procedure start begin
   if game_loaded then begin
-    variable enabled = fo2tweaks_setting(sec_main, set_grenades_chance);
-    if enabled == 1 then begin
-      explosive_weapon_pids = fo2tweaks_comsep_setting(sec_grenades_chance, set_grenades_weapons);
+    variable enabled = fo2tweaks_setting(sec_main, set_grenades_ac);
+    variable enabled2 = fo2tweaks_setting(sec_improved_grenades, set_improved_grenades);
+    if enabled == 1 and enabled2 == 1 then begin
+      explosive_weapon_pids = fo2tweaks_comsep_setting(sec_improved_grenades, set_grenades_weapons);
       fix_array(explosive_weapon_pids);
-      explosive_ammo_pids = fo2tweaks_comsep_setting(sec_grenades_chance, set_grenades_ammo);
+      explosive_ammo_pids = fo2tweaks_comsep_setting(sec_improved_grenades, set_grenades_ammo);
       fix_array(explosive_ammo_pids);
       register_hook_proc(HOOK_TOHIT, tohit_hook);
       ndebug("initialized");
