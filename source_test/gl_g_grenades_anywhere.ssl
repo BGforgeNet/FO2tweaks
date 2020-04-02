@@ -7,6 +7,7 @@
 #define ATKTYPE_RWEAPON_SECOND      ATKTYPE_RWEP2
 #define ATKMODE_THROWNING           ATKMODE_PRI_THROW
 #define TARGET_PID 0x500000C // scroll blocker
+#define target_destroy if target then call destroy_target
 
 procedure start;
 procedure target_object_handler;
@@ -41,21 +42,18 @@ procedure target_object_handler begin
     if get_sfall_arg == 0 then begin // type
 
       if get_sfall_arg then begin // exit on valid target
-        if target then call destroy_target;
+        target_destroy;
         return;
       end
 
       weapon_pid = get_active_weapon_pid(dude_obj);
       if not weapon_pid then begin
-        call destroy_target;
+        target_destroy;
         return;
       end
 
       if not is_in_array(weapon_pid, explosive_weapon_pids) then begin
-        if target then begin
-          destroy_object(target);
-          target = 0;
-        end
+        target_destroy;
         return;
       end
 
@@ -77,9 +75,7 @@ procedure target_object_handler begin
       only_once = true;
     end
   end
-  else if target then begin
-    call destroy_target;
-  end
+  else target_destroy;
 end
 
 #define _attacker    1
@@ -98,15 +94,11 @@ variable object, list, tile;
 end
 
 procedure gamemode_handler begin
-  if target and get_game_mode != PCOMBAT then begin
-    call destroy_target;
-  end
+  if get_game_mode != PCOMBAT then target_destroy;
 end
 
 procedure destroy_target begin
-  if target then begin
-    ndebug("Destroy throwing target.");
-    destroy_object(target);
-    target = 0;
-  end
+  ndebug("Destroy throwing target.");
+  destroy_object(target);
+  target = 0;
 end
