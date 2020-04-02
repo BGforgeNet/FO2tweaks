@@ -54,7 +54,7 @@ procedure target_object_handler begin
   end
 
   if get_sfall_arg != 0 then begin // event type: exit on actual attack
-    only_once := true;
+    only_once = true;
     return;
   end
 
@@ -80,7 +80,7 @@ procedure target_object_handler begin
     return;
   end
 
-  tile := tile_under_cursor;
+  tile = tile_under_cursor;
   if tile == dude_tile or tile == -1 then return; // TODO: need fix bug explosion on dude tile
   if target then begin
     ndebug("move throwing target to: " + tile);
@@ -88,7 +88,7 @@ procedure target_object_handler begin
   end
   else begin
     ndebug("create throwing target at: " + tile);
-    target := create_object(TARGET_PID, tile, dude_elevation);
+    target = create_object(TARGET_PID, tile, dude_elevation);
   end
   set_sfall_arg(1, 1); // set valid target
   set_sfall_arg(2, target);
