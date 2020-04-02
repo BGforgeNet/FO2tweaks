@@ -61,8 +61,10 @@ end
 
 procedure start begin
   if game_loaded then begin
-    worldmap_key = fo2tweaks_setting(sec_main, set_worldmap_key);
-    townmap_key = fo2tweaks_setting(sec_main, set_townmap_key);
+    worldmap_key = fo2tweaks_string(sec_main, set_worldmap_key);
+    worldmap_key = char_to_dik(worldmap_key);
+    townmap_key = fo2tweaks_string(sec_main, set_townmap_key);
+    townmap_key = char_to_dik(townmap_key);
     if worldmap_key or townmap_key then begin
       ndebug("initialized, worldmap key is " + worldmap_key + ", town map key is " + townmap_key);
       register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);

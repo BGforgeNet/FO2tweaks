@@ -9,6 +9,7 @@
 #include "../sfall/dik.h"
 #include "tile.h"
 #include "mouse.h"
+#include "keys.h"
 
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define fo2tweaks_setting(section, setting) get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting)
