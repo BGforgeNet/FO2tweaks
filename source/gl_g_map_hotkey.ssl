@@ -35,6 +35,13 @@ procedure keypress_hook_handler begin
   variable pressed = get_sfall_arg;
   variable key = get_sfall_arg;
   if not pressed then return; //released
+
+  // allow to use the same town map key on world map
+  if in_world_map and hotkey_pressed_now(townmap_key, key) then begin
+    tap_key(DIK_T);
+    return;
+  end
+
   if get_game_mode then return; //non-zero mode
 
   if worldmap_key and hotkey_pressed_now(worldmap_key, key) then begin
@@ -49,6 +56,7 @@ procedure keypress_hook_handler begin
     world_map;
     tap_key(DIK_T);
   end
+
 end
 
 procedure start begin
