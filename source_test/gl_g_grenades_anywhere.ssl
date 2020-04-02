@@ -38,82 +38,82 @@ variable targetObject, only_once;
 variable pidList;
 
 procedure start begin
-   if game_loaded then begin
-      pidList := GetConfigListInt("HexAttack", "PIDList");
-      fix_array(pidList);
+  if game_loaded then begin
+    pidList := GetConfigListInt("HexAttack", "PIDList");
+    fix_array(pidList);
 
-      if (GetConfig("HexAttack", "Mode", 1)) then begin
-         register_hook_proc(HOOK_TARGETOBJECT, TargetObjectHandler);
-         register_hook_proc(HOOK_TOHIT, ToHitHandler);
-         register_hook_proc(HOOK_ONEXPLOSION, ExplosionHandler);
-         register_hook_proc(HOOK_GAMEMODECHANGE, GameModeHandler);
-      end
-   end
+    if (GetConfig("HexAttack", "Mode", 1)) then begin
+      register_hook_proc(HOOK_TARGETOBJECT, TargetObjectHandler);
+      register_hook_proc(HOOK_TOHIT, ToHitHandler);
+      register_hook_proc(HOOK_ONEXPLOSION, ExplosionHandler);
+      register_hook_proc(HOOK_GAMEMODECHANGE, GameModeHandler);
+    end
+  end
 end
 
 procedure TargetObjectHandler begin
-   variable slot, attack_mode, attack_type, weapon, tile, object, list;
+  variable slot, attack_mode, attack_type, weapon, tile, object, list;
 
-   if (get_cursor_mode == CURSOR_TARGETING) then begin
-      if (get_sfall_arg == 0) then begin // type
-         if (get_sfall_arg) then begin   // exit on valid target
-            if (targetObject) then call DestroyTarget;
-            return;
-         end
-         slot := INVEN_TYPE_RIGHT_HAND if (active_hand) else INVEN_TYPE_LEFT_HAND;
-         weapon := critter_inven_obj(dude_obj, slot);
-         // get and check weapon mode
-         attack_mode := get_proto_data(obj_pid(weapon), PROTO_IT_FLAGS);
-         attack_type := get_attack_type;
+  if (get_cursor_mode == CURSOR_TARGETING) then begin
+    if (get_sfall_arg == 0) then begin // type
+      if (get_sfall_arg) then begin   // exit on valid target
+        if (targetObject) then call DestroyTarget;
+        return;
+      end
+      slot := INVEN_TYPE_RIGHT_HAND if (active_hand) else INVEN_TYPE_LEFT_HAND;
+      weapon := critter_inven_obj(dude_obj, slot);
+      // get and check weapon mode
+      attack_mode := get_proto_data(obj_pid(weapon), PROTO_IT_FLAGS);
+      attack_type := get_attack_type;
 
-         if (attack_type == ATKTYPE_LWEAPON_SECOND) or (attack_type == ATKTYPE_RWEAPON_SECOND) then
-            attack_mode := (attack_mode bwand 0xF0) / 16; // shift by 4 bits to right
-         else
-            attack_mode := (attack_mode bwand 0x0F);
+      if (attack_type == ATKTYPE_LWEAPON_SECOND) or (attack_type == ATKTYPE_RWEAPON_SECOND) then
+        attack_mode := (attack_mode bwand 0xF0) / 16; // shift by 4 bits to right
+      else
+        attack_mode := (attack_mode bwand 0x0F);
 
-         if not(is_in_array(obj_pid(weapon) bwand 0xFFFFFF, pidList)) then begin
-            if (targetObject) then begin
-               destroy_object(targetObject);
-               targetObject := 0;
-            end
-            return;
-         end
+      if not(is_in_array(obj_pid(weapon) bwand 0xFFFFFF, pidList)) then begin
+        if (targetObject) then begin
+            destroy_object(targetObject);
+            targetObject := 0;
+        end
+        return;
+      end
 
-         tile := tile_under_cursor;
-         if (tile == dude_tile or tile == -1) then return; // TODO: need fix bug explosion on dude tile
-         if (targetObject) then begin
-            //debug_msg("Replacement throwing target to: " + tile);
-            move_to(targetObject, tile, dude_elevation);
-         end
-         else begin
-            //debug_msg("Create throwing target at: " + tile);
-            // 0x500000C = scroll blocker
-            // 0x5000033 = new "ground" object
-            targetObject := create_object(0x5000033, tile, dude_elevation);
-         end
-         set_sfall_arg(1, 1); // set valid target
-         set_sfall_arg(2, targetObject);
-         set_sfall_return(targetObject);
+      tile := tile_under_cursor;
+      if (tile == dude_tile or tile == -1) then return; // TODO: need fix bug explosion on dude tile
+      if (targetObject) then begin
+        //debug_msg("Replacement throwing target to: " + tile);
+        move_to(targetObject, tile, dude_elevation);
       end
       else begin
-         only_once := true;
-         //if (get_sfall_arg) then return;
+        //debug_msg("Create throwing target at: " + tile);
+        // 0x500000C = scroll blocker
+        // 0x5000033 = new "ground" object
+        targetObject := create_object(0x5000033, tile, dude_elevation);
       end
-   end
-   else if (targetObject) then begin
-      call DestroyTarget;
-   end
+      set_sfall_arg(1, 1); // set valid target
+      set_sfall_arg(2, targetObject);
+      set_sfall_return(targetObject);
+    end
+    else begin
+      only_once := true;
+      //if (get_sfall_arg) then return;
+    end
+  end
+  else if (targetObject) then begin
+    call DestroyTarget;
+  end
 end
 
 procedure ToHitHandler begin
-   variable toHit := -40;
-   if (targetObject == 0) then return;
-   if (get_sfall_arg_at(2) == targetObject) then begin
-      debug_msg("ToHitHandler");
-      toHit += get_sfall_arg + get_bodypart_hit_modifier(BODY_UNCALLED);
-      set_sfall_arg(0, toHit);
-      set_sfall_return(toHit);
-   end
+  variable toHit := -40;
+  if (targetObject == 0) then return;
+  if (get_sfall_arg_at(2) == targetObject) then begin
+    debug_msg("ToHitHandler");
+    toHit += get_sfall_arg + get_bodypart_hit_modifier(BODY_UNCALLED);
+    set_sfall_arg(0, toHit);
+    set_sfall_return(toHit);
+  end
 end
 
 #define _attacker    1
@@ -121,25 +121,25 @@ end
 
 procedure ExplosionHandler begin
 variable object, list, tile;
-   if (only_once and targetObject and get_sfall_arg_at(_throw) and get_sfall_arg_at(_attacker) == dude_obj) then begin
-      debug_msg("ExplosionHandler");
-      tile := tile_num(targetObject);
-      list := objects_in_radius(tile, random(4, 6), dude_elevation, 1);
-      foreach (object in list) begin
-         if (object != dude_obj) then set_object_data(object, OBJ_DATA_WHO_HIT_ME, dude_obj);
-      end
-      only_once := false;
-   end
+  if (only_once and targetObject and get_sfall_arg_at(_throw) and get_sfall_arg_at(_attacker) == dude_obj) then begin
+    debug_msg("ExplosionHandler");
+    tile := tile_num(targetObject);
+    list := objects_in_radius(tile, random(4, 6), dude_elevation, 1);
+    foreach (object in list) begin
+      if (object != dude_obj) then set_object_data(object, OBJ_DATA_WHO_HIT_ME, dude_obj);
+    end
+    only_once := false;
+  end
 end
 
 procedure GameModeHandler begin
-   if (targetObject and get_game_mode != PCOMBAT) then begin
-      call DestroyTarget;
-   end
+  if (targetObject and get_game_mode != PCOMBAT) then begin
+    call DestroyTarget;
+  end
 end
 
 procedure DestroyTarget begin
-   debug_msg("Destroy throwing target.");
-   destroy_object(targetObject);
-   targetObject := 0;
+  debug_msg("Destroy throwing target.");
+  destroy_object(targetObject);
+  targetObject := 0;
 end
