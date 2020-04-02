@@ -39,10 +39,10 @@ variable pidList;
 
 procedure start begin
   if game_loaded then begin
-    pidList := GetConfigListInt("HexAttack", "PIDList");
-    fix_array(pidList);
-
-    if (GetConfig("HexAttack", "Mode", 1)) then begin
+    variable enabled = fo2tweaks_setting(sec_main, "improved_grenades");
+    if enabled == 1 then begin
+      explosive_weapon_pids = fo2tweaks_comsep_setting("improved_grenades", "weapons");
+      fix_array(explosive_weapon_pids);
       register_hook_proc(HOOK_TARGETOBJECT, TargetObjectHandler);
       register_hook_proc(HOOK_TOHIT, ToHitHandler);
       register_hook_proc(HOOK_ONEXPLOSION, ExplosionHandler);
@@ -71,10 +71,10 @@ procedure TargetObjectHandler begin
       else
         attack_mode := (attack_mode bwand 0x0F);
 
-      if not(is_in_array(obj_pid(weapon) bwand 0xFFFFFF, pidList)) then begin
+      if not(is_in_array(obj_pid(weapon) bwand 0xFFFFFF, explosive_weapon_pids)) then begin
         if (targetObject) then begin
-            destroy_object(targetObject);
-            targetObject := 0;
+          destroy_object(targetObject);
+          targetObject := 0;
         end
         return;
       end
