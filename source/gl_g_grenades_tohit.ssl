@@ -43,7 +43,7 @@ procedure tohit_hook begin
   if not weapon_pid then return; //no weapon
   ammo_pid = get_active_ammo_pid(attacker); //explosive weapon with no ammo? hmmm...
 
-  //add target's armor ac to hit chance
+  //add target's armor ac to CtH
   if is_in_array(weapon_pid, explosive_weapon_pids)
     or is_in_array(ammo_pid, explosive_ammo_pids)
   then begin
