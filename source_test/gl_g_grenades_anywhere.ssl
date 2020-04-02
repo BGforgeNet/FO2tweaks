@@ -35,47 +35,53 @@ procedure start begin
   end
 end
 
+procedure is_explosive(variable weapon_pid) begin
+  variable dmg_type = get_proto_data(weapon_pid, PROTO_WP_DMG_TYPE);
+  if dmg_type == DMG_explosion then return true;
+  return false;
+end
+
 procedure target_object_handler begin
-  variable tile, object, list, weapon_pid;
+  variable tile, object, list, weapon_pid, event, target_valid;
 
-  if get_cursor_mode == CURSOR_TARGETING then begin
-    if get_sfall_arg == 0 then begin // type
-
-      if get_sfall_arg then begin // exit on valid target
-        target_destroy;
-        return;
-      end
-
-      weapon_pid = get_active_weapon_pid(dude_obj);
-      if not weapon_pid then begin
-        target_destroy;
-        return;
-      end
-
-      if not is_in_array(weapon_pid, explosive_weapon_pids) then begin
-        target_destroy;
-        return;
-      end
-
-      tile = tile_under_cursor;
-      if tile == dude_tile or tile == -1 then return; // TODO: need fix bug explosion on dude tile
-      if target then begin
-        ndebug("Replacement throwing target to: " + tile);
-        move_to(target, tile, dude_elevation);
-      end
-      else begin
-        ndebug("Create throwing target at: " + tile);
-        target = create_object(TARGET_PID, tile, dude_elevation);
-      end
-      set_sfall_arg(1, 1); // set valid target
-      set_sfall_arg(2, target);
-      set_sfall_return(target);
-    end
-    else begin
-      only_once = true;
-    end
+  if get_cursor_mode != CURSOR_TARGETING then begin
+    target_destroy;
+    return;
   end
-  else target_destroy;
+
+  event = get_sfall_arg;
+  target_valid = get_sfall_arg;
+
+  if event == 1 then begin // 1=valid
+    only_once = true;
+    return;
+  end
+
+  weapon_pid = get_active_weapon_pid(dude_obj);
+  ndebug("weapon pid is " + weapon_pid);
+  if target_valid // exit on valid target
+    or (not weapon_pid)
+    or (not is_in_array(weapon_pid, explosive_weapon_pids))
+    or (not is_explosive(weapon_pid))
+  then begin
+    target_destroy;
+    return;
+  end
+  ndebug("target_object handler");
+
+  tile = tile_under_cursor;
+  if tile == dude_tile or tile == -1 then return; // TODO: need fix bug explosion on dude tile
+  if target then begin
+    ndebug("move throwing target to: " + tile);
+    move_to(target, tile, dude_elevation);
+  end
+  else begin
+    ndebug("create throwing target at: " + tile);
+    target = create_object(TARGET_PID, tile, dude_elevation);
+  end
+  set_sfall_arg(1, 1); // set valid target
+  set_sfall_arg(2, target);
+  set_sfall_return(target);
 end
 
 #define _attacker    1
@@ -98,7 +104,7 @@ procedure gamemode_handler begin
 end
 
 procedure destroy_target begin
-  ndebug("Destroy throwing target.");
+  ndebug("destroy throwing target");
   destroy_object(target);
   target = 0;
 end
