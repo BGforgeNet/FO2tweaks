@@ -35,26 +35,23 @@ procedure start begin
 end
 
 procedure target_object_handler begin
-  variable slot, attack_mode, attack_type, weapon, tile, object, list;
+  variable tile, object, list, weapon_pid;
 
   if get_cursor_mode == CURSOR_TARGETING then begin
     if get_sfall_arg == 0 then begin // type
-      if get_sfall_arg then begin   // exit on valid target
+
+      if get_sfall_arg then begin  // exit on valid target
         if target then call destroy_target;
         return;
       end
-      slot = INVEN_TYPE_RIGHT_HAND if active_hand else INVEN_TYPE_LEFT_HAND;
-      weapon = critter_inven_obj(dude_obj, slot);
-      // get and check weapon mode
-      attack_mode = get_proto_data(obj_pid(weapon), PROTO_IT_FLAGS);
-      attack_type = get_attack_type;
 
-      if (attack_type == ATKTYPE_LWEAPON_SECOND) or (attack_type == ATKTYPE_RWEAPON_SECOND) then
-        attack_mode = (attack_mode bwand 0xF0) / 16; // shift by 4 bits to right
-      else
-        attack_mode = attack_mode bwand 0x0F;
+      weapon_pid = get_active_weapon_pid(dude_obj);
+      if not weapon_pid then begin
+        call destroy_target;
+        return;
+      end
 
-      if not(is_in_array(obj_pid(weapon) bwand 0xFFFFFF, explosive_weapon_pids)) then begin
+      if not is_in_array(weapon_pid, explosive_weapon_pids) then begin
         if target then begin
           destroy_object(target);
           target = 0;
