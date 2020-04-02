@@ -40,7 +40,7 @@ procedure target_object_handler begin
   if get_cursor_mode == CURSOR_TARGETING then begin
     if get_sfall_arg == 0 then begin // type
 
-      if get_sfall_arg then begin  // exit on valid target
+      if get_sfall_arg then begin // exit on valid target
         if target then call destroy_target;
         return;
       end
@@ -77,7 +77,7 @@ procedure target_object_handler begin
       only_once = true;
     end
   end
-  else if (target) then begin
+  else if target then begin
     call destroy_target;
   end
 end
