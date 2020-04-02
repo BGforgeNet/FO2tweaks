@@ -19,6 +19,7 @@ variable begin
   target;
   only_once;
   explosive_weapon_pids;
+  explosive_ammo_pids;
 end
 
 procedure start begin
@@ -27,6 +28,8 @@ procedure start begin
     if enabled == 1 then begin
       explosive_weapon_pids = fo2tweaks_comsep_setting("improved_grenades", "weapons");
       fix_array(explosive_weapon_pids);
+      explosive_ammo_pids = fo2tweaks_comsep_setting("improved_grenades", "ammo");
+      fix_array(explosive_ammo_pids);
       register_hook_proc(HOOK_TARGETOBJECT, target_object_handler);
       register_hook_proc(HOOK_ONEXPLOSION, explosion_handler);
       register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
@@ -42,32 +45,31 @@ procedure is_explosive(variable weapon_pid) begin
 end
 
 procedure target_object_handler begin
-  variable tile, object, list, weapon_pid, event, target_valid;
-
-  if get_cursor_mode != CURSOR_TARGETING then begin
-    target_destroy;
-    return;
-  end
+  variable tile, object, list, weapon_pid, ammo_pid, event, target_valid;
 
   event = get_sfall_arg;
   target_valid = get_sfall_arg;
+  weapon_pid = get_active_weapon_pid(dude_obj);
 
+  if get_cursor_mode != CURSOR_TARGETING
+    or target_valid // exit on valid target
+    or not weapon_pid
+  then begin
+    target_destroy;
+    return;
+  end
   if event == 1 then begin // 1=valid
     only_once = true;
     return;
   end
 
-  weapon_pid = get_active_weapon_pid(dude_obj);
-  ndebug("weapon pid is " + weapon_pid);
-  if target_valid // exit on valid target
-    or (not weapon_pid)
-    or (not is_in_array(weapon_pid, explosive_weapon_pids))
-    or (not is_explosive(weapon_pid))
+  ammo_pid = get_active_ammo_pid(dude_obj);
+  if not (is_in_array(weapon_pid, explosive_weapon_pids) and is_explosive(weapon_pid)) // check is_explosive because Sonora shuffles items pids
+    and not (ammo_pid and is_in_array(ammo_pid, explosive_ammo_pids))
   then begin
     target_destroy;
     return;
   end
-  ndebug("target_object handler");
 
   tile = tile_under_cursor;
   if tile == dude_tile or tile == -1 then return; // TODO: need fix bug explosion on dude tile
@@ -87,11 +89,11 @@ end
 #define _attacker    1
 #define _throw       6
 procedure explosion_handler begin
-variable object, list, tile;
+  variable object, list, tile;
   if only_once and target and get_sfall_arg_at(_throw) and get_sfall_arg_at(_attacker) == dude_obj then begin
     ndebug("explosion_handler");
     tile = tile_num(target);
-    list = objects_in_radius(tile, random(4, 6), dude_elevation, 1);
+    list = objects_in_radius(tile, random(4, 6), dude_elevation, OBJ_TYPE_CRITTER);
     foreach object in list begin
       if object != dude_obj then set_object_data(object, OBJ_DATA_WHO_HIT_ME, dude_obj);
     end
