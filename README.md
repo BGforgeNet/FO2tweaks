@@ -207,7 +207,6 @@ __Note:__ if you're using this, you must disable default sfall highlighting (del
 Designed for Restoration Project users. Unfortunately, many areas in RP are quite dark compared to the original game, to the point of being eye hazard.
 
 This allows to set a lower limit for the ambient light level. Refer to the [wiki](https://falloutmods.fandom.com/wiki/Fallout_2_light_levels) to understand how light works in Fallout.
-Displayed light level affects chance to hit for both dude and enemies, so it's still fair game.
 
 ## Compatibility
 * FO2tweaks is designed to be compatible with any other mod. If you find a conflict - report it.
@@ -224,11 +223,11 @@ Delete `mods/fo2tweaks.*` files.
 
 ## Reporting issues
 1. Discussion and questions: see the [forum](https://forums.bgforge.net/viewforum.php?f=26).
-1. Bug reports: the instruction is the same as for [killap's Unofficial Patch](https://github.com/BGforgeNet/Fallout2_Unofficial_Patch/blob/master/docs/reporting.md):
+1. Bug reports:
     * describe the bug
     * attach a savegame
     * detail the steps to trigger the bug
-    * note versions: FO2tweaks, ddraw.dll, any other mods you have installed. *Exact* versions, don't just say "latest".
+    * note versions: FO2tweaks, `ddraw.dll`, any other mods you have installed. *Exact* versions, don't just say "latest".
     * also attach [`debug.log`](https://github.com/BGforgeNet/Fallout2_Unofficial_Patch/blob/master/docs/debug.md)
 1. For feature requests: free form, but please be descriptive.
 
