@@ -104,7 +104,9 @@ procedure gamemode_handler begin
 end
 
 procedure destroy_target begin
-  ndebug("Destroy throwing target.");
-  destroy_object(target);
-  target = 0;
+  if target then begin
+    ndebug("Destroy throwing target.");
+    destroy_object(target);
+    target = 0;
+  end
 end
