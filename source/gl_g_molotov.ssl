@@ -27,8 +27,8 @@ procedure start begin
     if enabled == 1 then begin
       flameboy = fo2tweaks_setting(sec_molotov_fire, set_molotov_flameboy);
       call set_molotov_stats;
-      register_hook_proc(HOOK_AFTERHITROLL, afterhit_hook);
-      register_hook_proc(HOOK_ITEMDAMAGE, damage_hook); //need this so that AI correctly estimates damage?
+      register_hook_proc(HOOK_AFTERHITROLL, afterhit_hook); // miss hit
+      register_hook_proc(HOOK_ITEMDAMAGE, damage_hook); // normal hit
       ndebug("initialized");
     end
   end
@@ -41,10 +41,10 @@ end
 
 procedure afterhit_hook begin
 /*
-   Runs after fallout has decided if an attack will hit or miss
-   int     arg1 - If the attack will hit. (0 - critical miss, 1 - miss, 2 - hit, 3 - critical hit)
-   critter arg2 - The attacker
-   critter arg3 - The target of the attack
+  Runs after fallout has decided if an attack will hit or miss
+  int     arg1 - If the attack will hit. (0 - critical miss, 1 - miss, 2 - hit, 3 - critical hit)
+  critter arg2 - The attacker
+  critter arg3 - The target of the attack
 */
   variable hit_type, attacker, target;
   variable item_pid;
@@ -55,8 +55,8 @@ procedure afterhit_hook begin
 
   if target and attacker then begin
     if (is_critter(target) and hit_type <= 1)
-      or (is_scenery(target) and hit_type)
-    then begin  // miss hit
+      or (not is_critter(target) and hit_type)
+    then begin // miss hit
       item_pid = get_active_weapon_pid(attacker);
       if item_pid == PID_MOLOTOV_COCKTAIL then begin
         ndebug("attacker is " + obj_name(attacker) + ", target is " + obj_name(target));
@@ -64,18 +64,20 @@ procedure afterhit_hook begin
       end
     end
   end
+  ndebug("afterhit hook");
 end
 
 procedure damage_hook begin
 /*
-   Runs when retriving the damage rating of the players used weapon. (Which may be their fists.)
-   int     arg1 - The default min damage
-   int     arg2 - The default max damage
-   Item    arg3 - The weapon used. (0 if unarmed)
+  Runs when retrieving the damage rating of the players used weapon. (Which may be their fists.)
+  int     arg1 - The default min damage
+  int     arg2 - The default max damage
+  item    arg3 - The weapon used. (0 if unarmed)
 */
   variable weapon;
   weapon = get_sfall_arg_at(2);
   if weapon and obj_pid(weapon) == PID_MOLOTOV_COCKTAIL then call set_attack_fire;
+  ndebug("damage hook");
 end
 
 procedure set_attack_fire begin
