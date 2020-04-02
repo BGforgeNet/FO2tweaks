@@ -7,7 +7,7 @@
 #define set_grenades_ammo "ammo"
 #define set_improved_grenades "improved_grenades"
 procedure start;
-procedure tohit_hook;
+procedure tohit_handler;
 
 variable begin
   explosive_weapon_pids;
@@ -22,13 +22,13 @@ procedure start begin
       fix_array(explosive_weapon_pids);
       explosive_ammo_pids = fo2tweaks_comsep_setting(sec_improved_grenades, set_grenades_ammo);
       fix_array(explosive_ammo_pids);
-      register_hook_proc(HOOK_TOHIT, tohit_hook);
+      register_hook_proc(HOOK_TOHIT, tohit_handler);
       ndebug("initialized");
     end
   end
 end
 
-procedure tohit_hook begin
+procedure tohit_handler begin
   variable tohit, attacker, target, weapon_pid, ammo_pid;
   tohit = get_sfall_arg;
   attacker = get_sfall_arg;
