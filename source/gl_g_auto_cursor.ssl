@@ -21,9 +21,7 @@ procedure update_cursor begin
   set_global_script_repeat(6);
 
   who = obj_under_cursor(true, false);
-  ndebug("who is " + who);
   if who and not is_dead(who) then begin
-    ndebug("who_name is " + obj_name(who));
     last_who = who;
     who_tile = tile_num(last_who);
     if get_cursor_mode == CURSOR_MOVEMENT then begin
