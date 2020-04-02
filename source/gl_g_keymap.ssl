@@ -41,7 +41,10 @@ procedure start begin
       variable k, v;
       keymap = temp_array_map;
       foreach k: v in tmp begin
-        keymap[atoi(v)] = atoi(k); // reversed for array check
+        ndebug("remapping key " + v + " to " + k);
+        k = char_to_dik(k);
+        v = char_to_dik(v);
+        keymap[v] = k; // reversed for array check
         ndebug("remapped key code " + v + " to " + k);
       end
       fix_array(keymap);
