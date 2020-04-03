@@ -44,6 +44,7 @@ It is highly configurable, any component can be used with or without others. Som
     - [Modoc brahmin](#modoc-brahmin)
     - [Expanded highlighting](#expanded-highlighting)
     - [Light level](#light-level)
+    - [Auto cursor](#auto-cursor)
 - [Compatibility](#compatibility)
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
