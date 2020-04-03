@@ -1,5 +1,17 @@
 ## Changelog
 
+* Version 12:
+  - Minimal light level is no longer enabled by default.
+  - Fixed HP being displayed for invisible critters.
+  - Speed up component makes HP counters instant, really.
+  - More robust check for worldmap key in Modoc shitter.
+  - Added auto cursor component.
+  - Grenades CtH now ignores armor class from all sources, not just armor.
+  - Added area attack for grenades.
+  - Added support for Sonora grenades and traps to highlighting.
+  - Town map key now works consistently on world map as well.
+  - Hotkeys in ini are now in human readable format.
+
 * Version 11.2:
   - More robust damage mod: make sure correct `ddraw.ini` settings are correct and ammo modifiers are not reset by other mods.
   - If fog of war is enabled, don't display HP for critters in the fog.

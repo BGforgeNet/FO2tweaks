@@ -32,14 +32,14 @@ It is highly configurable, any component can be used with or without others. Som
     - [Damage mod](#damage-mod)
     - [Limit knockback](#limit-knockback)
     - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
-    - [Grenades ignore armor class](#grenades-ignore-armor-class)
+    - [Improved grenades](#improved-grenades)
     - [No close range penalty for scoped weapons](#no-close-range-penalty-for-scoped-weapons)
     - [HP over head](#hp-over-head)
   - [Miscellaneous](#miscellaneous)
     - [Autodoors](#autodoors)
     - [Healing revision](#healing-revision)
     - [Level 5 after Temple of Trials](#level-5-after-temple-of-trials)
-    - [Worldmap hotkey](#worldmap-hotkey)
+    - [Map hotkey](#map-hotkey)
     - [Keymap](#keymap)
     - [Modoc brahmin](#modoc-brahmin)
     - [Expanded highlighting](#expanded-highlighting)
@@ -140,10 +140,12 @@ Allows to limit max knockback distance. That affects all weapons and explosives.
 #### Molotov cocktail: fire damage
 Let Molotov cocktail do fire damage instead of explosive (and optionally, enable "burning death" animation)
 
-#### Grenades ignore armor class
+#### Improved grenades
 Grenades are actually thrown to target's feet, not "through" armor.
 Hitting a person in power armor should not be any harder than one in leather armor.
-Thus, this component removes AC penalty from grenades' CtH.
+Thus:
+1. Target's armor class is ignored when using grenades, making it easier to hit with one.
+2. Grenades can now be tossed into empty hexes, opening new tactical possibilities.
 
 It also affects explosive (but not armor piercing) rockets from rocket launcher and grenade launchers from [EcCo](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/) mod.
 
@@ -181,7 +183,7 @@ This is a massive change to Doctor and First Aid skills:
 - Doctor's bags and First Aid kits are unchanged. They grant bonus to skill when used by dude explicitly, but they will randomly deplete as in original game. The items are not used in automatic healing described above.
 - As a final bonus, if Doctor skill is raised to 135+, dude will receive Living Anatomy for free. (Applied when entering the next map. Can be configured or disabled.).
 
-#### Worldmap hotkey
+#### Map hotkey
 Adds hotkeys to call worldmap (W) and town map (Y) at any moment. Yes, that can be used as a cheat at times. Configurable.
 
 #### Keymap
@@ -208,6 +210,9 @@ Designed for Restoration Project users. Unfortunately, many areas in RP are quit
 
 This allows to set a lower limit for the ambient light level. Refer to the [wiki](https://falloutmods.fandom.com/wiki/Fallout_2_light_levels) to understand how light works in Fallout.
 
+#### Auto cursor
+In combat, cursor state automatically changes to "attack" when hovering over an enemy, and back to "move" when over an empty hex.
+
 ## Compatibility
 * FO2tweaks is designed to be compatible with any other mod. If you find a conflict - report it.
 * Damage mod component is a special case. It's designed for vanilla game stats, so using it with mods like YAAM or F2WR will probably yield unexpected results.
@@ -215,7 +220,7 @@ You're free to try and share your experience, however.
 
 ## Installation
 - Download the [latest release](https://github.com/BGforgeNet/fo2tweaks/releases/latest).
-- Unzip the archive into main game directory. FO2tweaks requires sfall (`ddraw.dll`) version 4.1.2+, it's shipped with the mod. If you have a newer version, you don't need to overwite the dll when extracting the archive.
+- Unzip the archive into main game directory. FO2tweaks requires sfall (`ddraw.dll`) version 4.1.3+, it's shipped with the mod. If you have a newer version, you don't need to overwite the dll when extracting the archive.
 - Edit `mods/fo2tweaks.ini` to enable, disable or fine tune components as you desire.
 
 ## Uninstallation
