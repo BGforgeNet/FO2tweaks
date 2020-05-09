@@ -13,7 +13,7 @@ FADE_TIME_MODIFIER=0
 SpeedMultiInitial=115
 
 [Misc]
-SpeedInterfaceCounterAnims=3
+SpeedInterfaceCounterAnims=2
 SpeedInventoryPCRotation=880
 CombatPanelAnimDelay=0
 DialogPanelAnimDelay=0
