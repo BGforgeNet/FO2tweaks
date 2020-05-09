@@ -468,7 +468,7 @@ procedure is_gun(variable obj) begin
   return false;
 end
 
-procedure get_armor(variable obj) begin
+procedure obj_armor(variable obj) begin
   variable armor;
   if not is_critter(obj) then return false;
   armor := critter_inven_obj(obj, INVEN_TYPE_WORN);
