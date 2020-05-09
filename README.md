@@ -35,6 +35,7 @@ It is highly configurable, any component can be used with or without others. Som
     - [Improved grenades](#improved-grenades)
     - [No close range penalty for scoped weapons](#no-close-range-penalty-for-scoped-weapons)
     - [HP over head](#hp-over-head)
+    - [Auto cursor](#auto-cursor)
   - [Miscellaneous](#miscellaneous)
     - [Autodoors](#autodoors)
     - [Healing revision](#healing-revision)
@@ -44,7 +45,6 @@ It is highly configurable, any component can be used with or without others. Som
     - [Modoc brahmin](#modoc-brahmin)
     - [Expanded highlighting](#expanded-highlighting)
     - [Light level](#light-level)
-    - [Auto cursor](#auto-cursor)
 - [Compatibility](#compatibility)
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
@@ -162,6 +162,9 @@ Current HP will be displayed over head in combat, for dude, party and nearby ene
 
 ![hp over head in game](https://github.com/BGforgeNet/fo2tweaks/blob/master/pics/hp_over_head.jpg "hp over head in game")
 
+#### Auto cursor
+In combat, cursor state automatically changes to "attack" when hovering over an enemy, and back to "move" when over an empty hex.
+
 ### Miscellaneous
 
 #### Autodoors
@@ -205,14 +208,10 @@ __Note:__ if you're using this, you must disable default sfall highlighting (del
 
 ![highlighting in game](https://github.com/BGforgeNet/FO2tweaks/blob/master/pics/highlighting.jpg "highlighting in game")
 
-
 #### Light level
 Designed for Restoration Project users. Unfortunately, many areas in RP are quite dark compared to the original game, to the point of being eye hazard.
 
 This allows to set a lower limit for the ambient light level. Refer to the [wiki](https://falloutmods.fandom.com/wiki/Fallout_2_light_levels) to understand how light works in Fallout.
-
-#### Auto cursor
-In combat, cursor state automatically changes to "attack" when hovering over an enemy, and back to "move" when over an empty hex.
 
 ## Compatibility
 * FO2tweaks is designed to be compatible with any other mod. If you find a conflict - report it.
