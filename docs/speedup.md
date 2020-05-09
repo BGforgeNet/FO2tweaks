@@ -1,14 +1,14 @@
 ### Full list of changed settings
 
 `f2_res.ini:`
-```
+```ini
 [OTHER_SETTINGS]
 SPLASH_SCRN_TIME=0
 FADE_TIME_MODIFIER=0
 ```
 
 `ddraw.ini:`
-```
+```ini
 [Speed]
 SpeedMultiInitial=115
 
