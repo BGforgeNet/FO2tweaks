@@ -24,8 +24,8 @@ script:
 
 env:
   global:
-    - sfall_version: 4.2.3
-    - mpack_version: 4.2.3
+    - sfall_version: 4.2.5.1
+    - mpack_version: 4.2.5
     - mods_dir: mods
     - mod_name: fo2tweaks
     - bin_dir: extra/bin
