@@ -1,5 +1,10 @@
 ## Changelog
 
+* Version 12.1:
+ - Healing revision now:
+  - Properly takes into account items bonuses for First Aid.
+  - Takes into account Healer perk, adding 2 HP per level.
+
 * Version 12:
   - Minimal light level is no longer enabled by default.
   - Fixed HP being displayed for invisible critters.

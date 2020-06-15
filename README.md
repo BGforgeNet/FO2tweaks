@@ -180,7 +180,7 @@ This is a massive change to Doctor and First Aid skills:
 - Doctor is "theoretical knowledge". Doctor's effectiveness is directly proportional to First Aid level.
 - Both skills can be used once per day per *patient*.
 - Effectiveness is capped at 100% for both skills.
-- Amount healed is proportional to skill level. Maximum amount to heal (100% both skills) is 5 with First Aid and 10 with Doctor, with a little random added.
+- Amount healed is proportional to skill level. Maximum amount to heal (100% both skills) is 5 with First Aid and 10 with Doctor, with a little random added. (Also, each level of Healer perk adds extra 2 HP healed.)
 - XP granted is 10 per HP healed.
 - For purposes of determining the amount healed, best skill level in *party* is used.
 - Healing is applied automatically during rest and travel, Baldur's Gate style.
