@@ -1,8 +1,13 @@
 ## Changelog
 
+### Version 12.2
+- Disabled automatic cursor by default.
+- Added a note about enabling `UseFileSystemOverride` in `ddraw.ini` for Run Speed component.
+
 ### Version 12.1
 - Fixed Healing Revision not accounting for items bonuses for First Aid.
 - Healing Revision now also takes into account Healer perk, adding 2 HP per heal per perk level.
+- Updated sfall to 4.2.5.1.
 
 ### Version 12
 - Minimal light level is no longer enabled by default.
