@@ -1,0 +1,148 @@
+#define SCRIPT_REALNAME "gl_g_debug"
+#include "headers/fo2tweaks/fo2tweaks.h"
+
+procedure print_hook(variable name, variable proc_type = false) begin
+  variable arg, i = 1;
+  variable args = get_sfall_args;
+  variable stdproc_type = {
+    0: "no_proc",
+    1: "start_proc",
+    2: "spatial_proc",
+    3: "description_proc",
+    4: "pickup_proc",
+    5: "drop_proc",
+    6: "use_proc",
+    7: "use_obj_on_proc",
+    8: "use_skill_on_proc",
+    9: "use_ad_on_proc",
+    10: "use_disad_on_proc",
+    11: "talk_proc",
+    12: "critter_proc",
+    13: "combat_proc",
+    14: "damage_proc",
+    15: "map_enter_proc",
+    16: "map_exit_proc",
+    17: "create_proc",
+    18: "destroy_proc",
+    19: "barter_init_proc",
+    20: "barter_proc",
+    21: "look_at_proc",
+    22: "timed_event_proc",
+    23: "map_update_proc"
+  };
+  foreach arg in args begin
+    ndebug("hook " + name + " arg" + i + " = " + arg);
+    if proc_type != false and i == 1 then begin
+      ndebug("hook " + name + " proctype is " + stdproc_type[arg]);
+    end
+    i++;
+  end
+end
+
+procedure adjustfid begin call print_hook("adjustfid"); end
+procedure afterhitroll begin call print_hook("afterhitroll"); end
+procedure ammocost begin call print_hook("ammocost"); end
+procedure barterprice begin call print_hook("barterprice"); end
+procedure calcapcost begin call print_hook("calcapcost"); end
+procedure cartravel begin call print_hook("cartravel"); end
+procedure combatdamage begin call print_hook("combatdamage"); end
+procedure combatturn begin call print_hook("combatturn"); end
+procedure deathanim1 begin call print_hook("deathanim1"); end
+procedure deathanim2 begin call print_hook("deathanim2"); end
+procedure descriptionobj begin call print_hook("descriptionobj"); end
+procedure encounter begin call print_hook("encounter"); end
+procedure explosivetimer begin call print_hook("explosivetimer"); end
+procedure findtarget begin call print_hook("findtarget"); end
+procedure gamemodechange begin call print_hook("gamemodechange"); end
+procedure hexaiblocking begin call print_hook("hexaiblocking"); end
+procedure hexmoveblocking begin call print_hook("hexmoveblocking"); end
+procedure hexshootblocking begin call print_hook("hexshootblocking"); end
+procedure hexsightblocking begin call print_hook("hexsightblocking"); end
+procedure inventorymove begin call print_hook("inventorymove"); end
+procedure invenwield begin call print_hook("invenwield"); end
+procedure itemdamage begin call print_hook("itemdamage"); end
+procedure keypress begin call print_hook("keypress"); end
+procedure mouseclick begin call print_hook("mouseclick"); end
+procedure movecost begin call print_hook("movecost"); end
+procedure ondeath begin call print_hook("ondeath"); end
+procedure onexplosion begin call print_hook("onexplosion"); end
+procedure removeinvenobj begin call print_hook("removeinvenobj"); end
+procedure resttimer begin call print_hook("resttimer"); end
+procedure setglobalvar begin call print_hook("setglobalvar"); end
+procedure setlighting begin call print_hook("setlighting"); end
+procedure sneak begin call print_hook("sneak"); end
+procedure stdprocedure begin call print_hook("stdprocedure", HOOK_STDPROCEDURE); end
+procedure stdprocedure_end begin call print_hook("stdprocedure_end", HOOK_STDPROCEDURE_END); end
+procedure steal begin call print_hook("steal"); end
+procedure subcombatdamage begin call print_hook("subcombatdamage"); end
+procedure targetobject begin call print_hook("targetobject"); end
+procedure tohit begin call print_hook("tohit"); end
+procedure useanimobj begin call print_hook("useanimobj"); end
+procedure useobj begin call print_hook("useobj"); end
+procedure useobjon begin call print_hook("useobjon"); end
+procedure useskill begin call print_hook("useskill"); end
+procedure useskillon begin call print_hook("useskillon"); end
+procedure withinperception begin call print_hook("withinperception"); end
+
+procedure list_all_critters begin
+  variable c;
+  foreach c in list_as_array(LIST_CRITTERS) begin
+    ndebug(c + " is " + obj_name(c));
+  END
+end
+
+procedure map_enter_p_proc begin
+  call list_all_critters;
+end
+
+procedure start begin
+  if game_loaded then begin
+    register_hook_proc(HOOK_ADJUSTFID, adjustfid);
+    register_hook_proc(HOOK_ADJUSTFID, adjustfid);
+    register_hook_proc(HOOK_AFTERHITROLL, afterhitroll);
+    register_hook_proc(HOOK_AMMOCOST, ammocost);
+    register_hook_proc(HOOK_BARTERPRICE, barterprice);
+    register_hook_proc(HOOK_CALCAPCOST, calcapcost);
+    register_hook_proc(HOOK_CARTRAVEL, cartravel);
+    register_hook_proc(HOOK_COMBATDAMAGE, combatdamage);
+    register_hook_proc(HOOK_COMBATTURN, combatturn);
+    register_hook_proc(HOOK_DEATHANIM1, deathanim1);
+    register_hook_proc(HOOK_DEATHANIM2, deathanim2);
+    register_hook_proc(HOOK_DESCRIPTIONOBJ, descriptionobj);
+    register_hook_proc(HOOK_ENCOUNTER, encounter);
+    register_hook_proc(HOOK_EXPLOSIVETIMER, explosivetimer);
+    register_hook_proc(HOOK_FINDTARGET, findtarget);
+    register_hook_proc(HOOK_GAMEMODECHANGE, gamemodechange);
+    register_hook_proc(HOOK_HEXAIBLOCKING, hexaiblocking);
+    register_hook_proc(HOOK_HEXMOVEBLOCKING, hexmoveblocking);
+    register_hook_proc(HOOK_HEXSHOOTBLOCKING, hexshootblocking);
+    register_hook_proc(HOOK_HEXSIGHTBLOCKING, hexsightblocking);
+    register_hook_proc(HOOK_INVENTORYMOVE, inventorymove);
+    register_hook_proc(HOOK_INVENWIELD, invenwield);
+    register_hook_proc(HOOK_ITEMDAMAGE, itemdamage);
+    register_hook_proc(HOOK_KEYPRESS, keypress);
+    register_hook_proc(HOOK_MOUSECLICK, mouseclick);
+    register_hook_proc(HOOK_MOVECOST, movecost);
+    register_hook_proc(HOOK_ONDEATH, ondeath);
+    register_hook_proc(HOOK_ONEXPLOSION, onexplosion);
+    register_hook_proc(HOOK_REMOVEINVENOBJ, removeinvenobj);
+    register_hook_proc(HOOK_RESTTIMER, resttimer);
+    register_hook_proc(HOOK_SETGLOBALVAR, setglobalvar);
+    register_hook_proc(HOOK_SETLIGHTING, setlighting);
+    register_hook_proc(HOOK_SNEAK, sneak);
+    register_hook_proc(HOOK_STDPROCEDURE, stdprocedure);
+    register_hook_proc(HOOK_STDPROCEDURE_END, stdprocedure_end);
+    register_hook_proc(HOOK_STEAL, steal);
+    register_hook_proc(HOOK_SUBCOMBATDAMAGE, subcombatdamage);
+    register_hook_proc(HOOK_TARGETOBJECT, targetobject);
+    register_hook_proc(HOOK_TOHIT, tohit);
+    register_hook_proc(HOOK_USEANIMOBJ, useanimobj);
+    register_hook_proc(HOOK_USEOBJ, useobj);
+    register_hook_proc(HOOK_USEOBJON, useobjon);
+    register_hook_proc(HOOK_USESKILL, useskill);
+    register_hook_proc(HOOK_USESKILLON, useskillon);
+    register_hook_proc(HOOK_WITHINPERCEPTION, withinperception);
+    call list_all_critters;
+    ndebug("initialized");
+  end
+end
