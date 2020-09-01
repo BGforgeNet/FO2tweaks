@@ -249,10 +249,10 @@ end
 
 // returns [critical mult, critical effect flags]
 procedure get_critical_type(variable attacker, variable target) begin
-  variable mult = 2; //default
-  variable flags = 0; //default
+  variable mult = 2;  // default
+  variable flags = 0; // default
   variable chance = get_critter_stat(attacker, STAT_crit_chance);
-  variable rnd = random(0,100);
+  variable rnd = random(1,100);
   variable crit_level;
 
   if rnd > chance then return [mult/2.0, flags]; //not critical
