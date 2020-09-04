@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Russian (Fallout)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: 2020-09-04 16:10+0000\n"
+"PO-Revision-Date: 2020-09-05 14:12+0000\n"
 "Last-Translator: egornovivan <egornov.ivan@gmail.com>\n"
 "Language-Team: Russian <https://tra.bgforge.net/projects/fallout/fo2tweaks/"
 "ru/>\n"
@@ -50,7 +50,7 @@ msgstr "Ого, теперь-то я знаю, как делать больне�
 
 #: game/g_healing_revision.msg:9
 msgid "has earned Living Anatomy perk."
-msgstr "получает способность Практическая Анатомия."
+msgstr "получает способность Практическая анатомия."
 
 #: game/g_healing_revision.msg:10
 msgid "You receive %1% experience for successful use of %2% skill."
