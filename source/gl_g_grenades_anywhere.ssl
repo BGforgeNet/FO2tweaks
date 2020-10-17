@@ -89,6 +89,7 @@ procedure target_object_handler begin
   else begin
     ndebug("create throwing target at: " + tile);
     target = create_object(TARGET_PID, tile, dude_elevation);
+    set_flags(target, get_flags(target) bwor FLAG_FLAT); // skip "X was hit instead of Scroll Blocker" on display.
   end
   set_sfall_arg(1, 1); // set valid target
   set_sfall_arg(2, target);
