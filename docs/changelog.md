@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 12.3
+Fixed ammobox [not updating](https://forums.bgforge.net/viewtopic.php?f=26&p=861) when using red button to switch hands.
+
 ### Version 12.2
 - Disabled automatic cursor by default.
 - Added a note about enabling `UseFileSystemOverride` in `ddraw.ini` for Run Speed component.
