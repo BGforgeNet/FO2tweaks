@@ -10,10 +10,10 @@ variable max_knockback;
 
 procedure start begin
   if game_loaded then begin
-    variable max_knockback = fo2tweaks_setting(sec_main, set_max_knockback);
-    if max_knockback then begin
+    max_knockback = fo2tweaks_setting(sec_main, set_max_knockback);
+    if max_knockback >= 0 then begin
       register_hook_proc(HOOK_COMBATDAMAGE, combat_damage_hook);
-      ndebug("initialized");
+      ndebug("initialized, max knockback = " + max_knockback);
     end
   end
 end
