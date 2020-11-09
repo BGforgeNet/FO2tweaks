@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 12.4
+- Fixed max knockback being [always limited to 0](https://forums.bgforge.net/viewtopic.php?f=26&p=888) regardless of actual setting value.
+
 ### Version 12.3
 - Fixed ammobox [not updating](https://forums.bgforge.net/viewtopic.php?f=26&p=861) when using red button to switch hands.
 - Updated sfall to 4.2.8.1.
