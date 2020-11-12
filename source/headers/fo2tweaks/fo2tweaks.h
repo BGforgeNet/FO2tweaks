@@ -22,7 +22,7 @@
 #define is_ammo(obj)	 (obj_item_subtype(obj) == item_type_ammo)
 #define is_ammo_pid(pid)	(proto_data(pid, it_type) == item_type_ammo)
 #define is_armor(obj)	 (obj_item_subtype(obj) == item_type_armor)
-#define is_armod_pid(pid)	(proto_data(pid, it_type) == item_type_armor)
+#define is_armor_pid(pid)	(proto_data(pid, it_type) == item_type_armor)
 #define is_critter(obj)   (obj_type(obj) == OBJ_TYPE_CRITTER)
 #define is_scenery(obj)   (obj_type(obj) == OBJ_TYPE_SCENERY)
 
