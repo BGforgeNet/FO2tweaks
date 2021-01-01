@@ -485,7 +485,7 @@ procedure f2rp_pid_maxstage begin
     PID_LENNY: 3, //Lenny
     PID_MARCUS: 5, //Marcus
     PID_MYRON: 4, //Myron
-    PID_ROBOBRAIN: 5, //Brainbot
+    PID_BRAINBOT: 5, //Brainbot
     PID_CYBERDOG: 4, //Robodog
     PID_GORIS: 6, //Goris
     PID_K9: 4, //K-9
