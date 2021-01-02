@@ -38,13 +38,6 @@ procedure start begin
   end
 end
 
-procedure is_explosive(variable weapon_pid) begin
-  variable dmg_type = get_proto_data(weapon_pid, PROTO_WP_DMG_TYPE);
-  if dmg_type == DMG_explosion then return true;
-  if weapon_pid == PID_MOLOTOV_COCKTAIL and dmg_type == DMG_fire then return true;
-  return false;
-end
-
 procedure target_object_handler begin
   variable weapon_pid, ammo_pid, tile, object, list;
 
@@ -73,7 +66,7 @@ procedure target_object_handler begin
   ammo_pid = get_active_ammo_pid(dude_obj);
   ndebug("ammo pid = " + ammo_pid);
 
-  if not (is_in_array(weapon_pid, explosive_weapon_pids) and is_explosive(weapon_pid))
+  if not (is_in_array(weapon_pid, explosive_weapon_pids))
     and not (ammo_pid and (is_in_array(ammo_pid, explosive_ammo_pids)) )
   then begin
     target_destroy;
