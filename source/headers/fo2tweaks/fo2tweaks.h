@@ -476,25 +476,23 @@ procedure obj_armor(variable obj) begin
   return armor;
 end
 
-procedure f2rp_pid_maxstage begin
-  variable rp_map;
+procedure f2rp_npc_stages begin
+  variable rp_map, pid, level_step;
   rp_map := {
-    PID_SULIK: 6, //Sulik
-    PID_VIC: 6, //Vic
-    PID_JOHN_MACRAE: 4, //Cassidy
-    PID_LENNY: 3, //Lenny
-    PID_MARCUS: 5, //Marcus
-    PID_MYRON: 4, //Myron
-    PID_BRAINBOT: 5, //Brainbot
-    PID_CYBERDOG: 4, //Robodog
-    PID_GORIS: 6, //Goris
-    PID_K9: 4, //K-9
-    PID_DOGMEAT: 6, //Dogmeat
-    PID_CAT_JULES: 5, //Cat Jules
-    PID_KITSUNE: 5, //Kitsune
-    PID_DEX: 5, //Dex
-    PID_MIRIA: 0, //Miria
-    PID_DAVIN: 0 //Davin
+    PID_SULIK: "6,3",
+    PID_VIC: "5,4",
+    PID_JOHN_MACRAE: "10,4",
+    PID_LENNY: "10,5",
+    PID_MARCUS: "12,3",
+    PID_MYRON: "6,4",
+    PID_BRAINBOT: "10,4",
+    PID_CYBERDOG: "9,4", //Robodog
+    PID_GORIS: "10,4",
+    PID_K9: "12,4",
+    PID_DOGMEAT: "6,3",
+    PID_CAT_JULES: "12,3",
+    PID_KITSUNE: "12,3",
+    PID_DEX: "12,3"
   };
   return rp_map;
 end

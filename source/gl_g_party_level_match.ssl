@@ -3,73 +3,36 @@
 
 #define set_party_level_match "party_level_match"
 #define sec_party_level_match "party_level_match"
-#define set_party_finlevel "final_level"
-#define set_party_3stages_start "3stages_start"
-#define set_party_4stages_start "4stages_start"
-#define set_party_5stages_start "5stages_start"
-#define set_party_6stages_start "6stages_start"
-#define sec_party_level_pids "party_level_maxstage"
 
-variable begin
-  enabled;
-  fin_level;
-  step;
-  stage3_start;
-  stage4_start;
-  stage5_start;
-  stage6_start;
-  pid_maxstage;
-end
+variable enabled, pid_mlevel, pid_step;
 
 procedure levelup begin
-  variable
-    max_stage,
-    pc_level,
-    cur_stage,
-    start_level,
-    party_names,
-    expected_stage;
+  variable pc_level, cur_stage, expected_stage, who;
 
-  if enabled == 1 and true_party_size > 0 then begin
-    variable who;
-    pc_level = get_pc_stat(PCSTAT_level);
+  if true_party_size == 0 then return;
 
-    foreach who in party_member_list_critters begin
-      variable pid = obj_pid(who);
-      cur_stage = get_npc_level(pid);
-      max_stage = pid_maxstage[pid];
+  pc_level = get_pc_stat(PCSTAT_level);
+  foreach who in party_member_list_critters begin
+    variable pid = obj_pid(who), min_level, step;
 
-      switch max_stage begin
-        case 3:
-          start_level = stage3_start;
-        case 4:
-          start_level = stage4_start;
-        case 5:
-          start_level = stage5_start;
-        default:
-          start_level = stage6_start;
-      end
+    variable present = pid_mlevel[pid];
+    ndebug("pc_level = " + pc_level);
+    ndebug("npc is " + obj_name(who) + ", pid " + pid);
+    if present == 0 then continue; // not in config
 
-      //already maxed or too early
-      if cur_stage >= max_stage or pc_level <= start_level then continue;
+    min_level = pid_mlevel[pid];
+    step = pid_step[pid];
 
-      step = floor2((fin_level - start_level)/max_stage);
+    ndebug("step = " + step);
+    cur_stage = get_npc_level(pid);
+    ndebug("cur_stage = " + cur_stage);
+    expected_stage = floor2((pc_level - min_level) / step);
+    ndebug("expected_stage = " + expected_stage);
 
-      ndebug("npc is " + obj_name(who));
-      ndebug("cur_stage = " + cur_stage);
-      ndebug("pc_level = " + pc_level);
-      ndebug("start_level = " + start_level);
-      ndebug("step = " + step);
-
-      expected_stage = floor2((pc_level - start_level)/step);
-      ndebug("expected_stage = " + expected_stage);
-      ndebug("max_stage = " + max_stage);
-
-      if cur_stage < expected_stage then begin
-        ndebug("leveling up " + obj_name(who));
-        inc_npc_level(pid);
-      end
-
+    while cur_stage < (expected_stage + 1) do begin // min_level corresponds to stage 0
+      ndebug("leveling up " + obj_name(who));
+      inc_npc_level(pid);
+      cur_stage = cur_stage + 1;
     end
   end
 end
@@ -77,25 +40,50 @@ end
 procedure gamemode_handler begin
   variable old_mode = get_sfall_arg_at(1);
   variable new_mode = get_game_mode;
-  if mode_ended(DIALOG, old_mode, new_mode) then call levelup;
+  variable old_party_size, new_party_size;
+  if mode_started(DIALOG, old_mode, new_mode) then old_party_size = len_array(party_member_list_critters);
+  if mode_ended(DIALOG, old_mode, new_mode) then begin
+    new_party_size = len_array(party_member_list_critters);
+    if old_party_size < new_party_size then call levelup;
+  end
+  if mode_ended(COMBAT, old_mode, new_mode) then call levelup;
+end
+
+procedure map_enter_p_proc begin
+  if enabled == 1 then call levelup;
+end
+
+procedure parse_stages(variable npc_list) begin
+  variable tmp, pid, mlevel_step;
+  foreach pid: mlevel_step in npc_list begin
+    variable min_level, step;
+    if typeof(pid) == VALTYPE_STR then pid = atoi(pid); // loading from ini
+    mlevel_step = string_split(mlevel_step, ",");
+    min_level = atoi(mlevel_step[0]);
+    step = atoi(mlevel_step[1]);
+    pid_mlevel[pid] = min_level;
+    pid_step[pid] = step;
+  end
 end
 
 procedure start begin
   if game_loaded then begin
     enabled = fo2tweaks_setting(sec_main, set_party_level_match);
     if enabled == 1 then begin
-      variable  tmp;
-      fin_level = fo2tweaks_setting(sec_party_level_match, set_party_finlevel);
-      stage3_start = fo2tweaks_setting(sec_party_level_match, set_party_3stages_start);
-      stage4_start = fo2tweaks_setting(sec_party_level_match, set_party_4stages_start);
-      stage5_start = fo2tweaks_setting(sec_party_level_match, set_party_5stages_start);
-      stage6_start = fo2tweaks_setting(sec_party_level_match, set_party_6stages_start);
-
+      variable tmp, override, pid, mlevel;
+      pid_mlevel = {};
+      pid_step = {};
       //load default, override from ini
-      tmp = f2rp_pid_maxstage;
-      pid_maxstage = get_ini_section_ints(fo2tweaks_ini, sec_party_level_pids);
-      pid_maxstage = array_append(tmp, pid_maxstage);
-      fix_array(pid_maxstage);
+      tmp = f2rp_npc_stages;
+      call parse_stages(tmp);
+      override = get_ini_section(fo2tweaks_ini, sec_party_level_match);
+      call parse_stages(override);
+
+      foreach pid: mlevel in pid_mlevel begin
+        ndebug(pid + ": " + mlevel + "/" + pid_step[pid]);
+      end
+      fix_array(pid_mlevel);
+      fix_array(pid_step);
 
       register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
       ndebug("initialized");
