@@ -34,6 +34,7 @@
 #define msg_living_anatomy_2 9
 #define msg_got_xp 10
 #define msg_healed_for 11
+#define msg_dead 12
 
 procedure start;
 procedure healing_handler;
@@ -135,6 +136,10 @@ procedure use_doctor(variable user, variable target, variable skill_bonus, varia
   ndebug("doctor level " + doctor_level + ", skill bonus " + skill_bonus + ", effective " + effective_doctor);
 
   if interactive then begin
+    if is_critter_dead(target) then begin
+      display_mymsg(msg_dead);
+      return false;
+    end
     if is_healthy(target) then begin // healthy, nothing to do
       display_mymsg(msg_healthy);
       return false;
@@ -180,6 +185,10 @@ procedure use_first_aid(variable user, variable target, variable skill_bonus, va
   ndebug("userfa " + user + " target " + target);
 
   if interactive then begin
+    if is_critter_dead(target) then begin
+      display_mymsg(msg_dead);
+      return false;
+    end
     if is_healthy(target) then begin // healthy, nothing to do
       display_mymsg(msg_healthy);
       return false;
