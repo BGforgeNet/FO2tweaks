@@ -58,6 +58,10 @@ msgstr "Вы получаете %1% опыта за успешное приме�
 msgid "%1% healed for %2% HP."
 msgstr "%1% излечивает %2% ед. здоровья."
 
+#: game/g_healing_revision.msg:12
+msgid "Dead. Too late to help this one."
+msgstr ""
+
 #: game/g_level5.msg:1
 msgid ""
 "You receive 9500 experience points, because you're a cheating little "
