@@ -7,7 +7,6 @@
 [![Support us on Patreon](https://img.shields.io/badge/support%20us-patreon-purple)](https://www.patreon.com/BGforge)
 
 [__Download__](https://github.com/BGforgeNet/FO2tweaks/releases/latest)
- | [__Install__](#installation)
  | [__Report issues__](#reporting-issues)
  | [__Discuss__](https://forums.bgforge.net/viewforum.php?f=26)
  | [__Translate__](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
@@ -15,38 +14,17 @@
 This is a collection of convenience tweaks, common sense changes, and cheats for Fallout 2.
 It is highly configurable, any component can be used with or without others. Some components also allow fine tuning.
 
+## Installation
+- Download `fo2tweaks_v*.zip` from the [latest release](https://github.com/BGforgeNet/FO2tweaks/releases/latest) page.
+- Unzip the archive into main game directory. FO2tweaks requires sfall (`ddraw.dll`) version 4.1.3+, it's shipped with the mod. If you have a newer version, you don't need to overwite the dll when extracting the archive.
+- Edit `mods/fo2tweaks.ini` to enable, disable or fine tune components as you desire.
+
+This is how it's supposed to look when installed:
+
+![installed](docs/installed.png)
+
 - [Components](#components)
-  - [Inventory](#inventory)
-    - [Unlimited carry weight](#unlimited-carry-weight)
-    - [Unlimited trunk](#unlimited-trunk)
-    - [Auto reload](#auto-reload)
-    - [Don't drop items on death](#dont-drop-items-on-death)
-  - [Party](#party)
-    - [Unlimited party](#unlimited-party)
-    - [Party level match](#party-level-match)
-  - [Speed](#speed)
-    - [General game speedup](#general-game-speedup)
-    - [Party run speed](#party-run-speed)
-  - [Combat](#combat)
-    - [Ammobox](#ammobox)
-    - [Damage mod](#damage-mod)
-    - [Limit knockback](#limit-knockback)
-    - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
-    - [Improved grenades](#improved-grenades)
-    - [No close range penalty for scoped weapons](#no-close-range-penalty-for-scoped-weapons)
-    - [HP over head](#hp-over-head)
-    - [Auto cursor](#auto-cursor)
-  - [Miscellaneous](#miscellaneous)
-    - [Autodoors](#autodoors)
-    - [Healing revision](#healing-revision)
-    - [Level 5 after Temple of Trials](#level-5-after-temple-of-trials)
-    - [Map hotkey](#map-hotkey)
-    - [Keymap](#keymap)
-    - [Modoc brahmin](#modoc-brahmin)
-    - [Expanded highlighting](#expanded-highlighting)
-    - [Light level](#light-level)
 - [Compatibility](#compatibility)
-- [Installation](#installation)
 - [Unistallation](#uninstallation)
 - [Reporting issues](#reporting-issues)
 - [Author](#author)
@@ -54,6 +32,35 @@ It is highly configurable, any component can be used with or without others. Som
 - [Changelog](docs/changelog.md)
 
 ## Components
+- [Inventory](#inventory)
+  - [Unlimited carry weight](#unlimited-carry-weight)
+  - [Unlimited trunk](#unlimited-trunk)
+  - [Auto reload](#auto-reload)
+  - [Don't drop items on death](#dont-drop-items-on-death)
+- [Party](#party)
+  - [Unlimited party](#unlimited-party)
+  - [Party level match](#party-level-match)
+- [Speed](#speed)
+  - [General game speedup](#general-game-speedup)
+  - [Party run speed](#party-run-speed)
+- [Combat](#combat)
+  - [Ammobox](#ammobox)
+  - [Damage mod](#damage-mod)
+  - [Limit knockback](#limit-knockback)
+  - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
+  - [Improved grenades](#improved-grenades)
+  - [No close range penalty for scoped weapons](#no-close-range-penalty-for-scoped-weapons)
+  - [HP over head](#hp-over-head)
+  - [Auto cursor](#auto-cursor)
+- [Miscellaneous](#miscellaneous)
+  - [Autodoors](#autodoors)
+  - [Healing revision](#healing-revision)
+  - [Level 5 after Temple of Trials](#level-5-after-temple-of-trials)
+  - [Map hotkey](#map-hotkey)
+  - [Keymap](#keymap)
+  - [Modoc brahmin](#modoc-brahmin)
+  - [Expanded highlighting](#expanded-highlighting)
+  - [Light level](#light-level)
 
 ### Inventory
 
@@ -218,10 +225,6 @@ This allows to set a lower limit for the ambient light level. Refer to the [wiki
 * Damage mod component is a special case. It's designed for vanilla game stats, so using it with mods like YAAM or F2WR will probably yield unexpected results.
 You're free to try and share your experience, however.
 
-## Installation
-- Download the [latest release](https://github.com/BGforgeNet/fo2tweaks/releases/latest).
-- Unzip the archive into main game directory. FO2tweaks requires sfall (`ddraw.dll`) version 4.1.3+, it's shipped with the mod. If you have a newer version, you don't need to overwite the dll when extracting the archive.
-- Edit `mods/fo2tweaks.ini` to enable, disable or fine tune components as you desire.
 
 ## Uninstallation
 Delete `mods/fo2tweaks.*` files.
