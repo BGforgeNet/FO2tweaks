@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: 2021-02-23 14:12+0000\n"
+"PO-Revision-Date: 2021-02-23 16:57+0000\n"
 "Last-Translator: Martin Herzberg <fasciana84@gmail.com>\n"
 "Language-Team: German <https://tra.bgforge.net/projects/fallout/fo2tweaks/de/"
 ">\n"
@@ -37,38 +37,41 @@ msgstr "Diese Kreatur ist bereits gesund."
 
 #: game/g_healing_revision.msg:6
 msgid "You have already used this skill on this critter today."
-msgstr ""
+msgstr "Du hast diese Fertigkeit heute bereits bei diesem Lebewesen eingesetzt."
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
-msgstr ""
+msgstr "Du konntest keine Heilung durchführen."
 
 #: game/g_healing_revision.msg:8
 msgid "Wow, now I really know how to hurt 'em!"
-msgstr ""
+msgstr "Wow, jetzt weiß ich wirklich, wie ich sie verletzen kann!"
 
 #: game/g_healing_revision.msg:9
 msgid "has earned Living Anatomy perk."
-msgstr ""
+msgstr "hat Lebende Anatomie Bonus verdient."
 
 #: game/g_healing_revision.msg:10
 msgid "You receive %1% experience for successful use of %2% skill."
 msgstr ""
+"Du erhältst %1% Erfahrung für den erfolgreichen Einsatz von %2% deiner "
+"Fertigkeit."
 
 #: game/g_healing_revision.msg:11
 msgid "%1% healed for %2% HP."
-msgstr ""
+msgstr "%1% geheilt für %2% der TP."
 
 #: game/g_healing_revision.msg:12
 msgid "Dead. Too late to help this one."
-msgstr ""
+msgstr "Tot. Zuspät, um hier zu helfen."
 
 #: game/g_level5.msg:1
 msgid ""
 "You receive 9500 experience points, because you're a cheating little "
 "bastard."
 msgstr ""
+"Du erhältst 9500 Erfahrungspunkte, weil du cheatest, du kleiner Scheißer."
 
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."
-msgstr ""
+msgstr "Nö... Ich denke, ich werde die Leiter benutzen."
