@@ -1,1 +1,1 @@
-{1}{}{You receive 9500 experience points, because you're a cheating little bastard.}
+{1}{}{Du erhältst 9500 Erfahrungspunkte, weil du cheatest, du kleiner Scheißer.}
