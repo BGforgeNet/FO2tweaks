@@ -54,8 +54,7 @@ Var worldmap_key_state
 
 Function "inventoryPageConfig"
 
-  !define MUI_PAGE_HEADER_TEXT "Inventory Tweaks"
-  !define MUI_PAGE_HEADER_SUBTEXT "Please select the inventory tweaks that you want enabled."
+  !insertmacro MUI_HEADER_TEXT "Inventory Tweaks" "Please select the inventory tweaks that you want enabled."
 
 	nsDialogs::Create 1018
 	Pop $Dialog
@@ -103,8 +102,7 @@ FunctionEnd
 
 Function "partyPageConfig"
 
-  !define MUI_PAGE_HEADER_TEXT "Party Tweaks"
-  !define MUI_PAGE_HEADER_SUBTEXT "Please select the party tweaks that you want enabled."
+  !insertmacro MUI_HEADER_TEXT "Party Tweaks" "Please select the party tweaks that you want enabled."
 
 	nsDialogs::Create 1018
 	Pop $Dialog
@@ -144,8 +142,7 @@ FunctionEnd
 
 Function "speedPageConfig"
 
-  !define MUI_PAGE_HEADER_TEXT "Speed Tweaks"
-  !define MUI_PAGE_HEADER_SUBTEXT "Please select the speed tweaks that you want enabled."
+  !insertmacro MUI_HEADER_TEXT "Speed Tweaks" "Please select the speed tweaks that you want enabled."
 
 	nsDialogs::Create 1018
 	Pop $Dialog
@@ -185,8 +182,7 @@ FunctionEnd
 
 Function "combatPageConfig"
 
-  !define MUI_PAGE_HEADER_TEXT "Combat Tweaks"
-  !define MUI_PAGE_HEADER_SUBTEXT "Please select the combat tweaks that you want enabled."
+  !insertmacro MUI_HEADER_TEXT "Combat Tweaks" "Please select the combat tweaks that you want enabled."
 
 	nsDialogs::Create 1018
 	Pop $Dialog
@@ -274,8 +270,7 @@ FunctionEnd
 
 Function "utilityPageConfig"
 
-  !define MUI_PAGE_HEADER_TEXT "Utility Tweaks"
-  !define MUI_PAGE_HEADER_SUBTEXT "Please select the utility tweaks that you want enabled."
+  !insertmacro MUI_HEADER_TEXT "Utility Tweaks" "Please select the utility tweaks that you want enabled."
 
 	nsDialogs::Create 1018
 	Pop $Dialog
@@ -345,8 +340,7 @@ FunctionEnd
 
 Function "miscPageConfig"
 
-  !define MUI_PAGE_HEADER_TEXT "Miscellaneous Tweaks"
-  !define MUI_PAGE_HEADER_SUBTEXT "Please select the miscellaneous tweaks that you want enabled."
+  !insertmacro MUI_HEADER_TEXT "Miscellaneous Tweaks" "Please select the miscellaneous tweaks that you want enabled."
 
 	nsDialogs::Create 1018
 	Pop $Dialog
@@ -407,7 +401,7 @@ Function "writeKeys"
   CopyFiles "mods\fo2tweaks.ini" "$TEMP\fo2tweaks.ini"
   DeleteINISec "$TEMP\fo2tweaks.ini" "main"
 
-  WriteINIStr "$TEMP\fo2tweaks.ini" "main" "gigilo_limit" "$gigilo_limit"
+  WriteINIStr "$TEMP\fo2tweaks.ini" "main" "gigolo_limit" "$gigolo_limit"
   WriteINIStr "$TEMP\fo2tweaks.ini" "main" "max_knockback" "$max_knockback"
   WriteINIStr "$TEMP\fo2tweaks.ini" "main" "townmap_key" "$townmap_key"
   WriteINIStr "$TEMP\fo2tweaks.ini" "main" "worldmap_key" "$worldmap_key"

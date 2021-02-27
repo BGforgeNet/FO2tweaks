@@ -5,12 +5,15 @@
 !include "nsDialogs.nsh"
 
 !insertmacro MUI_LANGUAGE "English"
+!define MUI_PAGE_HEADER_TEXT "Fallout 2 Tweaks Installer"
+!define MUI_PAGE_HEADER_SUBTEXT "$VERSION"
+
 
 Var Dialog
 !include "advanced_configuration.nsh"
 
-Name "Fallout 2 Tweaks - ${VERSION}"
-OutFile "FO2tweaks-${VERSION}.exe"
+Name "Fallout 2 Tweaks - $VERSION"
+OutFile "FO2tweaks-$VERSION.exe"
 
 Var advanced
 Var bundledSfall
@@ -20,8 +23,8 @@ Var instPath
 Var sfall
 
 Function .onInit
-  ReadEnvStr $bundledSfall sfall_version
-  ReadEnvStr $SYSTEM_DISK SYSTEMDRIVE
+  ReadEnvStr $bundledSfall "sfall_version"
+  ReadEnvStr $SYSTEM_DISK "SYSTEMDRIVE"
   strcpy $INSTDIR "$SYSTEM_DISK\GOG Games\Fallout 2\"
   strcpy $instPath $INSTDIR
   strcpy $advanced 1
@@ -59,8 +62,7 @@ Page custom confirmPageConfig confirmPageLeave
 
 Function installDir
 
-  !define MUI_PAGE_HEADER_TEXT "Install Location"
-  !define MUI_PAGE_HEADER_SUBTEXT "Provide the path to your Fallout 2 installation."
+  !insertmacro MUI_HEADER_TEXT "Install Location" "Provide the path to your Fallout 2 installation."
 
   nsDialogs::Create 1018
   Pop $Dialog
@@ -128,8 +130,7 @@ FunctionEnd
 
 Function "installSfallPage"
 
-  !define MUI_PAGE_HEADER_TEXT "Sfall Installation"
-  !define MUI_PAGE_HEADER_SUBTEXT "Sfall is not installed or is older than the bundled version."
+  !insertmacro MUI_HEADER_TEXT "Sfall Installation" "Sfall is not installed or is older than the bundled version."
 
   nsDialogs::Create 1018
   Pop $Dialog
@@ -175,8 +176,7 @@ FunctionEnd
 
 
 Function "basicOrAdvancedPage"
-  !define MUI_PAGE_HEADER_TEXT "Installation Type"
-  !define MUI_PAGE_HEADER_SUBTEXT "Please select your installation type."
+  !insertmacro MUI_HEADER_TEXT "Installation Type" "Please select your installation type."
 
   nsDialogs::Create 1018
   Pop $Dialog
