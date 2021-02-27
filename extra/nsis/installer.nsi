@@ -3,6 +3,7 @@
 !include "LogicLib.nsh"
 !include "MUI2.nsh"
 !include "nsDialogs.nsh"
+!include "WordFunc.nsh"
 
 !insertmacro MUI_LANGUAGE "English"
 !define MUI_PAGE_HEADER_TEXT "Fallout 2 Tweaks Installer"
@@ -17,11 +18,23 @@ OutFile "FO2tweaks-$VERSION.exe"
 
 Var advanced
 Var bundledSfall
+var hwnd
 var installedSfallVersion
 Var installSfall
 Var instPath
 Var sfall
 Var systemDisk
+
+!macro NSD_SetUserData hwnd data
+	nsDialogs::SetUserData ${hwnd} ${data}
+!macroend
+!define NSD_SetUserData `!insertmacro NSD_SetUserData`
+
+!macro NSD_GetUserData hwnd outvar
+	nsDialogs::GetUserData ${hwnd}
+	Pop ${outvar}
+!macroend
+!define NSD_GetUserData `!insertmacro NSD_GetUserData`
 
 Function .onInit
   strCpy $bundledSfall "$%sfall_version%"
@@ -102,8 +115,6 @@ Function "checkInstallPath"
 
 FunctionEnd
 
-Version==
-
 Function OnDirBrowse
     ${NSD_GetText} $instPath $0
     nsDialogs::SelectFolderDialog "Select Fallout 2 Directory" "$0"
@@ -152,8 +163,6 @@ Function "installSfallPage"
   ${Else}
     StrCpy $installSfall 1
   ${EndIf}
-
-
 
   ${NSD_CreateLabel} 20% 26u 20% 10u "Sfall $bundledSfall will be installed."
   Pop $0
