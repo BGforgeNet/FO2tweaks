@@ -398,7 +398,7 @@ Function "writeKeys"
 
   IfFileExists $TEMP\fo2tweaks.ini +2 0
   Delete $TEMP\fo2tweaks.ini
-  CopyFiles "mods\fo2tweaks.ini" "$TEMP\fo2tweaks.ini"
+  CopyFiles "..\..\mods\fo2tweaks.ini" "$TEMP\fo2tweaks.ini"
   DeleteINISec "$TEMP\fo2tweaks.ini" "main"
 
   WriteINIStr "$TEMP\fo2tweaks.ini" "main" "gigolo_limit" "$gigolo_limit"

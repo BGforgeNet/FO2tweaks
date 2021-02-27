@@ -19,6 +19,7 @@ OutFile "FO2tweaks-$VERSION.exe"
 Var advanced
 Var bundledSfall
 var hwnd
+Var iniPath
 var installedSfallVersion
 Var installSfall
 Var instPath
@@ -248,26 +249,22 @@ FunctionEnd
 
 Function confirmPageLeave
 
-  SetOutPath $InstPath
+  SetOutPath $INSTDIR
 
   ${If} $InstallSfall == 1
-    File ".\sfall\ddraw.dll"
+    File "..\..\ddraw.dll"
+    IfFileExists "$instPath\ddraw.ini" +2 0
+      File "..\..\external\sfall\artifacts\ddraw.ini"
   ${EndIf}
 
-  SetOutPath $INSTDIR
-  IfFileExists "$instPath\ddraw.ini" +2 0
-    File ".\sfall\ddraw.ini"
-  File ".\sfall\ddraw.dll"
+  SetOutPath "$INSTDIR\mods"
 
-  SetOutPath "$InstPath\mods"
-
-  File "mods\fo2tweaks.dat"
+  File "..\..\mods\fo2tweaks.dat"
 
   ${If} $advanced == 1
     Call writeKeys
-    File "$TEMP\fo2tweaks.ini"
   ${Else}
-    File "mods\fo2tweaks.ini"
+    File "..\..\mods\fo2tweaks.ini"
   ${EndIf}
 
 FunctionEnd
