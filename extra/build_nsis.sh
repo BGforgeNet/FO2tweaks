@@ -2,4 +2,8 @@
 
 set -xeu -o pipefail
 
-makensis /v4 nsis/installer.nsi
+pushd extra/nsis
+
+  makensis -V4 installer.nsi
+
+popd
