@@ -54,7 +54,8 @@ Var worldmap_key_state
 
 Function "inventoryPageConfig"
 
-  !insertmacro MUI_HEADER_TEXT "Inventory Tweaks" "Please select the inventory tweaks that you want enabled."
+  !define MUI_PAGE_HEADER_TEXT "Inventory Tweaks"
+  !define MUI_PAGE_HEADER_SUBTEXT "Please select the inventory tweaks that you want enabled."
 
 	nsDialogs::Create 1018
 	Pop $Dialog
@@ -102,7 +103,8 @@ FunctionEnd
 
 Function "partyPageConfig"
 
-  !insertmacro MUI_HEADER_TEXT "Party Tweaks" "Please select the party tweaks that you want enabled."
+  !define MUI_PAGE_HEADER_TEXT "Party Tweaks"
+  !define MUI_PAGE_HEADER_SUBTEXT "Please select the party tweaks that you want enabled."
 
 	nsDialogs::Create 1018
 	Pop $Dialog
@@ -142,7 +144,8 @@ FunctionEnd
 
 Function "speedPageConfig"
 
-  !insertmacro MUI_HEADER_TEXT "Speed Tweaks" "Please select the speed tweaks that you want enabled."
+  !define MUI_PAGE_HEADER_TEXT "Speed Tweaks"
+  !define MUI_PAGE_HEADER_SUBTEXT "Please select the speed tweaks that you want enabled."
 
 	nsDialogs::Create 1018
 	Pop $Dialog
@@ -182,7 +185,8 @@ FunctionEnd
 
 Function "combatPageConfig"
 
-  !insertmacro MUI_HEADER_TEXT "Combat Tweaks" "Please select the combat tweaks that you want enabled."
+  !define MUI_PAGE_HEADER_TEXT "Combat Tweaks"
+  !define MUI_PAGE_HEADER_SUBTEXT "Please select the combat tweaks that you want enabled."
 
 	nsDialogs::Create 1018
 	Pop $Dialog
@@ -270,7 +274,8 @@ FunctionEnd
 
 Function "utilityPageConfig"
 
-  !insertmacro MUI_HEADER_TEXT "Utility Tweaks" "Please select the utility tweaks that you want enabled."
+  !define MUI_PAGE_HEADER_TEXT "Utility Tweaks"
+  !define MUI_PAGE_HEADER_SUBTEXT "Please select the utility tweaks that you want enabled."
 
 	nsDialogs::Create 1018
 	Pop $Dialog
@@ -340,7 +345,8 @@ FunctionEnd
 
 Function "miscPageConfig"
 
-  !insertmacro MUI_HEADER_TEXT "Miscellaneous Tweaks" "Please select the miscellaneous tweaks that you want enabled."
+  !define MUI_PAGE_HEADER_TEXT "Miscellaneous Tweaks"
+  !define MUI_PAGE_HEADER_SUBTEXT "Please select the miscellaneous tweaks that you want enabled."
 
 	nsDialogs::Create 1018
 	Pop $Dialog

@@ -31,8 +31,8 @@ FunctionEnd
 !define MUI_WELCOMEPAGE_TITLE "Welcome to the Fallout 2 Tweaks $VERSION Installer"
 !define MUI_WELCOMEPAGE_TEXT "Click next to begin your installation."
 
-!insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "${NSISDIR}\Docs\License.txt"
+!define MUI_PAGE_WELCOME
+!define MUI_PAGE_LICENSE "${NSISDIR}\Docs\License.txt"
 Page custom installDirPage installDirLeave
 Page custom installSfallPage InstallSfallLeave
 Page custom basicOrAdvancedPage basicOrAdvancedLeave
@@ -43,8 +43,8 @@ Page custom combatPageConfig combatPageLeave
 Page custom utilityPageConfig utilityPageLeave
 Page custom miscPageConfig miscPageLeave
 Page custom confirmPageConfig confirmPageLeave
-!insertmacro MUI_PAGE_INSTFILES
-!insertmacro MUI_PAGE_FINISH
+!define MUI_PAGE_INSTFILES
+!define MUI_PAGE_FINISH
 
 !insertmacro MUI_UNPAGE_WELCOME
 !insertmacro MUI_UNPAGE_CONFIRM
@@ -55,7 +55,8 @@ Page custom confirmPageConfig confirmPageLeave
 
 Function installDir
 
-  !insertmacro MUI_HEADER_TEXT "Install Location" "Provide the path to your Fallout 2 installation."
+  !define MUI_PAGE_HEADER_TEXT "Install Location"
+  !define MUI_PAGE_HEADER_SUBTEXT "Provide the path to your Fallout 2 installation."
 
   nsDialogs::Create 1018
   Pop $Dialog
@@ -123,7 +124,8 @@ FunctionEnd
 
 Function "installSfallPage"
 
-  !insertmacro MUI_HEADER_TEXT "Sfall Installation" "Sfall is not installed or is older than the bundled version."
+  !define MUI_PAGE_HEADER_TEXT "Sfall Installation"
+  !define MUI_PAGE_HEADER_SUBTEXT "Sfall is not installed or is older than the bundled version."
 
   nsDialogs::Create 1018
   Pop $Dialog
@@ -169,7 +171,8 @@ FunctionEnd
 
 
 Function "basicOrAdvancedPage"
-  !insertmacro MUI_HEADER_TEXT "Installation Type" "Please select your installation type."
+  !define MUI_PAGE_HEADER_TEXT "Installation Type"
+  !define MUI_PAGE_HEADER_SUBTEXT "Please select your installation type."
 
   nsDialogs::Create 1018
   Pop $Dialog
@@ -209,7 +212,7 @@ Function "confirmPageConfig"
 	${EndIf}
 
   ${If} $installedSfallVersion != 0
-    ${NSD_CreateLabel} 20% 26u 50%% 10u "Currently installed Sfall version will be used."
+    ${NSD_CreateLabel} 20% 26u 50%% 10u "Currently installed Sfall version ($installedSfallVersion) will be used."
     Pop $0
   ${EndIf}
   ${NSD_CreateLabel} 20% 26u 50%% 10u "Sfall $bundledSfall will be installed."
