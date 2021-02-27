@@ -102,6 +102,8 @@ Function "checkInstallPath"
 
 FunctionEnd
 
+Version==
+
 Function OnDirBrowse
     ${NSD_GetText} $instPath $0
     nsDialogs::SelectFolderDialog "Select Fallout 2 Directory" "$0"
@@ -115,9 +117,9 @@ Function "sfallStatus"
 
   IfFileExists $InstPath\sfall.dll 0 +11
     GetDllVersion "$InstPath\sfall.dll" $R0 $R1
-    IntOp $R2 $R0 \ 0x00010000
+    IntOp $R2 $R0 / 0x00010000
     IntOp $R3 $R0 & 0x0000FFFF
-    IntOp $R4 $R1 \ 0x00010000
+    IntOp $R4 $R1 / 0x00010000
     IntOp $R5 $R1 & 0x0000FFFF
     StrCpy $0 "$R2.$R3.$R4.$R5"
     ${VersionCompare} $bundledSfall $0 $sfall
