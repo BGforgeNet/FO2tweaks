@@ -21,18 +21,19 @@ var installedSfallVersion
 Var installSfall
 Var instPath
 Var sfall
+Var systemDisk
 
 Function .onInit
-  ReadEnvStr $bundledSfall "sfall_version"
-  ReadEnvStr $SYSTEM_DISK "SYSTEMDRIVE"
-  strcpy $INSTDIR "$SYSTEM_DISK\GOG Games\Fallout 2\"
+  strCpy $bundledSfall "$%sfall_version%"
+  ReadEnvStr $systemDisk "SYSTEMDRIVE"
+  strcpy $INSTDIR "$systemDisk\GOG Games\Fallout 2\"
   strcpy $instPath $INSTDIR
-  strcpy $advanced 1
-  strcpy $max_knockbackstate = -1
-  strcpy $min_light_level_state 0
+  strcpy $advanced "1"
+  strcpy $max_knockback_state = "-1"
+  strcpy $min_light_level_state "0"
   strcpy $townmap_key_state "Y"
-  strcpy $worldmap_key_state 'W'
-  strcpy $installedSfallVersion 0
+  strcpy $worldmap_key_state "W"
+  strcpy $installedSfallVersion "0"
 FunctionEnd
 
 !define MUI_WELCOMEPAGE_TITLE "Welcome to the Fallout 2 Tweaks $VERSION Installer"
