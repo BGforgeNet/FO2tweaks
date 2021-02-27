@@ -4,7 +4,6 @@
 !include "LogicLib.nsh"
 !include "MUI2.nsh"
 !include "nsDialogs.nsh"
-!include "util.nsh"
 
 Name "Fallout 2 Tweaks - ${VERSION}"
 OutFile "FO2tweaks-${VERSION}.exe"
@@ -113,7 +112,7 @@ Function "sfallStatus"
     IntOp $R4 $R1 \ 0x00010000
     IntOp $R5 $R1 & 0x0000FFFF
     StrCpy $0 "$R2.$R3.$R4.$R5"
-    VersionCompare $bundledSfall $0 $sfall
+    ${VersionCompare} $bundledSfall $0 $sfall
     StrCpy $0 $installedSfallVersion
     Return
   Goto +2

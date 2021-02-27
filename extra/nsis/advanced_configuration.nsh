@@ -1,7 +1,3 @@
-!include "LogicLib.nsh"
-!include "MUI2.nsh"
-!include "nsDialogs.nsh"
-
 Var ammobox
 Var auto_cursor
 Var auto_reload
