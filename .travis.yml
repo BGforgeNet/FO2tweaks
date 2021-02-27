@@ -1,6 +1,6 @@
-language: minimal
-dist: bionic
-sudo: false
+language: shell
+os: linux
+dist: focal
 
 cache:
   directories:
@@ -11,6 +11,7 @@ addons:
     update: true
     packages:
       - moreutils
+      - nsis
       - p7zip
       - wine-stable
       - wine32
@@ -20,6 +21,7 @@ before_install:
 
 script:
   - ./extra/buildall.sh
+  - ./extra/build_nsis.sh
   - ./extra/publish.sh
 
 env:
@@ -32,10 +34,10 @@ env:
 
 deploy:
   provider: releases
-  api_key: $GITHUB_TOKEN
+  token: $GITHUB_TOKEN
   file_glob: true
   file: fo2tweaks*.zip
-  skip_cleanup: true
+  cleanup: false
   on:
     tags: true
     branch: master
