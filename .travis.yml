@@ -26,11 +26,13 @@ script:
 
 env:
   global:
-    - sfall_version: 4.2.8.1
-    - mpack_version: 4.2.8.1
-    - mods_dir: mods
-    - mod_name: fo2tweaks
     - bin_dir: extra/bin
+    - mod_name: fo2tweaks
+    - mods_dir: mods
+    - mpack_version: 4.2.8.1
+    - rp_version: 18
+    - party_orders_version: 1.7
+    - sfall_version: 4.2.9
 
 deploy:
   provider: releases
