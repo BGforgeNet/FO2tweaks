@@ -4,6 +4,8 @@
 !include "MUI2.nsh"
 !include "nsDialogs.nsh"
 
+!insertmacro MUI_LANGUAGE "English"
+
 Var Dialog
 !include "advanced_configuration.nsh"
 
