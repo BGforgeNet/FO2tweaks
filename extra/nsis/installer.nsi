@@ -1,5 +1,7 @@
 !define VERSION "12.4"
 
+Var Dialog
+
 !include "advanced_configuration.nsh"
 !include "LogicLib.nsh"
 !include "MUI2.nsh"
