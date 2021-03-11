@@ -56,7 +56,7 @@ Section requiredbutnotused
 SectionEnd
 
 !insertmacro MUI_PAGE_WELCOME
-!insertmacro MUI_PAGE_LICENSE "./docs/License.txt"
+!insertmacro MUI_PAGE_LICENSE "./docs/license.txt"
 Page custom installDirPage installDirLeave
 Page custom installSfallPage
 Page custom basicOrAdvancedPage basicOrAdvancedLeave
