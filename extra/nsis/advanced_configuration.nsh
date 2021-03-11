@@ -74,14 +74,14 @@ Function "inventoryPageConfig"
 		${NSD_Check} $carry_weight
 	${EndIf}
 
-  ${NSD_CreateCheckBox} 20% 40u 60% 10u "Exploded, gooified, and vaporised enemies won't drop their inventory on the ground"
+  ${NSD_CreateCheckBox} 20% 40u 60% 20u "Exploded, gooified, and vaporised enemies won't drop their inventory on the ground"
   Pop $no_drop_items_on_death
 
   ${If} $no_drop_items_on_death_state == ${BST_CHECKED}
 		${NSD_Check} $no_drop_items_on_death
 	${EndIf}
 
-  ${NSD_CreateCheckBox} 20% 54u 60% 10u "Infinite car trunk space"
+  ${NSD_CreateCheckBox} 20% 64u 60% 10u "Infinite car trunk space"
   Pop $trunk_space
 
   ${If} $trunk_space_state == ${BST_CHECKED}

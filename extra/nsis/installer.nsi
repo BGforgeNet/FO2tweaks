@@ -139,15 +139,15 @@ FunctionEnd
 
 Function "sfallStatus"
 
-  ${If} ${FileExists} "$instPath\sfall.dll"
-    GetDllVersion "$instPath\sfall.dll" $R0 $R1
+  ${If} ${FileExists} "$INSTDIR\ddraw.dll"
+    GetDllVersion "$INSTDIR\sfall.dll" $R0 $R1
     IntOp $R2 $R0 / 0x00010000
     IntOp $R3 $R0 & 0x0000FFFF
     IntOp $R4 $R1 / 0x00010000
     IntOp $R5 $R1 & 0x0000FFFF
     StrCpy $0 "$R2.$R3.$R4.$R5"
     ${VersionCompare} $bundledSfall $0 $sfall
-    StrCpy $0 $installedSfallVersion
+    StrCpy $installedSfallVersion $0
     Return
   ${Else}
     StrCpy $sfall 0
@@ -170,8 +170,8 @@ Function "installSfallPage"
 
   # 1 = Bundled Version > Installed
   # 2 = installedVersion > Bundled
-  # 3 = Not Installed
-  ${IF} $sfall == 2
+  # 0 = Not Installed
+  ${If} $sfall == 2
     Abort
   ${Else}
     StrCpy $installSfall 1
@@ -180,8 +180,14 @@ Function "installSfallPage"
   ${NSD_CreateLabel} 20% 26u 60% 10u "Sfall $bundledSfall will be installed."
   Pop $0
 
-  ${If} $installedSfallVersion != 0
-    ${NSD_CreateLabel} 20% 40u 60% 10u "Currently installed Sfall version: $installedSfallVersion"
+  ${If} $installedSfallVersion == "0.0.0.0"
+    ${NSD_CreateLabel} 20% 40u 80% 10u "Sfall was detected but its version could not be determined."
+    Pop $0
+  ${ElseIf} $installedSfallVersion != 0
+    ${NSD_CreateLabel} 20% 40u 80% 10u "Currently installed Sfall version: $installedSfallVersion"
+    Pop $0
+  ${ElseIf} $sfall == 0
+    ${NSD_CreateLabel} 20% 40u 80% 10u "Sfall was not detected."
     Pop $0
   ${EndIf}
 
@@ -243,9 +249,10 @@ Function "confirmPageConfig"
   ${If} $installedSfallVersion != 0
     ${NSD_CreateLabel} 20% 26u 60% 10u "Currently installed Sfall version ($installedSfallVersion) will be used."
     Pop $0
+  ${Else}
+    ${NSD_CreateLabel} 20% 26u 60% 10u "Sfall $bundledSfall will be installed."
+    Pop $0
   ${EndIf}
-  ${NSD_CreateLabel} 20% 26u 60% 10u "Sfall $bundledSfall will be installed."
-  Pop $0
 
   ${If} $advanced == 1
     ${NSD_CreateLabel} 20% 40u 60% 10u "Advanced configuration was selected."
@@ -263,10 +270,12 @@ Function confirmPageLeave
 
   SetOutPath $INSTDIR
 
-  ${If} $InstallSfall == 1
+  ${If} $installSfall == 1
     File "..\..\ddraw.dll"
-    IfFileExists "$instPath\ddraw.ini" +2 0
+    ${If} ${FileExists} "$instPath\ddraw.ini"
+    ${Else}
       File "..\..\external\sfall\artifacts\ddraw.ini"
+    ${EndIf}
   ${EndIf}
 
   SetOutPath "$INSTDIR\mods"
