@@ -5,16 +5,14 @@
 !include "nsDialogs.nsh"
 !include "WordFunc.nsh"
 
-!insertmacro MUI_LANGUAGE "English"
 !define MUI_PAGE_HEADER_TEXT "Fallout 2 Tweaks Installer"
-!define MUI_PAGE_HEADER_SUBTEXT "$VERSION"
-
+!define MUI_PAGE_HEADER_SUBTEXT "${VERSION}"
 
 Var Dialog
 !include "advanced_configuration.nsh"
 
-Name "Fallout 2 Tweaks - $VERSION"
-OutFile "FO2tweaks-$VERSION.exe"
+Name "Fallout 2 Tweaks - ${VERSION}"
+OutFile "FO2tweaks-${VERSION}.exe"
 
 Var advanced
 Var bundledSfall
@@ -25,6 +23,8 @@ Var installSfall
 Var instPath
 Var sfall
 Var systemDisk
+
+strCpy $bundledSfall "$%sfall_version%"
 
 !macro NSD_SetUserData hwnd data
 	nsDialogs::SetUserData ${hwnd} ${data}
@@ -38,7 +38,6 @@ Var systemDisk
 !define NSD_GetUserData `!insertmacro NSD_GetUserData`
 
 Function .onInit
-  strCpy $bundledSfall "$%sfall_version%"
   ReadEnvStr $systemDisk "SYSTEMDRIVE"
   strcpy $INSTDIR "$systemDisk\GOG Games\Fallout 2\"
   strcpy $instPath $INSTDIR
@@ -50,13 +49,16 @@ Function .onInit
   strcpy $installedSfallVersion "0"
 FunctionEnd
 
-!define MUI_WELCOMEPAGE_TITLE "Welcome to the Fallout 2 Tweaks $VERSION Installer"
+!define MUI_WELCOMEPAGE_TITLE "Welcome to the Fallout 2 Tweaks ${VERSION} Installer"
 !define MUI_WELCOMEPAGE_TEXT "Click next to begin your installation."
 
-!define MUI_PAGE_WELCOME
-!define MUI_PAGE_LICENSE "${NSISDIR}\Docs\License.txt"
+Section requiredbutnotused
+SectionEnd
+
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE "./docs/License.txt"
 Page custom installDirPage installDirLeave
-Page custom installSfallPage InstallSfallLeave
+Page custom installSfallPage
 Page custom basicOrAdvancedPage basicOrAdvancedLeave
 Page custom inventoryPageConfig InventoryPageLeave
 Page custom partyPageConfig partypageleave
@@ -65,8 +67,8 @@ Page custom combatPageConfig combatPageLeave
 Page custom utilityPageConfig utilityPageLeave
 Page custom miscPageConfig miscPageLeave
 Page custom confirmPageConfig confirmPageLeave
-!define MUI_PAGE_INSTFILES
-!define MUI_PAGE_FINISH
+!insertmacro MUI_PAGE_INSTFILES
+!insertmacro MUI_PAGE_FINISH
 
 !insertmacro MUI_UNPAGE_WELCOME
 !insertmacro MUI_UNPAGE_CONFIRM
@@ -75,7 +77,9 @@ Page custom confirmPageConfig confirmPageLeave
 !insertmacro MUI_UNPAGE_INSTFILES
 !insertmacro MUI_UNPAGE_FINISH
 
-Function installDir
+!insertmacro MUI_LANGUAGE "English"
+
+Function "installDirPage"
 
   !insertmacro MUI_HEADER_TEXT "Install Location" "Provide the path to your Fallout 2 installation."
 
@@ -165,11 +169,11 @@ Function "installSfallPage"
     StrCpy $installSfall 1
   ${EndIf}
 
-  ${NSD_CreateLabel} 20% 26u 20% 10u "Sfall $bundledSfall will be installed."
+  ${NSD_CreateLabel} 20% 26u 60% 10u "Sfall $bundledSfall will be installed."
   Pop $0
 
   ${If} $installedSfallVersion != 0
-    ${NSD_CreateLabel} 20% 40u 20% 10u "Currently installed Sfall version: $installedSfallVersion"
+    ${NSD_CreateLabel} 20% 40u 60% 10u "Currently installed Sfall version: $installedSfallVersion"
     Pop $0
   ${EndIf}
 
@@ -185,6 +189,7 @@ Function "RadioClick"
 	${ElseIf} $0 == "Advanced"
     strcpy $advanced 1
 	${EndIf}
+
 FunctionEnd
 
 
@@ -263,6 +268,7 @@ Function confirmPageLeave
 
   ${If} $advanced == 1
     Call writeKeys
+    CopyFiles "$TEMP\fo2tweaks.ini" "$INSTDIR\mods\"
   ${Else}
     File "..\..\mods\fo2tweaks.ini"
   ${EndIf}
