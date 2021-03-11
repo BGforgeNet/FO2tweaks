@@ -90,7 +90,7 @@ Function "installDirPage"
 		Abort
 	${EndIf}
 
-  EnableWindow $NextButton 0
+  Call checkInstallPath
 
   ${NSD_CreateGroupBox} 5%  90% 34u "Fallout 2 Install Path"
   Pop $0
@@ -115,6 +115,8 @@ Function "installDirLeave"
 FunctionEnd
 
 Function "checkInstallPath"
+  GetDlgItem $1 $HWNDPARENT 1
+  EnableWindow $1 0
   IfFileExists "$instPath\fallout2.exe" 0 +2
   EnableWindow $NextButton 1
 
@@ -183,12 +185,7 @@ FunctionEnd
 
 Function "RadioClick"
 	Pop $hwnd
-	${NSD_GetUserData} $hwnd $0
-	${If} $0 == "Basic"
-    strcpy $advanced 0
-	${ElseIf} $0 == "Advanced"
-    strcpy $advanced 1
-	${EndIf}
+	${NSD_GetUserData} $hwnd $advanced
 
 FunctionEnd
 
@@ -220,7 +217,11 @@ FunctionEnd
 
 Function "basicOrAdvancedLeave"
 
-  ${NSD_GetText} $showAdvancedPages $advanced
+	${If} $advanced == "Advanced"
+		StrCpy $showAdvancedPages "1"
+  ${Else}
+		StrCpy $showAdvancedPages "0"
+	${EndIf}
 
 FunctionEnd
 
@@ -234,17 +235,17 @@ Function "confirmPageConfig"
 	${EndIf}
 
   ${If} $installedSfallVersion != 0
-    ${NSD_CreateLabel} 20% 26u 50%% 10u "Currently installed Sfall version ($installedSfallVersion) will be used."
+    ${NSD_CreateLabel} 20% 26u 60% 10u "Currently installed Sfall version ($installedSfallVersion) will be used."
     Pop $0
   ${EndIf}
-  ${NSD_CreateLabel} 20% 26u 50%% 10u "Sfall $bundledSfall will be installed."
+  ${NSD_CreateLabel} 20% 26u 60% 10u "Sfall $bundledSfall will be installed."
   Pop $0
 
   ${If} $advanced == 1
-    ${NSD_CreateLabel} 20% 40u 50% 10u "Advanced configuration was selected."
+    ${NSD_CreateLabel} 20% 40u 60% 10u "Advanced configuration was selected."
     Pop $0
   ${Else}
-    ${NSD_CreateLabel} 20% 40u 50% 10u "Basic configuration was selected."
+    ${NSD_CreateLabel} 20% 40u 60% 10u "Basic configuration was selected."
     Pop $0
   ${EndIf}
 
