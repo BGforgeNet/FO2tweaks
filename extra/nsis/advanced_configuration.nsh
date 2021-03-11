@@ -63,7 +63,7 @@ Function "inventoryPageConfig"
 		Abort
 	${EndIf}
 
-  ${If} $advanced == 0
+  ${If} $showAdvancedPages == 0
     Abort
   ${EndIf}
 
@@ -111,7 +111,7 @@ Function "partyPageConfig"
 		Abort
 	${EndIf}
 
-  ${If} $advanced == 0
+  ${If} $showAdvancedPages == 0
     Abort
   ${EndIf}
 
@@ -151,7 +151,7 @@ Function "speedPageConfig"
 		Abort
 	${EndIf}
 
-  ${If} $advanced == 0
+  ${If} $showAdvancedPages == 0
     Abort
   ${EndIf}
 
@@ -191,7 +191,7 @@ Function "combatPageConfig"
 		Abort
 	${EndIf}
 
-  ${If} $advanced == 0
+  ${If} $showAdvancedPages == 0
     Abort
   ${EndIf}
 
@@ -279,7 +279,7 @@ Function "utilityPageConfig"
 		Abort
 	${EndIf}
 
-  ${If} $advanced == 0
+  ${If} $showAdvancedPages == 0
     Abort
   ${EndIf}
 
@@ -349,7 +349,7 @@ Function "miscPageConfig"
 		Abort
 	${EndIf}
 
-  ${If} $advanced == 0
+  ${If} $showAdvancedPages == 0
     Abort
   ${EndIf}
 

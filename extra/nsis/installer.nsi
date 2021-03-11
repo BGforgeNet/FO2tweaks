@@ -22,9 +22,10 @@ var installedSfallVersion
 Var installSfall
 Var instPath
 Var sfall
+var showAdvancedPages
 Var systemDisk
 
-strCpy $bundledSfall "$%sfall_version%"
+!define bundledSfall "$%sfall_version%"
 
 !macro NSD_SetUserData hwnd data
 	nsDialogs::SetUserData ${hwnd} ${data}
@@ -118,7 +119,7 @@ Function "checkInstallPath"
   GetDlgItem $1 $HWNDPARENT 1
   EnableWindow $1 0
   IfFileExists "$instPath\fallout2.exe" 0 +2
-  EnableWindow $NextButton 1
+  EnableWindow $1 1
 
 FunctionEnd
 
