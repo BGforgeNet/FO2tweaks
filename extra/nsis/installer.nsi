@@ -5,17 +5,9 @@
 !include "nsDialogs.nsh"
 !include "WordFunc.nsh"
 
-!define MUI_PAGE_HEADER_TEXT "Fallout 2 Tweaks Installer"
-!define MUI_PAGE_HEADER_SUBTEXT "${VERSION}"
-
-Var Dialog
-!include "advanced_configuration.nsh"
-
-Name "Fallout 2 Tweaks - ${VERSION}"
-OutFile "FO2tweaks-${VERSION}.exe"
-
-Var advanced
 Var bundledSfall
+Var advanced
+Var Dialog
 var hwnd
 Var iniPath
 var installedSfallVersion
@@ -24,8 +16,12 @@ Var instPath
 Var sfall
 var showAdvancedPages
 Var systemDisk
+Var nextButton
 
-!define bundledSfall "$%sfall_version%"
+!define MUI_PAGE_HEADER_TEXT "Fallout 2 Tweaks Installer"
+!define MUI_PAGE_HEADER_SUBTEXT "${VERSION}"
+Name "Fallout 2 Tweaks - ${VERSION}"
+OutFile "FO2tweaks-${VERSION}.exe"
 
 !macro NSD_SetUserData hwnd data
 	nsDialogs::SetUserData ${hwnd} ${data}
@@ -38,16 +34,19 @@ Var systemDisk
 !macroend
 !define NSD_GetUserData `!insertmacro NSD_GetUserData`
 
+!include "advanced_configuration.nsh"
+
 Function .onInit
   ReadEnvStr $systemDisk "SYSTEMDRIVE"
+  strcpy $advanced 1
+  StrCpy $bundledSfall "$%sfall_version%"
+  strcpy $installedSfallVersion 0
   strcpy $INSTDIR "$systemDisk\GOG Games\Fallout 2\"
   strcpy $instPath $INSTDIR
-  strcpy $advanced "1"
-  strcpy $max_knockback_state = "-1"
-  strcpy $min_light_level_state "0"
+  strcpy $max_knockback_state -1
+  strcpy $min_light_level_state 0
   strcpy $townmap_key_state "Y"
   strcpy $worldmap_key_state "W"
-  strcpy $installedSfallVersion "0"
 FunctionEnd
 
 !define MUI_WELCOMEPAGE_TITLE "Welcome to the Fallout 2 Tweaks ${VERSION} Installer"
@@ -80,6 +79,29 @@ Page custom confirmPageConfig confirmPageLeave
 
 !insertmacro MUI_LANGUAGE "English"
 
+Function "checkInstallPath"
+
+  ${NSD_GetText} $instPath $0
+  GetDlgItem $nextButton $HWNDPARENT 1
+  ${If} ${FileExists} "$0\fallout2.exe"
+    EnableWindow $nextButton 1
+  ${Else}
+    EnableWindow $nextButton 0
+  ${EndIf}
+
+FunctionEnd
+
+Function OnDirBrowse
+
+    ${NSD_GetText} $instPath $0
+    nsDialogs::SelectFolderDialog "Select Fallout 2 Directory" "$0"
+    Pop $0
+    ${If} $0 != error
+        ${NSD_SetText} $instPath "$0"
+    ${EndIf}
+
+FunctionEnd
+
 Function "installDirPage"
 
   !insertmacro MUI_HEADER_TEXT "Install Location" "Provide the path to your Fallout 2 installation."
@@ -90,8 +112,6 @@ Function "installDirPage"
 	${If} $Dialog == error
 		Abort
 	${EndIf}
-
-  Call checkInstallPath
 
   ${NSD_CreateGroupBox} 5%  90% 34u "Fallout 2 Install Path"
   Pop $0
@@ -105,7 +125,9 @@ Function "installDirPage"
     Pop $0
     ${NSD_OnClick} $0 OnDirBrowse
 
-    nsDialogs::Show
+  Call checkInstallPath
+
+  nsDialogs::Show
 
 FunctionEnd
 
@@ -115,27 +137,10 @@ Function "installDirLeave"
 
 FunctionEnd
 
-Function "checkInstallPath"
-  GetDlgItem $1 $HWNDPARENT 1
-  EnableWindow $1 0
-  IfFileExists "$instPath\fallout2.exe" 0 +2
-  EnableWindow $1 1
-
-FunctionEnd
-
-Function OnDirBrowse
-    ${NSD_GetText} $instPath $0
-    nsDialogs::SelectFolderDialog "Select Fallout 2 Directory" "$0"
-    Pop $0
-    ${If} $0 != error
-        ${NSD_SetText} $instPath "$0"
-    ${EndIf}
-FunctionEnd
-
 Function "sfallStatus"
 
-  IfFileExists $InstPath\sfall.dll 0 +11
-    GetDllVersion "$InstPath\sfall.dll" $R0 $R1
+  ${If} ${FileExists} "$instPath\sfall.dll"
+    GetDllVersion "$instPath\sfall.dll" $R0 $R1
     IntOp $R2 $R0 / 0x00010000
     IntOp $R3 $R0 & 0x0000FFFF
     IntOp $R4 $R1 / 0x00010000
@@ -144,9 +149,9 @@ Function "sfallStatus"
     ${VersionCompare} $bundledSfall $0 $sfall
     StrCpy $0 $installedSfallVersion
     Return
-  Goto +2
+  ${Else}
     StrCpy $sfall 0
-    Return
+  ${EndIf}
 
 FunctionEnd
 
@@ -219,9 +224,9 @@ FunctionEnd
 Function "basicOrAdvancedLeave"
 
 	${If} $advanced == "Advanced"
-		StrCpy $showAdvancedPages "1"
+		StrCpy $showAdvancedPages 1
   ${Else}
-		StrCpy $showAdvancedPages "0"
+		StrCpy $showAdvancedPages 0
 	${EndIf}
 
 FunctionEnd
