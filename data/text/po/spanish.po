@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Spanish (Fallout)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: 2021-03-27 01:27+0000\n"
+"PO-Revision-Date: 2021-03-27 14:12+0000\n"
 "Last-Translator: Handless Design <Dante_schmidt@outlook.com>\n"
 "Language-Team: Spanish <https://tra.bgforge.net/projects/fallout/fo2tweaks/"
 "es/>\n"
@@ -73,7 +73,7 @@ msgstr ""
 
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."
-msgstr "Eh... Creo que voy a usar la escalera."
+msgstr "Nah... Creo que voy a usar la escalera."
 
 #~ msgid ""
 #~ "You must have either Killap's patch OR restoration project installed before "
