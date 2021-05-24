@@ -3,6 +3,12 @@
 
 #define set_trunk_space "trunk_space"
 
+#define PID_MOTO_TRUNK 532 // ettu
+#define PROTO_TYPE 0
+#define PROTO_IT_TYPE_CONTAINER 1
+
+variable enabled = 0;
+
 procedure bloat_trunk;
 
 procedure map_enter_p_proc begin
@@ -10,13 +16,25 @@ procedure map_enter_p_proc begin
 end
 
 procedure start begin
+  enabled = fo2tweaks_setting(sec_main, set_trunk_space);
+  ndebug("initializing");
   call bloat_trunk;
 end
 
 procedure bloat_trunk begin
-  variable enabled = fo2tweaks_setting(sec_main, set_trunk_space);
-  if enabled == 1 then begin
-    set_proto_data(PID_CAR_TRUNK, PROTO_CN_MAX_SIZE, 99999);
-    ndebug("trunk space set to 99999");
+  variable pid, type, subtype;
+  variable pids = [PID_CAR_TRUNK, PID_MOTO_TRUNK];
+
+  if enabled != 1 then return;
+
+  foreach pid in pids begin
+    type = get_proto_data(pid, PROTO_TYPE) bwand 0x11110000;
+    if type == OBJ_TYPE_ITEM then begin
+      subtype = get_proto_data(pid, PROTO_IT_TYPE);
+      if subtype == PROTO_IT_TYPE_CONTAINER then begin
+        set_proto_data(pid, PROTO_CN_MAX_SIZE, 99999);
+        ndebug(pid + " space set to 99999");
+      end
+    end
   end
 end
