@@ -21,7 +21,7 @@ It is highly configurable, any component can be used with or without others. Som
 
 This is how it's supposed to look when installed:
 
-![installed](docs/installed.png)
+![installed](pics/installed.png)
 
 - [Components](#components)
 - [Compatibility](#compatibility)
