@@ -1,5 +1,12 @@
 ## Changelog
 
+### Version 12.5
+- Fixed level up match not working for Skynet.
+- Pulse grenades can also be thrown onto empty hexes.
+- Healing revision no longer allows to heal corpses (!).
+- Unlimited trunk now support EtTu's moto.
+- Updated sfall to 4.3.
+
 ### Version 12.4
 - Fixed max knockback being [always limited to 0](https://forums.bgforge.net/viewtopic.php?f=26&p=888) regardless of actual setting value.
 
