@@ -3,7 +3,7 @@
 set -xeu -o pipefail
 
 extra_dir=${extra_dir:-extra}
-mpack_version=${mpack_version:-4.1.9}
+mpack_version=${mpack_version:-4.3}
 
 mpack_file="modderspack_$mpack_version.7z"
 mpack_url="https://sourceforge.net/projects/sfall/files/Modders%20pack/$mpack_file/download"
