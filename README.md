@@ -1,7 +1,7 @@
 # FO2tweaks
 
 [![Translation status](https://tra.bgforge.net/widgets/fallout/-/fo2tweaks/svg-badge.svg)](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
-[![Build Status](https://travis-ci.org/BGforgeNet/FO2tweaks.svg?branch=master)](https://travis-ci.org/BGforgeNet/FO2tweaks)
+[![Build status](https://github.com/BGforgeNet/FO2tweaks/workflows/build/badge.svg)](https://github.com/BGforgeNet/FO2tweaks/actions?query=workflow%3Abuild)
 [![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Discord chat](https://img.shields.io/discord/420268540700917760?logo=discord)](https://discord.gg/4Yqfggm)
 [![Support us on Patreon](https://img.shields.io/badge/support%20us-patreon-purple)](https://www.patreon.com/BGforge)
