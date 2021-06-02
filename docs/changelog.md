@@ -4,7 +4,7 @@
 - Fixed level up match not working for Skynet.
 - Pulse grenades can also be thrown onto empty hexes.
 - Healing revision no longer allows to heal corpses (!).
-- Unlimited trunk now support EtTu's moto.
+- Unlimited trunk now supports EtTu's moto.
 - Updated sfall to 4.3.
 
 ### Version 12.4
