@@ -104,6 +104,7 @@ end
 
 procedure get_color(variable obj) begin
   variable color = OUTLINE_NONE;
+  variable blocking_obj;
 
   if not obj then begin
     ndebug("skipping, not an object");
@@ -115,8 +116,9 @@ procedure get_color(variable obj) begin
     return OUTLINE_NONE;
   end
 
-  if check_los and obj_blocking_line(dude_obj, tile_num(obj), BLOCKING_TYPE_SHOOT) then begin
-    ndebug("skipping by checklos");
+  blocking_obj = obj_blocking_line(dude_obj, tile_num(obj), BLOCKING_TYPE_SHOOT);
+  if check_los and blocking_obj and (obj != blocking_obj) then begin
+    // ndebug("skipping by checklos: " + obj_name(obj) + " blocked by " + obj_name(blocking_obj));
     return OUTLINE_NONE;
   end
 
