@@ -1,5 +1,8 @@
 ## Changelog
 
+### Version 12.6
+Updated sfall to 4.3.0.1.
+
 ### Version 12.5
 - Fixed level up match not working for Skynet.
 - Pulse grenades can also be thrown onto empty hexes.
