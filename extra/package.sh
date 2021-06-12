@@ -10,12 +10,11 @@ export file_list="file.list"
 short_sha="$(git rev-parse --short HEAD)"
 # defaults, local build or github non-tagged
 export version="git$short_sha"
-export vversion="$version" # in package names
-export uversion="$version" # in game
 
+# tagged build
 if [[ ! -z "${GITHUB_REF-}" ]]; then # github build
   if echo "$GITHUB_REF" | grep "refs/tags"; then # tagged
-    version="$(echo $GITHUB_REF | sed 's|refs\/tags\/v||')"
+    version="$(echo $GITHUB_REF | sed 's|refs\/tags\/||')"
     export version
   fi
 fi
@@ -33,7 +32,7 @@ cd ..
 mv "data/$dat" "$mods_dir/"
 
 # sfall
-sfall_url="https://sourceforge.net/projects/sfall/files/sfall/sfall_$sfall_version.7z/download"
+sfall_url="https://sourceforge.net/projects/sfall/files/sfall/sfall_${sfall_version}.7z/download"
 wget -q "$sfall_url" -O sfall.7z
 7zr e sfall.7z ddraw.dll
 zip -r "${mod_name}_${version}.zip" ddraw.dll "$mods_dir/" # our package
