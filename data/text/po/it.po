@@ -4,69 +4,72 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2021-06-23 15:57+0000\n"
+"Last-Translator: Valerio Buzi <valeriobuzi87@gmail.com>\n"
+"Language-Team: Italian <https://tra.bgforge.net/projects/fallout/fo2tweaks/"
+"it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: bgforge_po v.1.0.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.1.1\n"
 
 #: game/g_healing_revision.msg:1
 msgid "Disabilities healed."
-msgstr ""
+msgstr "Disabilita' curate."
 
 #: game/g_healing_revision.msg:2
 msgid "Failed to heal disabilities."
-msgstr ""
+msgstr "Cura fallita delle disabilita'."
 
 #: game/g_healing_revision.msg:3
 msgid "You can't do this in combat."
-msgstr ""
+msgstr "Non puoi farlo in combattimento."
 
 #: game/g_healing_revision.msg:4
 msgid "You don't think there's any chance you could heal this."
-msgstr ""
+msgstr "Non pensi che ci sia alcuna possibilita' di curarti."
 
 #: game/g_healing_revision.msg:5
 msgid "This critter is already healthy."
-msgstr ""
+msgstr "Questa creatura e' in salute."
 
 #: game/g_healing_revision.msg:6
 msgid "You have already used this skill on this critter today."
-msgstr ""
+msgstr "Hai già usato questa abilita' su questa creatura oggi."
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
-msgstr ""
+msgstr "Hai fallito nell'effettuare una qualsiasi cura."
 
 #: game/g_healing_revision.msg:8
 msgid "Wow, now I really know how to hurt 'em!"
-msgstr ""
+msgstr "Wow, ora so come come fargli del male!"
 
 #: game/g_healing_revision.msg:9
 msgid "has earned Living Anatomy perk."
-msgstr ""
+msgstr "hai imparato la strenna Anatomia Vivente."
 
 #: game/g_healing_revision.msg:10
 msgid "You receive %1% experience for successful use of %2% skill."
 msgstr ""
+"Ricevi %1% punti esperienza per aver usato con successo dell'abilita' %2%."
 
 #: game/g_healing_revision.msg:11
 msgid "%1% healed for %2% HP."
-msgstr ""
+msgstr "%1% curato di %2% HP."
 
 #: game/g_healing_revision.msg:12
 msgid "Dead. Too late to help this one."
-msgstr ""
+msgstr "Morto. Ormai e' troppo tardi."
 
 #: game/g_level5.msg:1
 msgid ""
 "You receive 9500 experience points, because you're a cheating little "
 "bastard."
-msgstr ""
+msgstr "Ricevi 9500 punti esperienza, perche' sei un piccolo bastardo cheater."
 
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."
-msgstr ""
+msgstr "Naa... Penso che prendero' la scala."
