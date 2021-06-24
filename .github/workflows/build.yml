@@ -7,6 +7,10 @@ env:
   mpack_version: 4.3
 
 jobs:
+  poify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: BGforgeNet/msg2po/gha/poify@dev
   build:
     runs-on: ubuntu-latest
     steps:
