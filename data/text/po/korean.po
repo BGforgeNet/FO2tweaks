@@ -31,11 +31,11 @@ msgid "You don't think there's any chance you could heal this."
 msgstr ""
 
 #: game/g_healing_revision.msg:5
-msgid "This critter is already healthy."
+msgid " is already healthy."
 msgstr ""
 
 #: game/g_healing_revision.msg:6
-msgid "You have already used this skill on this critter today."
+msgid "%1% has already been healed with %2% skill today. Try tomorrow."
 msgstr ""
 
 #: game/g_healing_revision.msg:7

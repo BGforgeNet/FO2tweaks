@@ -31,12 +31,14 @@ msgid "You don't think there's any chance you could heal this."
 msgstr "Você não acha que há qualquer chance de que você consiga curar isto."
 
 #: game/g_healing_revision.msg:5
-msgid "This critter is already healthy."
+#, fuzzy
+#| msgid "This critter is already healthy."
+msgid " is already healthy."
 msgstr "Esta criatura já está saudável."
 
 #: game/g_healing_revision.msg:6
-msgid "You have already used this skill on this critter today."
-msgstr "Você já usou esta técnica nesta criatura hoje."
+msgid "%1% has already been healed with %2% skill today. Try tomorrow."
+msgstr ""
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
@@ -73,3 +75,6 @@ msgstr ""
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."
 msgstr "Nah... Eu acho que eu vou ir pela escada."
+
+#~ msgid "You have already used this skill on this critter today."
+#~ msgstr "Você já usou esta técnica nesta criatura hoje."

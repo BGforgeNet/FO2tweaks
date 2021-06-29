@@ -31,12 +31,14 @@ msgid "You don't think there's any chance you could heal this."
 msgstr "No crees que haya ninguna posibilidad de que puedas curar esto."
 
 #: game/g_healing_revision.msg:5
-msgid "This critter is already healthy."
+#, fuzzy
+#| msgid "This critter is already healthy."
+msgid " is already healthy."
 msgstr "Esta criatura ya está sana."
 
 #: game/g_healing_revision.msg:6
-msgid "You have already used this skill on this critter today."
-msgstr "Ya has usado esta habilidad en esta criatura hoy."
+msgid "%1% has already been healed with %2% skill today. Try tomorrow."
+msgstr ""
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
@@ -73,6 +75,9 @@ msgstr ""
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."
 msgstr "Nah... Creo que voy a usar la escalera."
+
+#~ msgid "You have already used this skill on this critter today."
+#~ msgstr "Ya has usado esta habilidad en esta criatura hoy."
 
 #~ msgid ""
 #~ "You must have either Killap's patch OR restoration project installed before "
