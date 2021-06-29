@@ -40,6 +40,7 @@ procedure start;
 procedure healing_handler;
 procedure missing_hp(variable who);
 procedure grant_xp(variable hp, variable skill);
+procedure get_skill_name(variable skill);
 
 variable begin
   doctor_used;
@@ -141,11 +142,12 @@ procedure use_doctor(variable user, variable target, variable skill_bonus, varia
       return false;
     end
     if is_healthy(target) then begin // healthy, nothing to do
-      display_mymsg(msg_healthy);
+      display_msg(obj_name(target) + mymsg(msg_healthy));
       return false;
     end else begin
       if is_in_array(obj_pid(target), doctor_used) then begin //already used doctor today
-        display_mymsg(msg_already_used);
+        variable skill_name = get_skill_name(SKILL_DOCTOR);
+        display_msg(parse_str_2(mymsg(msg_already_used), obj_name(target), skill_name));
         return false;
       end
     end
@@ -190,11 +192,12 @@ procedure use_first_aid(variable user, variable target, variable skill_bonus, va
       return false;
     end
     if is_healthy(target) then begin // healthy, nothing to do
-      display_mymsg(msg_healthy);
+      display_msg(obj_name(target) + mymsg(msg_healthy));
       return false;
     end else begin
       if is_in_array(obj_pid(target), fa_used) then begin //already used fa today
-        display_mymsg(msg_already_used);
+        variable skill_name = get_skill_name(SKILL_FIRST_AID);
+        display_msg(parse_str_2(mymsg(msg_already_used), obj_name(target), skill_name));
         return false;
       end
     end
@@ -232,14 +235,19 @@ procedure update_heal_arrays begin
   if get_day != last_day then call reset_heal_arrays;
 end
 
-procedure grant_xp(variable hp, variable skill) begin
-  variable xp = hp * 10;
+procedure get_skill_name(variable skill) begin
   variable skill_name;
   if skill == SKILL_DOCTOR then begin
     skill_name = mstr_skill(doctor_skill_name);
   end else begin
     skill_name = mstr_skill(fa_skill_name);
   end
+  return skill_name;
+end
+
+procedure grant_xp(variable hp, variable skill) begin
+  variable xp = hp * 10;
+  variable skill_name = get_skill_name(skill);
   give_exp_points(xp);
   display_msg(parse_str_2(mymsg(msg_got_xp), xp, skill_name));
 end
