@@ -2,8 +2,8 @@
 {2}{}{Falhou em curar as deficiências.}
 {3}{}{Você não pode fazer isto no combate.}
 {4}{}{Você não acha que há qualquer chance de que você consiga curar isto.}
-{5}{}{Esta criatura já está saudável.}
-{6}{}{Você já usou esta técnica nesta criatura hoje.}
+{5}{}{ is already healthy.}
+{6}{}{%1% has already been healed with %2% skill today. Try tomorrow.}
 {7}{}{Você falha em fazer qualquer cura.}
 {8}{}{Uau, agora eu realmente sei como ferir eles!}
 {9}{}{ganhou o bônus da Anatomia Viva.}

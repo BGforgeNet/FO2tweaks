@@ -2,8 +2,8 @@
 {2}{}{No pudo curar las discapacidades.}
 {3}{}{No puedes hacer eso en combate.}
 {4}{}{No crees que haya ninguna posibilidad de que puedas curar esto.}
-{5}{}{Esta criatura ya está sana.}
-{6}{}{Ya has usado esta habilidad en esta criatura hoy.}
+{5}{}{ is already healthy.}
+{6}{}{%1% has already been healed with %2% skill today. Try tomorrow.}
 {7}{}{No consigues curar nada.}
 {8}{}{¡Wow! ¡Ahora realmente sé cómo herir a alguien!}
 {9}{}{ha ganado Anatomía Vital.}
