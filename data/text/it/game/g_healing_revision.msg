@@ -2,8 +2,8 @@
 {2}{}{Cura fallita delle disabilita'.}
 {3}{}{Non puoi farlo in combattimento.}
 {4}{}{Non pensi che ci sia alcuna possibilita' di curarti.}
-{5}{}{ is already healthy.}
-{6}{}{%1% has already been healed with %2% skill today. Try tomorrow.}
+{5}{}{ e' gia' in salute.}
+{6}{}{%1% e' stato gia' curato con l'abilita' %2% oggi. Riprova domani.}
 {7}{}{Hai fallito nell'effettuare una qualsiasi cura.}
 {8}{}{Wow, ora so come come fargli del male!}
 {9}{}{hai imparato la strenna Anatomia Vivente.}
