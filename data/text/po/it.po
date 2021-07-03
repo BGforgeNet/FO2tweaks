@@ -4,9 +4,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: 2021-06-23 15:57+0000\n"
+"PO-Revision-Date: 2021-07-03 09:24+0000\n"
 "Last-Translator: Valerio Buzi <valeriobuzi87@gmail.com>\n"
-"Language-Team: Italian <https://tra.bgforge.net/projects/fallout/fo2tweaks/it/>\n"
+"Language-Team: Italian <https://tra.bgforge.net/projects/fallout/fo2tweaks/"
+"it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,14 +32,12 @@ msgid "You don't think there's any chance you could heal this."
 msgstr "Non pensi che ci sia alcuna possibilita' di curarti."
 
 #: game/g_healing_revision.msg:5
-#, fuzzy
-#| msgid "This critter is already healthy."
 msgid " is already healthy."
-msgstr "Questa creatura e' in salute."
+msgstr " e' gia' in salute."
 
 #: game/g_healing_revision.msg:6
 msgid "%1% has already been healed with %2% skill today. Try tomorrow."
-msgstr ""
+msgstr "%1% e' stato gia' curato con l'abilita' %2% oggi. Riprova domani."
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
