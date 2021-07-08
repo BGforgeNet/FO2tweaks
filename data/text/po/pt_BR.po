@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: 2021-07-08 15:06+0000\n"
+"PO-Revision-Date: 2021-07-09 14:17+0000\n"
 "Last-Translator: Felipe <felipefplzx@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://tra.bgforge.net/projects/fallout/"
 "fo2tweaks/pt_BR/>\n"
@@ -25,11 +25,12 @@ msgstr "Falhou em curar as deficiências."
 
 #: game/g_healing_revision.msg:3
 msgid "You can't do this in combat."
-msgstr "Você não pode fazer isto no combate."
+msgstr "Você não pode fazer isto em combate."
 
 #: game/g_healing_revision.msg:4
 msgid "You don't think there's any chance you could heal this."
-msgstr "Você não acha que há qualquer chance de que você consiga curar isto."
+msgstr ""
+"Você não acha que há qualquer chance de que você conseguiria curar isto."
 
 #: game/g_healing_revision.msg:5
 msgid " is already healthy."
@@ -37,7 +38,7 @@ msgstr " já está saudável."
 
 #: game/g_healing_revision.msg:6
 msgid "%1% has already been healed with %2% skill today. Try tomorrow."
-msgstr "O %1% já foi curado com %2% de técnica. Tente amanhã."
+msgstr "O %1% já foi curado com a técnica %2% hoje. Tente amanhã."
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
@@ -61,7 +62,7 @@ msgstr "O %1% curou %2% de HP."
 
 #: game/g_healing_revision.msg:12
 msgid "Dead. Too late to help this one."
-msgstr "Morto. Tarde demais pra ajudar este."
+msgstr "Morto. Tarde demais pra ajudar esta pessoa."
 
 #: game/g_level5.msg:1
 msgid ""
@@ -73,7 +74,7 @@ msgstr ""
 
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."
-msgstr "Nah... Eu acho que eu vou ir pela escada."
+msgstr "Nah... Eu acho que eu vou pela escada."
 
 #~ msgid "You have already used this skill on this critter today."
 #~ msgstr "Você já usou esta técnica nesta criatura hoje."
