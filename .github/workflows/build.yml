@@ -10,7 +10,12 @@ jobs:
   poify:
     runs-on: ubuntu-latest
     steps:
-      - uses: BGforgeNet/msg2po/gha/poify@dev
+      - uses: actions/checkout@v2
+      - name: Poify
+        uses: BGforgeNet/msg2po@dev
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build:
     runs-on: ubuntu-latest
     steps:
