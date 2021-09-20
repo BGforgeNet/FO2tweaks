@@ -4,69 +4,75 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2021-09-20 09:32+0000\n"
+"Last-Translator: Full Name <jadedjade@tutanota.com>\n"
+"Language-Team: Polish <https://tra.bgforge.net/projects/fallout/fo2tweaks/pl/"
+">\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: bgforge_po v.1.0.0\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.1.1\n"
 
 #: game/g_healing_revision.msg:1
 msgid "Disabilities healed."
-msgstr ""
+msgstr "Niepełnosprawności wyleczone."
 
 #: game/g_healing_revision.msg:2
 msgid "Failed to heal disabilities."
-msgstr ""
+msgstr "Nie udało się wyleczyć niepełnosprawności."
 
 #: game/g_healing_revision.msg:3
 msgid "You can't do this in combat."
-msgstr ""
+msgstr "Nie możesz tego zrobić w trybie walki."
 
 #: game/g_healing_revision.msg:4
 msgid "You don't think there's any chance you could heal this."
-msgstr ""
+msgstr "Nie sądzisz, że jesteś w stanie to wyleczyć."
 
 #: game/g_healing_revision.msg:5
 msgid " is already healthy."
-msgstr ""
+msgstr " jest już wyleczony."
 
 #: game/g_healing_revision.msg:6
 msgid "%1% has already been healed with %2% skill today. Try tomorrow."
 msgstr ""
+"%1% zostało już dzisiaj wylecznone za pomocą umiejętności %2%. Spróbuj jutro."
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
-msgstr ""
+msgstr "Nie udaje się ci wyleczyć."
 
 #: game/g_healing_revision.msg:8
 msgid "Wow, now I really know how to hurt 'em!"
-msgstr ""
+msgstr "Wow, teraz naprawdę wiem, jak ich ranić!"
 
 #: game/g_healing_revision.msg:9
 msgid "has earned Living Anatomy perk."
-msgstr ""
+msgstr "zdobył profit Żywa Anatomia."
 
 #: game/g_healing_revision.msg:10
 msgid "You receive %1% experience for successful use of %2% skill."
-msgstr ""
+msgstr "Otrzymujesz %1% doświadczenia za udane użycie %2% umiejętności."
 
 #: game/g_healing_revision.msg:11
 msgid "%1% healed for %2% HP."
-msgstr ""
+msgstr "%1% wyleczył %2% HP."
 
 #: game/g_healing_revision.msg:12
 msgid "Dead. Too late to help this one."
-msgstr ""
+msgstr "Nie żyje. Jest za późno żeby pomóc."
 
 #: game/g_level5.msg:1
 msgid ""
 "You receive 9500 experience points, because you're a cheating little "
 "bastard."
 msgstr ""
+"Otrzymasz 9500 punktów doświadczenia, ponieważ jesteś małym, oszukującym "
+"draniem."
 
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."
-msgstr ""
+msgstr "Nie... Chyba wezmę drabinę."
