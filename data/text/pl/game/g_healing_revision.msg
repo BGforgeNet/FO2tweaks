@@ -1,12 +1,12 @@
-{1}{}{Disabilities healed.}
-{2}{}{Failed to heal disabilities.}
-{3}{}{You can't do this in combat.}
-{4}{}{You don't think there's any chance you could heal this.}
-{5}{}{ is already healthy.}
-{6}{}{%1% has already been healed with %2% skill today. Try tomorrow.}
-{7}{}{You fail to do any healing.}
-{8}{}{Wow, now I really know how to hurt 'em!}
-{9}{}{has earned Living Anatomy perk.}
-{10}{}{You receive %1% experience for successful use of %2% skill.}
-{11}{}{%1% healed for %2% HP.}
-{12}{}{Dead. Too late to help this one.}
+{1}{}{Niepe?nosprawno?ci wyleczone.}
+{2}{}{Nie uda?o si? wyleczy? niepe?nosprawno?ci.}
+{3}{}{Nie mo?esz tego zrobi? w trybie walki.}
+{4}{}{Nie s?dzisz, ?e jeste? w stanie to wyleczy?.}
+{5}{}{ jest ju? wyleczony.}
+{6}{}{%1% zosta?o ju? dzisiaj wylecznone za pomoc? umiej?tno?ci %2%. Spróbuj jutro.}
+{7}{}{Nie udaje si? ci wyleczy?.}
+{8}{}{Wow, teraz naprawd? wiem, jak ich rani?!}
+{9}{}{zdoby? profit ?ywa Anatomia.}
+{10}{}{Otrzymujesz %1% do?wiadczenia za udane u?ycie umiej?tno?ci %2%.}
+{11}{}{%1% wyleczy? %2% HP.}
+{12}{}{Nie ?yje. Jest za pó?no ?eby pomóc.}
