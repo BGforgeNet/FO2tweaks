@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
-"PO-Revision-Date: 2021-09-20 09:32+0000\n"
+"PO-Revision-Date: 2021-09-20 12:40+0000\n"
 "Last-Translator: Full Name <jadedjade@tutanota.com>\n"
 "Language-Team: Polish <https://tra.bgforge.net/projects/fallout/fo2tweaks/pl/"
 ">\n"
@@ -55,7 +55,7 @@ msgstr "zdobył profit Żywa Anatomia."
 
 #: game/g_healing_revision.msg:10
 msgid "You receive %1% experience for successful use of %2% skill."
-msgstr "Otrzymujesz %1% doświadczenia za udane użycie %2% umiejętności."
+msgstr "Otrzymujesz %1% doświadczenia za udane użycie umiejętności %2%."
 
 #: game/g_healing_revision.msg:11
 msgid "%1% healed for %2% HP."
