@@ -1,5 +1,10 @@
 ## Changelog
 
+### Version 12.7
+- Updated sfall to 4.3.0.2.
+- More descriptive healing revision messages.
+- Completed Italian, French, Portuguese, Polish translations.
+
 ### Version 12.6
 Updated sfall to 4.3.0.1.
 
