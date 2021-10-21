@@ -5,14 +5,14 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 1970-1-01 00:00+0000\n"
 "PO-Revision-Date: 2021-10-19 19:46+0300\n"
+"Last-Translator: IllusiveMan196\n"
 "Language-Team: \n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.0\n"
-"Last-Translator: IllusiveMan196\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"Language: uk\n"
+"X-Generator: Poedit 3.0\n"
 
 #: game/g_healing_revision.msg:1
 msgid "Disabilities healed."
@@ -63,7 +63,9 @@ msgid "Dead. Too late to help this one."
 msgstr "Мертвий. Допомагати занадто пізно."
 
 #: game/g_level5.msg:1
-msgid "You receive 9500 experience points, because you're a cheating little bastard."
+msgid ""
+"You receive 9500 experience points, because you're a cheating little "
+"bastard."
 msgstr "Ви отримуєте 9500 очок досвіду, бо ви брудний читер."
 
 #: game/g_map_hotkey.msg:1
