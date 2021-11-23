@@ -120,31 +120,47 @@ end
 procedure get_default_dr_mod_list begin
   variable mod_list;
   mod_list = {
-    PID_EXPLOSIVE_ROCKET: 35, //vanilla is -25
-    PID_10MM_JHP: 25,
-    PID_10MM_AP: -25,
-    PID_44_MAGNUM_JHP: 20,
-    PID_FLAMETHROWER_FUEL: 25,
-    PID_14MM_AP: -35, //vanilla is -50
+    PID_10MM_JHP: 35, // vanilla is 25
+    PID_10MM_AP: -35, // vanilla is -25
+
+    PID_14MM_AP: -35, // vanilla is -50
+
+    PID_2MM_EC_AMMO: -20,
+
     PID_223_FMJ: -20,
+
+    PID_44_MAGNUM_JHP: 35, // vanilla is 20
+    PID_44_FMJ_MAGNUM: -20,
+
+    PID_45_CALIBER_AMMO: 0,
+
+    PID_4_7MM_CASELESS: -10,
+
     PID_5MM_JHP: 35,
     PID_5MM_AP: -35,
-    PID_ROCKET_AP: -35, //vanilla is -50
+
+    PID_7_62MM_AMMO: -20, // vanilla is -10
+
+    PID_9MM_AMMO: 0, // vanilla is 10
+    PID_9MM_BALL: -20, // vanilla is 0
+
+    PID_BBS: 0,
+
+    PID_EXPLOSIVE_ROCKET: 35, // vanilla is -25
+    PID_ROCKET_AP: -35, // vanilla is -50
+    PID_ROBO_ROCKET_AMMO: -25,
+
+    PID_FLAMETHROWER_FUEL: 25,
+    PID_FLAMETHROWER_FUEL_MK_II: 0,
+
     PID_SMALL_ENERGY_CELL: 0,
     PID_MICRO_FUSION_CELL: 0,
+
     PID_SHOTGUN_SHELLS: 0,
-    PID_44_FMJ_MAGNUM: -20,
-    PID_9MM_BALL: -20, //vanilla is 0
-    PID_BBS: 0,
-    PID_ROBO_ROCKET_AMMO: -25,
-    PID_45_CALIBER_AMMO: 0,
-    PID_2MM_EC_AMMO: -20,
-    PID_4_7MM_CASELESS: -10,
-    PID_9MM_AMMO: 0, //vanilla is 10
+
     PID_HN_NEEDLER_CARTRIDGE: 0,
     PID_HN_AP_NEEDLER_CARTRIDGE: -35, //vanilla is 0
-    PID_7_62MM_AMMO: -20,
-    PID_FLAMETHROWER_FUEL_MK_II: 0,
+
 
     //ecco ammo
     PID_PBS_50_AMMO: -18,
