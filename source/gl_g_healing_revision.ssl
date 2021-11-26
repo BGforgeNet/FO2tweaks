@@ -217,7 +217,7 @@ procedure use_first_aid(variable user, variable target, variable skill_bonus, va
       return false;
     end
     critter_heal(target, hp);
-    display_msg(obj_name(target) + " healed for " + hp + " HP");
+    display_msg(parse_str_2(mymsg(msg_healed_for), obj_name(target), hp));
     call grant_xp(hp, SKILL_FIRST_AID);
   end
 end
