@@ -29,10 +29,11 @@ procedure start begin
 end
 
 procedure tohit_handler begin
-  variable tohit, attacker, target, weapon_pid, ammo_pid;
+  variable tohit, tohit_raw, attacker, target, weapon_pid, ammo_pid;
   tohit = get_sfall_arg;
   attacker = get_sfall_arg;
   target = get_sfall_arg;
+  tohit_raw = get_sfall_arg_at(7);
 
   if not is_critter(target) then begin
     ndebug(target + " is not a critter, pass");
@@ -49,14 +50,18 @@ procedure tohit_handler begin
   then begin
     // ignore target ac
     variable target_ac = get_critter_stat(target, STAT_ac);
-    tohit = tohit + target_ac;
+    tohit_raw = tohit_raw + target_ac;
     ndebug("chance to hit increased by " + target_ac);
+
     //cap chance
+    tohit = tohit_raw;
     if (tohit > 95) then begin
       tohit = 95;
     end
+
     set_sfall_return(tohit);
     set_sfall_arg(0, tohit);
+    set_sfall_arg(7, tohit_raw);
   end
 
 end
