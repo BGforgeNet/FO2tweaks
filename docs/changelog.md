@@ -1,5 +1,12 @@
 ## Changelog
 
+### Version 12.8
+- Updated sfall to 4.3.2.
+- Default ammo values for damage mod moved from config to code.
+- Fixed message when using First Aid.
+- Grenade mod included homemade grenade from EcCo by default.
+- Grenade mod sets output CtH properly for better compatibility with other mods.
+
 ### Version 12.7
 - Updated sfall to 4.3.0.2.
 - More descriptive healing revision messages.
