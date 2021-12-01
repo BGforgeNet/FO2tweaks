@@ -4,7 +4,7 @@ on: [push]
 
 env:
   sfall_version: 4.3.2
-  mpack_version: 4.3
+  mpack_version: 4.3.2
 
 jobs:
   # poify:
@@ -17,7 +17,7 @@ jobs:
   #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -25,7 +25,8 @@ jobs:
         run: |
           sudo dpkg --add-architecture i386
           sudo apt -qq update
-          sudo apt-get install -o=Dpkg::Use-Pty=0 -y crudini dos2unix gcc p7zip wine-stable wine32 >/dev/null 2>&1
+          sudo apt install -y --allow-downgrades libpcre2-8-0=10.34-7
+          sudo apt-get install -o=Dpkg::Use-Pty=0 -y crudini dos2unix gcc p7zip wine-stable wine32
           wineboot >/dev/null 2>&1
 
       - name: Build and package
