@@ -65,8 +65,17 @@ procedure start begin
     worldmap_key = char_to_dik(worldmap_key);
     townmap_key = fo2tweaks_string(sec_main, set_townmap_key);
     townmap_key = char_to_dik(townmap_key);
+    if worldmap_key == DIK_0 then begin // "0"
+      worldmap_key = 0;
+    end
+    if (townmap_key == DIK_0) or (townmap_key == DIK_T) then begin
+      townmap_key = 0;
+    end
     if worldmap_key or townmap_key then begin
-      ndebug("initialized, worldmap key is " + worldmap_key + ", town map key is " + townmap_key);
+      if worldmap_key then ndebug("worldmap key is " + worldmap_key);
+      if townmap_key then ndebug("townmap key is " + townmap_key);
+      else ndebug("townmap key is default = T");
+      ndebug("initialized");
       register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
     end
   end
