@@ -12,13 +12,18 @@ variable enabled = 0;
 procedure bloat_trunk;
 
 procedure map_enter_p_proc begin
-  call bloat_trunk;
+  if enabled == 1 then begin
+    call bloat_trunk;
+    ndebug("increased trunk space");
+  end
 end
 
 procedure start begin
   enabled = fo2tweaks_setting(sec_main, set_trunk_space);
-  ndebug("initializing");
-  call bloat_trunk;
+  if enabled == 1 then begin
+    call bloat_trunk;
+    ndebug("initialized");
+  end
 end
 
 procedure bloat_trunk begin
