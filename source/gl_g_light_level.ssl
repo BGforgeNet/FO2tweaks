@@ -25,7 +25,7 @@ end
 procedure start begin
   if game_loaded then begin
     min_light_level = fo2tweaks_setting(sec_main, set_min_light_level);
-    if set_min_light_level then begin
+    if min_light_level > 0 then begin // -1 means missing, 0 is disabled
       register_hook_proc(HOOK_SETLIGHTING, lightning_handler);
       ndebug("initialized");
       exec_map_update_scripts;
