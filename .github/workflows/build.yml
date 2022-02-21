@@ -3,7 +3,7 @@ name: build
 on: [push]
 
 env:
-  sfall_version: 4.3.3
+  sfall_version: 4.3.3.1
   mpack_version: 4.3.3
 
 jobs:

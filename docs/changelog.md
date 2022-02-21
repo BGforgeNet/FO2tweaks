@@ -1,5 +1,11 @@
 ## Changelog
 
+### Version 12.9
+- Fixed light level tweak being always enabled.
+- Sfall updated to 4.3.3.1.
+- Allowed to disable custom map keys by setting value to 0.
+- Cosmetic: several components would print initalization messages to debug.log even when disabled, that is fixed.
+
 ### Version 12.8
 - Updated sfall to 4.3.2.
 - Default ammo values for damage mod moved from config to code.
