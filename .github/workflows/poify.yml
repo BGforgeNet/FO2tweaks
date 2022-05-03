@@ -1,0 +1,20 @@
+name: Poify/Unpoify
+on:
+  push:
+    paths:
+      - "data/text/**" # tra_dir
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Poify/Unpoify
+        uses: BGforgeNet/msg2po@dev
+        with:
+          poify: "true"
+          poify_commit: "true"
+          unpoify: "true"
+          unpoify_commit: "true"
+          push: "true"
