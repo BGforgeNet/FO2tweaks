@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 1970-1-01 00:00+0000\n"
+"POT-Creation-Date: 2022-05-03-19:31+0000\n"
 "PO-Revision-Date: 2021-07-03 09:24+0000\n"
 "Last-Translator: Valerio Buzi <valeriobuzi87@gmail.com>\n"
 "Language-Team: Italian <https://tra.bgforge.net/projects/fallout/fo2tweaks/it/>\n"
@@ -71,7 +71,9 @@ msgstr ""
 "Ricevi 9500 punti esperienza, perche' sei un piccolo bastardo cheater."
 
 #: game/g_map_hotkey.msg:1
-msgid "Nah... I think I'm gonna take the ladder."
+#, fuzzy
+#| msgid "Nah... I think I'm gonna take the ladder."
+msgid "Nah... I think I'm gonna take the ladder. "
 msgstr "Naa... Penso che prendero' la scala."
 
 #~ msgid "You have already used this skill on this critter today."

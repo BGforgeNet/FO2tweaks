@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Korean (Fallout)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 1970-1-01 00:00+0000\n"
+"POT-Creation-Date: 2022-05-03-19:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Korean <https://tra.bgforge.net/projects/fallout/fo2tweaks/ko/>\n"
@@ -69,7 +69,7 @@ msgid ""
 msgstr ""
 
 #: game/g_map_hotkey.msg:1
-msgid "Nah... I think I'm gonna take the ladder."
+msgid "Nah... I think I'm gonna take the ladder. "
 msgstr ""
 
 #~ msgid ""
