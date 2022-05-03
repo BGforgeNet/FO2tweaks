@@ -71,3 +71,11 @@ msgstr "Ви отримуєте 9500 очок досвіду, бо ви бруд
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."
 msgstr "Ні... гадаю я краще сходами."
+
+msgctxt "female"
+msgid " is already healthy."
+msgstr " вже здорова."
+
+msgctxt "female"
+msgid "has earned Living Anatomy perk."
+msgstr "здобула уміння Практичної Анатомії."

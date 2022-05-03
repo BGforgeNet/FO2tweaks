@@ -75,3 +75,15 @@ msgstr ""
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."
 msgstr "Nie... Chyba wezmę drabinę."
+
+msgctxt "female"
+msgid " is already healthy."
+msgstr " jest już wyleczona."
+
+msgctxt "female"
+msgid "%1% healed for %2% HP."
+msgstr "%1% wyleczyła %2% HP."
+
+msgctxt "female"
+msgid "has earned Living Anatomy perk."
+msgstr "zdobyła profit Żywa Anatomia."
