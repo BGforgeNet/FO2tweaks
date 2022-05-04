@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-04-12:00+0000\n"
+"POT-Creation-Date: 2022-05-04-12:19+0000\n"
 "PO-Revision-Date: 2021-09-20 12:40+0000\n"
 "Last-Translator: Full Name <jadedjade@tutanota.com>\n"
 "Language-Team: Polish <https://tra.bgforge.net/projects/fallout/fo2tweaks/pl/>\n"
@@ -61,7 +61,9 @@ msgid "%1% healed for %2% HP."
 msgstr "%1% wyleczył %2% HP."
 
 #: game/g_healing_revision.msg:12
-msgid "Dead. Too late to help this one."
+#, fuzzy
+#| msgid "Dead. Too late to help this one."
+msgid "Dead. Too late to help this one. "
 msgstr "Nie żyje. Jest za późno żeby pomóc."
 
 #: game/g_level5.msg:1
@@ -73,8 +75,6 @@ msgstr ""
 "draniem."
 
 #: game/g_map_hotkey.msg:1
-#, fuzzy
-#| msgid "Nah... I think I'm gonna take the ladder."
 msgid "Nah... I think I'm gonna take the ladder."
 msgstr "Nie... Chyba wezmę drabinę."
 

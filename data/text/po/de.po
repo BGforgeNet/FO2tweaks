@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-04-12:00+0000\n"
+"POT-Creation-Date: 2022-05-04-12:19+0000\n"
 "PO-Revision-Date: 2021-02-23 16:57+0000\n"
 "Last-Translator: Martin Herzberg <fasciana84@gmail.com>\n"
 "Language-Team: German <https://tra.bgforge.net/projects/fallout/fo2tweaks/de/>\n"
@@ -63,7 +63,9 @@ msgid "%1% healed for %2% HP."
 msgstr "%1% geheilt für %2% der TP."
 
 #: game/g_healing_revision.msg:12
-msgid "Dead. Too late to help this one."
+#, fuzzy
+#| msgid "Dead. Too late to help this one."
+msgid "Dead. Too late to help this one. "
 msgstr "Tot. Zuspät, um hier zu helfen."
 
 #: game/g_level5.msg:1
@@ -74,8 +76,6 @@ msgstr ""
 "Du erhältst 9500 Erfahrungspunkte, weil du cheatest, du kleiner Scheißer."
 
 #: game/g_map_hotkey.msg:1
-#, fuzzy
-#| msgid "Nah... I think I'm gonna take the ladder."
 msgid "Nah... I think I'm gonna take the ladder."
 msgstr "Nö... Ich denke, ich werde die Leiter benutzen."
 

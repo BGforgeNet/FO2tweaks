@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Russian (Fallout)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-04-12:00+0000\n"
+"POT-Creation-Date: 2022-05-04-12:19+0000\n"
 "PO-Revision-Date: 2021-06-29 17:29+0000\n"
 "Last-Translator: Magus <magus@bgforge.net>\n"
 "Language-Team: Russian <https://tra.bgforge.net/projects/fallout/fo2tweaks/ru/>\n"
@@ -59,7 +59,9 @@ msgid "%1% healed for %2% HP."
 msgstr "%1% излечивает %2% ед. здоровья."
 
 #: game/g_healing_revision.msg:12
-msgid "Dead. Too late to help this one."
+#, fuzzy
+#| msgid "Dead. Too late to help this one."
+msgid "Dead. Too late to help this one. "
 msgstr "Мертв. Слишком поздно, чтобы это помогло."
 
 #: game/g_level5.msg:1
@@ -70,8 +72,6 @@ msgstr ""
 "Вы получаете 9500 очков опыта, потому что вы маленький читерящий ублюдок."
 
 #: game/g_map_hotkey.msg:1
-#, fuzzy
-#| msgid "Nah... I think I'm gonna take the ladder."
 msgid "Nah... I think I'm gonna take the ladder."
 msgstr "Не... Думаю, я лучше по лестнице."
 
