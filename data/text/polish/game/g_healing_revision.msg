@@ -1,12 +1,12 @@
-{1}{}{Niepe³nosprawnoœci wyleczone.}
-{2}{}{Nie uda³o siê wyleczyæ niepe³nosprawnoœci.}
-{3}{}{Nie mo¿esz tego zrobiæ w trybie walki.}
-{4}{}{Nie s¹dzisz, ¿e jesteœ w stanie to wyleczyæ.}
-{5}{}{ jest ju¿ wyleczony.}
-{6}{}{%1% zosta³o ju¿ dzisiaj wylecznone za pomoc¹ umiejêtnoœci %2%. Spróbuj jutro.}
-{7}{}{Nie udaje siê ci wyleczyæ.}
-{8}{}{Wow, teraz naprawdê wiem, jak ich raniæ!}
-{9}{}{zdoby³ profit ¯ywa Anatomia.}
-{10}{}{Otrzymujesz %1% doœwiadczenia za udane u¿ycie umiejêtnoœci %2%.}
-{11}{}{%1% wyleczy³ %2% HP.}
-{12}{}{Nie ¿yje. Jest za póŸno ¿eby pomóc.}
+{1}{}{NiepeÅ‚nosprawnoÅ›ci wyleczone.}
+{2}{}{Nie udaÅ‚o siÄ™ wyleczyÄ‡ niepeÅ‚nosprawnoÅ›ci.}
+{3}{}{Nie moÅ¼esz tego zrobiÄ‡ w trybie walki.}
+{4}{}{Nie sÄ…dzisz, Å¼e jesteÅ› w stanie to wyleczyÄ‡.}
+{5}{}{ jest juÅ¼ wyleczony.}
+{6}{}{%1% zostaÅ‚o juÅ¼ dzisiaj wylecznone za pomocÄ… umiejÄ™tnoÅ›ci %2%. SprÃ³buj jutro.}
+{7}{}{Nie udaje siÄ™ ci wyleczyÄ‡.}
+{8}{}{Wow, teraz naprawdÄ™ wiem, jak ich raniÄ‡!}
+{9}{}{zdobyÅ‚ profit Å»ywa Anatomia.}
+{10}{}{Otrzymujesz %1% doÅ›wiadczenia za udane uÅ¼ycie umiejÄ™tnoÅ›ci %2%.}
+{11}{}{%1% wyleczyÅ‚ %2% HP.}
+{12}{}{Nie Å¼yje. Jest za pÃ³Åºno Å¼eby pomÃ³c.}

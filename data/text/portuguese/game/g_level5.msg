@@ -1,1 +1,1 @@
-{1}{}{Você recebe 9500 pontos de experiência porque você é um bastardinho trapaceiro.}
+{1}{}{VocÃª recebe 9500 pontos de experiÃªncia porque vocÃª Ã© um bastardinho trapaceiro.}

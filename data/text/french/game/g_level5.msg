@@ -1,1 +1,1 @@
-{1}{}{Tu reçois 9500 points d'expérience, parce que tu es un petit salaud de tricheur.}
+{1}{}{Tu reÃ§ois 9500 points d'expÃ©rience, parce que tu es un petit salaud de tricheur.}

@@ -1,1 +1,1 @@
-{1}{}{Du erhältst 9500 Erfahrungspunkte, weil du cheatest, du kleiner Scheißer.}
+{1}{}{Du erhÃ¤ltst 9500 Erfahrungspunkte, weil du cheatest, du kleiner ScheiÃŸer.}

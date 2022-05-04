@@ -1,1 +1,1 @@
-{1}{}{Otrzymasz 9500 punktów doœwiadczenia, poniewa¿ jesteœ ma³ym, oszukuj¹cym draniem.}
+{1}{}{Otrzymasz 9500 punktÃ³w doÅ›wiadczenia, poniewaÅ¼ jesteÅ› maÅ‚ym, oszukujÄ…cym draniem.}

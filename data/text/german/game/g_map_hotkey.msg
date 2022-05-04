@@ -1,1 +1,1 @@
-{1}{}{Nö... Ich denke, ich werde die Leiter benutzen.}
+{1}{}{NÃ¶... Ich denke, ich werde die Leiter benutzen.}

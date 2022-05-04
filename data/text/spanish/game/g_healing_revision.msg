@@ -5,8 +5,8 @@
 {5}{}{ is already healthy.}
 {6}{}{%1% has already been healed with %2% skill today. Try tomorrow.}
 {7}{}{No consigues curar nada.}
-{8}{}{¡Wow! ¡Ahora realmente sé cómo herir a alguien!}
-{9}{}{ha ganado Anatomía Vital.}
+{8}{}{Â¡Wow! Â¡Ahora realmente sÃ© cÃ³mo herir a alguien!}
+{9}{}{ha ganado AnatomÃ­a Vital.}
 {10}{}{Ganas %1% puntos de experiencia por el uso de %2%.}
 {11}{}{%1% curado para %2% PS.}
 {12}{}{Muerto. Demasiado tarde para ayudarlo.}
