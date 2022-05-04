@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-04-12:19+0000\n"
+"POT-Creation-Date: 2022-05-04-12:22+0000\n"
 "PO-Revision-Date: 2021-09-16 06:58+0000\n"
 "Last-Translator: DocteurKain <jeanpeuplus@free.fr>\n"
 "Language-Team: French <https://tra.bgforge.net/projects/fallout/fo2tweaks/fr/>\n"
@@ -62,9 +62,7 @@ msgid "%1% healed for %2% HP."
 msgstr "%1% a récupéré %2% PI."
 
 #: game/g_healing_revision.msg:12
-#, fuzzy
-#| msgid "Dead. Too late to help this one."
-msgid "Dead. Too late to help this one. "
+msgid "Dead. Too late to help this one."
 msgstr "Mort. Trop tard pour aider celui-là."
 
 #: game/g_level5.msg:1

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Korean (Fallout)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-04-12:19+0000\n"
+"POT-Creation-Date: 2022-05-04-12:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Korean <https://tra.bgforge.net/projects/fallout/fo2tweaks/ko/>\n"
@@ -59,7 +59,7 @@ msgid "%1% healed for %2% HP."
 msgstr ""
 
 #: game/g_healing_revision.msg:12
-msgid "Dead. Too late to help this one. "
+msgid "Dead. Too late to help this one."
 msgstr ""
 
 #: game/g_level5.msg:1

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Spanish (Fallout)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-04-12:19+0000\n"
+"POT-Creation-Date: 2022-05-04-12:22+0000\n"
 "PO-Revision-Date: 2021-03-27 14:12+0000\n"
 "Last-Translator: Handless Design <Dante_schmidt@outlook.com>\n"
 "Language-Team: Spanish <https://tra.bgforge.net/projects/fallout/fo2tweaks/es/>\n"
@@ -61,9 +61,7 @@ msgid "%1% healed for %2% HP."
 msgstr "%1% curado para %2% PS."
 
 #: game/g_healing_revision.msg:12
-#, fuzzy
-#| msgid "Dead. Too late to help this one."
-msgid "Dead. Too late to help this one. "
+msgid "Dead. Too late to help this one."
 msgstr "Muerto. Demasiado tarde para ayudarlo."
 
 #: game/g_level5.msg:1
