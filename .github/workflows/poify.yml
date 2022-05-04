@@ -16,3 +16,4 @@ jobs:
           poify: "true"
           unpoify: "true"
           push: "true"
+          dir2msgstr: "true"
