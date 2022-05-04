@@ -9,4 +9,4 @@
 {9}{}{ha ganado Anatomía Vital.}
 {10}{}{Ganas %1% puntos de experiencia por el uso de %2%.}
 {11}{}{%1% curado para %2% PS.}
-{12}{}{Dead. Too late to help this one. }
+{12}{}{Muerto. Demasiado tarde para ayudarlo.}

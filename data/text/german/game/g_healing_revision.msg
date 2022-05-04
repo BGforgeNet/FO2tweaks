@@ -9,4 +9,4 @@
 {9}{}{hat Lebende Anatomie Bonus verdient.}
 {10}{}{Du erhältst %1% Erfahrung für den erfolgreichen Einsatz von %2% deiner Fertigkeit.}
 {11}{}{%1% geheilt für %2% der TP.}
-{12}{}{Dead. Too late to help this one. }
+{12}{}{Tot. Zuspät, um hier zu helfen.}
