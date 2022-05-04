@@ -9,4 +9,4 @@
 {9}{}{hai imparato la strenna Anatomia Vivente.}
 {10}{}{Ricevi %1% punti esperienza per aver usato con successo dell'abilita' %2%.}
 {11}{}{%1% curato di %2% HP.}
-{12}{}{Morto. Ormai e' troppo tardi.}
+{12}{}{Dead. Too late to help this one. }

@@ -9,4 +9,4 @@
 {9}{}{zdoby? profit ?ywa Anatomia.}
 {10}{}{Otrzymujesz %1% do?wiadczenia za udane u?ycie umiej?tno?ci %2%.}
 {11}{}{%1% wyleczy? %2% HP.}
-{12}{}{Nie ?yje. Jest za pó?no ?eby pomóc.}
+{12}{}{Dead. Too late to help this one. }
