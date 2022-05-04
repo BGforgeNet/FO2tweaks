@@ -1,1 +1,1 @@
-{1}{}{Nie... Chyba wezm? drabin?.}
+{1}{}{Nah... I think I'm gonna take the ladder.}

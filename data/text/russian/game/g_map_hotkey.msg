@@ -1,1 +1,1 @@
-{1}{}{Не... Думаю, я лучше по лестнице.}
+{1}{}{Nah... I think I'm gonna take the ladder.}

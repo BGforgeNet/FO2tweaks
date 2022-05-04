@@ -1,1 +1,1 @@
-{1}{}{Non... Je pense que je vais prendre l'échelle.}
+{1}{}{Nah... I think I'm gonna take the ladder.}
