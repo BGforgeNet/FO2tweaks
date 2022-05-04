@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-03-19:31+0000\n"
+"POT-Creation-Date: 2022-05-04-12:00+0000\n"
 "PO-Revision-Date: 2022-01-06 12:40+0000\n"
 "Last-Translator: Felipe <felipefplzx@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://tra.bgforge.net/projects/fallout/fo2tweaks/pt_BR/>\n"
@@ -74,7 +74,7 @@ msgstr ""
 #: game/g_map_hotkey.msg:1
 #, fuzzy
 #| msgid "Nah... I think I'm gonna take the ladder."
-msgid "Nah... I think I'm gonna take the ladder. "
+msgid "Nah... I think I'm gonna take the ladder."
 msgstr "Nah... Eu acho que eu vou pela escada."
 
 #~ msgid "You have already used this skill on this critter today."

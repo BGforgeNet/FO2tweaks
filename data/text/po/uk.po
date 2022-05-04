@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-03-19:31+0000\n"
+"POT-Creation-Date: 2022-05-04-12:00+0000\n"
 "PO-Revision-Date: 2021-10-19 19:46+0300\n"
 "Last-Translator: IllusiveMan196\n"
 "Language-Team: \n"
@@ -71,7 +71,7 @@ msgstr "Ви отримуєте 9500 очок досвіду, бо ви бруд
 #: game/g_map_hotkey.msg:1
 #, fuzzy
 #| msgid "Nah... I think I'm gonna take the ladder."
-msgid "Nah... I think I'm gonna take the ladder. "
+msgid "Nah... I think I'm gonna take the ladder."
 msgstr "Ні... гадаю я краще сходами."
 
 msgctxt "female"
