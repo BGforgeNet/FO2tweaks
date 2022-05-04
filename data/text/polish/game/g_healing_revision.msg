@@ -1,12 +1,12 @@
-{1}{}{Niepe?nosprawno?ci wyleczone.}
-{2}{}{Nie uda?o si? wyleczy? niepe?nosprawno?ci.}
-{3}{}{Nie mo?esz tego zrobi? w trybie walki.}
-{4}{}{Nie s?dzisz, ?e jeste? w stanie to wyleczy?.}
-{5}{}{ jest ju? wyleczony.}
-{6}{}{%1% zosta?o ju? dzisiaj wylecznone za pomoc? umiej?tno?ci %2%. Spróbuj jutro.}
-{7}{}{Nie udaje si? ci wyleczy?.}
-{8}{}{Wow, teraz naprawd? wiem, jak ich rani?!}
-{9}{}{zdoby? profit ?ywa Anatomia.}
-{10}{}{Otrzymujesz %1% do?wiadczenia za udane u?ycie umiej?tno?ci %2%.}
-{11}{}{%1% wyleczy? %2% HP.}
-{12}{}{Nie ?yje. Jest za pó?no ?eby pomóc.}
+{1}{}{Niepe³nosprawnoœci wyleczone.}
+{2}{}{Nie uda³o siê wyleczyæ niepe³nosprawnoœci.}
+{3}{}{Nie mo¿esz tego zrobiæ w trybie walki.}
+{4}{}{Nie s¹dzisz, ¿e jesteœ w stanie to wyleczyæ.}
+{5}{}{ jest ju¿ wyleczony.}
+{6}{}{%1% zosta³o ju¿ dzisiaj wylecznone za pomoc¹ umiejêtnoœci %2%. Spróbuj jutro.}
+{7}{}{Nie udaje siê ci wyleczyæ.}
+{8}{}{Wow, teraz naprawdê wiem, jak ich raniæ!}
+{9}{}{zdoby³ profit ¯ywa Anatomia.}
+{10}{}{Otrzymujesz %1% doœwiadczenia za udane u¿ycie umiejêtnoœci %2%.}
+{11}{}{%1% wyleczy³ %2% HP.}
+{12}{}{Nie ¿yje. Jest za póŸno ¿eby pomóc.}

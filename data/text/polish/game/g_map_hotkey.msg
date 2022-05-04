@@ -1,1 +1,1 @@
-{1}{}{Nie... Chyba wezm? drabin?.}
+{1}{}{Nie... Chyba wezmê drabinê.}
