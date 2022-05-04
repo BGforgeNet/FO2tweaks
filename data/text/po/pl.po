@@ -16,65 +16,65 @@ msgstr ""
 
 #: game/g_healing_revision.msg:1
 msgid "Disabilities healed."
-msgstr "Niepełnosprawności wyleczone."
+msgstr "Niepe?nosprawno?ci wyleczone."
 
 #: game/g_healing_revision.msg:2
 msgid "Failed to heal disabilities."
-msgstr "Nie udało się wyleczyć niepełnosprawności."
+msgstr "Nie uda?o si? wyleczy? niepe?nosprawno?ci."
 
 #: game/g_healing_revision.msg:3
 msgid "You can't do this in combat."
-msgstr "Nie możesz tego zrobić w trybie walki."
+msgstr "Nie mo?esz tego zrobi? w trybie walki."
 
 #: game/g_healing_revision.msg:4
 msgid "You don't think there's any chance you could heal this."
-msgstr "Nie sądzisz, że jesteś w stanie to wyleczyć."
+msgstr "Nie s?dzisz, ?e jeste? w stanie to wyleczy?."
 
 #: game/g_healing_revision.msg:5
 msgid " is already healthy."
-msgstr " jest już wyleczony."
+msgstr " jest ju? wyleczony."
 
 #: game/g_healing_revision.msg:6
 msgid "%1% has already been healed with %2% skill today. Try tomorrow."
 msgstr ""
-"%1% zostało już dzisiaj wylecznone za pomocą umiejętności %2%. Spróbuj "
+"%1% zosta?o ju? dzisiaj wylecznone za pomoc? umiej?tno?ci %2%. Spróbuj "
 "jutro."
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
-msgstr "Nie udaje się ci wyleczyć."
+msgstr "Nie udaje si? ci wyleczy?."
 
 #: game/g_healing_revision.msg:8
 msgid "Wow, now I really know how to hurt 'em!"
-msgstr "Wow, teraz naprawdę wiem, jak ich ranić!"
+msgstr "Wow, teraz naprawd? wiem, jak ich rani?!"
 
 #: game/g_healing_revision.msg:9
 msgid "has earned Living Anatomy perk."
-msgstr "zdobył profit Żywa Anatomia."
+msgstr "zdoby? profit ?ywa Anatomia."
 
 #: game/g_healing_revision.msg:10
 msgid "You receive %1% experience for successful use of %2% skill."
-msgstr "Otrzymujesz %1% doświadczenia za udane użycie umiejętności %2%."
+msgstr "Otrzymujesz %1% do?wiadczenia za udane u?ycie umiej?tno?ci %2%."
 
 #: game/g_healing_revision.msg:11
 msgid "%1% healed for %2% HP."
-msgstr "%1% wyleczył %2% HP."
+msgstr "%1% wyleczy? %2% HP."
 
 #: game/g_healing_revision.msg:12
 msgid "Dead. Too late to help this one."
-msgstr "Nie żyje. Jest za późno żeby pomóc."
+msgstr "Nie ?yje. Jest za pó?no ?eby pomóc."
 
 #: game/g_level5.msg:1
 msgid ""
 "You receive 9500 experience points, because you're a cheating little "
 "bastard."
 msgstr ""
-"Otrzymasz 9500 punktów doświadczenia, ponieważ jesteś małym, oszukującym "
+"Otrzymasz 9500 punktów do?wiadczenia, poniewa? jeste? ma?ym, oszukuj?cym "
 "draniem."
 
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."
-msgstr "Nie... Chyba wezmę drabinę."
+msgstr "Nie... Chyba wezm? drabin?."
 
 msgctxt "female"
 msgid " is already healthy."
