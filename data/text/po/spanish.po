@@ -247,7 +247,3 @@ msgstr "Nah... Creo que voy a usar la escalera."
 
 #~ msgid "[You smile, then jump at her and start ripping her clothes off.]"
 #~ msgstr "[Sonreír, luego saltar a ella y empezar a rasgar su ropa.]"
-
-msgctxt "female"
-msgid " is already healthy."
-msgstr "test 1 | Esta criatura ya está sana."
