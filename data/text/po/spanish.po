@@ -37,7 +37,7 @@ msgstr " ya está sana."
 
 #: game/g_healing_revision.msg:6
 msgid "%1% has already been healed with %2% skill today. Try tomorrow."
-msgstr ""
+msgstr "%1% ya ha sido curado con la habilidad %2% hoy. Inténtalo mañana."
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
