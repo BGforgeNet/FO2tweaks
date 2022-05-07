@@ -4,15 +4,16 @@ msgstr ""
 "Project-Id-Version: Spanish (Fallout)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-04-12:22+0000\n"
-"PO-Revision-Date: 2021-03-27 14:12+0000\n"
-"Last-Translator: Handless Design <Dante_schmidt@outlook.com>\n"
-"Language-Team: Spanish <https://tra.bgforge.net/projects/fallout/fo2tweaks/es/>\n"
+"PO-Revision-Date: 2022-05-07 14:09+0000\n"
+"Last-Translator: Magus <magus@bgforge.net>\n"
+"Language-Team: Spanish <https://tra.bgforge.net/projects/fallout/fo2tweaks/"
+"es/>\n"
 "Language: spanish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.1.1\n"
+"X-Generator: Weblate 4.12.1\n"
 
 #: game/g_healing_revision.msg:1
 msgid "Disabilities healed."
@@ -31,9 +32,8 @@ msgid "You don't think there's any chance you could heal this."
 msgstr "No crees que haya ninguna posibilidad de que puedas curar esto."
 
 #: game/g_healing_revision.msg:5
-#, fuzzy
 msgid " is already healthy."
-msgstr "Esta criatura ya está sana."
+msgstr " ya está sana."
 
 #: game/g_healing_revision.msg:6
 msgid "%1% has already been healed with %2% skill today. Try tomorrow."
