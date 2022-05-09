@@ -244,7 +244,3 @@ msgctxt "female"
 msgid ""
 "You receive 9500 experience points, because you're a cheating little bastard."
 msgstr "Вы получаете 9500 очков опыта, потому что вы читерница позорная."
-
-msgctxt "female"
-msgid " is already healthy."
-msgstr " в поряде."
