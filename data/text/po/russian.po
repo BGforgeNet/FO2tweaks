@@ -239,8 +239,3 @@ msgstr "Не... Думаю, я лучше по лестнице."
 
 #~ msgid "[You smile, then jump at her and start ripping her clothes off.]"
 #~ msgstr "[Улыбнуться, затем прыгнуть на нее и начать срывать одежду]"
-
-msgctxt "female"
-msgid ""
-"You receive 9500 experience points, because you're a cheating little bastard."
-msgstr "Вы получаете 9500 очков опыта, потому что вы читерница позорная."
