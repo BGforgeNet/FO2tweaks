@@ -248,7 +248,3 @@ msgstr "Вы получаете 9500 очков опыта, потому что 
 msgctxt "female"
 msgid "Disabilities healed."
 msgstr "Повреждения излечены - 2"
-
-msgctxt "female"
-msgid "Nah... I think I'm gonna take the ladder."
-msgstr "Не... Думаю, я лучше по лестнице - 2"
