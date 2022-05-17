@@ -4,8 +4,8 @@ msgstr ""
 "Project-Id-Version: Russian (Fallout)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-04-12:22+0000\n"
-"PO-Revision-Date: 2022-05-17 15:09+0000\n"
-"Last-Translator: anonymous <hive@bgforge.net>\n"
+"PO-Revision-Date: 2022-05-17 21:46+0000\n"
+"Last-Translator: Magus <magus@bgforge.net>\n"
 "Language-Team: Russian <https://tra.bgforge.net/projects/fallout/fo2tweaks/"
 "ru/>\n"
 "Language: russian\n"
@@ -30,7 +30,7 @@ msgstr "Вы не можете сделать это в бою."
 
 #: game/g_healing_revision.msg:4
 msgid "You don't think there's any chance you could heal this."
-msgstr "Вы не думаете что у вас есть шанс излечить это."
+msgstr "Вряд ли у вас получится излечить это."
 
 #: game/g_healing_revision.msg:5
 msgid " is already healthy."
