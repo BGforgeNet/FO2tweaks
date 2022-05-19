@@ -1,8 +1,7 @@
 # FO2tweaks
 
 [![Build status](https://github.com/BGforgeNet/FO2tweaks/workflows/build/badge.svg)](https://github.com/BGforgeNet/FO2tweaks/actions?query=workflow%3Abuild)
-[![Translation status](https://tra.bgforge.net/widgets/fallout/-/fo2tweaks/svg-badge.svg)](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
-
+[![Translation status](https://hive.bgforge.net/widgets/fallout/-/fo2tweaks/svg-badge.svg)](https://hive.bgforge.net/projects/fallout/fo2tweaks/)
 [![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![Patreon](https://img.shields.io/badge/Patreon-donate-FF424D?logo=Patreon&labelColor=141518)](https://www.patreon.com/BGforge)
 
@@ -13,26 +12,17 @@
 [__Download__](https://github.com/BGforgeNet/FO2tweaks/releases/latest)
  | [__Report issues__](#reporting-issues)
  | [__Discuss__](https://forums.bgforge.net/viewforum.php?f=26)
- | [__Translate__](https://tra.bgforge.net/projects/fallout/fo2tweaks/)
+ | [__Translate__](https://hive.bgforge.net/projects/fallout/fo2tweaks/)
 
 This is a collection of convenience tweaks, common sense changes, and cheats for Fallout 2.
 It is highly configurable, any component can be used with or without others. Some components also allow fine tuning.
 
-## Installation
-- Download `fo2tweaks_v*.zip` from the [latest release](https://github.com/BGforgeNet/FO2tweaks/releases/latest) page.
-- Unzip the archive into main game directory. FO2tweaks requires sfall (`ddraw.dll`) version 4.1.3+, it's shipped with the mod. If you have a newer version, you don't need to overwite the dll when extracting the archive.
-- Edit `mods/fo2tweaks.ini` to enable, disable or fine tune components as you desire.
-
-This is how it's supposed to look when installed:
-
-![installed](pics/installed.png)
-
 - [Components](#components)
-- [Compatibility](#compatibility)
+- [Components](#components)
+- [Installation](#installation)
 - [Unistallation](#uninstallation)
 - [Reporting issues](#reporting-issues)
 - [Author](#author)
-- [License](#license)
 - [Changelog](docs/changelog.md)
 
 ## Components
@@ -224,11 +214,19 @@ Designed for Restoration Project users. Unfortunately, many areas in RP are quit
 
 This allows to set a lower limit for the ambient light level. Refer to the [wiki](https://falloutmods.fandom.com/wiki/Fallout_2_light_levels) to understand how light works in Fallout.
 
+## Installation
+- Download `fo2tweaks_v*.zip` from the [latest release](https://github.com/BGforgeNet/FO2tweaks/releases/latest) page.
+- Unzip the archive into main game directory. FO2tweaks requires sfall (`ddraw.dll`) version 4.1.3+, it's shipped with the mod. If you have a newer version, you don't need to overwite the dll when extracting the archive.
+- Edit `mods/fo2tweaks.ini` to enable, disable or fine tune components as you desire.
+
+This is how it's supposed to look when installed:
+
+![installed](pics/installed.png)
+
 ## Compatibility
 * FO2tweaks is designed to be compatible with any other mod. If you find a conflict - report it.
 * Damage mod component is a special case. It's designed for vanilla game stats, so using it with mods like YAAM or F2WR will probably yield unexpected results.
 You're free to try and share your experience, however.
-
 
 ## Uninstallation
 Delete `mods/fo2tweaks.*` files.
@@ -245,6 +243,3 @@ Delete `mods/fo2tweaks.*` files.
 
 ## Author
 - [Magus at BGforge](https://forums.bgforge.net/viewforum.php?f=26)
-
-## License
-- The mod is [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
