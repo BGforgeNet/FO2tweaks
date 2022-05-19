@@ -1,12 +1,13 @@
-data/text/french/**     working-tree-encoding=cp1252    git-encoding=cp1252
-data/text/german/**     working-tree-encoding=cp1252    git-encoding=cp1252
-data/text/hungarian/**  working-tree-encoding=cp1250    git-encoding=cp1250
-data/text/italian/**    working-tree-encoding=cp1252    git-encoding=cp1252
-data/text/korean/**     working-tree-encoding=cp949     git-encoding=cp949
-data/text/polish/**     working-tree-encoding=cp1250    git-encoding=cp1250
-data/text/portuguese/** working-tree-encoding=cp1252    git-encoding=cp1252
-data/text/russian/**    working-tree-encoding=cp1251    git-encoding=cp1251
-data/text/spanish/**    working-tree-encoding=cp1252    git-encoding=cp1252
-data/text/schinese/**   working-tree-encoding=cp936     git-encoding=cp936
-data/text/tchinese/**   working-tree-encoding=cp950     git-encoding=cp950
-data/text/ukrainian/**  working-tree-encoding=cp1251    git-encoding=cp1251
+data/text/czech/**      working-tree-encoding=cp1250
+data/text/french/**     working-tree-encoding=cp1252
+data/text/german/**     working-tree-encoding=cp1252
+data/text/hungarian/**  working-tree-encoding=cp1250
+data/text/italian/**    working-tree-encoding=cp1252
+data/text/korean/**     working-tree-encoding=cp949
+data/text/polish/**     working-tree-encoding=cp1250
+data/text/portuguese/** working-tree-encoding=cp1252
+data/text/russian/**    working-tree-encoding=cp1251
+data/text/spanish/**    working-tree-encoding=cp1252
+data/text/schinese/**   working-tree-encoding=cp936
+data/text/tchinese/**   working-tree-encoding=cp950
+data/text/ukrainian/**  working-tree-encoding=cp1251
