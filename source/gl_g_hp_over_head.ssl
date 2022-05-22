@@ -3,16 +3,28 @@
 #include "headers/fo2tweaks/fo2tweaks.h"
 
 #define set_hp_over_head "hp_over_head"
+#define sec_hp_over_head "hp_over_head"
 
-variable enabled, fog;
+variable enabled, fog, key = "", only_party = 0;
 
 procedure clear_all_floats;
+procedure keypress_hook_handler;
 
 procedure update_hp begin
   variable who, cur_hp, max_hp, color, msg;
   ndebug("update_hp ping");
 
-  if not combat_is_initialized then return;
+  if (not combat_is_initialized) and key then return;
+
+  if only_party == 1 then begin
+    foreach who in party_member_list_critters begin
+      if is_dead(who) then continue;
+      cur_hp = get_critter_stat(who, STAT_current_hp);
+      msg = sprintf("%d", cur_hp);
+      float_msg(who, msg, FLOAT_MSG_GREEN);
+    end
+    return;
+  end
 
   foreach who in list_as_array(LIST_CRITTERS) begin
     // if fog is enabled, display only for critter in LoS
@@ -44,7 +56,7 @@ procedure gamemode_handler begin
   if mode_started(COMBAT, old_mode, new_mode) then begin
     ndebug("combat started, enabling floats");
     call update_hp;
-    set_global_script_repeat(12); // this is ugly, but I can't find a better solution
+    set_global_script_repeat(36); // this is ugly, but I can't find a better solution
   end
 end
 
@@ -67,16 +79,36 @@ procedure start begin
     enabled = fo2tweaks_setting(sec_main, set_hp_over_head);
     if enabled == 1 then begin
       fog = get_ini_setting("f2_res.ini|MAPS|FOG_OF_WAR");
-      register_hook_proc(HOOK_COMBATTURN, update_hp);
-      register_hook_proc(HOOK_USEOBJ, update_hp);
-      register_hook_proc(HOOK_USEOBJON, update_hp);
-      register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
-      register_hook_proc(HOOK_ONDEATH, clear_dead_float);
+
+      key = fo2tweaks_string(sec_hp_over_head, "key");
+      key = char_to_dik(key);
+      only_party = fo2tweaks_string(sec_hp_over_head, "only_party");
+      if key then begin
+        if key then ndebug("key is " + key);
+        register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
+      end else begin
+        register_hook_proc(HOOK_COMBATTURN, update_hp);
+        register_hook_proc(HOOK_USEOBJ, update_hp);
+        register_hook_proc(HOOK_USEOBJON, update_hp);
+        register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+        register_hook_proc(HOOK_ONDEATH, clear_dead_float);
+      end
       ndebug("initialized");
     end
   end else begin
-    if enabled == 1 then begin
+    if (enabled == 1) and not key then begin
       call update_hp;
     end
+  end
+end
+
+procedure keypress_hook_handler begin
+  variable pressed = get_sfall_arg;
+  variable pressed_key = get_sfall_arg;
+  if not pressed then return; //released
+
+  if key and hotkey_pressed_now(key, pressed_key) then begin
+    ndebug("key pressed");
+    call update_hp;
   end
 end
