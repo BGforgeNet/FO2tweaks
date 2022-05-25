@@ -18,7 +18,6 @@ This is a collection of convenience tweaks, common sense changes, and cheats for
 It is highly configurable, any component can be used with or without others. Some components also allow fine tuning.
 
 - [Components](#components)
-- [Components](#components)
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
 - [Reporting issues](#reporting-issues)
