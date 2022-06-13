@@ -19,7 +19,7 @@ procedure lightning_handler begin
 end
 
 procedure map_enter_p_proc begin
-  exec_map_update_scripts;
+  if min_light_level > 0 then exec_map_update_scripts;
 end
 
 procedure start begin
