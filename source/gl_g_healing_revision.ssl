@@ -278,8 +278,6 @@ procedure healing_handler begin
       call use_skill(user, target, skill, skill_bonus);
     end
     set_sfall_return(0); //override again?
-  end else begin
-    set_sfall_return(-1); //default engine handler
   end
 end
 
