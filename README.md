@@ -156,7 +156,7 @@ If [EcCo](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.19
 it also affects Bozar and Sniper Rifle (without changing range).
 
 #### HP over head
-Current HP will be displayed over head in combat, for dude, party and nearby enemies.
+Current HP will be displayed over head in combat, for dude, party and nearby enemies. Can be configured to display HP always or on key tap.
 
 *Note:* This component is not perfect, there might be delays in updating, and it will interfere with combat floats.
 

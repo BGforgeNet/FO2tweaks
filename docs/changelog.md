@@ -1,5 +1,10 @@
 ## Changelog
 
+### Version 12.10
+- Sfall updated to 4.3.5.
+- Fixed light level compatibility with Sonora.
+- HP over head now can be displayed on key tap.
+
 ### Version 12.9
 - Fixed light level tweak being always enabled.
 - Sfall updated to 4.3.3.1.
