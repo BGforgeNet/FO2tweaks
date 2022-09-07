@@ -1,12 +1,12 @@
-{1}{}{Disabilities healed.}
-{2}{}{Failed to heal disabilities.}
-{3}{}{You can't do this in combat.}
-{4}{}{You don't think there's any chance you could heal this.}
-{5}{}{ is already healthy.}
-{6}{}{%1% has already been healed with %2% skill today. Try tomorrow.}
-{7}{}{You fail to do any healing.}
-{8}{}{Wow, now I really know how to hurt 'em!}
-{9}{}{has earned Living Anatomy perk.}
-{10}{}{You receive %1% experience for successful use of %2% skill.}
-{11}{}{%1% healed for %2% HP.}
-{12}{}{Dead. Too late to help this one.}
+{1}{}{Handikapp läkte.}
+{2}{}{Misslyckades att läka handikapp.}
+{3}{}{Du kan inte göra detta i strid.}
+{4}{}{Du tror inte att det finns någon chans att du skulle kunna läka detta.}
+{5}{}{ är redan hälsosam.}
+{6}{}{%1% har redan blivit läkt med %2% fädigheten idag. Försök igen imorgon.}
+{7}{}{Du misslyckas att hela.}
+{8}{}{Wow, nu vet jag verkligen hur jag kan skada dem!}
+{9}{}{has uppnått Levande Anatomi-förmånen.}
+{10}{}{Du får %1% erfarenhet för att du lyckas använda din %2% färdighet.}
+{11}{}{%1% läkte %2% HP.}
+{12}{}{Död. För sent för att hjälpa den här.}
