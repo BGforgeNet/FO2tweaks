@@ -4,68 +4,70 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-04-12:22+0000\n"
-"Last-Translator: Automatically generated\n"
+"PO-Revision-Date: 2022-09-07 11:30+0000\n"
+"Last-Translator: tygyh <jonis9898@hotmail.com>\n"
 "Language-Team: none\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: bgforge_po v.1.1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.12.2\n"
 
 #: game/g_healing_revision.msg:1
 msgid "Disabilities healed."
-msgstr ""
+msgstr "Handikapp läkte."
 
 #: game/g_healing_revision.msg:2
 msgid "Failed to heal disabilities."
-msgstr ""
+msgstr "Misslyckades att läka handikapp."
 
 #: game/g_healing_revision.msg:3
 msgid "You can't do this in combat."
-msgstr ""
+msgstr "Du kan inte göra detta i strid."
 
 #: game/g_healing_revision.msg:4
 msgid "You don't think there's any chance you could heal this."
-msgstr ""
+msgstr "Du tror inte att det finns någon chans att du skulle kunna läka detta."
 
 #: game/g_healing_revision.msg:5
 msgid " is already healthy."
-msgstr ""
+msgstr " är redan hälsosam."
 
 #: game/g_healing_revision.msg:6
 msgid "%1% has already been healed with %2% skill today. Try tomorrow."
-msgstr ""
+msgstr "%1% har redan blivit läkt med %2% fädigheten idag. Försök igen imorgon."
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
-msgstr ""
+msgstr "Du misslyckas att hela."
 
 #: game/g_healing_revision.msg:8
 msgid "Wow, now I really know how to hurt 'em!"
-msgstr ""
+msgstr "Wow, nu vet jag verkligen hur jag kan skada dem!"
 
 #: game/g_healing_revision.msg:9
 msgid "has earned Living Anatomy perk."
-msgstr ""
+msgstr "has uppnått Levande Anatomi-förmånen."
 
 #: game/g_healing_revision.msg:10
 msgid "You receive %1% experience for successful use of %2% skill."
-msgstr ""
+msgstr "Du får %1% erfarenhet för att du lyckas använda din %2% färdighet."
 
 #: game/g_healing_revision.msg:11
 msgid "%1% healed for %2% HP."
-msgstr ""
+msgstr "%1% läkte %2% HP."
 
 #: game/g_healing_revision.msg:12
 msgid "Dead. Too late to help this one."
-msgstr ""
+msgstr "Död. För sent för att hjälpa den här."
 
 #: game/g_level5.msg:1
 msgid ""
 "You receive 9500 experience points, because you're a cheating little "
 "bastard."
-msgstr ""
+msgstr "Du får 9500 enfarenhetspoäng, eftersom du är en fuskande liten jävel."
 
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."
-msgstr ""
+msgstr "Nä… Jag tror att jag tänker ta stegen."
