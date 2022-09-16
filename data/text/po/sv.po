@@ -28,7 +28,8 @@ msgstr "Du kan inte göra detta i strid."
 
 #: game/g_healing_revision.msg:4
 msgid "You don't think there's any chance you could heal this."
-msgstr "Du tror inte att det finns någon chans att du skulle kunna läka detta."
+msgstr ""
+"Du tror inte att det finns någon chans att du skulle kunna läka detta."
 
 #: game/g_healing_revision.msg:5
 msgid " is already healthy."
@@ -36,7 +37,8 @@ msgstr " är redan hälsosam."
 
 #: game/g_healing_revision.msg:6
 msgid "%1% has already been healed with %2% skill today. Try tomorrow."
-msgstr "%1% har redan blivit läkt med %2% fädigheten idag. Försök igen imorgon."
+msgstr ""
+"%1% har redan blivit läkt med %2% fädigheten idag. Försök igen imorgon."
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
