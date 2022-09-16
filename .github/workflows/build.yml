@@ -10,13 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: devopsx/gha-focal-i386-fix@master
       - uses: actions/checkout@v2
 
       - name: Install packages
         run: |
-          sudo dpkg --add-architecture i386
-          sudo apt -qq update
-          sudo apt install -y --allow-downgrades libpcre2-8-0=10.34-7
           sudo apt-get install -o=Dpkg::Use-Pty=0 -y crudini dos2unix gcc p7zip wine-stable wine32
           wineboot >/dev/null 2>&1
 
