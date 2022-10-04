@@ -8,6 +8,7 @@ data/text/polish/**     working-tree-encoding=cp1250
 data/text/portuguese/** working-tree-encoding=cp1252
 data/text/russian/**    working-tree-encoding=cp1251
 data/text/spanish/**    working-tree-encoding=cp1252
+data/text/swedish/**    working-tree-encoding=cp1252
 data/text/schinese/**   working-tree-encoding=cp936
 data/text/tchinese/**   working-tree-encoding=cp950
 data/text/ukrainian/**  working-tree-encoding=cp1251

@@ -1,1 +1,1 @@
-{1}{}{Du får 9500 enfarenhetspoäng, eftersom du är en fuskande liten jävel.}
+{1}{}{Du fÃ¥r 9500 enfarenhetspoÃ¤ng, eftersom du Ã¤r en fuskande liten jÃ¤vel.}

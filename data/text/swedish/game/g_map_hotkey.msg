@@ -1,1 +1,1 @@
-{1}{}{Nä… Jag tror att jag tänker ta stegen.}
+{1}{}{NÃ¤â€¦ Jag tror att jag tÃ¤nker ta stegen.}
