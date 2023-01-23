@@ -1,6 +1,6 @@
 #define SCRIPT_REALNAME "gl_g_scenepid"
 
-#include "headers/fo2tweaks/fo2tweaks.h"
+#include "../source/headers/fo2tweaks/fo2tweaks.h"
 
 procedure print_scenery begin
   variable s, scenery = list_as_array(LIST_SCENERY);

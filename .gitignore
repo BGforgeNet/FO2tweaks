@@ -8,4 +8,4 @@ extra/bin/*
 *.7z
 data/*
 !data/text
-
+**/.tmp.ssl

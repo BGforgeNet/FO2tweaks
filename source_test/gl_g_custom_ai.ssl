@@ -1,5 +1,5 @@
 #define SCRIPT_REALNAME "gl_g_custom_ai"
-#include "headers/fo2tweaks/fo2tweaks.h"
+#include "../source/headers/fo2tweaks/fo2tweaks.h"
 
 
 //variable enabled;

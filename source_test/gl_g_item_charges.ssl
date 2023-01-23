@@ -1,6 +1,6 @@
 #define SCRIPT_REALNAME "gl_g_item_charges"
 
-#include "headers/fo2tweaks/fo2tweaks.h"
+#include "../source/headers/fo2tweaks/fo2tweaks.h"
 
 #define set_item_charges "item_charges"
 #define sec_item_charges "item_charges"

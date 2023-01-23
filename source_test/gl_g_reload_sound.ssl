@@ -1,6 +1,6 @@
   #define SCRIPT_REALNAME "gl_g_reload_sound"
-  #include "headers/fo2tweaks/fo2tweaks.h"
-  #include "headers/rp/modreact.h"
+  #include "../source/headers/fo2tweaks/fo2tweaks.h"
+  #include "../source/headers/rp/modreact.h"
 
 
   procedure start begin
