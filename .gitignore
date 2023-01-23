@@ -9,3 +9,7 @@ extra/bin/*
 data/*
 !data/text
 **/.tmp.ssl
+
+source/headers/party_orders
+source/headers/rp
+source/headers/sfall
