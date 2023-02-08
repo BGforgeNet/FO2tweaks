@@ -1,5 +1,9 @@
 ## Changelog
 
+### Version 12.11
+- Fixed unlimited party [giving](https://github.com/BGforgeNet/FO2tweaks/issues/96) free charisma points to PC with CHA 1.
+- Sfall updated to 4.3.7.
+
 ### Version 12.10
 - Sfall updated to 4.3.5.
 - Fixed light level compatibility with Sonora.
