@@ -3,15 +3,14 @@ name: build
 on: [push]
 
 env:
-  sfall_version: 4.3.5
-  mpack_version: 4.3.5
+  sfall_version: 4.3.7
+  mpack_version: 4.3.7
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: devopsx/gha-focal-i386-fix@master
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install packages
         run: |
@@ -28,7 +27,7 @@ jobs:
           ./extra/package.sh
 
       - name: Upload artifacts - main zip
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: "!startsWith(github.ref, 'refs/tags/')"
         with:
           name: fo2tweaks.zip
