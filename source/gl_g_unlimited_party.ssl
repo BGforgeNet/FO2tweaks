@@ -47,12 +47,12 @@ procedure allow_join(variable cri) begin
     end
   end
 
-  //boost charisma
-  dude_cha = dude_charisma;
-  ndebug("dude charisma is " + dude_cha);
+  // boost charisma
+  ndebug("dude charisma is " + dude_charisma);
   if dude_cha < 2 then begin
-    set_critter_stat(dude_obj, STAT_ch, 2);
-    ndebug("boosted charisma from " + dude_cha + " to 2");
+    // set_critter_stat doesn't set stats, it applies a mod
+    set_critter_stat(dude_obj, STAT_ch, 1);
+    ndebug("boosted charisma from 1 to 2");
     boosted = 1;
   end
 
@@ -62,8 +62,9 @@ procedure reset_state begin
   variable who;
   ndebug("dropped is " + dropped + ", boosted is " + boosted);
   if boosted then begin
-    set_critter_stat(dude_obj, STAT_ch, dude_cha);
-    ndebug("reset charisma to " + dude_cha);
+    // set_critter_stat doesn't set stats, it applies a mod
+    set_critter_stat(dude_obj, STAT_ch, -1);
+    ndebug("reset charisma to 1");
     boosted = 0;
   end
   if dropped then begin
