@@ -13,7 +13,6 @@ jobs:
       - name: Poify/Unpoify
         uses: BGforgeNet/msg2po@dev
         with:
-          poify: "true"
-          unpoify: "true"
-          push: "true"
-          dir2msgstr: "true"
+          poify: true
+          unpoify: true
+          dir2msgstr: true
