@@ -19,7 +19,7 @@ jobs:
       - name: Install packages
         run: |
           sudo DEBIAN_FRONTEND=noninteractive eatmydata apt-get install -o=Dpkg::Use-Pty=0 -y crudini dos2unix gcc p7zip
-          eatmydata wineboot >/dev/null 2>&1
+          eatmydata WINEARCH=win32 wineboot >/dev/null 2>&1
 
       - name: Build and package
         run: |
