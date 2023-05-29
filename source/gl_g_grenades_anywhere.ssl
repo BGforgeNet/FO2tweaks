@@ -99,7 +99,10 @@ procedure explosion_handler begin
     tile = tile_num(target);
     list = objects_in_radius(tile, random(4, 6), dude_elevation, OBJ_TYPE_CRITTER);
     foreach object in list begin
-      if object != dude_obj then set_object_data(object, OBJ_DATA_WHO_HIT_ME, dude_obj);
+      // see https://github.com/BGforgeNet/FO2tweaks/issues/98
+      if object != dude_obj and not in_party(object) then begin
+        set_object_data(object, OBJ_DATA_WHO_HIT_ME, dude_obj);
+      end
     end
     only_once = false;
   end
