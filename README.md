@@ -148,7 +148,7 @@ Thus:
 1. Target's armor class is ignored when using grenades, making it easier to hit with one.
 2. Grenades can now be tossed into empty hexes, opening new tactical possibilities.
 
-It also affects explosive (but not armor piercing) rockets from rocket launcher and grenade launchers from [EcCo](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/) mod.
+It also affects explosive (but not armor piercing) rockets from rocket launcher, flares, grenade launchers from [EcCo](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/) mod.
 
 #### No close range penalty for scoped weapons
 Remove the close range penalty for Scoped Hunting Rifle, change its range to 48.

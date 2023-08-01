@@ -1,5 +1,10 @@
 ## Changelog
 
+### Version 12.13
+
+- Fixed incorrect PID for homemade grenade from EcCo, added flares to the list of weapons allowed to target a hex.
+- Sfall updated to 4.3.8.
+
 ### Version 12.12
 
 - Fixed Improved Grenades in conjuction with other mods sometimes [causing](https://github.com/BGforgeNet/FO2tweaks/issues/98) party members to attack PC.
