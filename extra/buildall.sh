@@ -39,7 +39,7 @@ if [[ -d sfall ]]; then
   git pull
   cd ..
 else
-  git-clone-dir https://github.com/phobos2077/sfall.git sfall artifacts/scripting/headers
+  git-clone-dir https://github.com/sfall-team/sfall.git sfall artifacts/scripting/headers
 fi
 rm -f  "$headers_dir/sfall"
 ln -sf "$external_dir/sfall/artifacts/scripting/headers" "$headers_dir/sfall"
