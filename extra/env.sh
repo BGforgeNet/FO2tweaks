@@ -25,3 +25,4 @@ function git-clone-dir() {
     git sparse-checkout set --no-cone "$subdir"
     git checkout
 }
+export -f git-clone-dir
