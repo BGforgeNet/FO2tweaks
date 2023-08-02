@@ -21,8 +21,10 @@ function git-clone-dir() {
     subdir="$3"
 
     git clone -n --depth=1 --filter=tree:0 "$url" "$dir"
+    pushd .
     cd "$dir"
     git sparse-checkout set --no-cone "$subdir"
     git checkout
+    popd
 }
 export -f git-clone-dir
