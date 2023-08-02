@@ -11,7 +11,6 @@ mkdir -p "$dst"
 dst="$(realpath $dst)"
 headers_dir="../source/headers"
 external_dir="../../external"
-source ./git.sh
 
 mkdir -p external
 cd external
