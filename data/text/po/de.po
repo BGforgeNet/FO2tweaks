@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-04-12:22+0000\n"
-"PO-Revision-Date: 2023-08-23 19:27+0000\n"
+"PO-Revision-Date: 2023-08-23 20:27+0000\n"
 "Last-Translator: Charles Dexter Ward <graffias@quantentunnel.de>\n"
 "Language-Team: German <https://tra.bgforge.net/projects/fallout/fo2tweaks/de/"
 ">\n"
@@ -50,7 +50,7 @@ msgstr "Wow, jetzt weiß ich wirklich, wie ich sie verletzen kann!"
 
 #: game/g_healing_revision.msg:9
 msgid "has earned Living Anatomy perk."
-msgstr "hat Lebende Anatomie Bonus verdient."
+msgstr "hat \"Lebendige Anatomie\"-Bonus verdient."
 
 #: game/g_healing_revision.msg:10
 msgid "You receive %1% experience for successful use of %2% skill."
