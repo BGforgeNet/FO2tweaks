@@ -236,7 +236,7 @@ To avoid this, these brahmin will now be on player's team.
 
 Expanded version of Sfall highlighting mod. A picture is worth a thousand words. Highly configurable.
 
-**Note:** if you're using this, you must disable default sfall highlighting (for example, set `Key=41` in `Highlighting` section of `sfall-mods.ini`).
+**Note:** if you're using this, you must disable default sfall highlighting (set `Key=0` in `Highlighting` section of `sfall-mods.ini`).
 
 ![highlighting in game](https://github.com/BGforgeNet/FO2tweaks/blob/master/pics/highlighting.jpg "highlighting in game")
 
