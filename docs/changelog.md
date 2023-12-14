@@ -1,5 +1,9 @@
 ## Changelog
 
+### Version 12.15
+
+- Really ensured that instant death criticals inflict at least 1 point of damage.
+
 ### Version 12.14
 
 - Ensured that instant death criticals inflict at least 1 point of damage.

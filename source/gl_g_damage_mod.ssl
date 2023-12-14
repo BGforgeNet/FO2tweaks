@@ -40,10 +40,8 @@
 #define sec_damage_mod_ammo_dr "damage_mod_ammo_dr"
 #define sec_damage_mod_ammo_type "damage_mod_ammo_type"
 
-#define is_critical_hit(flags)  ((flags bwand DAM_CRITICAL) != 0)
 #define is_bypassing_armor(flags) ((flags bwand DAM_BYPASS) != 0)
-#define flag_instadeath (DAM_HIT bwor DAM_CRITICAL bwor DAM_DEAD)
-#define is_instadeath_hit(flags) ((flags bwand flag_instadeath) == flag_instadeath)
+#define is_instadeath_hit(flags) ((flags bwand DAM_DEAD) != 0)
 
 variable begin
   old_total = 0, new_total = 0;
