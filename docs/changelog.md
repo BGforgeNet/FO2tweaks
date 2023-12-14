@@ -1,5 +1,9 @@
 ## Changelog
 
+### Version 12.14
+
+- Ensured that instant death criticals inflict at least 1 point of damage.
+
 ### Version 12.13
 
 - Fixed incorrect PID for homemade grenade from EcCo, added flares to the list of weapons allowed to target a hex.
