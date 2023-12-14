@@ -42,6 +42,8 @@
 
 #define is_critical_hit(flags)  ((flags bwand DAM_CRITICAL) != 0)
 #define is_bypassing_armor(flags) ((flags bwand DAM_BYPASS) != 0)
+#define flag_instadeath (DAM_HIT bwor DAM_CRITICAL bwor DAM_DEAD)
+#define is_instadeath_hit(flags) ((flags bwand flag_instadeath) == flag_instadeath)
 
 variable begin
   old_total = 0, new_total = 0;
@@ -358,6 +360,14 @@ begin
   then begin
     ndebug("living anatomy: +5 dmg");
     total_damage = total_damage + 5;
+  end
+  // instadeath crit
+  if (attacker == dude_obj)
+    and is_instadeath_hit(flags)
+    and (total_damage < 1)
+  then begin
+    ndebug("instadeath: ensured 1 dmg");
+    total_damage = 1;
   end
 
   return total_damage;
