@@ -48,7 +48,8 @@ procedure allow_join(variable cri) begin
   end
 
   // boost charisma
-  ndebug("dude charisma is " + dude_charisma);
+  dude_cha = dude_charisma;
+  ndebug("dude charisma is " + dude_cha);
   if dude_cha < 2 then begin
     // set_critter_stat doesn't set stats, it applies a mod
     set_critter_stat(dude_obj, STAT_ch, 1);
