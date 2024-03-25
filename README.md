@@ -80,13 +80,16 @@ Certain violent death animations (exploded, electrified, etc) cause enemies to d
 
 This component removes charisma checks upon NPC joining the party.
 It does not remove other checks (karma, etc). For example, Goris may still decline to join if you're a childkiller.
-All vanilla and RP companions are included. More can be added in `mods/fo2tweaks.ini`.
+
+- All vanilla and RP companions are included. More can be added in `mods/fo2tweaks.ini`.
 
 #### Party level match
 
 Some NPCs like Goris are acquired later in the game and never reach their true potential because of that.
-Now NPCs will automatically level up to match dude's level of experience. Default is to max out at level 24, configurable.
+Now NPCs will automatically level up to match PC's level of experience. Default is to max out at level 24, configurable.
 You can kick an NPC out, come back later, more experienced, and they will level up to match that.
+
+- All vanilla and RP companions are included. More can be added in `mods/fo2tweaks.ini`.
 
 ### Speed
 
@@ -115,10 +118,10 @@ running=1
 
 Are you tired of Marcus, Skynet, Lenny lagging behind? Then this coomponent is for you. It has two separate options:
 
-- Make Chosen's run speed constant. In vanilla game, wearing heavy armor descreases run speed by approximately 20%. This option disables the penalty for the Chosen.
+- Make PC's run speed constant. In vanilla game, wearing heavy armor descreases run speed by approximately 20%. This option disables the penalty for the PC.
 - Increase companions run speed:
-  - All NPCs get a slight boost (like Chosen above).
-  - NPCs who have no running animation (Marcus, Skynet, Lenny) get one, so they will be able to catch up with the Chosen.
+  - All NPCs get a slight boost (like PC above).
+  - NPCs who have no running animation (Marcus, Skynet, Lenny) get one, so they will be able to catch up with the PC.
 
 ### Combat
 
@@ -149,7 +152,7 @@ Effect on the game:
 - Power armor with its massive DT is a game changer. It will shrug off most JHP attacks. Even AP ammo is not very effective. You'll need to penetrate (criticals), or bring heavy weaponry.
 
 It's designed for vanilla game ammo/weapons/armor. It will _work_ with various mods such as [EcCo](http://www.nma-fallout.com/threads/economy-and-combat-rebalance-mod.193578/),
-however that may require tinkering with individual ammo modifiers in `fo2tweaks.ini`, and satisfactory result is not guaranteed.
+however that may require tinkering with individual ammo modifiers in `fo2tweaks.ini`.
 
 #### Limit knockback
 
@@ -192,7 +195,7 @@ In combat, cursor state automatically changes to "attack" when hovering over an 
 
 #### Autodoors
 
-When not in combat, dude will be able to walk through unlocked doors without having to open them explicitly (like NPCs do).
+When not in combat, the PC will be able to walk through unlocked doors without having to open them explicitly (like NPCs do).
 
 #### Level 5 after Temple of Trials
 
@@ -234,7 +237,7 @@ To avoid this, these brahmin will now be on player's team.
 
 #### Expanded highlighting
 
-Expanded version of Sfall highlighting mod. A picture is worth a thousand words. Highly configurable.
+Expanded version of sfall highlighting mod. A picture is worth a thousand words. Highly configurable.
 
 **Note:** if you're using this, you must disable default sfall highlighting (set `Key=0` in `Highlighting` section of `sfall-mods.ini`).
 
