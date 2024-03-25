@@ -158,7 +158,6 @@ procedure char_to_dik(variable char) begin
   dik_code = charmap[char];
   if dik_code == 0 then begin
     ndebug("failed to parse character " + char);
-    display_msg("Error: failed to parse character " + char);
     return false;
   end
   return dik_code;
