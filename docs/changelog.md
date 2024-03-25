@@ -1,5 +1,10 @@
 ## Changelog
 
+### Version 12.16
+
+- Fixed Unlimited Party doing unnecessary charisma boosts in some dialogs.
+- Sfall updated to 4.4.2.
+
 ### Version 12.15
 
 - Really ensured that instant death criticals inflict at least 1 point of damage.
