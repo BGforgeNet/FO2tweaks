@@ -1,8 +1,11 @@
-name: Poify/Unpoify
+name: Poify/Unpoify test
 on:
   push:
-    branches:
+    branches-ignore:
       - master
+    paths:
+      - "data/text/**"
+  pull_request:
     paths:
       - "data/text/**"
 
@@ -20,3 +23,4 @@ jobs:
           unpoify: true
           dir2msgstr: true
           single_commit: true
+          push: false
