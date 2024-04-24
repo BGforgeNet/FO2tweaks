@@ -2,7 +2,8 @@
 
 set -xeu -o pipefail
 
-export extra_dir="$(realpath extra)"
+extra_dir="$(realpath extra)"
+export extra_dir
 export bin_dir="$extra_dir/bin"
 export mods_dir="mods"
 export mpack_version=${mpack_version:-4.3}

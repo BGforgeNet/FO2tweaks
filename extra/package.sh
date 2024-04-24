@@ -12,7 +12,7 @@ short_sha="$(git rev-parse --short HEAD)"
 export version="git$short_sha"
 
 # tagged build
-if [[ ! -z "${GITHUB_REF-}" ]]; then # github build
+if [[ -n "${GITHUB_REF-}" ]]; then               # github build
   if echo "$GITHUB_REF" | grep "refs/tags"; then # tagged
     version="$(echo $GITHUB_REF | sed 's|refs\/tags\/||')"
     export version
@@ -26,7 +26,7 @@ mkdir -p "$mods_dir"
 cd data
 rm -rf text/po # gettext translations
 # I don't know how to pack recursively
-find . -type f | sed -e 's|^\.\/||' -e 's|\/|\\|g' | sort > ../file.list # replace slashes with backslashes
+find . -type f | sed -e 's|^\.\/||' -e 's|\/|\\|g' | sort >../file.list # replace slashes with backslashes
 wine "$bin_dir/dat2.exe" a $dat @../file.list
 cd ..
 mv "data/$dat" "$mods_dir/"
