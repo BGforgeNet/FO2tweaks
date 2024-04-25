@@ -277,7 +277,7 @@ Delete `mods/fo2tweaks.*` files.
    - describe the bug
    - attach a savegame
    - detail the steps to trigger the bug
-   - note versions: FO2tweaks, `ddraw.dll`, any other mods you have installed. _Exact_ versions, don't just say "latest".
+   - note versions: FO2tweaks, `ddraw.dll`, any other mods you have installed. _Actual_ versions, don't just say "latest".
    - also attach [`debug.log`](https://github.com/BGforgeNet/Fallout2_Unofficial_Patch/blob/master/docs/debug.md)
 1. For feature requests: free form, but please be descriptive.
 
