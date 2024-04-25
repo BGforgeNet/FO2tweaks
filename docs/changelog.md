@@ -1,5 +1,10 @@
 ## Changelog
 
+### Version 12.17
+
+- If Molotov fire damage is enabled, burning death animation is enabled automatically as well.
+- Sfall updated to 4.4.3.1.
+
 ### Version 12.16
 
 - Fixed Unlimited Party doing unnecessary charisma boosts in some dialogs.
