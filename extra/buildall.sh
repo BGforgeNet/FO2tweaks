@@ -3,7 +3,7 @@
 set -xeu -o pipefail
 
 extra_dir="${extra_dir:-extra}"
-extra_dir="$(realpath $extra_dir)"
+extra_dir="$(realpath "$extra_dir")"
 bin_dir="$extra_dir/bin"
 compile="$bin_dir/compile.exe"
 dst="data/scripts"
@@ -46,9 +46,9 @@ ln -sf "$external_dir/sfall/artifacts/scripting/headers" "$headers_dir/sfall"
 
 cd ..
 
-mkdir -p $dst
+mkdir -p "$dst"
 cd source
 for f in $(ls | grep "\.ssl$"); do
-    int_name="$(echo $f | sed 's|\.ssl$|.int|')"
-    wine $compile -l -O2 -p -s -q -n "$f" -o "$dst/$int_name"
+    int_name="$(echo "$f" | sed 's|\.ssl$|.int|')"
+    wine "$compile" -l -O2 -p -s -q -n "$f" -o "$dst/$int_name"
 done
