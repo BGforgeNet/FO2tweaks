@@ -160,7 +160,7 @@ Allows to limit max knockback distance. That affects all weapons and explosives.
 
 #### Molotov cocktail: fire damage
 
-Let Molotov cocktail do fire damage instead of explosive (and optionally, enable "burning death" animation)
+Let Molotov cocktail do fire damage instead of explosive (and enable "burning death" animation).
 
 #### Improved grenades
 

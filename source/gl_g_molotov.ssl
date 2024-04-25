@@ -1,8 +1,6 @@
 #define SCRIPT_REALNAME "gl_g_molotov"
 #include "headers/fo2tweaks/fo2tweaks.h"
 
-#define sec_molotov_fire "molotov_fire"
-#define set_molotov_flameboy "flameboy"
 #define set_molotov_fire "molotov_fire"
 
 procedure start;
@@ -10,22 +8,18 @@ procedure afterhit_hook;
 procedure damage_hook;
 procedure set_attack_fire;
 
-variable enabled = 0, flameboy = 0;
+variable enabled = 0;
 
 procedure set_molotov_stats begin
   set_proto_data(PID_MOLOTOV_COCKTAIL, PROTO_WP_DMG_TYPE, DMG_fire);
-  ndebug("set molotov to fire type");
-  if flameboy then  begin
-    set_proto_data(PID_MOLOTOV_COCKTAIL, PROTO_WP_PERK, PERK_weapon_flameboy);
-    ndebug("enabled flameboy for molotov");
-  end
+  set_proto_data(PID_MOLOTOV_COCKTAIL, PROTO_WP_PERK, PERK_weapon_flameboy);
+  ndebug("set molotov to fire type, enabled flameboy");
 end
 
 procedure start begin
   if game_loaded then begin
     enabled = fo2tweaks_setting(sec_main, set_molotov_fire);
     if enabled == 1 then begin
-      flameboy = fo2tweaks_setting(sec_molotov_fire, set_molotov_flameboy);
       call set_molotov_stats;
       register_hook_proc(HOOK_AFTERHITROLL, afterhit_hook); // miss hit
       register_hook_proc(HOOK_ITEMDAMAGE, damage_hook); // normal hit
