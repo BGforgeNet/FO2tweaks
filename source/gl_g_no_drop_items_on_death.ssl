@@ -26,13 +26,13 @@ procedure deathanim2_handler begin
   variable target = get_sfall_arg;
   variable damage_amount = get_sfall_arg;
   variable death_anim_id = get_sfall_arg;
-  if ( (    death_anim_id == ANIM_burned_to_nothing
-         or death_anim_id == ANIM_electrified_to_nothing
-         or death_anim_id == ANIM_exploded_to_nothing
-         or death_anim_id == ANIM_melted_to_nothing
-        )
-      and is_critter(target) )
-  then begin
+
+  // shouldn't ever fire, but just in case
+  if not is_critter(target) then return;
+
+  // Only `ANIM_electrified_to_nothing` and `ANIM_exploded_to_nothing` will drop everything on the ground.
+  // https://github.com/alexbatalov/fallout2-re/blob/b135fc46ef40c4aecd156f3cebcf88ec531bb8ac/src/game/actions.c#L463
+  if (death_anim_id == ANIM_electrified_to_nothing) or (death_anim_id == ANIM_exploded_to_nothing) then begin
     variable box = create_object_sid(PID_FOOTLOCKER_CLEAN_LEFT, 0, 0, -1);
     move_obj_inven_to_obj(target, box);
     critters_boxes[target] = box;
