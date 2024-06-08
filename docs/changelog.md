@@ -1,5 +1,9 @@
 ## Changelog
 
+### Version 12.18
+
+[Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/106) companions appearance changes on death in "no drop items" component.
+
 ### Version 12.17
 
 - If Molotov fire damage is enabled, burning death animation is enabled automatically as well.
