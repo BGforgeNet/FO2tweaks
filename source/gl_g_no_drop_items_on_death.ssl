@@ -20,6 +20,33 @@ procedure start begin
   end
 end
 
+/**
+ * Like `move_obj_inven_to_obj`, but keeps armor if equipped.
+ * @arg {ObjPtr} src - source object
+ * @arg {ObjPtr} dst - target object
+ */
+procedure move_inven_except_armor(variable src, variable dst) begin
+  variable armor;
+  if is_critter(src) then armor = critter_inven_obj2(dude_obj, INVEN_TYPE_WORN);
+
+  // not critter or critter has no armor
+  if not armor then begin
+    move_obj_inven_to_obj(src, dst);
+    return;
+  end
+
+  variable num_items = inven_count(src);
+  variable item;
+  while (num_items > 0) do begin
+    item = inven_ptr(src, num_items);
+    num_items -= 1;
+    if item == armor then continue;
+    rm_obj_from_inven(src, item);
+    add_obj_to_inven(dst, item);
+  end
+
+end
+
 procedure deathanim2_handler begin
   variable item_pid = get_sfall_arg;
   variable attacker = get_sfall_arg;
@@ -34,7 +61,7 @@ procedure deathanim2_handler begin
   // https://github.com/alexbatalov/fallout2-re/blob/b135fc46ef40c4aecd156f3cebcf88ec531bb8ac/src/game/actions.c#L463
   if (death_anim_id == ANIM_electrified_to_nothing) or (death_anim_id == ANIM_exploded_to_nothing) then begin
     variable box = create_object_sid(PID_FOOTLOCKER_CLEAN_LEFT, 0, 0, -1);
-    move_obj_inven_to_obj(target, box);
+    call move_inven_except_armor(target, box);
     critters_boxes[target] = box;
     ndebug("moved inventory from " + obj_name(target) + " to temp box");
   end
