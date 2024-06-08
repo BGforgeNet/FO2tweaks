@@ -58,7 +58,15 @@ variable begin
   msg;
 end
 
+/**
+ * Gets message `x` from **game** message file `msg`
+ * @arg {int} x - message number
+ */
 #define mymsg(x) message_str_game(msg, x)
+/**
+ * Displays message `x` from **game** message file `msg`
+ * @arg {int} x - message number
+ */
 #define display_mymsg(x) display_msg(mymsg(x))
 
 procedure heal_disabilities(variable user, variable target, variable effective_skill) begin
@@ -318,7 +326,7 @@ procedure map_enter_p_proc begin
       then begin
         ndebug(obj_name(dude_obj) + " gets living anatomy!");
         critter_add_trait(dude_obj, TRAIT_PERK, PERK_living_anatomy_perk, 1);
-        display_mymsg(dude_name + " " + msg_living_anatomy_2);
+        display_msg(dude_name + " " + mymsg(msg_living_anatomy_2));
         float_msg(dude_obj, mymsg(msg_living_anatomy), FLOAT_MSG_WHITE);
       end
     end
