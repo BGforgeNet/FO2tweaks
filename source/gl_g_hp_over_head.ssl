@@ -14,7 +14,16 @@ procedure update_hp begin
   variable who, cur_hp, max_hp, color, msg;
   ndebug("update_hp ping");
 
-  if (not combat_is_initialized) and key then return;
+  if (not combat_is_initialized) and key then begin
+    foreach who in party_member_list_critters begin
+      if is_dead(who) then continue;
+      cur_hp = get_critter_stat(who, STAT_current_hp);
+      max_hp = get_critter_stat(who, STAT_max_hp);
+      msg = string_format("%d/%d", cur_hp, max_hp);
+      float_msg(who, msg, FLOAT_MSG_GREEN);
+    end
+    return;
+  end
 
   if only_party == 1 then begin
     foreach who in party_member_list_critters begin

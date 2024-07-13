@@ -51,7 +51,6 @@ end
 //show_new = 1 shows currently inactive ammo which will become active
 procedure update_box(variable show_new) begin
   variable item, weapon, ammo_pid, ammo_label;
-
   if not in_combat then begin
     if is_iface_tag_active(box_num) then begin
       hide_iface_tag(box_num);
