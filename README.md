@@ -181,7 +181,7 @@ it also affects Bozar and Sniper Rifle (without changing range).
 
 #### HP over head
 
-Current HP will be displayed over head in combat, for dude, party and nearby enemies. Can be configured to display HP always or on key tap.
+Current HP will be displayed over head in combat, for PC, party and nearby enemies. Can be configured to display HP always or on key tap.
 
 _Note:_ This component is not perfect, there might be delays in updating, and it will interfere with combat floats.
 

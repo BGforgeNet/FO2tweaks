@@ -1,5 +1,10 @@
 ## Changelog
 
+### Version 12.20
+
+- Tapping current HP hotkey now [also shows](https://github.com/BGforgeNet/FO2tweaks/issues/108) max (only for party and out of combat).
+- Sfall updated to 4.4.4.
+
 ### Version 12.19
 
 [Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/107) Living Anatomy from Healing revision missing PDA message, and occasionally crashing game.
