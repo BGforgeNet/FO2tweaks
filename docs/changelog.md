@@ -1,5 +1,9 @@
 ## Changelog
 
+### Version 12.21
+
+- Added [Action Points rollover](https://github.com/BGforgeNet/FO2tweaks/?tab=readme-ov-file#action-point-rollover) component.
+
 ### Version 12.20
 
 - Tapping current HP hotkey now [also shows](https://github.com/BGforgeNet/FO2tweaks/issues/108) max (only for party and out of combat).

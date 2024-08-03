@@ -46,6 +46,7 @@ It is highly configurable, any component can be used with or without others. Som
   - [No close range penalty for scoped weapons](#no-close-range-penalty-for-scoped-weapons)
   - [HP over head](#hp-over-head)
   - [Auto cursor](#auto-cursor)
+  - [Action Points rollover](#action-points-rollover)
 - [Miscellaneous](#miscellaneous)
   - [Autodoors](#autodoors)
   - [Healing revision](#healing-revision)
@@ -190,6 +191,10 @@ _Note:_ This component is not perfect, there might be delays in updating, and it
 #### Auto cursor
 
 In combat, cursor state automatically changes to "attack" when hovering over an enemy, and back to "move" when over an empty hex.
+
+#### Action Points rollover
+
+A portion of unused Action Points (default 2) will carry over to the next turn, Jagged Alliance style. This replaces AC bonus from used APs. Applies to everyone.
 
 ### Miscellaneous
 
