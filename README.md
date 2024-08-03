@@ -194,7 +194,7 @@ In combat, cursor state automatically changes to "attack" when hovering over an 
 
 #### Action Points rollover
 
-A portion of unused Action Points (default 2) will carry over to the next turn, Jagged Alliance style. This replaces AC bonus from used APs. Applies to everyone.
+A portion of unused Action Points (default 2) will carry over to the next turn, Jagged Alliance style. This replaces AC bonus from unused APs. Applies to everyone.
 
 ### Miscellaneous
 
