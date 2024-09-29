@@ -2,7 +2,7 @@
 
 ### Version 12.21
 
-- Added [Action Points rollover](https://github.com/BGforgeNet/FO2tweaks/?tab=readme-ov-file#action-point-rollover) component.
+Added [Action Points rollover](https://github.com/BGforgeNet/FO2tweaks/?tab=readme-ov-file#action-points-rollover) component.
 
 ### Version 12.20
 
