@@ -39,6 +39,7 @@ jobs:
         with:
           name: fo2tweaks.zip
           path: fo2tweaks*.zip
+          if-no-files-found: error
 
       - name: Release
         uses: softprops/action-gh-release@v1
