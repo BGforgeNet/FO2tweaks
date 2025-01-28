@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Spanish (Fallout)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-04-12:22+0000\n"
-"PO-Revision-Date: 2025-01-28 01:40+0000\n"
+"PO-Revision-Date: 2025-01-28 02:40+0000\n"
 "Last-Translator: Genzek Spanish <alejzuzu@gmail.com>\n"
 "Language-Team: Spanish <https://tra.bgforge.net/projects/fallout/fo2tweaks/"
 "es/>\n"
@@ -21,7 +21,7 @@ msgstr "Discapacidades curadas."
 
 #: game/g_healing_revision.msg:2
 msgid "Failed to heal disabilities."
-msgstr "No pudo curar las discapacidades."
+msgstr "No se pudieron curar las discapacidades."
 
 #: game/g_healing_revision.msg:3
 msgid "You can't do this in combat."
@@ -29,15 +29,15 @@ msgstr "No puedes hacer esto en combate."
 
 #: game/g_healing_revision.msg:4
 msgid "You don't think there's any chance you could heal this."
-msgstr "No crees que haya ninguna posibilidad de que puedas curar esto."
+msgstr "No crees que haya alguna posibilidad de curar esto."
 
 #: game/g_healing_revision.msg:5
 msgid " is already healthy."
-msgstr " ya está sana."
+msgstr " ya está en buen estado."
 
 #: game/g_healing_revision.msg:6
 msgid "%1% has already been healed with %2% skill today. Try tomorrow."
-msgstr "%1% ya ha sido curado con la habilidad %2% hoy. Inténtalo mañana."
+msgstr "%1% ya ha sido curado con la habilidad de %2% hoy. Inténtalo mañana."
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
@@ -45,7 +45,7 @@ msgstr "No consigues curar nada."
 
 #: game/g_healing_revision.msg:8
 msgid "Wow, now I really know how to hurt 'em!"
-msgstr "¡Wow! ¡Ahora realmente sé cómo herir a alguien!"
+msgstr "¡Vaya! ¡Ahora realmente sé cómo herir a alguien!"
 
 #: game/g_healing_revision.msg:9
 msgid "has earned Living Anatomy perk."
