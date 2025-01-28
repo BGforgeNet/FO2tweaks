@@ -1,6 +1,6 @@
 {1}{}{Discapacidades curadas.}
 {2}{}{No pudo curar las discapacidades.}
-{3}{}{No puedes hacer eso en combate.}
+{3}{}{No puedes hacer esto en combate.}
 {4}{}{No crees que haya ninguna posibilidad de que puedas curar esto.}
 {5}{}{ ya está sana.}
 {6}{}{%1% ya ha sido curado con la habilidad %2% hoy. Inténtalo mañana.}
