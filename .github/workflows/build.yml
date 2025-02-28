@@ -5,8 +5,8 @@ on:
   pull_request:
 
 env:
-  sfall_version: 4.4.4
-  mpack_version: 4.4.4
+  sfall_version: 4.4.5.1
+  mpack_version: 4.4.5
 
 jobs:
   build:
@@ -42,7 +42,7 @@ jobs:
           if-no-files-found: error
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
