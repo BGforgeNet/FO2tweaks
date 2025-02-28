@@ -1,21 +1,31 @@
 ## Changelog
 
+### Version 12.22
+
+- Using map hotkey to leave a random encounter while having a car
+  [no longer causes](https://github.com/BGforgeNet/FO2tweaks/issues/111) the next encounter to be skipped.
+- Sfall updated to 4.4.5.1.
+
 ### Version 12.21
 
-Added [Action Points rollover](https://github.com/BGforgeNet/FO2tweaks/?tab=readme-ov-file#action-points-rollover) component.
+Added [Action Points rollover](https://github.com/BGforgeNet/FO2tweaks/?tab=readme-ov-file#action-points-rollover)
+component.
 
 ### Version 12.20
 
-- Tapping current HP hotkey now [also shows](https://github.com/BGforgeNet/FO2tweaks/issues/108) max (only for party and out of combat).
+- Tapping current HP hotkey now [also shows](https://github.com/BGforgeNet/FO2tweaks/issues/108) max (only for party and
+  out of combat).
 - Sfall updated to 4.4.4.
 
 ### Version 12.19
 
-[Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/107) Living Anatomy from Healing revision missing PDA message, and occasionally crashing game.
+[Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/107) Living Anatomy from Healing revision missing PDA message,
+and occasionally crashing game.
 
 ### Version 12.18
 
-[Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/106) companions appearance changes on death in "no drop items" component.
+[Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/106) companions appearance changes on death in "no drop items"
+component.
 
 ### Version 12.17
 
@@ -42,12 +52,14 @@ Added [Action Points rollover](https://github.com/BGforgeNet/FO2tweaks/?tab=read
 
 ### Version 12.12
 
-- Fixed Improved Grenades in conjuction with other mods sometimes [causing](https://github.com/BGforgeNet/FO2tweaks/issues/98) party members to attack PC.
+- Fixed Improved Grenades in conjuction with other mods sometimes
+  [causing](https://github.com/BGforgeNet/FO2tweaks/issues/98) party members to attack PC.
 - Sfall updated to 4.3.8.
 
 ### Version 12.11
 
-- Fixed unlimited party [giving](https://github.com/BGforgeNet/FO2tweaks/issues/96) free charisma points to PC with CHA 1.
+- Fixed unlimited party [giving](https://github.com/BGforgeNet/FO2tweaks/issues/96) free charisma points to PC with
+  CHA 1.
 - Sfall updated to 4.3.7.
 
 ### Version 12.10
@@ -91,11 +103,13 @@ Updated sfall to 4.3.0.1.
 
 ### Version 12.4
 
-- Fixed max knockback being [always limited to 0](https://forums.bgforge.net/viewtopic.php?f=26&p=888) regardless of actual setting value.
+- Fixed max knockback being [always limited to 0](https://forums.bgforge.net/viewtopic.php?f=26&p=888) regardless of
+  actual setting value.
 
 ### Version 12.3
 
-- Fixed ammobox [not updating](https://forums.bgforge.net/viewtopic.php?f=26&p=861) when using red button to switch hands.
+- Fixed ammobox [not updating](https://forums.bgforge.net/viewtopic.php?f=26&p=861) when using red button to switch
+  hands.
 - Updated sfall to 4.2.8.1.
 
 ### Version 12.2
@@ -124,7 +138,8 @@ Updated sfall to 4.3.0.1.
 
 ### Version 11.2
 
-- More robust damage mod: make sure correct `ddraw.ini` settings are correct and ammo modifiers are not reset by other mods.
+- More robust damage mod: make sure correct `ddraw.ini` settings are correct and ammo modifiers are not reset by other
+  mods.
 - If fog of war is enabled, don't display HP for critters in the fog.
 - Minor optimizations.
 
