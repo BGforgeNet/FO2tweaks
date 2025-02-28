@@ -32,32 +32,44 @@ procedure blowing_shitter begin
     return false;
   end
 
+  // safeguard
   return false;
 end
 
-procedure keypress_hook_handler begin
+procedure keypress_handler begin
   variable pressed = get_sfall_arg;
   variable key = get_sfall_arg;
   if not pressed then return; //released
 
   // allow to use the same town map key on world map
-  if in_world_map and hotkey_pressed_now(townmap_key, key) then begin
+  if in_world_map then begin
     tap_key(DIK_T);
     return;
   end
 
-  if get_game_mode then return; //non-zero mode
+  if get_game_mode then return; // some other windows open, pass
 
-  if worldmap_key and hotkey_pressed_now(worldmap_key, key) then begin
+  if worldmap_key and (key == worldmap_key) then begin
     if blowing_shitter then return;
     ndebug("key pressed, mode valid - calling world map");
-    world_map;
+    /* Internal `map_state` value/struct get messed up when calling `world_map` first,
+        but the map_exit_p of map script calling `car_give_to_party` right after.
+        So we're calling the car directly.
+        https://github.com/BGforgeNet/FO2tweaks/issues/111
+    */
+      if dude_has_car then
+      car_give_to_party;
+    else
+      world_map;
   end
 
-  if townmap_key and hotkey_pressed_now(townmap_key, key) then begin
+  if townmap_key and (key == townmap_key) then begin
     if blowing_shitter then return;
     ndebug("key pressed, mode valid - calling town map");
-    world_map;
+    if dude_has_car then
+      car_give_to_party;
+    else
+      world_map;
     tap_key(DIK_T);
   end
 
@@ -80,7 +92,7 @@ procedure start begin
       if townmap_key then ndebug("townmap key is " + townmap_key);
       else ndebug("townmap key is default = T");
       ndebug("initialized");
-      register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
+      register_hook_proc(HOOK_KEYPRESS, keypress_handler);
     end
   end
 end
