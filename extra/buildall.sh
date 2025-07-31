@@ -21,10 +21,11 @@ if [[ -d rp/.git ]]; then
 else
     # Clean up any existing symlink or non-git directory
     rm -rf rp
-    git-clone-dir "$RP_REPO_URL" rp "$RP_HEADERS_PATH"
-    # Move headers to correct location
-    mv "rp/$RP_HEADERS_PATH"/* rp/
-    rm -rf rp/scripts_src
+    rm -rf tmp
+    git-clone-dir "$RP_REPO_URL" tmp "$RP_HEADERS_PATH"
+    # Move the headers directory
+    mv tmp/"$RP_HEADERS_PATH" rp
+    rm -rf tmp
 fi
 
 # Party Orders headers
@@ -35,10 +36,11 @@ if [[ -d party_orders/.git ]]; then
 else
     # Clean up any existing symlink or non-git directory
     rm -rf party_orders
-    git-clone-dir "$PARTY_ORDERS_REPO_URL" party_orders "$PARTY_ORDERS_HEADERS_PATH"
-    # Move headers to correct location
-    mv "party_orders/$PARTY_ORDERS_HEADERS_PATH"/* party_orders/
-    rm -rf party_orders/source
+    rm -rf tmp
+    git-clone-dir "$PARTY_ORDERS_REPO_URL" tmp "$PARTY_ORDERS_HEADERS_PATH"
+    # Move the headers directory
+    mv tmp/"$PARTY_ORDERS_HEADERS_PATH" party_orders
+    rm -rf tmp
 fi
 
 # Sfall headers
@@ -49,10 +51,11 @@ if [[ -d sfall/.git ]]; then
 else
     # Clean up any existing symlink or non-git directory
     rm -rf sfall
-    git-clone-dir "$SFALL_REPO_URL" sfall "$SFALL_HEADERS_PATH"
-    # Move headers to correct location
-    mv "sfall/$SFALL_HEADERS_PATH"/* sfall/
-    rm -rf sfall/artifacts
+    rm -rf tmp
+    git-clone-dir "$SFALL_REPO_URL" tmp "$SFALL_HEADERS_PATH"
+    # Move the headers directory
+    mv tmp/"$SFALL_HEADERS_PATH" sfall
+    rm -rf tmp
 fi
 
 cd ../..
