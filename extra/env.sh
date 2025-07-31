@@ -12,8 +12,6 @@ export mod_name=fo2tweaks
 export compile="$bin_dir/sslc"
 export dat3="$bin_dir/dat3"
 
-set +xeu +o pipefail
-
 # git magic to clone a subdirectory, for faster build
 function git-clone-dir() {
     url="$1"
