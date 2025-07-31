@@ -30,8 +30,8 @@ jobs:
           . extra/env.sh
           ./extra/prepare.sh
           ./extra/buildall.sh
-          ./extra/package.sh
           echo $?
+          ./extra/package.sh
 
       - name: Upload artifacts - main zip
         uses: actions/upload-artifact@v4
