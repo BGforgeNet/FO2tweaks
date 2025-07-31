@@ -5,7 +5,7 @@ set -xeu -o pipefail
 extra_dir="${extra_dir:-extra}"
 extra_dir="$(realpath "$extra_dir")"
 bin_dir="$extra_dir/bin"
-compile="$bin_dir/compile.exe"
+compile="$bin_dir/sslc"
 dst="data/scripts"
 mkdir -p "$dst"
 dst="$(realpath $dst)"
@@ -50,5 +50,5 @@ mkdir -p "$dst"
 cd source
 for f in $(ls | grep "\.ssl$"); do
     int_name="$(echo "$f" | sed 's|\.ssl$|.int|')"
-    wine "$compile" -l -O2 -p -s -q -n "$f" -o "$dst/$int_name"
+    "$compile" -l -O2 -p -s -q -n "$f" -o "$dst/$int_name"
 done

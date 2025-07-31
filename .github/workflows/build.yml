@@ -5,8 +5,10 @@ on:
   pull_request:
 
 env:
-  sfall_version: 4.4.5.1
-  mpack_version: 4.4.5
+  sfall_version: 4.4.7
+  mpack_version: 4.4.7
+  sslc_url: https://github.com/sfall-team/sslc/releases/download/2025-06-18-01-40-04/sslc-linux
+  dat3_url: https://github.com/BGforgeNet/dat3/releases/download/v0.1.0/dat3
 
 jobs:
   build:
@@ -19,11 +21,8 @@ jobs:
       - name: ShellCheck
         uses: ludeeus/action-shellcheck@master
 
-      - name: Install wine
-        uses: devopsx/gha-ubuntu-i386-fix@master
-
       - name: Install packages
-        run: sudo DEBIAN_FRONTEND=noninteractive eatmydata apt-get install -o=Dpkg::Use-Pty=0 -y p7zip
+        run: sudo DEBIAN_FRONTEND=noninteractive apt-get install -o=Dpkg::Use-Pty=0 -y p7zip
 
       - name: Build and package
         run: |

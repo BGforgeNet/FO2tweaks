@@ -2,11 +2,8 @@
 
 set -xeu -o pipefail
 
-export comp_dir="components"
 # shellcheck disable=2154  # from env.sh
-export dat2="wine $bin_dir/dat2.exe"
-export dat2a="wine $bin_dir/dat2.exe a -1"
-export file_list="file.list"
+dat3=$bin_dir/dat3
 
 short_sha="$(git rev-parse --short HEAD)"
 # defaults, local build or github non-tagged
@@ -28,9 +25,7 @@ mkdir -p "$mods_dir"
 
 cd data
 rm -rf text/po # gettext translations
-# I don't know how to pack recursively
-find . -type f | sed -e 's|^\.\/||' -e 's|\/|\\|g' | sort >../file.list # replace slashes with backslashes
-wine "$bin_dir/dat2.exe" a "$dat" @../file.list
+$dat3 a "$dat" ./*
 cd ..
 mv "data/$dat" "$mods_dir/"
 
