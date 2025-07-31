@@ -1,56 +1,66 @@
 #!/bin/bash
+# shellcheck source=./env.sh
 
 set -xeu -o pipefail
 
-extra_dir="${extra_dir:-extra}"
-extra_dir="$(realpath "$extra_dir")"
-bin_dir="$extra_dir/bin"
-compile="$bin_dir/sslc"
-dst="data/scripts"
-mkdir -p "$dst"
-dst="$(realpath $dst)"
-headers_dir="../source/headers"
-external_dir="../../external"
+# Source environment
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=./env.sh
+. "$script_dir/env.sh" >/dev/null 2>&1
 
-mkdir -p external
-cd external
-if [[ -d rp ]]; then
+mkdir -p "$SCRIPTS_DIR"
+
+# Clone/update headers directly into source/headers
+cd "$HEADERS_DIR"
+
+# RP headers
+if [[ -d rp/.git ]]; then
     cd rp
     git pull
     cd ..
 else
-    git-clone-dir https://github.com/BGforgeNet/Fallout2_Restoration_Project.git rp scripts_src/headers
+    # Clean up any existing symlink or non-git directory
+    rm -rf rp
+    git-clone-dir "$RP_REPO_URL" rp "$RP_HEADERS_PATH"
+    # Move headers to correct location
+    mv "rp/$RP_HEADERS_PATH"/* rp/
+    rm -rf rp/scripts_src
 fi
-rm -f "$headers_dir/rp"
-ln -sf "$external_dir/rp/scripts_src/headers" "$headers_dir/rp"
 
-if [[ -d party_orders ]]; then
+# Party Orders headers
+if [[ -d party_orders/.git ]]; then
     cd party_orders
     git pull
     cd ..
 else
-    git-clone-dir https://github.com/BGforgeNet/Fallout2_Party_Orders.git party_orders source/headers
+    # Clean up any existing symlink or non-git directory
+    rm -rf party_orders
+    git-clone-dir "$PARTY_ORDERS_REPO_URL" party_orders "$PARTY_ORDERS_HEADERS_PATH"
+    # Move headers to correct location
+    mv "party_orders/$PARTY_ORDERS_HEADERS_PATH"/* party_orders/
+    rm -rf party_orders/source
 fi
-rm -f "$headers_dir/party_orders"
-ln -sf "$external_dir/party_orders/source/headers/party_orders" "$headers_dir/party_orders"
 
-if [[ -d sfall ]]; then
+# Sfall headers
+if [[ -d sfall/.git ]]; then
     cd sfall
     git pull
     cd ..
 else
-    git-clone-dir https://github.com/sfall-team/sfall.git sfall artifacts/scripting/headers
+    # Clean up any existing symlink or non-git directory
+    rm -rf sfall
+    git-clone-dir "$SFALL_REPO_URL" sfall "$SFALL_HEADERS_PATH"
+    # Move headers to correct location
+    mv "sfall/$SFALL_HEADERS_PATH"/* sfall/
+    rm -rf sfall/artifacts
 fi
-rm -f "$headers_dir/sfall"
-ln -sf "$external_dir/sfall/artifacts/scripting/headers" "$headers_dir/sfall"
 
-cd ..
+cd ../..
 
-mkdir -p "$dst"
+# Compile SSL scripts
+SCRIPTS_DIR_ABS="$(realpath "$SCRIPTS_DIR")"
 cd source
 for f in $(ls | grep "\.ssl$"); do
     int_name="$(echo "$f" | sed 's|\.ssl$|.int|')"
-    "$compile" -l -O2 -p -s -q -n "$f" -o "$dst/$int_name"
-    # debug
-    echo $?
+    "$COMPILE" -l -O2 -p -s -q -n "$f" -o "$SCRIPTS_DIR_ABS/$int_name"
 done

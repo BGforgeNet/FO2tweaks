@@ -1,37 +1,53 @@
 #!/bin/bash
+# shellcheck source=./env.sh
 
 set -xeu -o pipefail
 
-# shellcheck disable=2154  # from env.sh
-dat3=$bin_dir/dat3
+# Source environment
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=./env.sh
+. "$script_dir/env.sh" >/dev/null 2>&1
+
+# Check for required dependencies
+if ! command -v 7z &> /dev/null; then
+    echo "Error: p7zip is required but not installed. Please install it:"
+    echo "  Ubuntu/Debian: sudo apt-get install p7zip"
+    echo "  macOS: brew install p7zip"
+    exit 1
+fi
 
 short_sha="$(git rev-parse --short HEAD)"
 # defaults, local build or github non-tagged
-export version="git$short_sha"
+export VERSION="git$short_sha"
 
 # tagged build
 if [[ -n "${GITHUB_REF-}" ]]; then               # github build
   if echo "$GITHUB_REF" | grep "refs/tags"; then # tagged
-    version="$(echo "$GITHUB_REF" | sed 's|refs\/tags\/||')"
-    export version
+    VERSION="$(echo "$GITHUB_REF" | sed 's|refs\/tags\/||')"
+    export VERSION
   fi
 fi
 
-# data
-# shellcheck disable=2154  # from env.sh
-dat="$mod_name.dat"
-# shellcheck disable=2154  # from env.sh
-mkdir -p "$mods_dir"
+# Create dat file
+DAT_FILE="$MOD_NAME.dat"
+mkdir -p "$MODS_DIR"
 
-cd data
+cd "$DATA_DIR"
 rm -rf text/po # gettext translations
-$dat3 a "$dat" ./*
+"$DAT3" a "$DAT_FILE" scripts text
 cd ..
-mv "data/$dat" "$mods_dir/"
+mv "$DATA_DIR/$DAT_FILE" "$MODS_DIR/"
 
-# sfall
-# shellcheck disable=2154  # from build.yml
-sfall_url="https://sourceforge.net/projects/sfall/files/sfall/sfall_${sfall_version}.7z/download"
-wget -q "$sfall_url" -O sfall.7z
-7zr e sfall.7z ddraw.dll
-zip -r "${mod_name}_${version}.zip" ddraw.dll "$mods_dir/" # our package
+# Download and extract sfall
+SFALL_ARCHIVE="sfall_${SFALL_VERSION}.7z"
+SFALL_URL="https://sourceforge.net/projects/sfall/files/sfall/${SFALL_ARCHIVE}/download"
+if [[ ! -f "$SFALL_ARCHIVE" ]]; then
+    wget -q "$SFALL_URL" -O "$SFALL_ARCHIVE"
+fi
+7z e -y "$SFALL_ARCHIVE" ddraw.dll
+
+# Create final package
+zip -r "${MOD_NAME}_${VERSION}.zip" ddraw.dll "$MODS_DIR/"
+
+# Restore only the po directory that was deleted
+git checkout -- data/text/po
