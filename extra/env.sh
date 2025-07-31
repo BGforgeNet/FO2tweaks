@@ -10,6 +10,7 @@ export WINEARCH=win32
 export WINEDEBUG=-all
 export mod_name=fo2tweaks
 export compile="$bin_dir/sslc"
+export dat3="$bin_dir/dat3"
 
 set +xeu +o pipefail
 
