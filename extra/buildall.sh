@@ -51,4 +51,6 @@ cd source
 for f in $(ls | grep "\.ssl$"); do
     int_name="$(echo "$f" | sed 's|\.ssl$|.int|')"
     "$compile" -l -O2 -p -s -q -n "$f" -o "$dst/$int_name"
+    # debug
+    echo $?
 done
