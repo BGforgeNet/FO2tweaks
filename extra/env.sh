@@ -18,14 +18,13 @@ export DAT3="$BIN_DIR/dat3"
 # Mod info
 export MOD_NAME="fo2tweaks"
 
-# Wine settings
-export WINEARCH=win32
-export WINEDEBUG=-all
 
 # Tool versions and URLs
 export SFALL_VERSION="4.4.7"
-export SSLC_URL="https://github.com/sfall-team/sslc/releases/download/2025-06-18-01-40-04/sslc-linux"
-export DAT3_URL="https://github.com/BGforgeNet/dat3/releases/download/v0.2.0/dat3"
+SSLC_VERSION="2025-06-18-01-40-04"
+export SSLC_URL="https://github.com/sfall-team/sslc/releases/download/${SSLC_VERSION}/sslc-linux"
+DAT3_VERSION="v0.2.0"
+export DAT3_URL="https://github.com/BGforgeNet/dat3/releases/download/${DAT3_VERSION}/dat3"
 
 # Repository URLs
 export RPU_VERSION="v2.3.33"
