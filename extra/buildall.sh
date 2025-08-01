@@ -10,52 +10,37 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 mkdir -p "$SCRIPTS_DIR"
 
-# Clone/update headers directly into source/headers
-cd "$HEADERS_DIR"
+# Function to handle header repository cloning/updating
+update_headers() {
+    local external_dir="$1"
+    local target_dir="$2"
+    local repo_url="$3"
+    local headers_path="$4"
+    local version="$5"
 
-# RPU headers
-if [[ -d rp/.git ]]; then
-    cd rp
-    git pull
-    cd ..
-else
-    # Clean up any existing symlink or non-git directory
-    rm -rf rp tmp
-    git-clone-dir "$RPU_REPO_URL" tmp "$RPU_HEADERS_PATH" "$RPU_VERSION"
-    # Sync the headers directory
-    rsync -a tmp/"$RPU_HEADERS_PATH"/ rp/
-    rm -rf tmp
-fi
+    if [[ -d "external/$external_dir/.git" ]]; then
+        cd "external/$external_dir"
+        git fetch origin "$version"
+        git checkout FETCH_HEAD
+        cd ../..
+    else
+        # Clean up any existing directory
+        rm -rf "external/$external_dir"
+        mkdir -p external
+        git-clone-dir "$repo_url" "external/$external_dir" "$headers_path"
+        cd "external/$external_dir"
+        git fetch origin "$version"
+        git checkout FETCH_HEAD
+        cd ../..
+    fi
+    # Always sync the headers directory after ensuring correct version
+    rsync -a "external/$external_dir/$headers_path"/ "$HEADERS_DIR/$target_dir"/
+}
 
-# Party Orders headers
-if [[ -d party_orders/.git ]]; then
-    cd party_orders
-    git pull
-    cd ..
-else
-    # Clean up any existing symlink or non-git directory
-    rm -rf party_orders tmp
-    git-clone-dir "$PARTY_ORDERS_REPO_URL" tmp "$PARTY_ORDERS_HEADERS_PATH" "$PARTY_ORDERS_VERSION"
-    # Sync the headers directory
-    rsync -a tmp/"$PARTY_ORDERS_HEADERS_PATH"/ party_orders/
-    rm -rf tmp
-fi
-
-# Sfall headers
-if [[ -d sfall/.git ]]; then
-    cd sfall
-    git pull
-    cd ..
-else
-    # Clean up any existing symlink or non-git directory
-    rm -rf sfall tmp
-    git-clone-dir "$SFALL_REPO_URL" tmp "$SFALL_HEADERS_PATH" "$SFALL_VERSION"
-    # Sync the headers directory
-    rsync -a tmp/"$SFALL_HEADERS_PATH"/ sfall/
-    rm -rf tmp
-fi
-
-cd ../..
+# Update all header repositories
+update_headers rpu rp "$RPU_REPO_URL" "$RPU_HEADERS_PATH" "$RPU_VERSION"
+update_headers party_orders party_orders "$PARTY_ORDERS_REPO_URL" "$PARTY_ORDERS_HEADERS_PATH" "$PARTY_ORDERS_VERSION"
+update_headers sfall sfall "$SFALL_REPO_URL" "$SFALL_HEADERS_PATH" "$SFALL_GIT_VERSION"
 
 # Compile SSL scripts
 SCRIPTS_DIR_ABS="$(realpath "$SCRIPTS_DIR")"

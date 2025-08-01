@@ -2,6 +2,24 @@
 
 set -xeu -o pipefail
 
+# Tool versions and URLs
+export SFALL_VERSION="4.4.7"
+export SFALL_GIT_VERSION="v$SFALL_VERSION"
+SSLC_VERSION="2025-06-18-01-40-04"
+export SSLC_URL="https://github.com/sfall-team/sslc/releases/download/${SSLC_VERSION}/sslc-linux"
+DAT3_VERSION="v0.2.0"
+export DAT3_URL="https://github.com/BGforgeNet/dat3/releases/download/${DAT3_VERSION}/dat3"
+
+# Repository URLs
+export RPU_VERSION="v2.3.33"
+export RPU_REPO_URL="https://github.com/BGforgeNet/Fallout2_Restoration_Project.git"
+export RPU_HEADERS_PATH="scripts_src/headers"
+export PARTY_ORDERS_VERSION="v1.16"
+export PARTY_ORDERS_REPO_URL="https://github.com/BGforgeNet/Fallout2_Party_Orders.git"
+export PARTY_ORDERS_HEADERS_PATH="source/headers/party_orders"
+export SFALL_REPO_URL="https://github.com/sfall-team/sfall.git"
+export SFALL_HEADERS_PATH="artifacts/scripting/headers"
+
 # Directories
 EXTRA_DIR="$(realpath extra)"
 export EXTRA_DIR
@@ -18,36 +36,13 @@ export DAT3="$BIN_DIR/dat3"
 # Mod info
 export MOD_NAME="fo2tweaks"
 
-
-# Tool versions and URLs
-export SFALL_VERSION="4.4.7"
-SSLC_VERSION="2025-06-18-01-40-04"
-export SSLC_URL="https://github.com/sfall-team/sslc/releases/download/${SSLC_VERSION}/sslc-linux"
-DAT3_VERSION="v0.2.0"
-export DAT3_URL="https://github.com/BGforgeNet/dat3/releases/download/${DAT3_VERSION}/dat3"
-
-# Repository URLs
-export RPU_VERSION="v2.3.33"
-export RPU_REPO_URL="https://github.com/BGforgeNet/Fallout2_Restoration_Project.git"
-export RPU_HEADERS_PATH="scripts_src/headers"
-export PARTY_ORDERS_VERSION="v1.16"
-export PARTY_ORDERS_REPO_URL="https://github.com/BGforgeNet/Fallout2_Party_Orders.git"
-export PARTY_ORDERS_HEADERS_PATH="source/headers/party_orders"
-export SFALL_REPO_URL="https://github.com/sfall-team/sfall.git"
-export SFALL_HEADERS_PATH="artifacts/scripting/headers"
-
 # git magic to clone a subdirectory, for faster build
 function git-clone-dir() {
     url="$1"
     dir="$2"
     subdir="$3"
-    tag="${4:-}"  # optional tag/branch
 
-    if [[ -n "$tag" ]]; then
-        git clone -n --depth=1 --filter=tree:0 --branch "$tag" "$url" "$dir"
-    else
-        git clone -n --depth=1 --filter=tree:0 "$url" "$dir"
-    fi
+    git clone -n --depth=1 --filter=tree:0 "$url" "$dir"
     pushd .
     cd "$dir"
     git sparse-checkout set --no-cone "$subdir"
