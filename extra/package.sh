@@ -46,8 +46,9 @@ if [[ ! -f "$SFALL_ARCHIVE" ]]; then
 fi
 7z e -y "$SFALL_ARCHIVE" ddraw.dll
 
-# Create final package
-zip -r "${MOD_NAME}_${VERSION}.zip" ddraw.dll "$MODS_DIR/"
+# Normalize timestamps for reproducible ZIP archives
+fix-timestamp ddraw.dll "$MODS_DIR"
+zip -rX "${MOD_NAME}_${VERSION}.zip" ddraw.dll "$MODS_DIR/"
 
 # Restore only the po directory that was deleted
 git checkout -- data/text/po

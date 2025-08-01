@@ -28,8 +28,10 @@ export SSLC_URL="https://github.com/sfall-team/sslc/releases/download/2025-06-18
 export DAT3_URL="https://github.com/BGforgeNet/dat3/releases/download/v0.2.0/dat3"
 
 # Repository URLs
-export RP_REPO_URL="https://github.com/BGforgeNet/Fallout2_Restoration_Project.git"
-export RP_HEADERS_PATH="scripts_src/headers"
+export RPU_VERSION="v2.3.33"
+export RPU_REPO_URL="https://github.com/BGforgeNet/Fallout2_Restoration_Project.git"
+export RPU_HEADERS_PATH="scripts_src/headers"
+export PARTY_ORDERS_VERSION="v1.16"
 export PARTY_ORDERS_REPO_URL="https://github.com/BGforgeNet/Fallout2_Party_Orders.git"
 export PARTY_ORDERS_HEADERS_PATH="source/headers/party_orders"
 export SFALL_REPO_URL="https://github.com/sfall-team/sfall.git"
@@ -40,8 +42,13 @@ function git-clone-dir() {
     url="$1"
     dir="$2"
     subdir="$3"
+    tag="${4:-}"  # optional tag/branch
 
-    git clone -n --depth=1 --filter=tree:0 "$url" "$dir"
+    if [[ -n "$tag" ]]; then
+        git clone -n --depth=1 --filter=tree:0 --branch "$tag" "$url" "$dir"
+    else
+        git clone -n --depth=1 --filter=tree:0 "$url" "$dir"
+    fi
     pushd .
     cd "$dir"
     git sparse-checkout set --no-cone "$subdir"
@@ -49,3 +56,23 @@ function git-clone-dir() {
     popd
 }
 export -f git-clone-dir
+
+# Set fixed timestamp for files/directories, for reproducible archives.
+# Usage: fix-timestamp <file_or_dir> [<file_or_dir> ...]
+function fix-timestamp() {
+    # Use 2000-01-01 00:00:00 UTC for reproducible timestamps
+    local timestamp="200001010000"
+    for target in "$@"; do
+        if [[ -d "$target" ]]; then
+            # Directory: touch recursively
+            TZ=UTC find "$target" -exec touch -t "$timestamp" {} +
+        elif [[ -e "$target" ]]; then
+            # File: touch directly
+            TZ=UTC touch -t "$timestamp" "$target"
+        else
+            echo "Error: '$target' does not exist"
+            return 1
+        fi
+    done
+}
+export -f fix-timestamp

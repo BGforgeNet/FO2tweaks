@@ -13,18 +13,17 @@ mkdir -p "$SCRIPTS_DIR"
 # Clone/update headers directly into source/headers
 cd "$HEADERS_DIR"
 
-# RP headers
+# RPU headers
 if [[ -d rp/.git ]]; then
     cd rp
     git pull
     cd ..
 else
     # Clean up any existing symlink or non-git directory
-    rm -rf rp
-    rm -rf tmp
-    git-clone-dir "$RP_REPO_URL" tmp "$RP_HEADERS_PATH"
-    # Move the headers directory
-    mv tmp/"$RP_HEADERS_PATH" rp
+    rm -rf rp tmp
+    git-clone-dir "$RPU_REPO_URL" tmp "$RPU_HEADERS_PATH" "$RPU_VERSION"
+    # Sync the headers directory
+    rsync -a tmp/"$RPU_HEADERS_PATH"/ rp/
     rm -rf tmp
 fi
 
@@ -35,11 +34,10 @@ if [[ -d party_orders/.git ]]; then
     cd ..
 else
     # Clean up any existing symlink or non-git directory
-    rm -rf party_orders
-    rm -rf tmp
-    git-clone-dir "$PARTY_ORDERS_REPO_URL" tmp "$PARTY_ORDERS_HEADERS_PATH"
-    # Move the headers directory
-    mv tmp/"$PARTY_ORDERS_HEADERS_PATH" party_orders
+    rm -rf party_orders tmp
+    git-clone-dir "$PARTY_ORDERS_REPO_URL" tmp "$PARTY_ORDERS_HEADERS_PATH" "$PARTY_ORDERS_VERSION"
+    # Sync the headers directory
+    rsync -a tmp/"$PARTY_ORDERS_HEADERS_PATH"/ party_orders/
     rm -rf tmp
 fi
 
@@ -50,11 +48,10 @@ if [[ -d sfall/.git ]]; then
     cd ..
 else
     # Clean up any existing symlink or non-git directory
-    rm -rf sfall
-    rm -rf tmp
-    git-clone-dir "$SFALL_REPO_URL" tmp "$SFALL_HEADERS_PATH"
-    # Move the headers directory
-    mv tmp/"$SFALL_HEADERS_PATH" sfall
+    rm -rf sfall tmp
+    git-clone-dir "$SFALL_REPO_URL" tmp "$SFALL_HEADERS_PATH" "$SFALL_VERSION"
+    # Sync the headers directory
+    rsync -a tmp/"$SFALL_HEADERS_PATH"/ sfall/
     rm -rf tmp
 fi
 
