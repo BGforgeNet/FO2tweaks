@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-04-12:22+0000\n"
-"PO-Revision-Date: 2022-09-07 11:30+0000\n"
+"PO-Revision-Date: 2025-08-08 21:22+0000\n"
 "Last-Translator: tygyh <jonis9898@hotmail.com>\n"
 "Language-Team: none\n"
 "Language: sv\n"
@@ -42,7 +42,7 @@ msgstr ""
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
-msgstr "Du misslyckas att hela."
+msgstr "Du lyckas inte läka något."
 
 #: game/g_healing_revision.msg:8
 msgid "Wow, now I really know how to hurt 'em!"
