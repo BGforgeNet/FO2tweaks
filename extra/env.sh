@@ -7,7 +7,7 @@ export SFALL_VERSION="4.4.7"
 export SFALL_GIT_VERSION="v$SFALL_VERSION"
 SSLC_VERSION="2025-06-18-01-40-04"
 export SSLC_URL="https://github.com/sfall-team/sslc/releases/download/${SSLC_VERSION}/sslc-linux"
-DAT3_VERSION="v0.2.0"
+DAT3_VERSION="v0.5.0"
 export DAT3_URL="https://github.com/BGforgeNet/dat3/releases/download/${DAT3_VERSION}/dat3"
 
 # Repository URLs
