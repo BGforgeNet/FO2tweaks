@@ -200,7 +200,7 @@ A portion of unused Action Points (default 2) will carry over to the next turn, 
 
 #### Autodoors
 
-When not in combat, the PC will be able to walk through unlocked doors without having to open them explicitly (like NPCs do).
+When not in combat, the PC will be able to walk through unlocked doors without having to open them explicitly (like NPCs do). Optionally, also can autoclose doors.
 
 #### Level 5 after Temple of Trials
 
