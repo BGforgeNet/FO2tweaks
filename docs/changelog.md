@@ -1,9 +1,13 @@
 ## Changelog
 
+### Version 12.23
+
+- Added option to [autoclose doors](https://github.com/BGforgeNet/FO2tweaks/issues/112).
+- Sfall updated to 4.4.7.
+
 ### Version 12.22
 
-- Using map hotkey to leave a random encounter while having a car
-  [no longer causes](https://github.com/BGforgeNet/FO2tweaks/issues/111) the next encounter to be skipped.
+- Using map hotkey to leave a random encounter while having a car [no longer causes](https://github.com/BGforgeNet/FO2tweaks/issues/111) next encounter to be skipped.
 - Sfall updated to 4.4.5.1.
 
 ### Version 12.21
