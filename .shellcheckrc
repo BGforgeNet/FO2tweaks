@@ -3,3 +3,9 @@ disable=SC2010
 
 # Sed replace is more readable
 disable=SC2001
+
+# Enable extended analysis to follow source statements
+external-sources=true
+
+# Set source path for shellcheck to find sourced files
+source-path=SCRIPTDIR

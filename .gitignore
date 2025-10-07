@@ -6,6 +6,9 @@ extra/bin/*
 !extra/bin/dat2.exe
 *.rar
 *.7z
+*.zip
+*.dll
+*.dat
 data/*
 !data/text
 **/.tmp.ssl

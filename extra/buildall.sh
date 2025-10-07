@@ -1,54 +1,51 @@
 #!/bin/bash
+# shellcheck source=./env.sh
 
 set -xeu -o pipefail
 
-extra_dir="${extra_dir:-extra}"
-extra_dir="$(realpath "$extra_dir")"
-bin_dir="$extra_dir/bin"
-compile="$bin_dir/compile.exe"
-dst="data/scripts"
-mkdir -p "$dst"
-dst="$(realpath $dst)"
-headers_dir="../source/headers"
-external_dir="../../external"
+# Source environment
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=./env.sh
+. "$script_dir/env.sh" >/dev/null 2>&1
 
-mkdir -p external
-cd external
-if [[ -d rp ]]; then
-    cd rp
-    git pull
-    cd ..
-else
-    git-clone-dir https://github.com/BGforgeNet/Fallout2_Restoration_Project.git rp scripts_src/headers
-fi
-rm -f "$headers_dir/rp"
-ln -sf "$external_dir/rp/scripts_src/headers" "$headers_dir/rp"
+mkdir -p "$SCRIPTS_DIR"
 
-if [[ -d party_orders ]]; then
-    cd party_orders
-    git pull
-    cd ..
-else
-    git-clone-dir https://github.com/BGforgeNet/Fallout2_Party_Orders.git party_orders source/headers
-fi
-rm -f "$headers_dir/party_orders"
-ln -sf "$external_dir/party_orders/source/headers/party_orders" "$headers_dir/party_orders"
+# Function to handle header repository cloning/updating
+update_headers() {
+    local external_dir="$1"
+    local target_dir="$2"
+    local repo_url="$3"
+    local headers_path="$4"
+    local version="$5"
 
-if [[ -d sfall ]]; then
-    cd sfall
-    git pull
-    cd ..
-else
-    git-clone-dir https://github.com/sfall-team/sfall.git sfall artifacts/scripting/headers
-fi
-rm -f "$headers_dir/sfall"
-ln -sf "$external_dir/sfall/artifacts/scripting/headers" "$headers_dir/sfall"
+    if [[ -d "external/$external_dir/.git" ]]; then
+        cd "external/$external_dir"
+        git fetch origin "$version"
+        git checkout FETCH_HEAD
+        cd ../..
+    else
+        # Clean up any existing directory
+        rm -rf "external/$external_dir"
+        mkdir -p external
+        git-clone-dir "$repo_url" "external/$external_dir" "$headers_path"
+        cd "external/$external_dir"
+        git fetch origin "$version"
+        git checkout FETCH_HEAD
+        cd ../..
+    fi
+    # Always sync the headers directory after ensuring correct version
+    rsync -a "external/$external_dir/$headers_path"/ "$HEADERS_DIR/$target_dir"/
+}
 
-cd ..
+# Update all header repositories
+update_headers rpu rp "$RPU_REPO_URL" "$RPU_HEADERS_PATH" "$RPU_VERSION"
+update_headers party_orders party_orders "$PARTY_ORDERS_REPO_URL" "$PARTY_ORDERS_HEADERS_PATH" "$PARTY_ORDERS_VERSION"
+update_headers sfall sfall "$SFALL_REPO_URL" "$SFALL_HEADERS_PATH" "$SFALL_GIT_VERSION"
 
-mkdir -p "$dst"
+# Compile SSL scripts
+SCRIPTS_DIR_ABS="$(realpath "$SCRIPTS_DIR")"
 cd source
 for f in $(ls | grep "\.ssl$"); do
     int_name="$(echo "$f" | sed 's|\.ssl$|.int|')"
-    wine "$compile" -l -O2 -p -s -q -n "$f" -o "$dst/$int_name"
+    "$COMPILE" -l -O2 -p -s -q -n "$f" -o "$SCRIPTS_DIR_ABS/$int_name"
 done
