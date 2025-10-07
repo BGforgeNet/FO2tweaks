@@ -9,7 +9,7 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 . "$script_dir/env.sh" >/dev/null 2>&1
 
 # Check for required dependencies
-if ! command -v 7z &> /dev/null; then
+if ! command -v 7z &>/dev/null; then
     echo "Error: p7zip is required but not installed. Please install it:"
     echo "  Ubuntu/Debian: sudo apt-get install p7zip"
     echo "  macOS: brew install p7zip"
@@ -21,11 +21,11 @@ short_sha="$(git rev-parse --short HEAD)"
 export VERSION="git$short_sha"
 
 # tagged build
-if [[ -n "${GITHUB_REF-}" ]]; then               # github build
-  if echo "$GITHUB_REF" | grep "refs/tags"; then # tagged
-    VERSION="$(echo "$GITHUB_REF" | sed 's|refs\/tags\/||')"
-    export VERSION
-  fi
+if [[ -n "${GITHUB_REF-}" ]]; then                 # github build
+    if echo "$GITHUB_REF" | grep "refs/tags"; then # tagged
+        VERSION="$(echo "$GITHUB_REF" | sed 's|refs\/tags\/||')"
+        export VERSION
+    fi
 fi
 
 # Create dat file
