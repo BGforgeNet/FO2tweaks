@@ -3,7 +3,7 @@
 set -xeu -o pipefail
 
 # Tool versions and URLs
-export SFALL_VERSION="4.4.7"
+export SFALL_VERSION="4.4.8"
 export SFALL_GIT_VERSION="v$SFALL_VERSION"
 SSLC_VERSION="2025-06-18-01-40-04"
 export SSLC_URL="https://github.com/sfall-team/sslc/releases/download/${SSLC_VERSION}/sslc-linux"

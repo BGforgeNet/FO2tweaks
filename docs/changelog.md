@@ -1,5 +1,9 @@
 ## Changelog
 
+### Version 12.24
+
+- Sfall updated to 4.4.8.
+
 ### Version 12.23
 
 - Added option to [autoclose doors](https://github.com/BGforgeNet/FO2tweaks/issues/112).
