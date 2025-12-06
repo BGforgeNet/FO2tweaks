@@ -66,6 +66,7 @@ procedure get_real_damage_type(variable weapon);
 procedure load_ammo_damage_type(variable type_ammo);
 procedure check_damage_formula;
 procedure get_default_dr_mod_list;
+procedure update_weapons;
 
 procedure start begin
   if game_loaded then begin
@@ -88,6 +89,7 @@ procedure start begin
       fix_array(ammo_pids);
       call fix_ammo_stats(ammo_pids);
 
+      call update_weapons();
       //ammo types dealing alternative damage
       type_ammo = get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_type);
       ammo_damage = load_ammo_damage_type(type_ammo);
@@ -120,57 +122,25 @@ end
 procedure get_default_dr_mod_list begin
   variable mod_list;
   mod_list = {
-    PID_10MM_JHP: 35, // vanilla is 25
-    PID_10MM_AP: -35, // vanilla is -25
-
-    PID_14MM_AP: -35, // vanilla is -50
-
-    PID_2MM_EC_AMMO: -20,
-
-    PID_223_FMJ: -20,
-
-    PID_44_MAGNUM_JHP: 35, // vanilla is 20
-    PID_44_FMJ_MAGNUM: -20,
-
-    PID_45_CALIBER_AMMO: 0,
-
-    PID_4_7MM_CASELESS: -10,
-
-    PID_5MM_JHP: 35,
-    PID_5MM_AP: -35,
-
-    PID_7_62MM_AMMO: -20, // vanilla is -10
-
-    PID_9MM_AMMO: 0, // vanilla is 10
-    PID_9MM_BALL: -20, // vanilla is 0
-
-    PID_BBS: 0,
-
-    PID_EXPLOSIVE_ROCKET: 35, // vanilla is -25
-    PID_ROCKET_AP: -35, // vanilla is -50
+    PID_44_MAGNUM_JHP: 35,
+    PID_4_7MM_CASELESS: -20,
+    PID_7_62MM_AMMO: -20,
+    PID_9MM_BALL: -20,
+    PID_14MM_AP: -35,
+    PID_EXPLOSIVE_ROCKET: 30,
+    PID_ROCKET_AP: -30,
     PID_ROBO_ROCKET_AMMO: -25,
+    PID_HN_NEEDLER_CARTRIDGE: 25,
+    PID_HN_AP_NEEDLER_CARTRIDGE: -25,
 
-    PID_FLAMETHROWER_FUEL: 25,
-    PID_FLAMETHROWER_FUEL_MK_II: 0,
-
-    PID_SMALL_ENERGY_CELL: 0,
-    PID_MICRO_FUSION_CELL: 0,
-
-    PID_SHOTGUN_SHELLS: 0,
-
-    PID_HN_NEEDLER_CARTRIDGE: 0,
-    PID_HN_AP_NEEDLER_CARTRIDGE: -35, //vanilla is 0
-
-
-    //ecco ammo
-    PID_PBS_50_AMMO: -18,
-    PID_PBS_SHOTGUN_SLUGS: -20,
-    PID_PBS_223_AP: -35,
+    // EcCo ammo
+    PID_PBS_50_AMMO: -20,
+    PID_PBS_SHOTGUN_SLUGS: -25,
+    PID_PBS_223_AP: -25,
     PID_PBS_40MM_HE: 0,
-    PID_PBS_40MM_IC: 35,
-    PID_PBS_14MM_JHP: 35,
-    PID_PBS_SHOTGUN_BUCKSHOTS: 20
-
+    PID_PBS_40MM_IC: 25,
+    PID_PBS_14MM_JHP: 25,
+    PID_PBS_SHOTGUN_BUCKSHOTS: 25
   };
   return mod_list;
 end
@@ -180,6 +150,7 @@ procedure map_enter_p_proc begin
     call check_damage_formula;
     call update_dr_mod(dr_mod_list);
     call fix_ammo_stats(ammo_pids);
+    call update_weapons();
   end
 end
 
@@ -211,12 +182,53 @@ procedure update_dr_mod(variable dr_mod_list) begin
   end
 end
 
+procedure update_weapons() begin
+  ndebug("update_weapons");
+  variable dmg, pid, min_damage, max_damage;
+  min_damage = {
+    PID_MINIGUN: 9,
+    PID_14MM_PISTOL: 18,
+    PID_HK_G11: 16,
+    PID_NEEDLER_PISTOL: 18,
+    PID_HK_G11E: 20,
+    PID_M72_GAUSS_RIFLE: 46,
+    PID_PK12_GAUSS_PISTOL: 36,
+    PID_VINDICATOR_MINIGUN: 20
+  };
+  max_damage = {
+    PID_MINIGUN: 13,
+    PID_14MM_PISTOL: 28,
+    PID_HK_G11: 26,
+    PID_NEEDLER_PISTOL: 28,
+    PID_HK_G11E: 30,
+    PID_M72_GAUSS_RIFLE: 68,
+    PID_PK12_GAUSS_PISTOL: 46,
+    PID_VINDICATOR_MINIGUN: 30
+  };
+  foreach pid: dmg in min_damage begin
+    if not is_weapon_pid(pid) then begin
+      ndebug("warning | item pid " + pid + " is not a weapon");
+      continue;
+    end
+    set_proto_data(pid, PROTO_WP_DMG_MIN, dmg);
+  end
+  foreach pid: dmg in max_damage begin
+    if not is_weapon_pid(pid) then begin
+      ndebug("warning | item pid " + pid + " is not a weapon");
+      continue;
+    end
+    set_proto_data(pid, PROTO_WP_DMG_MAX, dmg);
+  end
+  // Make vindicator accurate
+  set_proto_data(PID_VINDICATOR_MINIGUN, PROTO_WP_PERK, PERK_weapon_long_range);
+end
+
 procedure fix_ammo_stats(variable pids) begin
-  variable pid, type, mult, divisor, dr_mod, cd; // div is now a keyword in sfall
+  variable pid, type, mult, divisor, dr_mod, cd;  // div is now a keyword in sfall
   foreach pid in pids begin
     divisor = 100;
 
-    if not is_ammo_pid(pid) then begin //not ammo, how did it get here?
+    if not is_ammo_pid(pid) then begin  // not ammo, how did it get here?
       ndebug("warning | item pid " + pid + " is not ammo");
       continue;
     end
@@ -264,14 +276,29 @@ procedure get_critical_level(variable who) begin
 end
 
 // returns [critical mult, critical effect flags]
-procedure get_critical_type(variable attacker, variable target) begin
+procedure get_critical_type(variable attacker, variable target, variable check_sniper = false) begin
   variable mult = 2;  // default
   variable flags = 0; // default
-  variable chance = get_critter_stat(attacker, STAT_crit_chance);
-  variable rnd = random(1,100);
+  variable rnd;
   variable crit_level;
+  variable crit = false;
 
-  if rnd > chance then return [mult/2.0, flags]; //not critical
+  // Sniper check
+  if check_sniper and has_trait(TRAIT_PERK, attacker, PERK_sniper) then begin
+    variable luck = get_critter_stat(attacker, STAT_lu);
+    rnd = random(1,10);
+    if rnd <= luck then crit = true;
+  end
+
+  // Normal crit check
+  if (crit == false) then begin
+    variable chance = get_critter_stat(attacker, STAT_crit_chance);
+    rnd = random(1,100);
+    if rnd <= chance then crit = true;
+  end
+
+  // Not critical
+  if (crit == false) then return [mult/2.0, flags];
 
   crit_level = get_critical_level(attacker);
   mult = get_critical_table(critter_kill_type(target), BODYPART_TORSO_UNCALLED, crit_level, CRITICAL_VALUE_TYPE_MULT);
@@ -328,10 +355,16 @@ begin
 
   total_damage = get_bullet_damage(dmg_min, dmg_max, ranged_bonus, dt, ammo_mult, critical_mult, difficulty_mult, dr_mult);
 
-  //burst: consecutive bullets roll their own critical damage, including armor bypass, but excluding crippling effects
+  // Burst: consecutive bullets roll their own critical damage, including armor bypass, but excluding crippling effects
   if bullets_number > 1 then begin
     for (i = 2; i <= bullets_number; i++) begin
-      critical_type = get_critical_type(attacker, target);
+      // Sniper applies to every 3rd bullet in a burst
+      variable check_sniper = false;
+      if ( ((i - 1) % 3) == 0) then begin
+        check_sniper = true;
+      end
+
+      critical_type = get_critical_type(attacker, target, check_sniper);
       critical_mult = critical_type[0];
       flags = critical_type[1];
       dr_dt = get_dr_dt(attacker, target, dmg_type, dr_mod, flags, penetrate);
@@ -426,19 +459,24 @@ begin
   end
   ndebug("target dr is " + target_dr + ", target_dt is " + target_dt);
 
-  if target_dr > 90 then target_dr = 90; //cap DR
-  if is_bypassing_armor(target_flags) then begin //critical bypass armor
-    ndebug("armor bypassing critical, reducing dt and dr by magnitude of 5");
+  if target_dr > 90 then target_dr = 90;  // cap DR
+  if is_bypassing_armor(target_flags) then begin  // critical bypass armor
+    ndebug("armor bypassing critical, halving dr and reducing dr by magnitude of 5");
     target_dr = target_dr * 0.2;
-    target_dt = target_dt * 0.2;
+    target_dt = target_dt * 0.5;
   end else if penetrate then begin //weapon penetrate perk
     ndebug("weapon has penetrate perk, reducing dt by magnitude of 5");
     target_dt = target_dt * 0.2;
   end
 
   ndebug("target dr is " + target_dr + ", dr_mod is " + dr_mod);
-  final_dr = 1.0 * target_dr * (100.0 + dr_mod) / 100.0;
+  if dr_mod > 0 then begin
+    final_dr = 1.0 * target_dr * (100.0 + dr_mod) / 100.0;
+  end else begin
+    final_dr = target_dr + dr_mod;
+  end
   ndebug("final dr is " + final_dr);
+
   if final_dr < 0 then final_dr = 0;
   if final_dr > 90 then final_dr = 90.0;
   dr_mult = (100.0 - final_dr) / 100.0;
