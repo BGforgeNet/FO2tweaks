@@ -65,11 +65,15 @@ end
  * Iterate over scenery, call close_door on each door.
  */
 procedure autoclose() begin
-  variable obj;
-  // Skip Vault City Vault doors on second elevation, for avoid them being stuck. 
+  variable obj, in_vault = false;
+  // Skip Vault City Vault doors on second elevation, to avoid them getting stuck.
   // https://github.com/BGforgeNet/FO2tweaks/issues/116
-  if (cur_map_index == MAP_VAULT_CITY_VAULT) and (dude_elevation == 1) then return;
+  if (cur_map_index == MAP_VAULT_CITY_VAULT) then in_vault = true;
   foreach (obj in list_as_array(LIST_SCENERY)) begin
+    if in_vault and (get_script(obj) == SCRIPT_VIVLTDOR) then begin
+      ndebug("in vault, skipping close");
+      return;
+    end
     if is_door(obj) then call close_door(obj);
   end
 end
