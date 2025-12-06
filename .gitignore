@@ -16,3 +16,6 @@ data/*
 source/headers/party_orders
 source/headers/rp
 source/headers/sfall
+
+node_modules/
+**/_tmp.tssl.ts
