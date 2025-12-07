@@ -461,7 +461,7 @@ begin
 
   if target_dr > 90 then target_dr = 90;  // cap DR
   if is_bypassing_armor(target_flags) then begin  // critical bypass armor
-    ndebug("armor bypassing critical, halving dr and reducing dt by magnitude of 5");
+    ndebug("armor bypassing critical, halving dt and reducing dr by magnitude of 5");
     target_dr = target_dr * 0.2;
     target_dt = target_dt * 0.5;
   end else if penetrate then begin  // weapon penetrate perk
