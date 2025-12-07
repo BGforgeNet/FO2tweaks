@@ -1,5 +1,11 @@
 ## Changelog
 
+### Version 13
+
+- Changed damaged mod implementation.
+- Fix: autodoors will [no longer](https://github.com/BGforgeNet/FO2tweaks/issues/116) close stuck doors in Vault City.
+- Fix: carry weight will reset back to normal if unlimited is disabled in the ini.
+
 ### Version 12.24
 
 - Sfall updated to 4.4.8.
