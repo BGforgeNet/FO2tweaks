@@ -1,0 +1,70 @@
+import {
+    fo2tweaks_setting, fo2tweaks_comsep_setting_ints, sec_main,
+    get_active_weapon_pid, get_active_ammo_pid, is_critter
+} from "./fo2tweaks";
+import { CritterPtr, ObjectPtr, get_critter_stat, ndebug } from "folib";
+import {
+    fix_array, game_loaded, get_sfall_arg, get_sfall_arg_at, is_in_array,
+    register_hook_proc, set_sfall_arg, set_sfall_return,
+    HOOK_TOHIT, STAT_ac,
+} from "folib/sfall";
+
+const SCRIPT_REALNAME = "gl_g_grenades_tohit";
+
+const sec_improved_grenades = "improved_grenades";
+const set_grenades_weapons = "weapons";
+const set_grenades_ammo = "ammo";
+const set_improved_grenades = "improved_grenades";
+
+let explosive_weapon_pids: number[];
+let explosive_ammo_pids: number[];
+
+function start() {
+    if (game_loaded()) {
+        const enabled = fo2tweaks_setting(sec_main, set_improved_grenades);
+        if (enabled == 1) {
+            explosive_weapon_pids = fo2tweaks_comsep_setting_ints(sec_improved_grenades, set_grenades_weapons);
+            fix_array(explosive_weapon_pids);
+            explosive_ammo_pids = fo2tweaks_comsep_setting_ints(sec_improved_grenades, set_grenades_ammo);
+            fix_array(explosive_ammo_pids);
+            register_hook_proc(HOOK_TOHIT, tohit_handler);
+            ndebug("initialized");
+        }
+    }
+}
+
+function tohit_handler() {
+    let tohit = get_sfall_arg() as number;
+    // HOOK_TOHIT args are critters
+    const attacker = get_sfall_arg() as CritterPtr;
+    const target = get_sfall_arg() as ObjectPtr;
+    let tohit_raw = get_sfall_arg_at(7);
+
+    if (!is_critter(target)) {
+        ndebug(target + " is not a critter, pass");
+        return;
+    }
+
+    const weapon_pid = get_active_weapon_pid(attacker);
+    if (!weapon_pid) return; // no weapon
+    const ammo_pid = get_active_ammo_pid(attacker); // explosive weapon with no ammo? hmmm...
+
+    // add target's armor ac to CtH
+    if (is_in_array(weapon_pid, explosive_weapon_pids)
+        || is_in_array(ammo_pid, explosive_ammo_pids)) {
+        // ignore target ac
+        const target_ac = get_critter_stat(target, STAT_ac);
+        tohit_raw = tohit_raw + target_ac;
+        ndebug("chance to hit increased by " + target_ac);
+
+        // cap chance
+        tohit = tohit_raw;
+        if (tohit > 95) {
+            tohit = 95;
+        }
+
+        set_sfall_return(tohit);
+        set_sfall_arg(0, tohit);
+        set_sfall_arg(7, tohit_raw);
+    }
+}

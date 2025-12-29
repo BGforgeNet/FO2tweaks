@@ -1,0 +1,138 @@
+import { fo2tweaks_setting, fo2tweaks_string, in_party, mode_ended, mode_started, sec_main, is_dead } from "./fo2tweaks";
+import { char_to_dik } from "./fo2tweaks/keys";
+import {
+    dude_obj, float_msg, obj_can_see_obj, tile_distance_objs,
+    get_critter_stat, combat_is_initialized, ndebug, ObjectPtr
+} from "folib";
+import {
+    game_loaded, get_game_mode, get_ini_setting, get_sfall_arg, get_sfall_arg_at,
+    hotkey_pressed_now, list_as_array, party_member_list_critters, register_hook_proc,
+    set_global_script_repeat, sprintf, string_format2,
+    COMBAT, FLOAT_MSG_GREEN, FLOAT_MSG_NORMAL, FLOAT_MSG_RED, HOOK_COMBATTURN,
+    HOOK_GAMEMODECHANGE, HOOK_KEYPRESS, HOOK_ONDEATH, HOOK_USEOBJ, HOOK_USEOBJON,
+    LIST_CRITTERS, obj_is_visible_flag, STAT_current_hp, STAT_max_hp,
+} from "folib/sfall";
+
+const SCRIPT_REALNAME = "gl_g_hp_over_head";
+const set_hp_over_head = "hp_over_head";
+const sec_hp_over_head = "hp_over_head";
+
+let enabled: number;
+let fog: number;
+let key: number = 0;
+let only_party = 0;
+
+function update_hp() {
+  let cur_hp: number;
+  let max_hp: number;
+  let color: typeof FLOAT_MSG_RED;
+  let msg: string;
+  ndebug("update_hp ping");
+
+  if (!combat_is_initialized && key) {
+    for (const who of party_member_list_critters()) {
+      if (is_dead(who)) continue;
+      cur_hp = get_critter_stat(who, STAT_current_hp);
+      max_hp = get_critter_stat(who, STAT_max_hp);
+      msg = string_format2("%d/%d", cur_hp, max_hp);
+      float_msg(who, msg, FLOAT_MSG_GREEN);
+    }
+    return;
+  }
+
+  if (only_party == 1) {
+    for (const who of party_member_list_critters()) {
+      if (is_dead(who)) continue;
+      cur_hp = get_critter_stat(who, STAT_current_hp);
+      msg = sprintf("%d", cur_hp);
+      float_msg(who, msg, FLOAT_MSG_GREEN);
+    }
+    return;
+  }
+
+  for (const who of list_as_array(LIST_CRITTERS)) {
+    // if fog is enabled, display only for critter in LoS
+    if (fog && !obj_can_see_obj(dude_obj, who)) continue;
+
+    if (is_dead(who)) continue;
+    if (!obj_is_visible_flag(who)) continue;
+    // float only nearby or party. Too many floats won't work
+    if (!in_party(who) && tile_distance_objs(dude_obj, who) > 25) continue;
+
+    color = FLOAT_MSG_RED;
+    if (in_party(who)) color = FLOAT_MSG_GREEN;
+
+    cur_hp = get_critter_stat(who, STAT_current_hp);
+    msg = sprintf("%d", cur_hp);
+    float_msg(who, msg, color);
+  }
+}
+
+function clear_all_floats() {
+  for (const who of list_as_array(LIST_CRITTERS)) {
+    if (is_dead(who)) continue;
+    if (!obj_on_screen(who)) continue;
+    float_msg(who, "", FLOAT_MSG_NORMAL);
+  }
+}
+
+declare function obj_on_screen(obj: ObjectPtr): boolean;
+
+function clear_dead_float() {
+  const who = get_sfall_arg() as ObjectPtr;
+  float_msg(who, "", 0);
+}
+
+function gamemode_handler() {
+  const old_mode = get_sfall_arg_at(1);
+  const new_mode = get_game_mode();
+  if (mode_ended(COMBAT, old_mode, new_mode)) {
+    ndebug("combat ended, clearing floats");
+    clear_all_floats();
+    set_global_script_repeat(0);
+  }
+  if (mode_started(COMBAT, old_mode, new_mode)) {
+    ndebug("combat started, enabling floats");
+    update_hp();
+    set_global_script_repeat(36); // this is ugly, but I can't find a better solution
+  }
+}
+
+function keypress_hook_handler() {
+  const pressed = get_sfall_arg() as number;
+  const pressed_key = get_sfall_arg() as number;
+  if (!pressed) return; // released
+
+  if (key && hotkey_pressed_now(key, pressed_key)) {
+    ndebug("key pressed");
+    update_hp();
+  }
+}
+
+function start() {
+  if (game_loaded()) {
+    enabled = fo2tweaks_setting(sec_main, set_hp_over_head);
+    if (enabled == 1) {
+      fog = get_ini_setting("f2_res.ini|MAPS|FOG_OF_WAR");
+
+      const key_char = fo2tweaks_string(sec_hp_over_head, "key");
+      key = char_to_dik(key_char);
+      only_party = fo2tweaks_setting(sec_hp_over_head, "only_party");
+      if (key) {
+        if (key) ndebug("key is " + key);
+        register_hook_proc(HOOK_KEYPRESS, keypress_hook_handler);
+      } else {
+        register_hook_proc(HOOK_COMBATTURN, update_hp);
+        register_hook_proc(HOOK_USEOBJ, update_hp);
+        register_hook_proc(HOOK_USEOBJON, update_hp);
+        register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+        register_hook_proc(HOOK_ONDEATH, clear_dead_float);
+      }
+      ndebug("initialized");
+    }
+  } else {
+    if (enabled == 1 && !key) {
+      update_hp();
+    }
+  }
+}

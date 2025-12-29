@@ -1,0 +1,669 @@
+import {
+    f2_ammo_pids, fo2tweaks_comsep_setting_ints, fo2tweaks_ini,
+    fo2tweaks_setting, gcd, get_active_ammo_pid, in_party, is_ammo_pid,
+    is_critter, is_gun, is_weapon_pid, sec_main
+} from "./fo2tweaks";
+import {
+    FLOAT1, combat_difficulty, dude_obj, float_msg, get_critter_stat,
+    has_trait, obj_name, obj_pid, random, ndebug,
+    CritterPtr, ItemPtr, StatID
+} from "folib";
+import {
+    array_append, atoi, critter_kill_type, fix_array, floor2,
+    game_loaded, get_critical_table, get_ini_section, get_ini_setting,
+    get_proto_data, get_sfall_arg, get_weapon_ammo_pid, len_array,
+    register_hook_proc, set_ini_setting, set_proto_data, set_sfall_arg,
+    set_sfall_return, sfall_typeof, string_split, temp_array_map, weapon_dmg_type,
+    DAM_BACKWASH, DAM_BYPASS, DAM_DEAD,
+    DMG_electrical, DMG_emp, DMG_explosion, DMG_fire, DMG_laser, DMG_normal_dam, DMG_plasma,
+    FLOAT_MSG_WARNING, HOOK_COMBATDAMAGE, KILL_TYPE_robot_kills,
+    PERK_better_criticals, PERK_bonus_ranged_damage, PERK_living_anatomy_perk,
+    PERK_pyromaniac_perk, PERK_sniper, PERK_weapon_long_range, PERK_weapon_penetrate,
+    PROTO_AM_DMG_DIV, PROTO_AM_DMG_MULT, PROTO_AM_DR_MOD,
+    PROTO_WP_DMG_MAX, PROTO_WP_DMG_MIN, PROTO_WP_PERK,
+    STAT_crit_chance, STAT_dmg_resist, STAT_dmg_resist_electrical,
+    STAT_dmg_resist_emp, STAT_dmg_resist_explosion, STAT_dmg_resist_fire,
+    STAT_dmg_resist_laser, STAT_dmg_resist_plasma, STAT_dmg_thresh,
+    STAT_dmg_thresh_electrical, STAT_dmg_thresh_emp, STAT_dmg_thresh_explosion,
+    STAT_dmg_thresh_fire, STAT_dmg_thresh_laser, STAT_dmg_thresh_plasma, STAT_lu,
+    TRAIT_finesse, TRAIT_PERK, TRAIT_TRAIT, VALTYPE_INT,
+    CRITICAL_VALUE_EFFECTS,
+    CRITICAL_VALUE_MULT,
+    BODY_UNCALLED,
+} from "folib/sfall";
+import {
+    PID_14MM_AP, PID_14MM_PISTOL, PID_44_MAGNUM_JHP, PID_4_7MM_CASELESS,
+    PID_7_62MM_AMMO, PID_9MM_BALL, PID_EXPLOSIVE_ROCKET, PID_HK_G11,
+    PID_HK_G11E, PID_HN_AP_NEEDLER_CARTRIDGE, PID_HN_NEEDLER_CARTRIDGE,
+    PID_M72_GAUSS_RIFLE, PID_MINIGUN, PID_NEEDLER_PISTOL, PID_PK12_GAUSS_PISTOL,
+    PID_ROBO_ROCKET_AMMO, PID_ROCKET_AP, PID_VINDICATOR_MINIGUN
+} from "folib/rp/itempid";
+
+const SCRIPT_REALNAME = "gl_g_damage_mod";
+
+// ecco ammo
+const PID_PBS_50_AMMO = 610;
+const PID_PBS_SHOTGUN_SLUGS = 614;
+const PID_PBS_223_AP = 615;
+const PID_PBS_40MM_HE = 631;
+const PID_PBS_40MM_IC = 632;
+const PID_PBS_14MM_JHP = 633;
+const PID_PBS_SHOTGUN_BUCKSHOTS = 641;
+
+const sec_damage_mod = "damage_mod";
+const set_damage_mod = "damage_mod";
+const set_damage_mod_difficulty = "damage_difficulty";
+const set_damage_mod_party_scale_damage = "party_scale_damage";
+
+const set_damage_mod_ammo_pids = "ammo_pids";
+const sec_damage_mod_ammo_dr = "damage_mod_ammo_dr";
+const sec_damage_mod_ammo_type = "damage_mod_ammo_type";
+
+function is_bypassing_armor(flags: number) {
+  return (flags & DAM_BYPASS) != 0;
+}
+function is_instadeath_hit(flags: number) {
+  return (flags & DAM_DEAD) != 0;
+}
+
+let old_total = 0;
+let new_total = 0;
+let ammo_pids: number[];
+let mod_ammo_pids: number[];
+let enabled: number;
+let dr_mod_list: number[];
+let type_ammo: any;
+let ammo_damage: any;
+let damage_difficulty: number;
+let party_scale_damage: number;
+
+function start() {
+  ndebug("start()");
+  if (game_loaded()) {
+    enabled = fo2tweaks_setting(sec_main, set_damage_mod);
+    if (enabled == 1) {
+      check_damage_formula();
+      // custom DR values
+      const default_dr_mod_list = get_default_dr_mod_list();
+      const custom_dr_mod_list = get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_dr);
+      dr_mod_list = array_append(default_dr_mod_list as any, custom_dr_mod_list as any) as number[];
+      fix_array(dr_mod_list as any[]);
+      ndebug("dr_mod_list length is " + len_array(dr_mod_list));
+      update_dr_mod(dr_mod_list);
+
+      // cosmetic change
+      ammo_pids = f2_ammo_pids();
+      mod_ammo_pids = fo2tweaks_comsep_setting_ints(sec_damage_mod, set_damage_mod_ammo_pids);
+      ammo_pids = array_append(ammo_pids as any[], mod_ammo_pids as any[]) as number[];
+      fix_array(ammo_pids as any[]);
+      fix_ammo_stats(ammo_pids);
+
+      update_weapons();
+      // ammo types dealing alternative damage
+      type_ammo = get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_type);
+      ammo_damage = load_ammo_damage_type(type_ammo) as Record<number, number>;
+      fix_array(ammo_damage as any[]);
+
+      party_scale_damage = fo2tweaks_setting(sec_damage_mod, set_damage_mod_party_scale_damage);
+      damage_difficulty = fo2tweaks_setting(sec_damage_mod, set_damage_mod_difficulty);
+
+      register_hook_proc(HOOK_COMBATDAMAGE, damage_handler);
+      ndebug("initialized");
+    }
+  }
+}
+
+function load_ammo_damage_type(type_ammo_arg: any): any {
+  ndebug("load_ammo_damage_type()");
+  const ar = temp_array_map();
+  for (const [k, v] of type_ammo_arg as [string, string][]) {
+    const tmp = string_split(v, ",");
+    for (const t of tmp) {
+      const pid = atoi(t);
+      const dmg_type = atoi(k);
+      ar[pid] = dmg_type;
+      ndebug("set ammo pid " + pid + " to do damage type " + dmg_type);
+    }
+  }
+  return ar;
+}
+
+function get_default_dr_mod_list(): Record<number, number> {
+  ndebug("get_default_dr_mod_list()");
+  const mod_list = {
+    [PID_44_MAGNUM_JHP]: 35,
+    [PID_4_7MM_CASELESS]: -20,
+    [PID_7_62MM_AMMO]: -20,
+    [PID_9MM_BALL]: -20,
+    [PID_14MM_AP]: -35,
+    [PID_EXPLOSIVE_ROCKET]: 30,
+    [PID_ROCKET_AP]: -30,
+    [PID_ROBO_ROCKET_AMMO]: -25,
+    [PID_HN_NEEDLER_CARTRIDGE]: 35,
+    [PID_HN_AP_NEEDLER_CARTRIDGE]: -35,
+
+    // EcCo ammo
+    [PID_PBS_50_AMMO]: -20,
+    [PID_PBS_SHOTGUN_SLUGS]: -25,
+    [PID_PBS_223_AP]: -25,
+    [PID_PBS_40MM_HE]: 0,
+    [PID_PBS_40MM_IC]: 25,
+    [PID_PBS_14MM_JHP]: 25,
+    [PID_PBS_SHOTGUN_BUCKSHOTS]: 25,
+  };
+  return mod_list;
+}
+
+function map_enter_p_proc() {
+  ndebug("map_enter_p_proc()");
+  if (enabled == 1) {
+    check_damage_formula();
+    update_dr_mod(dr_mod_list);
+    fix_ammo_stats(ammo_pids);
+    update_weapons();
+  }
+}
+
+function check_damage_formula() {
+  ndebug("check_damage_formula()");
+  const damage_formula = get_ini_setting("ddraw.ini|Misc|DamageFormula");
+  if (damage_formula != 0) {
+    ndebug("Damage Formula set to, resetting" + damage_formula);
+    set_ini_setting("ddraw.ini|Misc|DamageFormula", 0);
+    float_msg(dude_obj, "FO2tweaks: damage formula setting in ddraw.ini was incorrect, damage mod failed to load. The setting is fixed now. EXIT AND RE-LAUNCH THE GAME now.", FLOAT_MSG_WARNING);
+    return false;
+  }
+  return true;
+}
+
+function update_dr_mod(dr_mod_list_arg: any) {
+  // have to pass strings, as 0's can't be stored in a map
+  for (const [pid, mod] of dr_mod_list_arg as [number | string, number | string][]) {
+    let pidInt: number = pid as number;
+    let modInt: number = mod as number;
+    if (sfall_typeof(pidInt) != VALTYPE_INT) pidInt = atoi(pidInt as unknown as string);
+    if (sfall_typeof(modInt) != VALTYPE_INT) modInt = atoi(modInt as unknown as string);
+
+    if (!is_ammo_pid(pidInt)) {  // not ammo, how did it get here?
+      ndebug("warning | item pid " + pidInt + " is not ammo");
+      continue;
+    }
+    set_proto_data(pidInt, PROTO_AM_DR_MOD, modInt);
+  }
+}
+
+function update_weapons() {
+  ndebug("update_weapons");
+  const min_damage = {
+    [PID_MINIGUN]: 9,
+    [PID_14MM_PISTOL]: 18,
+    [PID_HK_G11]: 16,
+    [PID_NEEDLER_PISTOL]: 18,
+    [PID_HK_G11E]: 20,
+    [PID_M72_GAUSS_RIFLE]: 46,
+    [PID_PK12_GAUSS_PISTOL]: 36,
+    [PID_VINDICATOR_MINIGUN]: 20,
+  };
+  const max_damage = {
+    [PID_MINIGUN]: 13,
+    [PID_14MM_PISTOL]: 28,
+    [PID_HK_G11]: 26,
+    [PID_NEEDLER_PISTOL]: 28,
+    [PID_HK_G11E]: 30,
+    [PID_M72_GAUSS_RIFLE]: 68,
+    [PID_PK12_GAUSS_PISTOL]: 46,
+    [PID_VINDICATOR_MINIGUN]: 30,
+  };
+  for (const [pid, dmg] of min_damage as any as [number, number][]) {
+    if (!is_weapon_pid(pid)) {
+      ndebug("warning | item pid " + pid + " is not a weapon");
+      continue;
+    }
+    set_proto_data(pid, PROTO_WP_DMG_MIN, dmg);
+  }
+  for (const [pid, dmg] of max_damage as any as [number, number][]) {
+    if (!is_weapon_pid(pid)) {
+      ndebug("warning | item pid " + pid + " is not a weapon");
+      continue;
+    }
+    set_proto_data(pid, PROTO_WP_DMG_MAX, dmg);
+  }
+  // Make vindicator accurate
+  set_proto_data(PID_VINDICATOR_MINIGUN, PROTO_WP_PERK, PERK_weapon_long_range);
+}
+
+function fix_ammo_stats(pids: number[]) {
+  ndebug("fix_ammo_stats()");
+  ndebug(pids as any as string);
+  // let divisor: number;
+  for (const pid of pids) {
+    let divisor = 100;
+
+    if (!is_ammo_pid(pid)) {  // not ammo, how did it get here?
+      ndebug("warning | item pid " + pid + " is not ammo");
+      continue;
+    }
+
+    const dr_mod = get_proto_data(pid, PROTO_AM_DR_MOD);
+    let mult = 100 + dr_mod;
+
+    const cd = gcd(divisor, mult);
+    divisor = divisor / cd;
+    mult = mult / cd;
+
+    set_proto_data(pid, PROTO_AM_DMG_MULT, mult);
+    set_proto_data(pid, PROTO_AM_DMG_DIV, divisor);
+  }
+  ndebug("beautified ammo stats");
+}
+
+// 1.2 damage has 20% chance to be rounded up to 2
+function round_chance(dmg: number) {
+  const base_dmg = floor2(dmg);
+  const chance = (dmg - base_dmg) * 100;
+  const rnd = random(1, 100);
+  let final_dmg: number;
+
+  if (dmg < 0) {
+    ndebug("dmg is " + dmg + ", rounded dmg is 0");
+    return 0;
+  }
+
+  ndebug("dmg is " + dmg + ", chance to round up is " + chance + "%, rnd is " + rnd);
+  if (chance > rnd) {
+    final_dmg = base_dmg + 1;
+  } else {
+    final_dmg = base_dmg;
+  }
+  ndebug("rounded dmg is " + final_dmg);
+  return final_dmg;
+}
+
+function get_critical_level(who: CritterPtr) {
+  let level = random(0, 4);
+  if ((who == dude_obj) && has_trait(TRAIT_PERK, who, PERK_better_criticals)) level = level + 1;
+  return level;
+}
+
+/**
+ * Gets critical type for burst rounds (uncalled to torso)
+ * @param attacker 
+ * @param target 
+ * @param check_sniper 
+ * @returns [critical mult, critical effect flags]
+ */
+function get_critical_type(attacker: CritterPtr, target: CritterPtr, check_sniper = false): [number, number] {
+  let mult = 2;  // default
+  let flags = 0; // default
+  let rnd: number;
+  let crit = false;
+
+  // Sniper check
+  if (check_sniper && has_trait(TRAIT_PERK, attacker, PERK_sniper)) {
+    const luck = get_critter_stat(attacker, STAT_lu);
+    rnd = random(1, 10);
+    if (rnd <= luck) crit = true;
+  }
+
+  // Normal crit check
+  if (crit == false) {
+    const chance = get_critter_stat(attacker, STAT_crit_chance);
+    rnd = random(1, 100);
+    if (rnd <= chance) crit = true;
+  }
+
+  // Not critical
+  if (crit == false) return [FLOAT1 * mult / 2, flags];
+
+  const crit_level = get_critical_level(attacker);
+  mult = get_critical_table(critter_kill_type(target), BODY_UNCALLED, crit_level, CRITICAL_VALUE_MULT);
+  flags = get_critical_table(critter_kill_type(target), BODY_UNCALLED, crit_level, CRITICAL_VALUE_EFFECTS);
+  ndebug("critical level " + crit_level + ", critical mult " + mult + ", flags " + flags);
+  return [FLOAT1 * mult / 2, flags];
+}
+
+function get_bullet_damage(
+  dmg_min: number, dmg_max: number, ranged_bonus: number, dt: number,
+  ammo_mult: number, critical_mult: number, difficulty_mult: number, dr_mult: number
+) {
+  const rnd = random(dmg_min, dmg_max);
+
+  /* original formula
+    ND = net damage value
+    RD = random damage value produced from weapons hit damage range
+    RB = ranged bonus (RB=0 unless the player has Bonus Ranged Damage perk)
+    CM = critical hit damage multiplier (if no critical hit then CM=2, otherwise assigned value from critical hit table)
+    ADR = armor damage resistance value
+    ADT = armor damage threshold value
+    X = ammo dividend
+    Y = ammo divisor
+    RM = ammo resistance modifier (only value allowed to be negative or positive in the equation)
+    CD = combat difficulty multiplier (Easy=75, Normal=100, Hard=125)
+
+    ND = ( ((RD+RB)*(X*CM)/Y/2 * CD/100) - ADT) * ((100-(ADR+RM))/100 )
+    nd = ( ((rd + rb) * (x * cm) / y / 2.0 * (cd / 100.0) ) - adt) * ( (100.0 - (adr + rm)) / 100.0 ); // original
+    nd = ( ((rd + rb) * (1.0*x/y) * (cm/2.0) * (cd/100.0) ) - adt) * ( (100.0 - (adr + rm)) / 100.0 ); // original, ease of reading
+  */
+
+  /* new formula: dt is subtracted first, then the rest is multiplied by corresponding miltipliers */
+
+  let dmg = round_chance(FLOAT1 * (rnd + ranged_bonus - dt) * ammo_mult * critical_mult * difficulty_mult * dr_mult);
+  ndebug("rnd " + rnd + " ranged_bonus " + ranged_bonus + " dt " + dt + " ammo_mult " + ammo_mult
+    + " critical_mult " + critical_mult + " difficulty_mult " + difficulty_mult + " dr_mult " + dr_mult
+    + ", dmg " + dmg);
+  if (dmg < 0) dmg = 0;
+  return dmg;
+}
+
+function get_total_damage(
+  attacker: CritterPtr, target: CritterPtr, dmg_type: number, dr_mod: number,
+  dmg_min: number, dmg_max: number,
+  ranged_bonus: number, ammo_mult: number, critical_mult: number, difficulty_mult: number,
+  bullets_number: number, flags: number, penetrate: boolean
+) {
+  let total_damage = 0, bullet_damage = 0;
+  let critical_type: [number, number], dr_dt: [number, number],
+    dr_mult: number, dt: number;
+
+  // first bullet to hit keeps all the original mults
+  dr_dt = get_dr_dt(attacker, target, dmg_type, dr_mod, flags, penetrate);
+  dr_mult = dr_dt[0];
+  dt = dr_dt[1];
+
+  total_damage = get_bullet_damage(dmg_min, dmg_max, ranged_bonus, dt, ammo_mult, critical_mult, difficulty_mult, dr_mult);
+
+  // Burst: consecutive bullets roll their own critical damage, including armor bypass, but excluding crippling effects
+  if (bullets_number > 1) {
+    for (let i = 2; i <= bullets_number; i++) {
+      // Sniper applies to every 3rd bullet in a burst
+      let check_sniper = false;
+      if (((i - 1) % 3) == 0) {
+        check_sniper = true;
+      }
+
+      critical_type = get_critical_type(attacker, target, check_sniper);
+      const crit_mult = critical_type[0];
+      const crit_flags = critical_type[1];
+      dr_dt = get_dr_dt(attacker, target, dmg_type, dr_mod, crit_flags, penetrate);
+      dr_mult = dr_dt[0];
+      dt = dr_dt[1];
+
+      bullet_damage = get_bullet_damage(dmg_min, dmg_max, ranged_bonus, dt, ammo_mult, crit_mult, difficulty_mult, dr_mult);
+      total_damage += bullet_damage;
+    }
+  }
+
+  // pyromaniac
+  if (attacker == dude_obj
+    && has_trait(TRAIT_PERK, attacker, PERK_pyromaniac_perk)
+    && dmg_type == DMG_fire
+  ) {
+    ndebug("pyromaniac: +5 dmg");
+    total_damage = total_damage + 5;
+  }
+  // living anatomy
+  if (attacker == dude_obj
+    && has_trait(TRAIT_PERK, attacker, PERK_living_anatomy_perk)
+    && critter_kill_type(target) != KILL_TYPE_robot_kills
+  ) {
+    ndebug("living anatomy: +5 dmg");
+    total_damage = total_damage + 5;
+  }
+  // instadeath crit
+  if ((attacker == dude_obj)
+    && is_instadeath_hit(flags)
+    && (total_damage < 1)
+  ) {
+    ndebug("instadeath: ensured 1 dmg");
+    total_damage = 1;
+  }
+
+  return total_damage;
+}
+
+function get_resist_defines(dmg_type: number): [StatID, StatID] {
+  let cr_dt_type: StatID, cr_dr_type: StatID;
+
+  switch (dmg_type) {
+    case DMG_normal_dam:
+      cr_dr_type = STAT_dmg_resist;
+      cr_dt_type = STAT_dmg_thresh;
+      break;
+    case DMG_laser:
+      cr_dr_type = STAT_dmg_resist_laser;
+      cr_dt_type = STAT_dmg_thresh_laser;
+      break;
+    case DMG_fire:
+      cr_dr_type = STAT_dmg_resist_fire;
+      cr_dt_type = STAT_dmg_thresh_fire;
+      break;
+    case DMG_plasma:
+      cr_dr_type = STAT_dmg_resist_plasma;
+      cr_dt_type = STAT_dmg_thresh_plasma;
+      break;
+    case DMG_electrical:
+      cr_dr_type = STAT_dmg_resist_electrical;
+      cr_dt_type = STAT_dmg_thresh_electrical;
+      break;
+    case DMG_emp:
+      cr_dr_type = STAT_dmg_resist_emp;
+      cr_dt_type = STAT_dmg_thresh_emp;
+      break;
+    case DMG_explosion:
+      cr_dr_type = STAT_dmg_resist_explosion;
+      cr_dt_type = STAT_dmg_thresh_explosion;
+      break;
+    default:  // should never fire, but just in case
+      cr_dr_type = STAT_dmg_resist;
+      cr_dt_type = STAT_dmg_thresh;
+  }
+
+  return [cr_dr_type, cr_dt_type];
+}
+
+// returns [dr_mult, dt]
+function get_dr_dt(attacker: CritterPtr, target: CritterPtr, dmg_type: number, dr_mod_arg: number, target_flags: number, penetrate: boolean): [number, number] {
+  let target_dr: number, target_dt: number, final_dr: number, final_dt: number;
+
+  // determine resits types
+  const resist_defines = get_resist_defines(dmg_type);
+  const dr_type = resist_defines[0];
+  const dt_type = resist_defines[1];
+  ndebug("critter dr type is " + dr_type + ", dt type is " + dt_type);
+
+  // get critter resists
+  target_dr = get_critter_stat(target, dr_type);  // includes armor and drugs
+  target_dt = get_critter_stat(target, dt_type);
+
+  if (attacker == dude_obj && has_trait(TRAIT_TRAIT, attacker, TRAIT_finesse)) {
+    ndebug("attacking with finesse, extra 30% to dr");
+    target_dr = target_dr + 30;
+  }
+  ndebug("target dr is " + target_dr + ", target_dt is " + target_dt);
+
+  if (target_dr > 90) target_dr = 90;  // cap DR
+  if (is_bypassing_armor(target_flags)) {  // critical bypass armor
+    ndebug("armor bypassing critical, halving dt and reducing dr by magnitude of 5");
+    target_dr = target_dr * 0.2;
+    target_dt = target_dt * 0.5;
+  } else if (penetrate) {  // weapon penetrate perk
+    ndebug("weapon has penetrate perk, reducing dr by magnitude of 5");
+    target_dr = target_dr * 0.2;
+  }
+
+  ndebug("target dr is " + target_dr + ", dr_mod is " + dr_mod_arg);
+  if (dr_mod_arg > 0) {
+    final_dr = FLOAT1 * target_dr * (100 + dr_mod_arg) / 100;
+  } else {
+    final_dr = target_dr + dr_mod_arg;
+  }
+  ndebug("final dr is " + final_dr);
+
+  if (final_dr < 0) final_dr = 0;
+  if (final_dr > 90) final_dr = 90;
+  const dr_mult = FLOAT1 * (100 - final_dr) / 100;
+
+  final_dt = FLOAT1 * target_dt * (100 + dr_mod_arg) / 100;
+  if (final_dt < 0) final_dt = 0;
+  ndebug("dr_mult is " + dr_mult);
+  ndebug("final dt is " + final_dt);
+
+  return [dr_mult, final_dt];
+}
+
+function damage_handler() {
+  /*
+    Runs when:
+    1) Game calculates how much damage each target will get. This includes primary target as well as all extras (explosions and bursts). This happens BEFORE the actual attack animation.
+    2) AI decides whether it is safe to use area attack (burst, grenades), if he might hit friendlies.
+    Does not run for misses, or non-combat damage like dynamite explosions.
+
+    critter arg1  - The target
+    critter arg2  - The attacker
+    int     arg3  - The amount of damage to the target
+    int     arg4  - The amount of damage to the attacker
+    int     arg5  - The special effect flags for the target
+    int     arg6  - The special effect flags for the attacker
+    int     arg7  - The weapon used in the attack
+    int     arg8  - The bodypart that was struck
+    int     arg9  - Damage Multiplier (this is divided by 2, so a value of 3 does 1.5x damage, and 8 does 4x damage. Usually it's 2, but with Silent Death perk and the corresponding attack conditions, it's 4; for critical hits, the value is taken from the critical table)
+    int     arg10 - Number of bullets actually hit the target (1 for melee attacks)
+    int     arg11 - The amount of knockback to the target
+    int     arg12 - Attack Type (see ATKTYPE_* constants)
+
+    int     ret1 - The damage to the target
+    int     ret2 - The damage to the attacker
+    int     ret3 - The special effect flags for the target
+    int     ret4 - The special effect flags for the attacker
+    int     ret5 - The amount of knockback to the target
+  */
+
+  let target = get_sfall_arg() as CritterPtr;
+  const attacker = get_sfall_arg() as CritterPtr;
+  const target_damage = get_sfall_arg() as number;
+  const attacker_damage = get_sfall_arg() as number;
+  let target_flags = get_sfall_arg() as number;
+  const attacker_flags = get_sfall_arg() as number;
+  const weapon = get_sfall_arg() as ItemPtr;
+  const _bodypart = get_sfall_arg() as number;
+  const damage_multiplier = get_sfall_arg() as number;
+  const bullets_number = get_sfall_arg() as number;
+  const _knockback_distance = get_sfall_arg() as number;
+  const _attack_type = get_sfall_arg() as number;
+
+  let nd = 0, ranged_bonus = 0, dr_mod = 0, cd: number;
+
+  let weapon_pid: number;
+  let dmg_min: number;
+  let dmg_max: number;
+  let ammo_pid: number;
+  let penetrate: boolean;
+
+  ndebug("target damage " + target_damage);
+  if (weapon) {
+    ndebug("weapon name is " + obj_name(weapon));
+    weapon_pid = obj_pid(weapon);
+    dmg_min = get_proto_data(weapon_pid, PROTO_WP_DMG_MIN);
+    dmg_max = get_proto_data(weapon_pid, PROTO_WP_DMG_MAX);
+    ndebug("dmg_minmax - " + dmg_min + ":" + dmg_max);
+    ammo_pid = get_active_ammo_pid(attacker);
+  } else {  // unarmed
+    ndebug("unarmed attack, skipping");
+    return;
+  }
+
+  if (!is_gun(weapon)) {
+    ndebug("not a gun, skipping");
+    return;
+  }
+
+  if (!is_critter(target)) {  // hit a wall?
+    ndebug("target " + obj_name(target) + " is not a critter, skipping");
+    return;
+  }
+
+  // hook gets invoked twice when an explosion hits both attacker and target. Need to distinguish.
+  if ((attacker_flags & DAM_BACKWASH) != 0) {
+    ndebug(obj_name(attacker) + " hurts self! Setting target to attacker, recalculating attacker self damage.");
+    target = attacker;
+    target_flags = attacker_flags;  // this should work correctly, right?
+  }
+
+  // ranged_bonus - bonus ranged damage perk
+  ranged_bonus = 0;
+  if (attacker == dude_obj) {
+    ranged_bonus = 2 * has_trait(TRAIT_PERK, dude_obj, PERK_bonus_ranged_damage);
+    ndebug("ranged bonus: added " + ranged_bonus + " damage");
+  }
+
+  // weapon penetrate perk
+  penetrate = false;
+  if (get_proto_data(obj_pid(weapon), PROTO_WP_PERK) == PERK_weapon_penetrate) penetrate = true;
+
+  // cm - critical hit multiplier, default 2
+  const cm = damage_multiplier;
+
+  // ammo: damage resistance mod
+  if (ammo_pid) {
+    dr_mod = get_proto_data(ammo_pid, PROTO_AM_DR_MOD);
+    ndebug("ammo dr mod is " + dr_mod);
+  } else {  // solar scorcher
+    dr_mod = 0;
+    ndebug("weapon has no ammo, no dr mod");
+  }
+
+  const dmg_type = get_real_damage_type(weapon);
+  ndebug("damage type is " + dmg_type);
+
+  // cd - combat difficulty multiplier
+  if (party_scale_damage && in_party(attacker)) {
+    cd = 100;  // party, vanilla
+  } else {
+    if (damage_difficulty) {
+      cd = 75 + (damage_difficulty - 1) * 25;  // all, decoupled
+    } else {
+      cd = 75 + combat_difficulty * 25;  // all, coupled
+    }
+  }
+
+  const difficulty_mult = FLOAT1 * cd / 100;
+  const ammo_mult = FLOAT1 * (100 + dr_mod) / 100;
+  const critical_mult = FLOAT1 * damage_multiplier / 2;
+
+  nd = get_total_damage(attacker, target, dmg_type, dr_mod, dmg_min, dmg_max,
+    ranged_bonus, ammo_mult, critical_mult, difficulty_mult, bullets_number, target_flags, penetrate);
+
+  ndebug("ranged_bonus " + ranged_bonus + ", cm " + cm + ", cd " + cd + ", dmg_type " + dmg_type
+    + ", ammo_mult " + ammo_mult);
+
+  // logging totals for comparison
+  old_total += target_damage;
+  new_total += nd;
+
+  ndebug("DAM_BACKWASH flag: " + (attacker_flags & DAM_BACKWASH));
+
+  // normal run
+  if ((attacker_flags & DAM_BACKWASH) == 0) {
+    set_sfall_return(nd);
+    set_sfall_arg(2, nd);
+    ndebug("attacker " + obj_name(attacker) + ", target " + obj_name(target) + ", old target damage " + target_damage + ", new target damage " + nd);
+  } else {  // self-hurt run
+    set_sfall_return(target_damage);
+    set_sfall_return(nd);
+    set_sfall_arg(3, nd);
+    ndebug("attacker " + obj_name(attacker) + ", target " + obj_name(target) + ", old attacker damage " + attacker_damage + ", new attacker damage " + nd);
+  }
+
+  // logging totals for comparison
+  ndebug("old total " + old_total + ", new total " + new_total);
+}
+
+function get_real_damage_type(weapon: ItemPtr): number {
+  const ammo_pid = get_weapon_ammo_pid(weapon);
+  const type = (ammo_damage as Record<number, number>)[ammo_pid];
+  if (type != 0) {
+    ndebug("damage type changed to " + type);
+    return type;
+  }
+  return weapon_dmg_type(weapon);  // molotov also covered here
+}

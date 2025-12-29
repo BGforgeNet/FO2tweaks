@@ -14,4 +14,5 @@ data/text/tchinese/**   working-tree-encoding=cp950
 data/text/ukrainian/**  working-tree-encoding=cp1251
 data/text/vietnamese/**     working-tree-encoding=cp1258
 
-*.ssl linguist-language=Pascal
+*.ssl   linguist-language=Pascal
+*.tssl  linguist-language=TypeScript

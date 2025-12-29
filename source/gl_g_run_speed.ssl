@@ -1,113 +1,88 @@
-#define SCRIPT_REALNAME "gl_g_run_speed"
-#include "headers/fo2tweaks/fo2tweaks.h"
+/* Do not edit. This file is generated from gl_g_run_speed.tssl. Make your changes there and regenerate this file. */
 
+#define SCRIPT_REALNAME "gl_g_run_speed"
 #define set_run_speed "run_speed"
 #define sec_run_speed "run_speed"
 #define set_run_speed_dude "dude"
 #define set_run_speed_party "party"
-
 #define fps_offset 4
 
-variable enabled;
+#define FLOAT_MSG_WARNING -2
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define SCRIPT_REALNAME2 "gl_g_run_speed"
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define set_ini_setting(setting, value) sfall_func2("set_ini_setting", setting, value)
 
-procedure start;
-procedure set_run_fps(variable model, variable new_fps);
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure check_filesystem_override(variable script_name);
+procedure set_run_fps(variable path, variable new_fps);
+procedure start();
 
-procedure start begin
-
-  if game_loaded then begin
-    variable fs_override = check_filesystem_override;
-    enabled = fo2tweaks_setting(sec_main, set_run_speed);
-    if enabled == 1 and fs_override then begin
-      variable frm, frms, fps, path;
-      variable dude = fo2tweaks_setting(sec_run_speed, set_run_speed_dude);
-      variable party = fo2tweaks_setting(sec_run_speed, set_run_speed_party);
-      ndebug("initialized");
-      if dude then begin
-        ndebug("dude enabled");
-        fps = 20; // same as no armor fps
-        frms = [ // vanilla PC
-          "hanpwr",
-          "hapowr",
-          "harobe",
-          "hfcmbt",
-          "hfjmps",
-          "hflthr",
-          "hfmaxx",
-          "hfmetl",
-          "hfprim",
-          "hmcmbt",
-          "hmjmps",
-          "hmlthr",
-          "hmmaxx",
-          "hmmetl",
-          "hmwarr"
-        ];
-        foreach frm in frms begin
-          path = "art\\critters\\" + frm;
-          call set_run_fps(path, fps);
-        end
-
-/* Not working. Maybe it doesn't need to work, and engine sees them as standard hfjmps?
-        frms = [ // hero appearance
-          "art\\critters\\_hfjmps",
-          "art\\critters\\_hflthr",
-          "art\\critters\\_hfmaxx",
-          "art\\critters\\_hfmetl",
-          "art\\critters\\_hfprim"
-        ];
-        foreach frm in frms begin
-          //path = "appearance\\" + frm;
-          path = frm;
-          call set_run_fps(path, fps);
-        end
-*/
-      end
-
-      if party then begin
-        ndebug("party enabled");
-        frms = [
-          // vanilla
-          "macybr", //cyberdog, k-9
-          "maddog", //dogmeat
-          "marobe", //goris
-          "mamtn2", //marcus
-          "nmfatt", //vic
-          "nmmyrn", //myron
-          "nmlthr", //cassidy
-          "navgul", //lenny
-          "nmwarr", //sulik
-          //new RP frms without AT anims
-          "malieu", //marcus RP armor
-          "laghul"  //lenny RP new
-        ];
-        foreach frm in frms begin
-          path = "art\\critters\\" + frm;
-          call set_run_fps(path, fps);
-        end
-
-        // skynet is really slow, handling separately
-        call set_run_fps("art\\critters\\marobo", 40);
-      end
-
+/* ===== bundled ===== */
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+procedure check_filesystem_override(variable script_name) begin
+    variable fs_override = get_ini_setting("ddraw.ini|Misc|UseFileSystemOverride");
+    if (fs_override != 1) then begin
+        ndebug("UseFileSystemOverride is disabled, enabling");
+        set_ini_setting("ddraw.ini|Misc|UseFileSystemOverride", 1);
+        float_msg(dude_obj, script_name + ": filesystem override was disabled, some features failed to load. The setting is corrected. EXIT AND RE-LAUNCH THE GAME now.", FLOAT_MSG_WARNING);
+        return false;
     end
-  end
+    return true;
 end
+/* ===== end bundled ===== */
 
+/* ===== main body ===== */
+variable enabled;
 procedure set_run_fps(variable path, variable new_fps) begin
-  variable file;
-  variable path_ab = path + "ab.frm";
-  variable path_at = path + "at.frm";
-  file = fs_copy(path_at, path_at);
-  if file == -1 then begin
-    ndebug(path_at + " is missing, copying from " + path_ab);
-    file = fs_copy(path_at, path_ab);
-  end
-  if file == -1 then begin
-    ndebug("warning: couldn't find or create " + path_at);
-    return;
-  end
-  fs_seek(file, fps_offset);
-  fs_write_short(file, new_fps);
-  ndebug("set fps to " + new_fps + " in " + path_at);
+    variable path_ab = path + "ab.frm";
+    variable path_at = path + "at.frm";
+    variable file = fs_copy(path_at, path_at);
+    if (file == -1) then begin
+        ndebug(path_at + " is missing, copying from " + path_ab);
+        file = fs_copy(path_at, path_ab);
+    end
+    if (file == -1) then begin
+        ndebug("warning: couldn't find or create " + path_at);
+        return;
+    end
+    fs_seek(file, fps_offset);
+    fs_write_short(file, new_fps);
+    ndebug("set fps to " + new_fps + " in " + path_at);
 end
+procedure start() begin
+    if (game_loaded) then begin
+        variable fs_override = check_filesystem_override(SCRIPT_REALNAME2);
+        enabled = fo2tweaks_setting(sec_main, set_run_speed);
+        if (enabled == 1 and fs_override) then begin
+            variable fps;
+            variable path;
+            variable dude = fo2tweaks_setting(sec_run_speed, set_run_speed_dude);
+            variable party = fo2tweaks_setting(sec_run_speed, set_run_speed_party);
+            ndebug("initialized");
+            if (dude) then begin
+                ndebug("dude enabled");
+                fps = 20;
+                variable dude_frms = ["hanpwr", "hapowr", "harobe", "hfcmbt", "hfjmps", "hflthr", "hfmaxx", "hfmetl", "hfprim", "hmcmbt", "hmjmps", "hmlthr", "hmmaxx", "hmmetl", "hmwarr"];
+                foreach (variable frm in dude_frms) begin
+                    path = "art\\critters\\" + frm;
+                    call set_run_fps(path, fps);
+                end
+            end
+            if (party) then begin
+                ndebug("party enabled");
+                fps = 20;
+                variable party_frms = ["macybr", "maddog", "marobe", "mamtn2", "nmfatt", "nmmyrn", "nmlthr", "navgul", "nmwarr", "malieu", "laghul"];
+                foreach (variable frm in party_frms) begin
+                    path = "art\\critters\\" + frm;
+                    call set_run_fps(path, fps);
+                end
+                call set_run_fps("art\\critters\\marobo", 40);
+            end
+        end
+    end
+end
+/* ===== end main body ===== */

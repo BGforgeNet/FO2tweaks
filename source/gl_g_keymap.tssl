@@ -1,0 +1,64 @@
+import { fo2tweaks_setting, fo2tweaks_ini, sec_main } from "./fo2tweaks";
+import { char_to_dik } from "./fo2tweaks/keys";
+import { ndebug } from "folib";
+import {
+    fix_array, game_loaded, get_game_mode, get_ini_section, get_sfall_arg,
+    register_hook_proc, scan_array, set_sfall_return, temp_array_map,
+    HOOK_KEYPRESS, SAVEGAME,
+} from "folib/sfall";
+
+// DIK constants
+const DIK_F4 = 62;
+const DIK_F6 = 64;
+const DIK_UNLABELED = 151;
+
+const SCRIPT_REALNAME = "gl_g_keymap";
+const set_keymap = "keymap";
+const sec_keymap = "keymap";
+
+let enabled: number;
+let keymap: { [key: number]: number };
+
+function keypress_handler() {
+  const pressed = get_sfall_arg() as number;
+  const key = get_sfall_arg() as number;
+
+  const new_key = scan_array(keymap as any as any[], key) as number;
+
+  // Default save shortcuts: F4, F6. Any other shortcuts shouldn't be needed in savegame mode.
+  if ((get_game_mode() & SAVEGAME) && !((new_key == DIK_F4) || (new_key == DIK_F6))) return;
+
+  // remap
+  if (new_key != -1) {
+    if (pressed) ndebug("pressed key " + key + " changed to " + new_key);
+    else ndebug("released key " + key + " changed to " + new_key);
+    set_sfall_return(new_key);
+    return;
+  }
+
+  // disable old key
+  if (keymap[key] != 0) {
+    ndebug("old key " + key + " is not mapped, disabling");
+    set_sfall_return(DIK_UNLABELED);  // hope you don't use katakana my friend
+  }
+}
+
+function start() {
+  if (game_loaded()) {
+    enabled = fo2tweaks_setting(sec_main, set_keymap);
+    if (enabled == 1) {
+      const tmp = get_ini_section(fo2tweaks_ini, sec_keymap) as unknown as [string, string][];
+      keymap = temp_array_map();
+      for (const [k, v] of tmp) {
+        ndebug("remapping key " + v + " to " + k);
+        const k_code = char_to_dik(k);
+        const v_code = char_to_dik(v);
+        keymap[v_code] = k_code;
+        ndebug("remapped key code " + v_code + " to " + k_code);
+      }
+      fix_array(keymap as unknown as any[]);
+      register_hook_proc(HOOK_KEYPRESS, keypress_handler);
+      ndebug("initialized");
+    }
+  }
+}

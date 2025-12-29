@@ -1,57 +1,114 @@
-#define SCRIPT_REALNAME "gl_g_no_scope_penalty"
-#include "headers/fo2tweaks/fo2tweaks.h"
+/* Do not edit. This file is generated from gl_g_no_scope_penalty.tssl. Make your changes there and regenerate this file. */
 
+#define SCRIPT_REALNAME "gl_g_no_scope_penalty"
 #define set_no_scope_penalty "no_scope_penalty"
 #define sec_no_scope_penalty "no_scope_penalty"
 #define set_scope_remove "remove"
 #define set_scope_to_long "to_long"
 
+#define PROTO_WP_RANGE_1 52
+#define PROTO_WP_APCOST_2 72
+#define PROTO_WP_PERK 80
+#define PROTO_WP_BURST 84
+#define PERK_weapon_long_range 58
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define floor2(value) sfall_func1("floor2", value)
+#define intface_redraw sfall_func0("intface_redraw")
 
-variable enabled;
+procedure temp_array_list(variable size);
+procedure array_push(variable array, variable item);
+procedure string_split_ints(variable str, variable split);
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure load_comsep_ini_setting(variable file, variable section, variable setting);
+procedure fo2tweaks_comsep_setting_ints(variable section, variable setting);
+procedure remove_scope();
+procedure map_enter_p_proc();
+procedure start();
 
-procedure remove_scope;
-
-procedure start begin
-  if game_loaded then begin
-    enabled = fo2tweaks_setting(sec_main, set_no_scope_penalty);
-    if enabled == 1 then call remove_scope;
-  end
+/* ===== bundled ===== */
+procedure temp_array_list(variable size) begin
+    return temp_array(size, 0);
 end
-
-procedure map_enter_p_proc begin
-  if enabled == 1 then call remove_scope;
+procedure array_push(variable array, variable item) begin
+    variable n = len_array(array);
+    resize_array(array, n + 1);
+    set_array(array, n, item);
+    return array;
 end
-
-procedure remove_scope begin
-  variable key, pid, pids, old_range, new_range, perk, ap, ap2, burst;
-  ndebug("initializing");
-
-  //vanilla scoped rifle
-  pids = fo2tweaks_comsep_setting(sec_no_scope_penalty, set_scope_remove);
-  foreach pid in pids begin
-    set_proto_data(pid, PROTO_WP_PERK, -1); //remove scope range
-    old_range = get_proto_data(pid, PROTO_WP_RANGE_1);
-    new_range = floor2(old_range * 1.2);
-    set_proto_data(pid, PROTO_WP_RANGE_1, new_range);
-    ndebug("removed scope range from pid " + pid + " " + typeof(pid) + ", old range " + old_range + " new range " + new_range);
-  end
-
-    //EcCo: set long_range for bozar and sniper rifle
-  pids = fo2tweaks_comsep_setting(sec_no_scope_penalty, set_scope_to_long);
-  foreach pid in pids begin
-    perk = get_proto_data(pid, PROTO_WP_PERK);
-    burst = get_proto_data(pid, PROTO_WP_BURST);
-    ap2 = get_proto_data(pid, PROTO_WP_APCOST_2);
-    ndebug("pid " + pid + " burst " + burst + " ap2 " + ap2 + " perk " + perk);
-    if perk != PERK_weapon_long_range
-      and not (burst > 1)
-      and ap2 == 0
-    then begin
-      set_proto_data(pid, PROTO_WP_PERK, PERK_weapon_long_range);
-      ndebug("added long range to pid " + pid);
+procedure string_split_ints(variable str, variable split) begin
+    if (str == "") then begin
+        return temp_array_list(0);
     end
-  end
-
-  intface_redraw;
-  ndebug("initialized");
+    variable list = string_split(str, split);
+    variable result = temp_array_list(0);
+    variable n = 0;
+    variable len = len_array(list);
+    for (variable i = 0; i < len; i++) begin
+        variable val = get_array(list, i);
+        if (val != "") then begin
+            resize_array(result, n + 1);
+            set_array(result, n, atoi(val));
+            n++;
+        end
+    end
+    return result;
 end
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+procedure load_comsep_ini_setting(variable file, variable section, variable setting) begin
+    variable str = get_ini_string(file + "|" + section + "|" + setting);
+    return string_split_ints(str, ",");
+end
+procedure fo2tweaks_comsep_setting_ints(variable section, variable setting) begin
+    variable ar = load_comsep_ini_setting(fo2tweaks_ini, section, setting);
+    variable ar2 = temp_array_list(0);
+    for (variable i = 0; i < len_array(ar); i++) begin
+        call array_push(ar2, get_array(ar, i));
+    end
+    return ar2;
+end
+/* ===== end bundled ===== */
+
+/* ===== main body ===== */
+variable enabled;
+procedure remove_scope() begin
+    ndebug("initializing");
+    variable pids_remove = fo2tweaks_comsep_setting_ints(sec_no_scope_penalty, set_scope_remove);
+    foreach (variable pid in pids_remove) begin
+        set_proto_data(pid, PROTO_WP_PERK, -1);
+        variable old_range = get_proto_data(pid, PROTO_WP_RANGE_1);
+        variable new_range = floor2(old_range * 1.2);
+        set_proto_data(pid, PROTO_WP_RANGE_1, new_range);
+        ndebug("removed scope range from pid " + pid + " " + typeof(pid) + ", old range " + old_range + " new range " + new_range);
+    end
+    variable pids_long = fo2tweaks_comsep_setting_ints(sec_no_scope_penalty, set_scope_to_long);
+    foreach (variable pid in pids_long) begin
+        variable perk = get_proto_data(pid, PROTO_WP_PERK);
+        variable burst = get_proto_data(pid, PROTO_WP_BURST);
+        variable ap2 = get_proto_data(pid, PROTO_WP_APCOST_2);
+        ndebug("pid " + pid + " burst " + burst + " ap2 " + ap2 + " perk " + perk);
+        if (perk != PERK_weapon_long_range and not (burst > 1) and ap2 == 0) then begin
+            set_proto_data(pid, PROTO_WP_PERK, PERK_weapon_long_range);
+            ndebug("added long range to pid " + pid);
+        end
+    end
+    intface_redraw;
+    ndebug("initialized");
+end
+procedure map_enter_p_proc() begin
+    if (enabled == 1) then begin
+        call remove_scope();
+    end
+end
+procedure start() begin
+    if (game_loaded) then begin
+        enabled = fo2tweaks_setting(sec_main, set_no_scope_penalty);
+        if (enabled == 1) then begin
+            call remove_scope();
+        end
+    end
+end
+/* ===== end main body ===== */

@@ -1,92 +1,155 @@
-#define SCRIPT_REALNAME "gl_g_party_level_match"
-#include "headers/fo2tweaks/fo2tweaks.h"
+/* Do not edit. This file is generated from gl_g_party_level_match.tssl. Make your changes there and regenerate this file. */
 
+#define SCRIPT_REALNAME "gl_g_party_level_match"
 #define set_party_level_match "party_level_match"
 #define sec_party_level_match "party_level_match"
 
-variable enabled, pid_mlevel, pid_step;
+#define PCSTAT_level 1
+#define DIALOG 4
+#define COMBAT 64
+#define HOOK_GAMEMODECHANGE 31
+#define PID_VIC 16777278
+#define PID_BRAINBOT 16777295
+#define PID_JOHN_MACRAE 16777305
+#define PID_SULIK 16777313
+#define PID_LENNY 16777323
+#define PID_CYBERDOG 16777352
+#define PID_GORIS 16777368
+#define PID_MYRON 16777376
+#define PID_MARCUS 16777377
+#define PID_DOGMEAT 16777558
+#define PID_K9 16777687
+#define PID_KITSUNE 16777718
+#define PID_DEX 16777719
+#define PID_CAT_JULES 16777720
+#define f2rp_npc_stages {PID_SULIK: "6,3", PID_VIC: "5,4", PID_JOHN_MACRAE: "10,4", PID_LENNY: "10,5", PID_MARCUS: "12,3", PID_MYRON: "6,4", PID_BRAINBOT: "10,4", PID_CYBERDOG: "9,4", PID_GORIS: "10,4", PID_K9: "12,4", PID_DOGMEAT: "6,3", PID_CAT_JULES: "12,3", PID_KITSUNE: "12,3", PID_DEX: "12,3"}
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define get_sfall_arg_at(index) sfall_func1("get_sfall_arg_at", index)
+#define floor2(value) sfall_func1("floor2", value)
+#define get_ini_section(file, sect) sfall_func2("get_ini_section", file, sect)
 
-procedure levelup begin
-  variable pc_level, cur_stage, expected_stage, who;
+procedure temp_array_map();
+procedure party_member_list_critters();
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure mode_ended(variable mode_to_check, variable old_mode, variable new_mode);
+procedure mode_started(variable mode_to_check, variable old_mode, variable new_mode);
+procedure true_party_size();
+procedure levelup();
+procedure gamemode_handler();
+procedure map_enter_p_proc();
+procedure parse_stages(variable npc_list);
+procedure start();
 
-  if true_party_size == 0 then return;
-
-  pc_level = get_pc_stat(PCSTAT_level);
-  foreach who in party_member_list_critters begin
-    variable pid = obj_pid(who), min_level, step;
-
-    variable present = pid_mlevel[pid];
-    ndebug("pc_level = " + pc_level);
-    ndebug("npc is " + obj_name(who) + ", pid " + pid);
-    if present == 0 then continue; // not in config
-
-    min_level = pid_mlevel[pid];
-    step = pid_step[pid];
-
-    ndebug("step = " + step);
-    cur_stage = get_npc_level(pid);
-    ndebug("cur_stage = " + cur_stage);
-    expected_stage = floor2((pc_level - min_level) / step);
-    ndebug("expected_stage = " + expected_stage);
-
-    while cur_stage < (expected_stage + 1) do begin // min_level corresponds to stage 0
-      ndebug("leveling up " + obj_name(who));
-      inc_npc_level(pid);
-      cur_stage = cur_stage + 1;
+/* ===== bundled ===== */
+procedure temp_array_map() begin
+    return temp_array(-1, 0);
+end
+procedure party_member_list_critters() begin
+    return party_member_list(false);
+end
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+procedure mode_ended(variable mode_to_check, variable old_mode, variable new_mode) begin
+    if ((old_mode bwand mode_to_check) > 0 and (new_mode bwand mode_to_check) == 0) then begin
+        return true;
     end
-  end
+    return false;
 end
-
-procedure gamemode_handler begin
-  variable old_mode = get_sfall_arg_at(1);
-  variable new_mode = get_game_mode;
-  variable old_party_size, new_party_size;
-  if mode_started(DIALOG, old_mode, new_mode) then old_party_size = len_array(party_member_list_critters);
-  if mode_ended(DIALOG, old_mode, new_mode) then begin
-    new_party_size = len_array(party_member_list_critters);
-    if old_party_size < new_party_size then call levelup;
-  end
-  if mode_ended(COMBAT, old_mode, new_mode) then call levelup;
+procedure mode_started(variable mode_to_check, variable old_mode, variable new_mode) begin
+    if ((old_mode bwand mode_to_check) == 0 and (new_mode bwand mode_to_check) > 0) then begin
+        return true;
+    end
+    return false;
 end
-
-procedure map_enter_p_proc begin
-  if enabled == 1 then call levelup;
+procedure true_party_size() begin
+    return len_array(party_member_list_critters()) - 1;
 end
+/* ===== end bundled ===== */
 
+/* ===== main body ===== */
+variable enabled;
+variable pid_mlevel;
+variable pid_step;
+variable old_party_size;
+procedure levelup() begin
+    if (true_party_size() == 0) then begin
+        return;
+    end
+    variable pc_level = get_pc_stat(PCSTAT_level);
+    variable party = party_member_list_critters();
+    foreach (variable who in party) begin
+        variable pid = obj_pid(who);
+        ndebug("pc_level = " + pc_level);
+        ndebug("npc is " + obj_name(who) + ", pid " + pid);
+        variable present = pid_mlevel[pid];
+        if (present == 0) then begin
+            continue;
+        end
+        variable min_level = pid_mlevel[pid];
+        variable step = pid_step[pid];
+        ndebug("step = " + step);
+        variable cur_stage = get_npc_level(pid);
+        ndebug("cur_stage = " + cur_stage);
+        variable expected_stage = floor2((pc_level - min_level) / step);
+        ndebug("expected_stage = " + expected_stage);
+        while (cur_stage < expected_stage + 1) do begin
+            ndebug("leveling up " + obj_name(who));
+            inc_npc_level(pid);
+            cur_stage = cur_stage + 1;
+        end
+    end
+end
+procedure gamemode_handler() begin
+    variable old_mode = get_sfall_arg_at(1);
+    variable new_mode = get_game_mode;
+    variable new_party_size;
+    if (mode_started(DIALOG, old_mode, new_mode)) then begin
+        old_party_size = len_array(party_member_list_critters());
+    end
+    if (mode_ended(DIALOG, old_mode, new_mode)) then begin
+        new_party_size = len_array(party_member_list_critters());
+        if (old_party_size < new_party_size) then begin
+            call levelup();
+        end
+    end
+    if (mode_ended(COMBAT, old_mode, new_mode)) then begin
+        call levelup();
+    end
+end
+procedure map_enter_p_proc() begin
+    if (enabled == 1) then begin
+        call levelup();
+    end
+end
 procedure parse_stages(variable npc_list) begin
-  variable tmp, pid, mlevel_step;
-  foreach pid: mlevel_step in npc_list begin
-    variable min_level, step;
-    if typeof(pid) == VALTYPE_STR then pid = atoi(pid); // loading from ini
-    mlevel_step = string_split(mlevel_step, ",");
-    min_level = atoi(mlevel_step[0]);
-    step = atoi(mlevel_step[1]);
-    pid_mlevel[pid] = min_level;
-    pid_step[pid] = step;
-  end
-end
-
-procedure start begin
-  if game_loaded then begin
-    enabled = fo2tweaks_setting(sec_main, set_party_level_match);
-    if enabled == 1 then begin
-      variable tmp, override, pid, mlevel;
-      pid_mlevel = {};
-      pid_step = {};
-      //load default, override from ini
-      tmp = f2rp_npc_stages;
-      call parse_stages(tmp);
-      override = get_ini_section(fo2tweaks_ini, sec_party_level_match);
-      call parse_stages(override);
-
-      foreach pid: mlevel in pid_mlevel begin
-        ndebug(pid + ": " + mlevel + "/" + pid_step[pid]);
-      end
-      fix_array(pid_mlevel);
-      fix_array(pid_step);
-
-      register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
-      ndebug("initialized");
+    foreach (variable pid: mlevel_step_str in npc_list) begin
+        variable mlevel_step = string_split(mlevel_step_str, ",");
+        variable min_level = atoi(mlevel_step[0]);
+        variable step = atoi(mlevel_step[1]);
+        pid_mlevel[pid] = min_level;
+        pid_step[pid] = step;
     end
-  end
 end
+procedure start() begin
+    if (game_loaded) then begin
+        enabled = fo2tweaks_setting(sec_main, set_party_level_match);
+        if (enabled == 1) then begin
+            pid_mlevel = temp_array_map();
+            pid_step = temp_array_map();
+            call parse_stages(f2rp_npc_stages);
+            variable override = get_ini_section(fo2tweaks_ini, sec_party_level_match);
+            call parse_stages(override);
+            foreach (variable pid: mlevel in pid_mlevel) begin
+                ndebug(pid + ": " + mlevel + "/" + pid_step[pid]);
+            end
+            fix_array(pid_mlevel);
+            fix_array(pid_step);
+            register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+            ndebug("initialized");
+        end
+    end
+end
+/* ===== end main body ===== */

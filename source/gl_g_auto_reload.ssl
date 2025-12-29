@@ -1,83 +1,151 @@
+/* Do not edit. This file is generated from gl_g_auto_reload.tssl. Make your changes there and regenerate this file. */
+
 #define SCRIPT_REALNAME "gl_g_auto_reload"
-#include "headers/fo2tweaks/fo2tweaks.h"
-#include "headers/party_orders/party_orders.h"
-
 #define set_auto_reload "auto_reload"
+
+#define FLOAT1 1
+#define PROTO_WP_CALIBER 88
+#define PROTO_WP_MAG_SIZE 96
+#define PROTO_AM_PACK_SIZE 40
+#define item_type_weapon 3
+#define COMBAT 64
+#define HOOK_GAMEMODECHANGE 31
+#define PID_SOLAR_SCORCHER 390
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define REG_ANIM_CLEAR 2
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define critter_inven_obj2(critter, slot) sfall_func2("critter_inven_obj2", critter, slot)
+#define get_sfall_arg_at(index) sfall_func1("get_sfall_arg_at", index)
+#define intface_redraw sfall_func0("intface_redraw")
+
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure is_weapon(variable obj);
+procedure in_combat();
+procedure reg_anim_clear(variable obj);
+procedure actual_ammo_count(variable crit, variable obj);
+procedure set_actual_ammo_count(variable invenobj, variable item, variable newcount);
+procedure set_item_count(variable invenobj, variable item, variable newcount);
+procedure inc_ammo_count(variable invenobj, variable ammopid, variable inc);
+procedure auto_reload();
+procedure start();
+
+/* ===== bundled ===== */
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+procedure is_weapon(variable obj) begin
+    return obj_item_subtype(obj) == item_type_weapon;
+end
+procedure in_combat() begin
+    return (get_game_mode bwand COMBAT) != 0;
+end
+procedure reg_anim_clear(variable obj) begin
+    reg_anim_func(REG_ANIM_CLEAR, obj);
+end
+/* ===== end bundled ===== */
+
+/* ===== main body ===== */
 variable enabled;
-
-procedure auto_reload begin
-  variable begin
-    i;
-    weapon = 0;
-    ammopid = 0;
-    list;
-    item;
-    ammo;
-    caliber;
-    magsize;
-    who = dude_obj;
-    old_mode = get_sfall_arg_at(1);
-    new_mode = get_game_mode;
-  end
-
-  ndebug("old mode " + old_mode + ", new mode " + new_mode);
-
-  if in_combat then begin //don't do anything in combat
-    ndebug("in combat, pass");
-    return;
-  end
-
-  if old_mode bwand COMBAT == 0 then begin //if not coming from combat mode then skip
-    ndebug("not coming from combat, pass");
-    return;
-  end
-
-  i = 1;
-  for (i = 1; i <= 2; i++) begin //right, left hands
-    weapon = critter_inven_obj2(who, i);
-
-    if obj_pid(weapon) == PID_SOLAR_SCORCHER and get_light_level == 65536 then begin
-      ndebug("solar scorcher: 100% light, reloading");
-      magsize = get_proto_data(obj_pid(weapon), PROTO_WP_MAG_SIZE);
-      set_weapon_ammo_count(weapon, magsize);
-      continue;
-    end
-
-    if not weapon or not is_weapon(weapon) then continue;
-    ammopid = get_weapon_ammo_pid(weapon);
-    if ammopid == -1 then continue;
-
-    caliber = get_proto_data(obj_pid(weapon), PROTO_WP_CALIBER);
-    magsize = get_proto_data(obj_pid(weapon), PROTO_WP_MAG_SIZE);
-
-    ndebug("found weapon " + obj_name(weapon) + " with caliber " + caliber + ", ammo pid " + ammopid);
-    ndebug("magsize is " + magsize + " ammo count " + get_weapon_ammo_count(weapon));
-
-    if magsize > get_weapon_ammo_count(weapon) then begin
-      ammo = obj_carrying_pid_obj(who, ammopid);
-      if ammo then begin
-        ndebug("found inven ammo pid " + ammopid);
-        // first, unload existing ammo
-        call inc_ammo_count(who, ammopid, get_weapon_ammo_count(weapon));
-        // then, load new ammo
-        set_weapon_ammo_pid(weapon, ammopid);
-        if (actual_ammo_count(who, ammo) < magsize) then magsize = actual_ammo_count(who, ammo);
-        set_weapon_ammo_count(weapon, magsize);
-        call inc_ammo_count(who, ammopid, - magsize);
-        reg_anim_clear(who);
-        animate_stand_obj(who);
-      end else ndebug("not found :(");
-    end
-  end
-  intface_redraw;
+procedure actual_ammo_count(variable crit, variable obj) begin
+    return (obj_is_carrying_obj_pid(crit, obj_pid(obj)) - 1) * get_proto_data(obj_pid(obj), PROTO_AM_PACK_SIZE) + get_weapon_ammo_count(obj);
 end
-
-procedure start begin
-  if game_loaded then begin
-    enabled = fo2tweaks_setting(sec_main, set_auto_reload);
-    if enabled == 1 then begin
-      ndebug("initialized");
-      register_hook_proc(HOOK_GAMEMODECHANGE, auto_reload);
+procedure set_actual_ammo_count(variable invenobj, variable item, variable newcount) begin
+    if (newcount < 0) then begin
+        newcount = 0;
     end
-  end
+    variable packsize = get_proto_data(obj_pid(item), PROTO_AM_PACK_SIZE);
+    call set_item_count(invenobj, item, ceil(1.0 * newcount / packsize));
+    item = obj_carrying_pid_obj(invenobj, obj_pid(item));
+    if (item and newcount % packsize > 0) then begin
+        set_weapon_ammo_count(item, newcount % packsize);
+    end
 end
+procedure set_item_count(variable invenobj, variable item, variable newcount) begin
+    variable count = obj_is_carrying_obj_pid(invenobj, obj_pid(item));
+    if (newcount > count) then begin
+        variable newitem = create_object_sid(obj_pid(item), 0, 0, -1);
+        add_mult_objs_to_inven(invenobj, newitem, newcount - count);
+    end else begin
+        if (newcount < count) then begin
+            variable _ = rm_mult_objs_from_inven(invenobj, item, count - newcount);
+            destroy_object(item);
+        end
+    end
+end
+procedure inc_ammo_count(variable invenobj, variable ammopid, variable inc) begin
+    variable item;
+    item = obj_carrying_pid_obj(invenobj, ammopid);
+    if (not item) then begin
+        item = create_object_sid(ammopid, 0, 0, -1);
+        add_obj_to_inven(invenobj, item);
+    end
+    call set_actual_ammo_count(invenobj, item, actual_ammo_count(invenobj, item) + inc);
+end
+procedure auto_reload() begin
+    variable weapon;
+    variable ammopid;
+    variable ammo;
+    variable caliber;
+    variable magsize;
+    variable who = dude_obj;
+    variable old_mode = get_sfall_arg_at(1);
+    variable new_mode = get_game_mode;
+    ndebug("old mode " + old_mode + ", new mode " + new_mode);
+    if (in_combat()) then begin
+        ndebug("in combat, pass");
+        return;
+    end
+    if ((old_mode bwand COMBAT) == 0) then begin
+        ndebug("not coming from combat, pass");
+        return;
+    end
+    for (variable i = 1; i <= 2; i++) begin
+        weapon = critter_inven_obj2(who, i);
+        if (obj_pid(weapon) == PID_SOLAR_SCORCHER and get_light_level == 65536) then begin
+            ndebug("solar scorcher: 100% light, reloading");
+            magsize = get_proto_data(obj_pid(weapon), PROTO_WP_MAG_SIZE);
+            set_weapon_ammo_count(weapon, magsize);
+            continue;
+        end
+        if (not weapon or not is_weapon(weapon)) then begin
+            continue;
+        end
+        ammopid = get_weapon_ammo_pid(weapon);
+        if (ammopid == -1) then begin
+            continue;
+        end
+        caliber = get_proto_data(obj_pid(weapon), PROTO_WP_CALIBER);
+        magsize = get_proto_data(obj_pid(weapon), PROTO_WP_MAG_SIZE);
+        ndebug("found weapon " + obj_name(weapon) + " with caliber " + caliber + ", ammo pid " + ammopid);
+        ndebug("magsize is " + magsize + " ammo count " + get_weapon_ammo_count(weapon));
+        if (magsize > get_weapon_ammo_count(weapon)) then begin
+            ammo = obj_carrying_pid_obj(who, ammopid);
+            if (ammo) then begin
+                ndebug("found inven ammo pid " + ammopid);
+                call inc_ammo_count(who, ammopid, get_weapon_ammo_count(weapon));
+                set_weapon_ammo_pid(weapon, ammopid);
+                if (actual_ammo_count(who, ammo) < magsize) then begin
+                    magsize = actual_ammo_count(who, ammo);
+                end
+                set_weapon_ammo_count(weapon, magsize);
+                call inc_ammo_count(who, ammopid, -magsize);
+                call reg_anim_clear(who);
+                animate_stand_obj(who);
+            end else begin
+                ndebug("not found :(");
+            end
+        end
+    end
+    intface_redraw;
+end
+procedure start() begin
+    if (game_loaded) then begin
+        enabled = fo2tweaks_setting(sec_main, set_auto_reload);
+        if (enabled == 1) then begin
+            ndebug("initialized");
+            register_hook_proc(HOOK_GAMEMODECHANGE, auto_reload);
+        end
+    end
+end
+/* ===== end main body ===== */

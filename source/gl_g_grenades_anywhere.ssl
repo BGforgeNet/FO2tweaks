@@ -1,119 +1,218 @@
-// Created by Mr.Stalin
-// https://github.com/FakelsHub/sFall-Extended/commit/ecfa68a04a9178c21cdd178874b9f4fa8523f49c#commitcomment-36388003
+/* Do not edit. This file is generated from gl_g_grenades_anywhere.tssl. Make your changes there and regenerate this file. */
+
 #define SCRIPT_REALNAME "gl_g_grenades_anywhere"
-#include "headers/fo2tweaks/fo2tweaks.h"
+#define TARGET_PID 0x500000C
+#define _attacker 1
+#define _throw 6
 
-#define ATKTYPE_LWEAPON_SECOND      ATKTYPE_LWEP2
-#define ATKTYPE_RWEAPON_SECOND      ATKTYPE_RWEP2
-#define ATKMODE_THROWNING           ATKMODE_PRI_THROW
-#define TARGET_PID 0x500000C // scroll blocker
-#define target_destroy if target then call destroy_target
+#define LEFT_HAND 0
+#define OBJ_TYPE_CRITTER 1
+#define FLAG_FLAT 8
+#define OBJ_DATA_WHO_HIT_ME 84
+#define INVEN_TYPE_RIGHT_HAND 1
+#define INVEN_TYPE_LEFT_HAND 2
+#define item_type_weapon 3
+#define PCOMBAT 2048
+#define HOOK_GAMEMODECHANGE 31
+#define HOOK_ONEXPLOSION 36
+#define HOOK_TARGETOBJECT 42
+#define CURSOR_TARGETING 2
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define dude_tile tile_num(dude_obj)
+#define dude_elevation elevation(dude_obj)
+#define create_object(pid, tile, elev) create_object_sid(pid, tile, elev, -1)
+#define critter_inven_obj2(critter, slot) sfall_func2("critter_inven_obj2", critter, slot)
+#define get_sfall_arg_at(index) sfall_func1("get_sfall_arg_at", index)
+#define get_flags(obj) sfall_func1("get_flags", obj)
+#define set_flags(obj, flags) sfall_func2("set_flags", obj, flags)
+#define set_object_data(obj, offset, value) sfall_func3("set_object_data", obj, offset, value)
+#define get_cursor_mode sfall_func0("get_cursor_mode")
+#define objects_in_radius(tile, radius, elev, type) sfall_func4("objects_in_radius", tile, radius, elev, type)
 
-procedure start;
-procedure target_object_handler;
-procedure explosion_handler;
-procedure gamemode_handler;
-procedure destroy_target;
+procedure temp_array_list(variable size);
+procedure is_in_array(variable item, variable array);
+procedure party_member_list_critters();
+procedure string_split_ints(variable str, variable split);
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure is_weapon(variable obj);
+procedure get_active_weapon(variable attacker);
+procedure get_active_weapon_pid(variable attacker);
+procedure get_active_ammo_pid(variable attacker);
+procedure in_party(variable obj);
+procedure load_comsep_ini_setting(variable file, variable section, variable setting);
+procedure fo2tweaks_comsep_setting(variable section, variable setting);
+procedure start();
+procedure target_object_handler();
+procedure explosion_handler();
+procedure gamemode_handler();
+procedure destroy_target();
 
-variable begin
-  target;
-  only_once;
-  explosive_weapon_pids;
-  explosive_ammo_pids;
+/* ===== bundled ===== */
+procedure temp_array_list(variable size) begin
+    return temp_array(size, 0);
 end
-
-procedure start begin
-  if game_loaded then begin
-    variable enabled = fo2tweaks_setting(sec_main, "improved_grenades");
-    if enabled == 1 then begin
-      explosive_weapon_pids = fo2tweaks_comsep_setting("improved_grenades", "weapons");
-      fix_array(explosive_weapon_pids);
-      explosive_ammo_pids = fo2tweaks_comsep_setting("improved_grenades", "ammo");
-      fix_array(explosive_ammo_pids);
-      register_hook_proc(HOOK_TARGETOBJECT, target_object_handler);
-      register_hook_proc(HOOK_ONEXPLOSION, explosion_handler);
-      register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
-      ndebug("enabled");
+procedure is_in_array(variable item, variable array) begin
+    return scan_array(array, item) != -1;
+end
+procedure party_member_list_critters() begin
+    return party_member_list(false);
+end
+procedure string_split_ints(variable str, variable split) begin
+    if (str == "") then begin
+        return temp_array_list(0);
     end
-  end
-end
-
-procedure target_object_handler begin
-  variable weapon_pid, ammo_pid, tile, object, list;
-
-  if get_cursor_mode != CURSOR_TARGETING then begin
-    target_destroy;
-    return;
-  end
-
-  if get_sfall_arg != 0 then begin // event type: exit on actual attack
-    only_once = true;
-    return;
-  end
-
-  if get_sfall_arg then begin // exit on valid target
-    target_destroy;
-    return;
-  end
-  weapon_pid = get_active_weapon_pid(dude_obj);
-  ndebug("weapon pid = " + weapon_pid);
-
-  if not weapon_pid then begin
-    target_destroy;
-    return;
-  end
-
-  ammo_pid = get_active_ammo_pid(dude_obj);
-  ndebug("ammo pid = " + ammo_pid);
-
-  if not (is_in_array(weapon_pid, explosive_weapon_pids))
-    and not (ammo_pid and (is_in_array(ammo_pid, explosive_ammo_pids)) )
-  then begin
-    target_destroy;
-    return;
-  end
-
-  tile = tile_under_cursor;
-  if tile == dude_tile or tile == -1 then return; // TODO: need fix bug explosion on dude tile
-  if target then begin
-    ndebug("move throwing target to: " + tile);
-    move_to(target, tile, dude_elevation);
-  end
-  else begin
-    ndebug("create throwing target at: " + tile);
-    target = create_object(TARGET_PID, tile, dude_elevation);
-    set_flags(target, get_flags(target) bwor FLAG_FLAT); // skip "X was hit instead of Scroll Blocker" on display.
-  end
-  set_sfall_arg(1, 1); // set valid target
-  set_sfall_arg(2, target);
-  set_sfall_return(target);
-
-end
-
-#define _attacker    1
-#define _throw       6
-procedure explosion_handler begin
-  variable object, list, tile;
-  if only_once and target and get_sfall_arg_at(_throw) and get_sfall_arg_at(_attacker) == dude_obj then begin
-    ndebug("explosion_handler");
-    tile = tile_num(target);
-    list = objects_in_radius(tile, random(4, 6), dude_elevation, OBJ_TYPE_CRITTER);
-    foreach object in list begin
-      // see https://github.com/BGforgeNet/FO2tweaks/issues/98
-      if object != dude_obj and not in_party(object) then begin
-        set_object_data(object, OBJ_DATA_WHO_HIT_ME, dude_obj);
-      end
+    variable list = string_split(str, split);
+    variable result = temp_array_list(0);
+    variable n = 0;
+    variable len = len_array(list);
+    for (variable i = 0; i < len; i++) begin
+        variable val = get_array(list, i);
+        if (val != "") then begin
+            resize_array(result, n + 1);
+            set_array(result, n, atoi(val));
+            n++;
+        end
     end
-    only_once = false;
-  end
+    return result;
 end
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+procedure is_weapon(variable obj) begin
+    return obj_item_subtype(obj) == item_type_weapon;
+end
+procedure get_active_weapon(variable attacker) begin
+    variable item;
+    if (attacker == dude_obj and active_hand == LEFT_HAND) then begin
+        item = critter_inven_obj2(attacker, INVEN_TYPE_LEFT_HAND);
+    end else begin
+        item = critter_inven_obj2(attacker, INVEN_TYPE_RIGHT_HAND);
+    end
+    if (item and is_weapon(item)) then begin
+        return item;
+    end
+    return 0;
+end
+procedure get_active_weapon_pid(variable attacker) begin
+    variable weapon = get_active_weapon(attacker);
+    if (weapon) then begin
+        return obj_pid(weapon);
+    end
+    return 0;
+end
+procedure get_active_ammo_pid(variable attacker) begin
+    variable weapon = get_active_weapon(attacker);
+    if (not weapon) then begin
+        return 0;
+    end
+    variable ammo_pid = get_weapon_ammo_pid(weapon);
+    if (ammo_pid == -1) then begin
+        return 0;
+    end
+    return ammo_pid;
+end
+procedure in_party(variable obj) begin
+    if (is_in_array(obj, party_member_list_critters())) then begin
+        return true;
+    end
+    return false;
+end
+procedure load_comsep_ini_setting(variable file, variable section, variable setting) begin
+    variable str = get_ini_string(file + "|" + section + "|" + setting);
+    return string_split_ints(str, ",");
+end
+procedure fo2tweaks_comsep_setting(variable section, variable setting) begin
+    return load_comsep_ini_setting(fo2tweaks_ini, section, setting);
+end
+/* ===== end bundled ===== */
 
-procedure gamemode_handler begin
-  if get_game_mode != PCOMBAT then target_destroy;
+/* ===== main body ===== */
+variable target;
+variable only_once;
+variable explosive_weapon_pids;
+variable explosive_ammo_pids;
+procedure start() begin
+    if (game_loaded) then begin
+        variable enabled = fo2tweaks_setting(sec_main, "improved_grenades");
+        if (enabled == 1) then begin
+            explosive_weapon_pids = fo2tweaks_comsep_setting("improved_grenades", "weapons");
+            fix_array(explosive_weapon_pids);
+            explosive_ammo_pids = fo2tweaks_comsep_setting("improved_grenades", "ammo");
+            fix_array(explosive_ammo_pids);
+            register_hook_proc(HOOK_TARGETOBJECT, target_object_handler);
+            register_hook_proc(HOOK_ONEXPLOSION, explosion_handler);
+            register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+            ndebug("enabled");
+        end
+    end
 end
-
-procedure destroy_target begin
-  ndebug("destroy throwing target");
-  destroy_object(target);
-  target = 0;
+procedure target_object_handler() begin
+    if (get_cursor_mode != CURSOR_TARGETING) then begin
+        call destroy_target();
+        return;
+    end
+    if (get_sfall_arg != 0) then begin
+        only_once = 1;
+        return;
+    end
+    if (get_sfall_arg) then begin
+        call destroy_target();
+        return;
+    end
+    variable weapon_pid = get_active_weapon_pid(dude_obj);
+    ndebug("weapon pid = " + weapon_pid);
+    if (not weapon_pid) then begin
+        call destroy_target();
+        return;
+    end
+    variable ammo_pid = get_active_ammo_pid(dude_obj);
+    ndebug("ammo pid = " + ammo_pid);
+    if (not is_in_array(weapon_pid, explosive_weapon_pids) and not (ammo_pid and is_in_array(ammo_pid, explosive_ammo_pids))) then begin
+        call destroy_target();
+        return;
+    end
+    variable tile = tile_under_cursor;
+    if (tile == dude_tile or tile == -1) then begin
+        return;
+    end
+    if (target) then begin
+        ndebug("move throwing target to: " + tile);
+        move_to(target, tile, dude_elevation);
+    end else begin
+        ndebug("create throwing target at: " + tile);
+        target = create_object(TARGET_PID, tile, dude_elevation);
+        set_flags(target, get_flags(target) bwor FLAG_FLAT);
+    end
+    set_sfall_arg(1, 1);
+    set_sfall_arg(2, target);
+    set_sfall_return(target);
 end
+procedure explosion_handler() begin
+    if (only_once and target and get_sfall_arg_at(_throw) and get_sfall_arg_at(_attacker) == dude_obj) then begin
+        ndebug("explosion_handler");
+        variable tile = tile_num(target);
+        variable list = objects_in_radius(tile, random(4, 6), dude_elevation, OBJ_TYPE_CRITTER);
+        foreach (variable object in list) begin
+            if (object != dude_obj and not in_party(object)) then begin
+                set_object_data(object, OBJ_DATA_WHO_HIT_ME, dude_obj);
+            end
+        end
+        only_once = 0;
+    end
+end
+procedure gamemode_handler() begin
+    if (get_game_mode != PCOMBAT) then begin
+        call destroy_target();
+    end
+end
+procedure destroy_target() begin
+    if (not target) then begin
+        return;
+    end
+    ndebug("destroy throwing target");
+    destroy_object(target);
+    target = 0;
+end
+/* ===== end main body ===== */

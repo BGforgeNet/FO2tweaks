@@ -1,140 +1,206 @@
+/* Do not edit. This file is generated from gl_g_gigolo.tssl. Make your changes there and regenerate this file. */
+
 #define SCRIPT_REALNAME "gl_g_gigolo"
-#include "headers/fo2tweaks/fo2tweaks.h"
-
 #define set_gigolo "gigolo_limit"
-#define list_had_sex_with "g_sex_list" // global array to keep unique sex script numbers
-variable sex_list; // var to keep list_had_sex_with
-#define SGVAR_alt_sex_counter "g_gigolo" //global var to keep unique sex count. Different from array length, because some scripts are special (Kitty, Sally)
-#define SGVAR_cats_paw_counter "g_gi_paw" // Cat's Paw counter
+#define list_had_sex_with "g_sex_list"
+#define SGVAR_alt_sex_counter "g_gigolo"
+#define SGVAR_cats_paw_counter "g_gi_paw"
 #define CATS_PAW_NUM_GIRLS 6
-#define SGVAR_bathhouse1 "g_gi_ba1" // Bathouse, girl 1
-#define SGVAR_bathhouse2 "g_gi_ba2" // Bathouse, girl 2 - Jenny
-variable set_from_hook = 0; // avoid race condition in set_gvar hook
+#define SGVAR_bathhouse1 "g_gi_ba1"
+#define SGVAR_bathhouse2 "g_gi_ba2"
+
+#define talk_proc 11
+#define HOOK_SETGLOBALVAR 29
+#define HOOK_STDPROCEDURE 40
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define SCRIPT_KCSALLY 82
+#define SCRIPT_NCKITTY 452
+#define SCRIPT_ECTRAPPR 509
+#define SCRIPT_ECRAVPTY 629
+#define GVAR_SEX_COUNTER 358
+#define GVAR_GIGALO 589
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define dialog_obj sfall_func0("dialog_obj")
+
+procedure is_in_array(variable item, variable array);
+procedure array_push(variable array, variable item);
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure dude_caps();
+procedure set_gvar_hook();
+procedure check_unique(variable script, variable sex_list2);
+procedure map_enter_p_proc();
+procedure check_unique_map();
+procedure cats_paw();
+procedure bathhouse();
+procedure dialog_hook();
+procedure start();
+
+/* ===== bundled ===== */
+procedure is_in_array(variable item, variable array) begin
+    return scan_array(array, item) != -1;
+end
+procedure array_push(variable array, variable item) begin
+    variable n = len_array(array);
+    resize_array(array, n + 1);
+    set_array(array, n, item);
+    return array;
+end
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+/* ===== end bundled ===== */
+
+/* ===== main body ===== */
+variable sex_list;
+variable set_from_hook = 0;
 variable gigolo_limit;
-variable map_unique; // stores list of objects with whim dude had sex on random maps (trappers, rave party). Reset on map enter
-variable caps; // track dude caps for bathhouse procedure
-
-procedure check_unique_map;
-procedure cats_paw;
-procedure check_unique(variable script, variable sex_list);
-procedure bathhouse;
-
-procedure set_gvar_hook begin
-  variable gvar_index = get_sfall_arg;
-  variable gvar_value = get_sfall_arg;
-  variable current_script, alt_sex_counter;
-  ndebug("setting gvar index: " + gvar_index + ", value: " + gvar_value);
-  if gvar_index != GVAR_SEX_COUNTER
-    and gvar_index != GVAR_GIGALO
-  then return;
-
-  if gvar_index == GVAR_GIGALO and set_from_hook == 0 then begin
-    ndebug("game is trying to set gigolo, overriding");
-    set_sfall_return(0);
-    return;
-  end
-
-  current_script = get_script(dialog_obj); //sex really only happens in dialog
-  ndebug("current script: " + current_script);
-
-  if not check_unique(current_script, sex_list) then return;
-
-  alt_sex_counter = get_sfall_global_int(SGVAR_alt_sex_counter);
-  ndebug("new encounter: " + current_script);
-  set_sfall_global(SGVAR_alt_sex_counter, alt_sex_counter + 1);
-  if get_sfall_global_int(SGVAR_alt_sex_counter) >= gigolo_limit then begin
-    set_from_hook = 1;
-    set_global_var(GVAR_GIGALO, 1);
-    ndebug("hooray, made gigolo!");
-    set_from_hook = 0;
-  end
+variable map_unique;
+variable caps;
+/**
+ * Returns dude's current caps
+ */
+procedure dude_caps() begin
+    return item_caps_total(dude_obj);
 end
-
-procedure check_unique(variable script, variable sex_list) begin
-  switch script begin
-    case SCRIPT_NCKITTY: if cats_paw then return true;
-    case SCRIPT_ECTRAPPR: if check_unique_map then return true;
-    case SCRIPT_ECRAVPTY: if check_unique_map then return true;
-    case SCRIPT_KCSALLY: if bathhouse then return true;
-  end
-  if is_in_array(script, sex_list) then begin
-    ndebug("already counted, pass");
-    return false;
-  end
-  return true;
-end
-
-// each critter is unique each time dude enters the map (rave party, etc)
-procedure map_enter_p_proc begin
-  map_unique = create_array(0,0);
-end
-procedure check_unique_map begin
-  variable who = dialog_obj;
-  ndebug("map unique check");
-  if is_in_array(who, map_unique) then return false;
-  ndebug("map unique check: passed");
-  call array_push(who, map_unique);
-  return true;
-end
-
-// Cat's Paw has 6 girls
-procedure cats_paw begin
-  variable counter = get_sfall_global_int(SGVAR_cats_paw_counter);
-  ndebug("cat's paw check");
-  if counter > CATS_PAW_NUM_GIRLS then return false;
-  counter = counter + 1;
-  set_sfall_global(SGVAR_cats_paw_counter, counter);
-  ndebug("cat's paw check passed, new counter: " + counter);
-  return true;
-end
-
-// Bathhouse: only 2 real girls
-procedure bathhouse begin
-  variable caps_change = caps - dude_caps;
-  variable bath_gvar;
-  if caps_change == 55 or caps_change == 70 then begin
-    bath_gvar = get_sfall_global_int(SGVAR_bathhouse1);
-    if bath_gvar == 0 then begin
-      set_sfall_global(SGVAR_bathhouse1, 1);
-      ndebug("bathhouse: first girl visited");
-      return true;
-    end
-  end
-  if caps_change == 125 or caps_change == 185 then begin
-    bath_gvar = get_sfall_global_int(SGVAR_bathhouse2);
-    if bath_gvar == 0 then begin
-      set_sfall_global(SGVAR_bathhouse2, 1);
-      ndebug("bathhouse: second girl visited");
-      return true;
-    end
-  end
-  return false;
-end
-procedure dialog_hook begin
-  variable proc = get_sfall_arg;
-  if proc != talk_proc then return;
-  if get_script(dialog_obj) != SCRIPT_KCSALLY then return;
-  caps = dude_caps;
-  ndebug("talking to Sally, caps: " + caps);
-end
-
-procedure start begin
-  if game_loaded then begin
-    variable i;
-    gigolo_limit = fo2tweaks_setting(sec_main, set_gigolo);
-    if gigolo_limit > 0 then begin
-      if global_var(GVAR_GIGALO) == 1 then begin
-        ndebug("already gigolo, pass");
+procedure set_gvar_hook() begin
+    variable gvar_index = get_sfall_arg;
+    variable gvar_value = get_sfall_arg;
+    ndebug("setting gvar index: " + gvar_index + ", value: " + gvar_value);
+    if (gvar_index != GVAR_SEX_COUNTER and gvar_index != GVAR_GIGALO) then begin
         return;
-      end
-      register_hook_proc(HOOK_SETGLOBALVAR, set_gvar_hook);
-      register_hook_proc(HOOK_STDPROCEDURE, dialog_hook);
-      sex_list = load_array(list_had_sex_with);
-      if sex_list == 0 then begin
-        sex_list = create_array(0,0);
-        save_array(list_had_sex_with, sex_list);
-      end
-      ndebug("initialized");
     end
-  end
+    if (gvar_index == GVAR_GIGALO and set_from_hook == 0) then begin
+        ndebug("game is trying to set gigolo, overriding");
+        set_sfall_return(0);
+        return;
+    end
+    variable current_script = get_script(dialog_obj);
+    ndebug("current script: " + current_script);
+    if (not check_unique(current_script, sex_list)) then begin
+        return;
+    end
+    variable alt_sex_counter = get_sfall_global_int(SGVAR_alt_sex_counter);
+    ndebug("new encounter: " + current_script);
+    set_sfall_global(SGVAR_alt_sex_counter, alt_sex_counter + 1);
+    if (get_sfall_global_int(SGVAR_alt_sex_counter) >= gigolo_limit) then begin
+        set_from_hook = 1;
+        set_global_var(GVAR_GIGALO, 1);
+        ndebug("hooray, made gigolo!");
+        set_from_hook = 0;
+    end
 end
+procedure check_unique(variable script, variable sex_list2) begin
+    switch (script) begin
+        case SCRIPT_NCKITTY:
+            if (cats_paw()) then begin
+                return true;
+            end
+        case SCRIPT_ECTRAPPR:
+            if (check_unique_map()) then begin
+                return true;
+            end
+        case SCRIPT_ECRAVPTY:
+            if (check_unique_map()) then begin
+                return true;
+            end
+        case SCRIPT_KCSALLY:
+            if (bathhouse()) then begin
+                return true;
+            end
+    end
+    if (is_in_array(script, sex_list2)) then begin
+        ndebug("already counted, pass");
+        return false;
+    end
+    return true;
+end
+/**
+ * Each critter is unique each time dude enters the map (rave party, etc)
+ */
+procedure map_enter_p_proc() begin
+    map_unique = create_array(0, 0);
+end
+procedure check_unique_map() begin
+    variable who = dialog_obj;
+    ndebug("map unique check");
+    if (is_in_array(who, map_unique)) then begin
+        return false;
+    end
+    ndebug("map unique check: passed");
+    call array_push(map_unique, who);
+    return true;
+end
+/**
+ * Cat's Paw has 6 girls
+ */
+procedure cats_paw() begin
+    variable counter = get_sfall_global_int(SGVAR_cats_paw_counter);
+    ndebug("cat's paw check");
+    if (counter > CATS_PAW_NUM_GIRLS) then begin
+        return false;
+    end
+    counter = counter + 1;
+    set_sfall_global(SGVAR_cats_paw_counter, counter);
+    ndebug("cat's paw check passed, new counter: " + counter);
+    return true;
+end
+/**
+ * Bathhouse: only 2 real girls
+ */
+procedure bathhouse() begin
+    variable caps_change = caps - dude_caps();
+    variable bath_gvar;
+    if (caps_change == 55 or caps_change == 70) then begin
+        bath_gvar = get_sfall_global_int(SGVAR_bathhouse1);
+        if (bath_gvar == 0) then begin
+            set_sfall_global(SGVAR_bathhouse1, 1);
+            ndebug("bathhouse: first girl visited");
+            return true;
+        end
+    end
+    if (caps_change == 125 or caps_change == 185) then begin
+        bath_gvar = get_sfall_global_int(SGVAR_bathhouse2);
+        if (bath_gvar == 0) then begin
+            set_sfall_global(SGVAR_bathhouse2, 1);
+            ndebug("bathhouse: second girl visited");
+            return true;
+        end
+    end
+    return false;
+end
+procedure dialog_hook() begin
+    variable proc = get_sfall_arg;
+    if (proc != talk_proc) then begin
+        return;
+    end
+    if (get_script(dialog_obj) != SCRIPT_KCSALLY) then begin
+        return;
+    end
+    caps = dude_caps();
+    ndebug("talking to Sally, caps: " + caps);
+end
+procedure start() begin
+    if (game_loaded) then begin
+        gigolo_limit = fo2tweaks_setting(sec_main, set_gigolo);
+        if (gigolo_limit > 0) then begin
+            if (global_var(GVAR_GIGALO) == 1) then begin
+                ndebug("already gigolo, pass");
+                return;
+            end
+            register_hook_proc(HOOK_SETGLOBALVAR, set_gvar_hook);
+            register_hook_proc(HOOK_STDPROCEDURE, dialog_hook);
+            variable loaded = load_array(list_had_sex_with);
+            if (loaded) then begin
+                sex_list = loaded;
+            end else begin
+                sex_list = create_array(0, 0);
+                save_array(list_had_sex_with, sex_list);
+            end
+            ndebug("initialized");
+            variable counter = get_sfall_global_int(SGVAR_alt_sex_counter);
+            ndebug("current count: " + counter + ", threshold: " + gigolo_limit);
+        end
+    end
+end
+/* ===== end main body ===== */

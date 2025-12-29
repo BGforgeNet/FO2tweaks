@@ -1,0 +1,34 @@
+import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
+import { cur_map_index, critter_add_trait, ndebug } from "folib";
+import {
+    critter_kill_type, list_as_array, map_first_run, register_hook_proc,
+    HOOK_COMBATTURN, KILL_TYPE_brahmin_kills, LIST_CRITTERS, OBJECT_TEAM_NUM, TRAIT_OBJECT,
+} from "folib/sfall";
+import { MAP_MODOC_BRAHMINPASTURES } from "folib/rp/maps";
+import { TEAM_PLAYER } from "folib/rp/command";
+
+const SCRIPT_REALNAME = "gl_g_modoc_brahmin";
+const set_modoc_brahmin = "modoc_brahmin";
+
+let changed = 0;
+
+function brahmin_allegiance() {
+  if (changed == 0) {
+    for (const who of list_as_array(LIST_CRITTERS)) {
+      if (critter_kill_type(who) == KILL_TYPE_brahmin_kills) {
+        critter_add_trait(who, TRAIT_OBJECT, OBJECT_TEAM_NUM, TEAM_PLAYER);
+      }
+    }
+    changed = 1;
+    ndebug("changed allegiance to player");
+  }
+}
+
+function map_enter_p_proc() {
+  if (cur_map_index == MAP_MODOC_BRAHMINPASTURES && map_first_run()) {
+    const enabled = fo2tweaks_setting(sec_main, set_modoc_brahmin);
+    if (enabled == 1) {
+      register_hook_proc(HOOK_COMBATTURN, brahmin_allegiance);
+    }
+  }
+}

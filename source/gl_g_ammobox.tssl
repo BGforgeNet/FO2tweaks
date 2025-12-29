@@ -1,0 +1,89 @@
+import {
+    fo2tweaks_setting, sec_main,
+    get_active_ammo_pid, get_active_weapon,
+    get_dude_inactive_ammo_pid, get_dude_inactive_weapon,
+    in_combat, is_gun
+} from "./fo2tweaks";
+import { ItemPtr, IfaceTag, CritterPtr, dude_obj, ndebug } from "folib";
+import {
+    game_loaded, get_game_mode, get_sfall_arg, get_sfall_arg_at,
+    hide_iface_tag, is_iface_tag_active, message_str_game,
+    register_hook_proc, set_iface_tag_text, show_iface_tag,
+    COMBAT, GAME_MSG_PRO_ITEM, HOOK_CALCAPCOST, HOOK_GAMEMODECHANGE,
+} from "folib/sfall";
+
+const SCRIPT_REALNAME = "gl_g_ammobox";
+
+const set_ammobox = "ammobox";
+const sec_ammobox = "ammobox";
+const set_ammobox_number = "number";
+const set_ammobox_color = "color";
+
+let box_num: IfaceTag;
+let box_color: number;
+
+function start() {
+    if (game_loaded()) {
+        const enabled = fo2tweaks_setting(sec_main, set_ammobox);
+        box_num = fo2tweaks_setting(sec_ammobox, set_ammobox_number) as IfaceTag;
+        box_color = fo2tweaks_setting(sec_ammobox, set_ammobox_color);
+        if (enabled == 1) {
+            register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_hook);
+            register_hook_proc(HOOK_CALCAPCOST, apcost_hook);
+            ndebug("initialized");
+        }
+    }
+}
+
+
+function update_box(show_new: boolean) {
+    let weapon: ItemPtr;
+    let ammo_pid: number;
+    let ammo_label: string;
+
+    if (!in_combat()) {
+        if (is_iface_tag_active(box_num)) {
+            hide_iface_tag(box_num);
+        }
+        return;
+    }
+
+    if (show_new) {
+        ammo_pid = get_active_ammo_pid(dude_obj);
+        weapon = get_active_weapon(dude_obj);
+    } else {
+        ammo_pid = get_dude_inactive_ammo_pid();
+        weapon = get_dude_inactive_weapon();
+    }
+    ndebug("ammo_pid = " + ammo_pid);
+    if (ammo_pid && is_gun(weapon)) {
+        ammo_label = message_str_game(GAME_MSG_PRO_ITEM, ammo_pid * 100);
+        set_iface_tag_text(box_num, ammo_label, box_color);
+        if (!is_iface_tag_active(box_num)) {
+            show_iface_tag(box_num);
+        }
+    } else {
+        if (is_iface_tag_active(box_num)) {
+            hide_iface_tag(box_num);
+        }
+    }
+}
+
+function gamemode_hook() {
+    const old_mode = get_sfall_arg_at(1);
+    const new_mode = get_game_mode();
+    ndebug("update box - gamemode combat 0");
+    if ((old_mode & COMBAT) != (new_mode & COMBAT)) {
+        update_box(true);
+        ndebug("update box - gamemode combat");
+        return;
+    }
+}
+
+function apcost_hook() {
+    const who = get_sfall_arg() as CritterPtr;
+    if (who == dude_obj) {
+        ndebug("apcost");
+        update_box(true);
+    }
+}

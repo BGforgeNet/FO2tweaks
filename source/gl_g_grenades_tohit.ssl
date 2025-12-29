@@ -1,67 +1,164 @@
+/* Do not edit. This file is generated from gl_g_grenades_tohit.tssl. Make your changes there and regenerate this file. */
+
 #define SCRIPT_REALNAME "gl_g_grenades_tohit"
-
-#include "headers/fo2tweaks/fo2tweaks.h"
-
 #define sec_improved_grenades "improved_grenades"
 #define set_grenades_weapons "weapons"
 #define set_grenades_ammo "ammo"
 #define set_improved_grenades "improved_grenades"
-procedure start;
-procedure tohit_handler;
 
-variable begin
-  explosive_weapon_pids;
-  explosive_ammo_pids;
+#define LEFT_HAND 0
+#define OBJ_TYPE_CRITTER 1
+#define STAT_ac 9
+#define INVEN_TYPE_RIGHT_HAND 1
+#define INVEN_TYPE_LEFT_HAND 2
+#define item_type_weapon 3
+#define HOOK_TOHIT 0
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define critter_inven_obj2(critter, slot) sfall_func2("critter_inven_obj2", critter, slot)
+#define get_sfall_arg_at(index) sfall_func1("get_sfall_arg_at", index)
+
+procedure temp_array_list(variable size);
+procedure is_in_array(variable item, variable array);
+procedure array_push(variable array, variable item);
+procedure string_split_ints(variable str, variable split);
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure is_weapon(variable obj);
+procedure is_critter(variable obj);
+procedure get_active_weapon(variable attacker);
+procedure get_active_weapon_pid(variable attacker);
+procedure get_active_ammo_pid(variable attacker);
+procedure load_comsep_ini_setting(variable file, variable section, variable setting);
+procedure fo2tweaks_comsep_setting_ints(variable section, variable setting);
+procedure start();
+procedure tohit_handler();
+
+/* ===== bundled ===== */
+procedure temp_array_list(variable size) begin
+    return temp_array(size, 0);
 end
-
-procedure start begin
-  if game_loaded then begin
-    variable enabled = fo2tweaks_setting(sec_main, set_improved_grenades);
-    if enabled == 1 then begin
-      explosive_weapon_pids = fo2tweaks_comsep_setting(sec_improved_grenades, set_grenades_weapons);
-      fix_array(explosive_weapon_pids);
-      explosive_ammo_pids = fo2tweaks_comsep_setting(sec_improved_grenades, set_grenades_ammo);
-      fix_array(explosive_ammo_pids);
-      register_hook_proc(HOOK_TOHIT, tohit_handler);
-      ndebug("initialized");
+procedure is_in_array(variable item, variable array) begin
+    return scan_array(array, item) != -1;
+end
+procedure array_push(variable array, variable item) begin
+    variable n = len_array(array);
+    resize_array(array, n + 1);
+    set_array(array, n, item);
+    return array;
+end
+procedure string_split_ints(variable str, variable split) begin
+    if (str == "") then begin
+        return temp_array_list(0);
     end
-  end
-end
-
-procedure tohit_handler begin
-  variable tohit, tohit_raw, attacker, target, weapon_pid, ammo_pid;
-  tohit = get_sfall_arg;
-  attacker = get_sfall_arg;
-  target = get_sfall_arg;
-  tohit_raw = get_sfall_arg_at(7);
-
-  if not is_critter(target) then begin
-    ndebug(target + " is not a critter, pass");
-    return;
-  end
-
-  weapon_pid = get_active_weapon_pid(attacker);
-  if not weapon_pid then return; //no weapon
-  ammo_pid = get_active_ammo_pid(attacker); //explosive weapon with no ammo? hmmm...
-
-  //add target's armor ac to CtH
-  if is_in_array(weapon_pid, explosive_weapon_pids)
-    or is_in_array(ammo_pid, explosive_ammo_pids)
-  then begin
-    // ignore target ac
-    variable target_ac = get_critter_stat(target, STAT_ac);
-    tohit_raw = tohit_raw + target_ac;
-    ndebug("chance to hit increased by " + target_ac);
-
-    //cap chance
-    tohit = tohit_raw;
-    if (tohit > 95) then begin
-      tohit = 95;
+    variable list = string_split(str, split);
+    variable result = temp_array_list(0);
+    variable n = 0;
+    variable len = len_array(list);
+    for (variable i = 0; i < len; i++) begin
+        variable val = get_array(list, i);
+        if (val != "") then begin
+            resize_array(result, n + 1);
+            set_array(result, n, atoi(val));
+            n++;
+        end
     end
-
-    set_sfall_return(tohit);
-    set_sfall_arg(0, tohit);
-    set_sfall_arg(7, tohit_raw);
-  end
-
+    return result;
 end
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+procedure is_weapon(variable obj) begin
+    return obj_item_subtype(obj) == item_type_weapon;
+end
+procedure is_critter(variable obj) begin
+    return obj_type(obj) == OBJ_TYPE_CRITTER;
+end
+procedure get_active_weapon(variable attacker) begin
+    variable item;
+    if (attacker == dude_obj and active_hand == LEFT_HAND) then begin
+        item = critter_inven_obj2(attacker, INVEN_TYPE_LEFT_HAND);
+    end else begin
+        item = critter_inven_obj2(attacker, INVEN_TYPE_RIGHT_HAND);
+    end
+    if (item and is_weapon(item)) then begin
+        return item;
+    end
+    return 0;
+end
+procedure get_active_weapon_pid(variable attacker) begin
+    variable weapon = get_active_weapon(attacker);
+    if (weapon) then begin
+        return obj_pid(weapon);
+    end
+    return 0;
+end
+procedure get_active_ammo_pid(variable attacker) begin
+    variable weapon = get_active_weapon(attacker);
+    if (not weapon) then begin
+        return 0;
+    end
+    variable ammo_pid = get_weapon_ammo_pid(weapon);
+    if (ammo_pid == -1) then begin
+        return 0;
+    end
+    return ammo_pid;
+end
+procedure load_comsep_ini_setting(variable file, variable section, variable setting) begin
+    variable str = get_ini_string(file + "|" + section + "|" + setting);
+    return string_split_ints(str, ",");
+end
+procedure fo2tweaks_comsep_setting_ints(variable section, variable setting) begin
+    variable ar = load_comsep_ini_setting(fo2tweaks_ini, section, setting);
+    variable ar2 = temp_array_list(0);
+    for (variable i = 0; i < len_array(ar); i++) begin
+        call array_push(ar2, get_array(ar, i));
+    end
+    return ar2;
+end
+/* ===== end bundled ===== */
+
+/* ===== main body ===== */
+variable explosive_weapon_pids;
+variable explosive_ammo_pids;
+procedure start() begin
+    if (game_loaded) then begin
+        variable enabled = fo2tweaks_setting(sec_main, set_improved_grenades);
+        if (enabled == 1) then begin
+            explosive_weapon_pids = fo2tweaks_comsep_setting_ints(sec_improved_grenades, set_grenades_weapons);
+            fix_array(explosive_weapon_pids);
+            explosive_ammo_pids = fo2tweaks_comsep_setting_ints(sec_improved_grenades, set_grenades_ammo);
+            fix_array(explosive_ammo_pids);
+            register_hook_proc(HOOK_TOHIT, tohit_handler);
+            ndebug("initialized");
+        end
+    end
+end
+procedure tohit_handler() begin
+    variable tohit = get_sfall_arg;
+    variable attacker = get_sfall_arg;
+    variable target = get_sfall_arg;
+    variable tohit_raw = get_sfall_arg_at(7);
+    if (not is_critter(target)) then begin
+        ndebug(target + " is not a critter, pass");
+        return;
+    end
+    variable weapon_pid = get_active_weapon_pid(attacker);
+    if (not weapon_pid) then begin
+        return;
+    end
+    variable ammo_pid = get_active_ammo_pid(attacker);
+    if (is_in_array(weapon_pid, explosive_weapon_pids) or is_in_array(ammo_pid, explosive_ammo_pids)) then begin
+        variable target_ac = get_critter_stat(target, STAT_ac);
+        tohit_raw = tohit_raw + target_ac;
+        ndebug("chance to hit increased by " + target_ac);
+        tohit = tohit_raw;
+        if (tohit > 95) then begin
+            tohit = 95;
+        end
+        set_sfall_return(tohit);
+        set_sfall_arg(0, tohit);
+        set_sfall_arg(7, tohit_raw);
+    end
+end
+/* ===== end main body ===== */

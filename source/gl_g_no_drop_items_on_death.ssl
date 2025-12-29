@@ -1,79 +1,105 @@
+/* Do not edit. This file is generated from gl_g_no_drop_items_on_death.tssl. Make your changes there and regenerate this file. */
+
 #define SCRIPT_REALNAME "gl_g_no_drop_items_on_death"
 
-#include "headers/fo2tweaks/fo2tweaks.h"
+#define NullPtr 0
+#define OBJ_TYPE_CRITTER 1
+#define INVEN_TYPE_WORN 0
+#define INVEN_TYPE_INV_COUNT -2
+#define INVEN_CMD_INDEX_PTR 13
+#define HOOK_DEATHANIM2 4
+#define HOOK_ONDEATH 6
+#define PID_FOOTLOCKER_CLEAN_LEFT 128
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define ANIM_electrified_to_nothing 30
+#define ANIM_exploded_to_nothing 31
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define inven_ptr(who, where) inven_cmds(who, INVEN_CMD_INDEX_PTR, where)
+#define critter_inven_obj2(critter, slot) sfall_func2("critter_inven_obj2", critter, slot)
 
-variable critters_boxes;
+procedure inven_count(variable who);
+procedure create_array_map();
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure is_critter(variable obj);
+procedure move_inven_except_armor(variable src, variable dst);
+procedure deathanim2_handler();
+procedure ondeath_handler();
+procedure start();
 
-procedure deathanim2_handler;
-procedure ondeath_handler;
-
-procedure start begin
-  if game_loaded then begin
-    variable enabled = fo2tweaks_setting(sec_main, "no_drop_items_on_death");
-    if enabled == 1 then begin
-      register_hook_proc(HOOK_DEATHANIM2, deathanim2_handler);
-      register_hook_proc(HOOK_ONDEATH, ondeath_handler);
-      critters_boxes = create_array_map;
-      fix_array(critters_boxes);
-      ndebug("initialized");
-    end
-  end
+/* ===== bundled ===== */
+procedure inven_count(variable who) begin
+    return critter_inven_obj2(who, INVEN_TYPE_INV_COUNT);
 end
+procedure create_array_map() begin
+    return create_array(-1, 0);
+end
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+procedure is_critter(variable obj) begin
+    return obj_type(obj) == OBJ_TYPE_CRITTER;
+end
+/* ===== end bundled ===== */
 
+/* ===== main body ===== */
+variable critters_boxes;
 /**
  * Like `move_obj_inven_to_obj`, but keeps armor if equipped.
- * @arg {ObjPtr} src - source object
- * @arg {ObjPtr} dst - target object
  */
 procedure move_inven_except_armor(variable src, variable dst) begin
-  variable armor;
-  if is_critter(src) then armor = critter_inven_obj2(dude_obj, INVEN_TYPE_WORN);
-
-  // not critter or critter has no armor
-  if not armor then begin
-    move_obj_inven_to_obj(src, dst);
-    return;
-  end
-
-  variable num_items = inven_count(src);
-  variable item;
-  while (num_items > 0) do begin
-    item = inven_ptr(src, num_items);
-    num_items -= 1;
-    if item == armor then continue;
-    rm_obj_from_inven(src, item);
-    add_obj_to_inven(dst, item);
-  end
-
+    variable armor = critter_inven_obj2(src, INVEN_TYPE_WORN);
+    if (not armor) then begin
+        move_obj_inven_to_obj(src, dst);
+        return;
+    end
+    variable num_items = inven_count(src);
+    while (num_items > 0) do begin
+        variable item = inven_ptr(src, num_items);
+        num_items -= 1;
+        if (item == armor) then begin
+            continue;
+        end
+        rm_obj_from_inven(src, item);
+        add_obj_to_inven(dst, item);
+    end
 end
-
-procedure deathanim2_handler begin
-  variable item_pid = get_sfall_arg;
-  variable attacker = get_sfall_arg;
-  variable target = get_sfall_arg;
-  variable damage_amount = get_sfall_arg;
-  variable death_anim_id = get_sfall_arg;
-
-  // shouldn't ever fire, but just in case
-  if not is_critter(target) then return;
-
-  // Only `ANIM_electrified_to_nothing` and `ANIM_exploded_to_nothing` will drop everything on the ground.
-  // https://github.com/alexbatalov/fallout2-re/blob/b135fc46ef40c4aecd156f3cebcf88ec531bb8ac/src/game/actions.c#L463
-  if (death_anim_id == ANIM_electrified_to_nothing) or (death_anim_id == ANIM_exploded_to_nothing) then begin
-    variable box = create_object_sid(PID_FOOTLOCKER_CLEAN_LEFT, 0, 0, -1);
-    call move_inven_except_armor(target, box);
-    critters_boxes[target] = box;
-    ndebug("moved inventory from " + obj_name(target) + " to temp box");
-  end
+procedure deathanim2_handler() begin
+    variable _item_pid = get_sfall_arg;
+    variable _attacker = get_sfall_arg;
+    variable target = get_sfall_arg;
+    variable _damage_amount = get_sfall_arg;
+    variable death_anim_id = get_sfall_arg;
+    if (not is_critter(target)) then begin
+        return;
+    end
+    if (death_anim_id == ANIM_electrified_to_nothing or death_anim_id == ANIM_exploded_to_nothing) then begin
+        variable box = create_object_sid(PID_FOOTLOCKER_CLEAN_LEFT, 0, 0, -1);
+        call move_inven_except_armor(target, box);
+        critters_boxes[target] = box;
+        ndebug("moved inventory from " + obj_name(target) + " to temp box");
+    end
 end
-
-procedure ondeath_handler begin
-  variable critter = get_sfall_arg;
-  variable box = critters_boxes[critter];
-  if box then begin
-    move_obj_inven_to_obj(box, critter);
-    destroy_object(box);
-    critters_boxes[critter] = 0;
-    ndebug("moved inventory from temp box back to " + obj_name(critter));
-  end
+procedure ondeath_handler() begin
+    variable critter = get_sfall_arg;
+    variable box = critters_boxes[critter];
+    if (box) then begin
+        move_obj_inven_to_obj(box, critter);
+        destroy_object(box);
+        critters_boxes[critter] = NullPtr;
+        ndebug("moved inventory from temp box back to " + obj_name(critter));
+    end
 end
+procedure start() begin
+    if (game_loaded) then begin
+        variable enabled = fo2tweaks_setting(sec_main, "no_drop_items_on_death");
+        if (enabled == 1) then begin
+            register_hook_proc(HOOK_DEATHANIM2, deathanim2_handler);
+            register_hook_proc(HOOK_ONDEATH, ondeath_handler);
+            critters_boxes = create_array_map();
+            fix_array(critters_boxes);
+            ndebug("initialized");
+        end
+    end
+end
+/* ===== end main body ===== */

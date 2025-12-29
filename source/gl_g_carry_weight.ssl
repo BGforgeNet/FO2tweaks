@@ -1,22 +1,36 @@
+/* Do not edit. This file is generated from gl_g_carry_weight.tssl. Make your changes there and regenerate this file. */
+
 #define SCRIPT_REALNAME "gl_g_carry_weight"
-
-#include "headers/fo2tweaks/fo2tweaks.h"
-
 #define set_carry_weight "carry_weight"
 
-procedure start begin
-  variable enabled = fo2tweaks_setting(sec_main, set_carry_weight);
-  if enabled == 1 then begin
-    set_pc_stat_max(STAT_carry_amt, 99999);
-    set_pc_extra_stat(STAT_carry_amt, 99999);
-    ndebug("initialized");
-  end else begin
-    // Upon disabling the setting, reset carry weight back
-    // Without set_pc_extra_stat, it's clamped to 999
-    // Apparently perks should be applied automatically after set_pc_extra_stat? Not sure.
-    if get_pc_extra_stat(STAT_carry_amt) > 900 then begin
-      set_pc_extra_stat(STAT_carry_amt, 0);
-      ndebug("Reset carry weight to default value");
-    end
-  end
+#define STAT_carry_amt 12
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure start();
+
+/* ===== bundled ===== */
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
 end
+/* ===== end bundled ===== */
+
+/* ===== main body ===== */
+procedure start() begin
+    if (game_loaded) then begin
+        variable enabled = fo2tweaks_setting(sec_main, set_carry_weight);
+        if (enabled == 1) then begin
+            set_pc_stat_max(STAT_carry_amt, 99999);
+            set_pc_extra_stat(STAT_carry_amt, 99999);
+            ndebug("initialized");
+        end else begin
+            if (get_pc_extra_stat(STAT_carry_amt) > 900) then begin
+                set_pc_extra_stat(STAT_carry_amt, 0);
+                ndebug("Reset carry weight to default value");
+            end
+        end
+    end
+end
+/* ===== end main body ===== */
