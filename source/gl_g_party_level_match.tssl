@@ -1,9 +1,9 @@
 import { fo2tweaks_setting, fo2tweaks_ini, sec_main, mode_started, mode_ended } from "./fo2tweaks";
-import { obj_pid, obj_name, get_pc_stat, ndebug } from "folib";
+import { obj_pid, obj_name, get_pc_stat, ndebug, SfallMap } from "folib";
 import {
     atoi, fix_array, floor2, game_loaded, get_game_mode, get_ini_section, get_npc_level,
-    get_sfall_arg_at, inc_npc_level, len_array, party_member_list_critters, register_hook_proc,
-    string_split, temp_array_map,
+    get_sfall_arg_at, inc_npc_level, len_array, map, party_member_list_critters, register_hook_proc,
+    string_split,
     COMBAT, DIALOG, HOOK_GAMEMODECHANGE, PCSTAT_level,
 } from "folib/sfall";
 import { true_party_size } from "folib/rp/command";
@@ -14,8 +14,8 @@ const set_party_level_match = "party_level_match";
 const sec_party_level_match = "party_level_match";
 
 let enabled: number;
-let pid_mlevel: Record<number, number>;
-let pid_step: Record<number, number>;
+let pid_mlevel: SfallMap<number, number>;
+let pid_step: SfallMap<number, number>;
 let old_party_size: number;
 
 function levelup() {
@@ -66,8 +66,8 @@ function map_enter_p_proc() {
   if (enabled == 1) levelup();
 }
 
-function parse_stages(npc_list: any) {
-  for (const [pid, mlevel_step_str] of npc_list as [number, string][]) {
+function parse_stages(npc_list: SfallMap<string | number, string>) {
+  for (const [pid, mlevel_step_str] of npc_list) {
     const mlevel_step = string_split(mlevel_step_str, ",");
     const min_level = atoi(mlevel_step[0]);
     const step = atoi(mlevel_step[1]);
@@ -80,19 +80,19 @@ function start() {
   if (game_loaded()) {
     enabled = fo2tweaks_setting(sec_main, set_party_level_match);
     if (enabled == 1) {
-      pid_mlevel = temp_array_map();
-      pid_step = temp_array_map();
+      pid_mlevel = map({});
+      pid_step = map({});
 
       // load default, override from ini
       parse_stages(f2rp_npc_stages);
       const override = get_ini_section(fo2tweaks_ini, sec_party_level_match);
       parse_stages(override);
 
-      for (const [pid, mlevel] of pid_mlevel as any as [number, number][]) {
+      for (const [pid, mlevel] of pid_mlevel) {
         ndebug(pid + ": " + mlevel + "/" + pid_step[pid]);
       }
-      fix_array(pid_mlevel as any[]);
-      fix_array(pid_step as any[]);
+      fix_array(pid_mlevel);
+      fix_array(pid_step);
 
       register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
       ndebug("initialized");

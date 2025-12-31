@@ -1,6 +1,6 @@
 import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
 import { ndebug } from "folib";
-import { game_loaded, get_ini_setting, set_ini_setting } from "folib/sfall";
+import { game_loaded, get_ini_setting, set_ini_setting, map } from "folib/sfall";
 
 const SCRIPT_REALNAME = "gl_g_speedup";
 const set_speedup = "speedup";
@@ -13,7 +13,7 @@ function set_settings() {
   const speedmulti = get_ini_setting(speedmulti_string);
   if (speedmulti < 115) set_ini_setting(speedmulti_string, 115);
 
-  const misc = {
+  const misc = map({
     SpeedInterfaceCounterAnims: 2,
     SpeedInventoryPCRotation: 880,
     CombatPanelAnimDelay: 0,
@@ -24,7 +24,7 @@ function set_settings() {
     InstantWeaponEquip: 1,
     SkipOpeningMovies: 2,
     SkipLoadingGameSettings: 1,
-  } as unknown as [string, number][];
+  });
   for (const [k, v] of misc) {
     set_ini_setting("ddraw.ini|Misc|" + k, v);
   }

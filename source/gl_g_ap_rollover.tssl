@@ -1,7 +1,7 @@
 import { fo2tweaks_setting, sec_main, mode_started } from "./fo2tweaks";
-import { ObjectPtr, obj_name, ndebug } from "folib";
+import { ObjectPtr, obj_name, ndebug, SfallMap } from "folib";
 import {
-    create_array_map, game_loaded, get_critter_current_ap, get_game_mode,
+    game_loaded, get_critter_current_ap, get_game_mode, map,
     get_sfall_arg, get_sfall_arg_at, register_hook_proc,
     set_critter_current_ap, set_unspent_ap_bonus,
     COMBAT, HOOK_COMBATTURN, HOOK_GAMEMODECHANGE,
@@ -13,7 +13,7 @@ const EVENT_turn_start = 1;
 const EVENT_turn_end = 0;
 
 let max_rollover = 0;
-let leftover_ap_map: { [key: number]: number };
+let leftover_ap_map: SfallMap<ObjectPtr, number>;
 
 function combatturn_handler() {
     const event = get_sfall_arg() as number;
@@ -52,7 +52,7 @@ function gamemode_handler() {
     const old_mode = get_sfall_arg_at(1);
     const new_mode = get_game_mode();
     if (mode_started(COMBAT, old_mode, new_mode)) {
-        leftover_ap_map = create_array_map();
+        leftover_ap_map = map({});
     }
 }
 
@@ -63,7 +63,7 @@ function start() {
             ndebug("" + max_rollover);
             register_hook_proc(HOOK_COMBATTURN, combatturn_handler);
             register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
-            leftover_ap_map = create_array_map();
+            leftover_ap_map = map({});
             set_unspent_ap_bonus(0);
             ndebug("enabled");
         }

@@ -12,7 +12,6 @@
 #define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define get_sfall_arg_at(index) sfall_func1("get_sfall_arg_at", index)
 
-procedure create_array_map();
 procedure fo2tweaks_setting(variable section, variable setting);
 procedure mode_started(variable mode_to_check, variable old_mode, variable new_mode);
 procedure combatturn_handler();
@@ -20,9 +19,6 @@ procedure gamemode_handler();
 procedure start();
 
 /* ===== bundled ===== */
-procedure create_array_map() begin
-    return create_array(-1, 0);
-end
 procedure fo2tweaks_setting(variable section, variable setting) begin
     return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
 end
@@ -68,7 +64,7 @@ procedure gamemode_handler() begin
     variable old_mode = get_sfall_arg_at(1);
     variable new_mode = get_game_mode;
     if (mode_started(COMBAT, old_mode, new_mode)) then begin
-        leftover_ap_map = create_array_map();
+        leftover_ap_map = {};
     end
 end
 procedure start() begin
@@ -78,7 +74,7 @@ procedure start() begin
             ndebug("" + max_rollover);
             register_hook_proc(HOOK_COMBATTURN, combatturn_handler);
             register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
-            leftover_ap_map = create_array_map();
+            leftover_ap_map = {};
             set_unspent_ap_bonus(0);
             ndebug("enabled");
         end

@@ -126,11 +126,9 @@
 #define set_ini_setting(setting, value) sfall_func2("set_ini_setting", setting, value)
 
 procedure temp_array_list(variable size);
-procedure temp_array_map();
 procedure is_in_array(variable item, variable array);
 procedure array_is_map(variable array);
 procedure party_member_list_critters();
-procedure array_push(variable array, variable item);
 procedure copy_array(variable src, variable srcPos, variable dest, variable dstPos, variable size);
 procedure array_append(variable arr1, variable arr2);
 procedure string_split_ints(variable str, variable split);
@@ -146,6 +144,7 @@ procedure in_party(variable obj);
 procedure gcd(variable x, variable y);
 procedure load_comsep_ini_setting(variable file, variable section, variable setting);
 procedure fo2tweaks_comsep_setting_ints(variable section, variable setting);
+procedure get_ini_section_ints(variable file, variable section);
 procedure f2_ammo_pids();
 procedure is_bypassing_armor(variable flags);
 procedure is_instadeath_hit(variable flags);
@@ -171,9 +170,6 @@ procedure get_real_damage_type(variable weapon);
 procedure temp_array_list(variable size) begin
     return temp_array(size, 0);
 end
-procedure temp_array_map() begin
-    return temp_array(-1, 0);
-end
 procedure is_in_array(variable item, variable array) begin
     return scan_array(array, item) != -1;
 end
@@ -182,12 +178,6 @@ procedure array_is_map(variable array) begin
 end
 procedure party_member_list_critters() begin
     return party_member_list(false);
-end
-procedure array_push(variable array, variable item) begin
-    variable n = len_array(array);
-    resize_array(array, n + 1);
-    set_array(array, n, item);
-    return array;
 end
 procedure copy_array(variable src, variable srcPos, variable dest, variable dstPos, variable size) begin
     variable srcLen = len_array(src);
@@ -217,12 +207,12 @@ procedure string_split_ints(variable str, variable split) begin
     if (str == "") then begin
         return temp_array_list(0);
     end
-    variable list = string_split(str, split);
+    variable parts = string_split(str, split);
     variable result = temp_array_list(0);
     variable n = 0;
-    variable len = len_array(list);
+    variable len = len_array(parts);
     for (variable i = 0; i < len; i++) begin
-        variable val = get_array(list, i);
+        variable val = get_array(parts, i);
         if (val != "") then begin
             resize_array(result, n + 1);
             set_array(result, n, atoi(val));
@@ -299,10 +289,14 @@ procedure load_comsep_ini_setting(variable file, variable section, variable sett
     return string_split_ints(str, ",");
 end
 procedure fo2tweaks_comsep_setting_ints(variable section, variable setting) begin
-    variable ar = load_comsep_ini_setting(fo2tweaks_ini, section, setting);
-    variable ar2 = temp_array_list(0);
-    for (variable i = 0; i < len_array(ar); i++) begin
-        call array_push(ar2, get_array(ar, i));
+    return load_comsep_ini_setting(fo2tweaks_ini, section, setting);
+end
+procedure get_ini_section_ints(variable file, variable section) begin
+    variable ar2 = {};
+    variable ar = get_ini_section(file, section);
+    foreach (variable k: v in ar) begin
+        ndebug(k + " " + v);
+        ar2[atoi(k)] = atoi(v);
     end
     return ar2;
 end
@@ -335,7 +329,7 @@ procedure start() begin
         if (enabled == 1) then begin
             call check_damage_formula();
             variable default_dr_mod_list = get_default_dr_mod_list();
-            variable custom_dr_mod_list = get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_dr);
+            variable custom_dr_mod_list = get_ini_section_ints(fo2tweaks_ini, sec_damage_mod_ammo_dr);
             dr_mod_list = array_append(default_dr_mod_list, custom_dr_mod_list);
             fix_array(dr_mod_list);
             ndebug("dr_mod_list length is " + len_array(dr_mod_list));
@@ -358,7 +352,7 @@ procedure start() begin
 end
 procedure load_ammo_damage_type(variable type_ammo_arg) begin
     ndebug("load_ammo_damage_type()");
-    variable ar = temp_array_map();
+    variable ar = {};
     foreach (variable k: v in type_ammo_arg) begin
         variable tmp = string_split(v, ",");
         foreach (variable t in tmp) begin
@@ -372,8 +366,7 @@ procedure load_ammo_damage_type(variable type_ammo_arg) begin
 end
 procedure get_default_dr_mod_list() begin
     ndebug("get_default_dr_mod_list()");
-    variable mod_list = {PID_44_MAGNUM_JHP: 35, PID_4_7MM_CASELESS: -20, PID_7_62MM_AMMO: -20, PID_9MM_BALL: -20, PID_14MM_AP: -35, PID_EXPLOSIVE_ROCKET: 30, PID_ROCKET_AP: -30, PID_ROBO_ROCKET_AMMO: -25, PID_HN_NEEDLER_CARTRIDGE: 35, PID_HN_AP_NEEDLER_CARTRIDGE: -35, PID_PBS_50_AMMO: -20, PID_PBS_SHOTGUN_SLUGS: -25, PID_PBS_223_AP: -25, PID_PBS_40MM_HE: 0, PID_PBS_40MM_IC: 25, PID_PBS_14MM_JHP: 25, PID_PBS_SHOTGUN_BUCKSHOTS: 25};
-    return mod_list;
+    return {PID_44_MAGNUM_JHP: 35, PID_4_7MM_CASELESS: -20, PID_7_62MM_AMMO: -20, PID_9MM_BALL: -20, PID_14MM_AP: -35, PID_EXPLOSIVE_ROCKET: 30, PID_ROCKET_AP: -30, PID_ROBO_ROCKET_AMMO: -25, PID_HN_NEEDLER_CARTRIDGE: 35, PID_HN_AP_NEEDLER_CARTRIDGE: -35, PID_PBS_50_AMMO: -20, PID_PBS_SHOTGUN_SLUGS: -25, PID_PBS_223_AP: -25, PID_PBS_40MM_HE: 0, PID_PBS_40MM_IC: 25, PID_PBS_14MM_JHP: 25, PID_PBS_SHOTGUN_BUCKSHOTS: 25};
 end
 procedure map_enter_p_proc() begin
     ndebug("map_enter_p_proc()");
@@ -399,11 +392,11 @@ procedure update_dr_mod(variable dr_mod_list_arg) begin
     foreach (variable pid: mod in dr_mod_list_arg) begin
         variable pidInt = pid;
         variable modInt = mod;
-        if (typeof(pidInt) != VALTYPE_INT) then begin
-            pidInt = atoi(pidInt);
+        if (typeof(pid) != VALTYPE_INT) then begin
+            pidInt = atoi(pid);
         end
-        if (typeof(modInt) != VALTYPE_INT) then begin
-            modInt = atoi(modInt);
+        if (typeof(mod) != VALTYPE_INT) then begin
+            modInt = atoi(mod);
         end
         if (not is_ammo_pid(pidInt)) then begin
             ndebug("warning | item pid " + pidInt + " is not ammo");
@@ -433,8 +426,7 @@ procedure update_weapons() begin
     set_proto_data(PID_VINDICATOR_MINIGUN, PROTO_WP_PERK, PERK_weapon_long_range);
 end
 procedure fix_ammo_stats(variable pids) begin
-    ndebug("fix_ammo_stats()");
-    ndebug(pids);
+    ndebug("fix_ammo_stats(), " + len_array(pids) + " items");
     foreach (variable pid in pids) begin
         variable divisor = 100;
         if (not is_ammo_pid(pid)) then begin

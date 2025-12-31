@@ -2,7 +2,7 @@ import {
     fo2tweaks_setting, fo2tweaks_comsep_setting_ints, sec_main,
     get_active_weapon_pid, get_active_ammo_pid, is_critter
 } from "./fo2tweaks";
-import { CritterPtr, ObjectPtr, get_critter_stat, ndebug } from "folib";
+import { CritterPtr, ObjectPtr, get_critter_stat, ndebug, SfallList } from "folib";
 import {
     fix_array, game_loaded, get_sfall_arg, get_sfall_arg_at, is_in_array,
     register_hook_proc, set_sfall_arg, set_sfall_return,
@@ -16,8 +16,8 @@ const set_grenades_weapons = "weapons";
 const set_grenades_ammo = "ammo";
 const set_improved_grenades = "improved_grenades";
 
-let explosive_weapon_pids: number[];
-let explosive_ammo_pids: number[];
+let explosive_weapon_pids: SfallList<number>;
+let explosive_ammo_pids: SfallList<number>;
 
 function start() {
     if (game_loaded()) {

@@ -130,12 +130,12 @@ procedure string_split_ints(variable str, variable split) begin
     if (str == "") then begin
         return temp_array_list(0);
     end
-    variable list = string_split(str, split);
+    variable parts = string_split(str, split);
     variable result = temp_array_list(0);
     variable n = 0;
-    variable len = len_array(list);
+    variable len = len_array(parts);
     for (variable i = 0; i < len; i++) begin
-        variable val = get_array(list, i);
+        variable val = get_array(parts, i);
         if (val != "") then begin
             resize_array(result, n + 1);
             set_array(result, n, atoi(val));

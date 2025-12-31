@@ -19,7 +19,6 @@
 #define critter_inven_obj2(critter, slot) sfall_func2("critter_inven_obj2", critter, slot)
 
 procedure inven_count(variable who);
-procedure create_array_map();
 procedure fo2tweaks_setting(variable section, variable setting);
 procedure is_critter(variable obj);
 procedure move_inven_except_armor(variable src, variable dst);
@@ -30,9 +29,6 @@ procedure start();
 /* ===== bundled ===== */
 procedure inven_count(variable who) begin
     return critter_inven_obj2(who, INVEN_TYPE_INV_COUNT);
-end
-procedure create_array_map() begin
-    return create_array(-1, 0);
 end
 procedure fo2tweaks_setting(variable section, variable setting) begin
     return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
@@ -96,7 +92,7 @@ procedure start() begin
         if (enabled == 1) then begin
             register_hook_proc(HOOK_DEATHANIM2, deathanim2_handler);
             register_hook_proc(HOOK_ONDEATH, ondeath_handler);
-            critters_boxes = create_array_map();
+            critters_boxes = {};
             fix_array(critters_boxes);
             ndebug("initialized");
         end

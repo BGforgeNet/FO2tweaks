@@ -119,7 +119,7 @@ end
  * Each critter is unique each time dude enters the map (rave party, etc)
  */
 procedure map_enter_p_proc() begin
-    map_unique = create_array(0, 0);
+    map_unique = [];
 end
 procedure check_unique_map() begin
     variable who = dialog_obj;
@@ -194,7 +194,7 @@ procedure start() begin
             if (loaded) then begin
                 sex_list = loaded;
             end else begin
-                sex_list = create_array(0, 0);
+                sex_list = [];
                 save_array(list_had_sex_with, sex_list);
             end
             ndebug("initialized");

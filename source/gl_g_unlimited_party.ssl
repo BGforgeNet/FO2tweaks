@@ -30,6 +30,8 @@
 #define PID_KITSUNE 16777718
 #define PID_DEX 16777719
 #define PID_CAT_JULES 16777720
+#define f2_party_member_pids [PID_VIC, PID_SULIK, PID_JOHN_MACRAE, PID_LENNY, PID_MYRON, PID_MARCUS, PID_DAVIN, PID_MIRIA, PID_BRAINBOT, PID_ROBOBRAIN_CHIMP, PID_ROBOBRAIN_HUMAN, PID_ROBOBRAIN_ABNORMAL, PID_GORIS, PID_CYBERDOG, PID_K9, PID_DOGMEAT]
+#define rp_party_member_pids [PID_KITSUNE, PID_DEX, PID_CAT_JULES]
 #define f2rp_party_member_pids [PID_VIC, PID_SULIK, PID_JOHN_MACRAE, PID_LENNY, PID_MYRON, PID_MARCUS, PID_DAVIN, PID_MIRIA, PID_BRAINBOT, PID_ROBOBRAIN_CHIMP, PID_ROBOBRAIN_HUMAN, PID_ROBOBRAIN_ABNORMAL, PID_GORIS, PID_CYBERDOG, PID_K9, PID_DOGMEAT, PID_KITSUNE, PID_DEX, PID_CAT_JULES]
 #define f2rp_npc_stages {PID_SULIK: "6,3", PID_VIC: "5,4", PID_JOHN_MACRAE: "10,4", PID_LENNY: "10,5", PID_MARCUS: "12,3", PID_MYRON: "6,4", PID_BRAINBOT: "10,4", PID_CYBERDOG: "9,4", PID_GORIS: "10,4", PID_K9: "12,4", PID_DOGMEAT: "6,3", PID_CAT_JULES: "12,3", PID_KITSUNE: "12,3", PID_DEX: "12,3"}
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
@@ -99,12 +101,12 @@ procedure string_split_ints(variable str, variable split) begin
     if (str == "") then begin
         return temp_array_list(0);
     end
-    variable list = string_split(str, split);
+    variable parts = string_split(str, split);
     variable result = temp_array_list(0);
     variable n = 0;
-    variable len = len_array(list);
+    variable len = len_array(parts);
     for (variable i = 0; i < len; i++) begin
-        variable val = get_array(list, i);
+        variable val = get_array(parts, i);
         if (val != "") then begin
             resize_array(result, n + 1);
             set_array(result, n, atoi(val));
@@ -202,8 +204,11 @@ procedure gamemode_handler() begin
     if (mode_ended(DIALOG, old_mode, new_mode)) then begin
         call reset_state();
     end
-    if (mode_started(DIALOG, old_mode, new_mode) and obj_pid(dialog_obj) != PID_DOGMEAT) then begin
-        call allow_join(dialog_obj);
+    if (mode_started(DIALOG, old_mode, new_mode)) then begin
+        variable dialogCritter = dialog_obj;
+        if (obj_pid(dialogCritter) != PID_DOGMEAT) then begin
+            call allow_join(dialogCritter);
+        end
     end
 end
 procedure talk_handler() begin

@@ -10,7 +10,6 @@
 #define FLOAT_MSG_WARNING -2
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define sec_main "main"
-#define SCRIPT_REALNAME2 "gl_g_run_speed"
 #define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define set_ini_setting(setting, value) sfall_func2("set_ini_setting", setting, value)
 
@@ -55,7 +54,7 @@ procedure set_run_fps(variable path, variable new_fps) begin
 end
 procedure start() begin
     if (game_loaded) then begin
-        variable fs_override = check_filesystem_override(SCRIPT_REALNAME2);
+        variable fs_override = check_filesystem_override(SCRIPT_REALNAME);
         enabled = fo2tweaks_setting(sec_main, set_run_speed);
         if (enabled == 1 and fs_override) then begin
             variable fps;

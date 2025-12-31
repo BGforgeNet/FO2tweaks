@@ -2,7 +2,7 @@ import { fo2tweaks_setting, fo2tweaks_comsep_setting, sec_main, is_empty, is_doo
 import {
     dude_obj, elevation, tile_num, obj_pid, obj_is_locked, obj_is_open,
     display_msg, obj_carrying_pid_obj, tile_contains_obj_pid,
-    message_str, ndebug, ObjectPtr, SceneryPtr
+    message_str, ndebug, ObjectPtr, SceneryPtr, SfallList
 } from "folib";
 import {
     fix_array, game_loaded, get_cursor_mode, get_flags, get_game_mode, get_outline,
@@ -56,9 +56,9 @@ let check_los: number;
 let motion_scanner: number;
 let ignore_nohighlight: number;
 let skip_empty_setting: number;
-let traps: any[];
-let transitions: any[];
-let skip_items: any[];
+let traps: SfallList<number>;
+let transitions: SfallList<number>;
+let skip_items: SfallList<number>;
 
 let color_critters: number;
 let color_corpses: number;

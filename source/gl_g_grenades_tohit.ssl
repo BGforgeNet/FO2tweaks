@@ -21,7 +21,6 @@
 
 procedure temp_array_list(variable size);
 procedure is_in_array(variable item, variable array);
-procedure array_push(variable array, variable item);
 procedure string_split_ints(variable str, variable split);
 procedure fo2tweaks_setting(variable section, variable setting);
 procedure is_weapon(variable obj);
@@ -41,22 +40,16 @@ end
 procedure is_in_array(variable item, variable array) begin
     return scan_array(array, item) != -1;
 end
-procedure array_push(variable array, variable item) begin
-    variable n = len_array(array);
-    resize_array(array, n + 1);
-    set_array(array, n, item);
-    return array;
-end
 procedure string_split_ints(variable str, variable split) begin
     if (str == "") then begin
         return temp_array_list(0);
     end
-    variable list = string_split(str, split);
+    variable parts = string_split(str, split);
     variable result = temp_array_list(0);
     variable n = 0;
-    variable len = len_array(list);
+    variable len = len_array(parts);
     for (variable i = 0; i < len; i++) begin
-        variable val = get_array(list, i);
+        variable val = get_array(parts, i);
         if (val != "") then begin
             resize_array(result, n + 1);
             set_array(result, n, atoi(val));
@@ -109,12 +102,7 @@ procedure load_comsep_ini_setting(variable file, variable section, variable sett
     return string_split_ints(str, ",");
 end
 procedure fo2tweaks_comsep_setting_ints(variable section, variable setting) begin
-    variable ar = load_comsep_ini_setting(fo2tweaks_ini, section, setting);
-    variable ar2 = temp_array_list(0);
-    for (variable i = 0; i < len_array(ar); i++) begin
-        call array_push(ar2, get_array(ar, i));
-    end
-    return ar2;
+    return load_comsep_ini_setting(fo2tweaks_ini, section, setting);
 end
 /* ===== end bundled ===== */
 

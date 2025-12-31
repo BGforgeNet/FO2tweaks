@@ -17,11 +17,19 @@
 #define PID_GORIS 16777368
 #define PID_MYRON 16777376
 #define PID_MARCUS 16777377
+#define PID_DAVIN 16777379
+#define PID_MIRIA 16777380
 #define PID_DOGMEAT 16777558
+#define PID_ROBOBRAIN_CHIMP 16777595
+#define PID_ROBOBRAIN_ABNORMAL 16777596
+#define PID_ROBOBRAIN_HUMAN 16777597
 #define PID_K9 16777687
 #define PID_KITSUNE 16777718
 #define PID_DEX 16777719
 #define PID_CAT_JULES 16777720
+#define f2_party_member_pids [PID_VIC, PID_SULIK, PID_JOHN_MACRAE, PID_LENNY, PID_MYRON, PID_MARCUS, PID_DAVIN, PID_MIRIA, PID_BRAINBOT, PID_ROBOBRAIN_CHIMP, PID_ROBOBRAIN_HUMAN, PID_ROBOBRAIN_ABNORMAL, PID_GORIS, PID_CYBERDOG, PID_K9, PID_DOGMEAT]
+#define rp_party_member_pids [PID_KITSUNE, PID_DEX, PID_CAT_JULES]
+#define f2rp_party_member_pids [PID_VIC, PID_SULIK, PID_JOHN_MACRAE, PID_LENNY, PID_MYRON, PID_MARCUS, PID_DAVIN, PID_MIRIA, PID_BRAINBOT, PID_ROBOBRAIN_CHIMP, PID_ROBOBRAIN_HUMAN, PID_ROBOBRAIN_ABNORMAL, PID_GORIS, PID_CYBERDOG, PID_K9, PID_DOGMEAT, PID_KITSUNE, PID_DEX, PID_CAT_JULES]
 #define f2rp_npc_stages {PID_SULIK: "6,3", PID_VIC: "5,4", PID_JOHN_MACRAE: "10,4", PID_LENNY: "10,5", PID_MARCUS: "12,3", PID_MYRON: "6,4", PID_BRAINBOT: "10,4", PID_CYBERDOG: "9,4", PID_GORIS: "10,4", PID_K9: "12,4", PID_DOGMEAT: "6,3", PID_CAT_JULES: "12,3", PID_KITSUNE: "12,3", PID_DEX: "12,3"}
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define sec_main "main"
@@ -30,7 +38,6 @@
 #define floor2(value) sfall_func1("floor2", value)
 #define get_ini_section(file, sect) sfall_func2("get_ini_section", file, sect)
 
-procedure temp_array_map();
 procedure party_member_list_critters();
 procedure fo2tweaks_setting(variable section, variable setting);
 procedure mode_ended(variable mode_to_check, variable old_mode, variable new_mode);
@@ -43,9 +50,6 @@ procedure parse_stages(variable npc_list);
 procedure start();
 
 /* ===== bundled ===== */
-procedure temp_array_map() begin
-    return temp_array(-1, 0);
-end
 procedure party_member_list_critters() begin
     return party_member_list(false);
 end
@@ -137,8 +141,8 @@ procedure start() begin
     if (game_loaded) then begin
         enabled = fo2tweaks_setting(sec_main, set_party_level_match);
         if (enabled == 1) then begin
-            pid_mlevel = temp_array_map();
-            pid_step = temp_array_map();
+            pid_mlevel = {};
+            pid_step = {};
             call parse_stages(f2rp_npc_stages);
             variable override = get_ini_section(fo2tweaks_ini, sec_party_level_match);
             call parse_stages(override);

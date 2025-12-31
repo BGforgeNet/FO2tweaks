@@ -433,14 +433,14 @@ procedure start() begin
             if (loaded_doctor) then begin
                 doctor_used = loaded_doctor;
             end else begin
-                doctor_used = create_array(0, 0);
+                doctor_used = [];
                 save_array(doctor_used_array, doctor_used);
             end
             variable loaded_fa = load_array(fa_used_array);
             if (loaded_fa) then begin
                 fa_used = loaded_fa;
             end else begin
-                fa_used = create_array(0, 0);
+                fa_used = [];
                 save_array(fa_used_array, fa_used);
             end
             register_hook_proc(HOOK_USESKILL, healing_handler);

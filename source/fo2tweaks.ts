@@ -3,15 +3,16 @@
 import {
     ObjectPtr, ItemPtr, CritterPtr, SceneryPtr, ContainerPtr, DoorPtr, SkillID, LEFT_HAND,
     dude_obj, obj_item_subtype, obj_type, obj_pid, obj_name, proto_data,
-    critter_inven_obj, critter_state, use_obj_on_obj, float_msg, ndebug
+    critter_inven_obj, critter_state, use_obj_on_obj, float_msg, ndebug,
+    SfallList, SfallMap
 } from "folib";
 import {
     // Functions
     active_hand, atoi, critter_inven_obj2, critter_skill_level,
     get_array, get_game_mode, get_ini_section, get_ini_setting, get_ini_string,
     get_light_level, get_proto_data, get_weapon_ammo_pid, inven_ptr, is_in_array,
-    len_array, party_member_list_critters, set_array, set_ini_setting, set_self,
-    temp_array_list, temp_array_map,
+    len_array, list, map, party_member_list_critters, set_array, set_ini_setting, set_self,
+    temp_array_map,
     // Array helpers
     array_append, array_push, string_split_ints,
     // Constants
@@ -303,7 +304,7 @@ export function get_dude_inactive_ammo_pid(): number {
 export function is_gun(obj: ItemPtr): boolean {
     /** RPU additional rifle animation */
     const WPN_ANIM_RIFLE_EXTRA = 13;
-    const ranged_codes = [
+    const ranged_codes = list(
         WPN_ANIM_PISTOL,
         WPN_ANIM_SMG,
         WPN_ANIM_RIFLE,
@@ -311,7 +312,7 @@ export function is_gun(obj: ItemPtr): boolean {
         WPN_ANIM_MINIGUN,
         WPN_ANIM_ROCKET_LAUNCHER,
         WPN_ANIM_RIFLE_EXTRA,
-    ];
+    );
     if (!is_weapon(obj)) return false;
     const anim_code = get_proto_data(obj_pid(obj), PROTO_WP_ANIM);
     ndebug("anim_code = " + anim_code);
@@ -339,7 +340,7 @@ export function obj_armor(obj: CritterPtr): ItemPtr {
  * @returns True if in party
  */
 export function in_party(obj: ObjectPtr): boolean {
-    if (is_in_array(obj, party_member_list_critters())) return true;
+    if (is_in_array(obj as CritterPtr, party_member_list_critters())) return true;
     return false;
 }
 
@@ -372,9 +373,9 @@ export function gcd(x: number, y: number): number {
  * @param file INI file path
  * @param section Section name
  * @param setting Setting key
- * @returns Array of string values
+ * @returns Array of integer values (PIDs)
  */
-export function load_comsep_ini_setting(file: string, section: string, setting: string): any[] {
+export function load_comsep_ini_setting(file: string, section: string, setting: string): SfallList<number> {
     const str = get_ini_string(file + "|" + section + "|" + setting);
     return string_split_ints(str, ",");
 }
@@ -383,9 +384,9 @@ export function load_comsep_ini_setting(file: string, section: string, setting: 
  * Load a comma-separated setting from fo2tweaks.ini
  * @param section Section name
  * @param setting Setting key
- * @returns Array of string values
+ * @returns Array of integer values (PIDs)
  */
-export function fo2tweaks_comsep_setting(section: string, setting: string): any[] {
+export function fo2tweaks_comsep_setting(section: string, setting: string): SfallList<number> {
     return load_comsep_ini_setting(fo2tweaks_ini, section, setting);
 }
 
@@ -395,13 +396,8 @@ export function fo2tweaks_comsep_setting(section: string, setting: string): any[
  * @param setting Setting key
  * @returns Array of integer values
  */
-export function fo2tweaks_comsep_setting_ints(section: string, setting: string): number[] {
-    const ar = load_comsep_ini_setting(fo2tweaks_ini, section, setting);
-    const ar2 = temp_array_list(0) as number[];
-    for (let i = 0; i < len_array(ar); i++) {
-        array_push(ar2, get_array(ar, i));
-    }
-    return ar2;
+export function fo2tweaks_comsep_setting_ints(section: string, setting: string): SfallList<number> {
+    return load_comsep_ini_setting(fo2tweaks_ini, section, setting);
 }
 
 /**
@@ -411,14 +407,12 @@ export function fo2tweaks_comsep_setting_ints(section: string, setting: string):
  * @param section Section name
  * @returns Map of integer keys to integer values
  */
-export function get_ini_section_ints(file: string, section: string): any {
-    const ar2 = temp_array_map();
+export function get_ini_section_ints(file: string, section: string): SfallMap<number, number> {
+    const ar2 = map({}) as SfallMap<number, number>;
     const ar = get_ini_section(file, section);
-    // foreach k: v in ar
-    for (const k in ar) {
-        const v = ar[k];
+    for (const [k, v] of ar) {
         ndebug(k + " " + v);
-        set_array(ar2, atoi(k), atoi(v));
+        ar2[atoi(k)] = atoi(v);
     }
     return ar2;
 }
@@ -559,27 +553,27 @@ import {
  * Get list of Fallout 2 party member PIDs
  * @returns Array of party member PIDs
  */
-export function f2_party_member_pids(): number[] {
-    return [
+export function f2_party_member_pids(): SfallList<number> {
+    return list(
         PID_VIC, PID_SULIK, PID_JOHN_MACRAE, PID_LENNY, PID_MYRON, PID_MARCUS,
         PID_DAVIN, PID_MIRIA, PID_BRAINBOT, PID_ROBOBRAIN_CHIMP, PID_ROBOBRAIN_HUMAN,
         PID_ROBOBRAIN_ABNORMAL, PID_GORIS, PID_CYBERDOG, PID_K9, PID_DOGMEAT
-    ];
+    );
 }
 
 /**
  * Get list of Restoration Project party member PIDs
  * @returns Array of RP party member PIDs
  */
-export function rp_party_member_pids(): number[] {
-    return [PID_KITSUNE, PID_DEX, PID_CAT_JULES];
+export function rp_party_member_pids(): SfallList<number> {
+    return list(PID_KITSUNE, PID_DEX, PID_CAT_JULES);
 }
 
 /**
  * Get combined list of F2 and RP party member PIDs
  * @returns Array of all party member PIDs
  */
-export function f2rp_party_member_pids(): any[] {
+export function f2rp_party_member_pids(): SfallList<number> {
     const pids = f2_party_member_pids();
     const rp_pids = rp_party_member_pids();
     return array_append(pids, rp_pids);
@@ -589,8 +583,8 @@ export function f2rp_party_member_pids(): any[] {
  * Get list of Fallout 2 ammo PIDs
  * @returns Array of ammo PIDs
  */
-export function f2_ammo_pids(): number[] {
-    return [
+export function f2_ammo_pids(): SfallList<number> {
+    return list(
         PID_EXPLOSIVE_ROCKET, PID_10MM_JHP, PID_10MM_AP, PID_44_MAGNUM_JHP,
         PID_FLAMETHROWER_FUEL, PID_14MM_AP, PID_223_FMJ, PID_5MM_JHP, PID_5MM_AP,
         PID_ROCKET_AP, PID_SMALL_ENERGY_CELL, PID_MICRO_FUSION_CELL, PID_SHOTGUN_SHELLS,
@@ -598,7 +592,7 @@ export function f2_ammo_pids(): number[] {
         PID_45_CALIBER_AMMO, PID_2MM_EC_AMMO, PID_4_7MM_CASELESS, PID_9MM_AMMO,
         PID_HN_NEEDLER_CARTRIDGE, PID_HN_AP_NEEDLER_CARTRIDGE, PID_7_62MM_AMMO,
         PID_FLAMETHROWER_FUEL_MK_II
-    ];
+    );
 }
 
 /**

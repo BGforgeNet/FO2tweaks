@@ -15,16 +15,12 @@
 #define string_toupper(text) sfall_func2("string_to_case", text, 1)
 #define get_ini_section(file, sect) sfall_func2("get_ini_section", file, sect)
 
-procedure temp_array_map();
 procedure fo2tweaks_setting(variable section, variable setting);
 procedure char_to_dik(variable char);
 procedure keypress_handler();
 procedure start();
 
 /* ===== bundled ===== */
-procedure temp_array_map() begin
-    return temp_array(-1, 0);
-end
 procedure fo2tweaks_setting(variable section, variable setting) begin
     return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
 end
@@ -68,7 +64,7 @@ procedure start() begin
         enabled = fo2tweaks_setting(sec_main, set_keymap);
         if (enabled == 1) then begin
             variable tmp = get_ini_section(fo2tweaks_ini, sec_keymap);
-            keymap = temp_array_map();
+            keymap = {};
             foreach (variable k: v in tmp) begin
                 ndebug("remapping key " + v + " to " + k);
                 variable k_code = char_to_dik(k);

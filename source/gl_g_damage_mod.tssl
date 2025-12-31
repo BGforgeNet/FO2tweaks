@@ -1,19 +1,19 @@
 import {
     f2_ammo_pids, fo2tweaks_comsep_setting_ints, fo2tweaks_ini,
-    fo2tweaks_setting, gcd, get_active_ammo_pid, in_party, is_ammo_pid,
+    fo2tweaks_setting, gcd, get_active_ammo_pid, get_ini_section_ints, in_party, is_ammo_pid,
     is_critter, is_gun, is_weapon_pid, sec_main
 } from "./fo2tweaks";
 import {
     FLOAT1, combat_difficulty, dude_obj, float_msg, get_critter_stat,
     has_trait, obj_name, obj_pid, random, ndebug,
-    CritterPtr, ItemPtr, StatID
+    CritterPtr, ItemPtr, StatID, SfallMap, SfallList
 } from "folib";
 import {
     array_append, atoi, critter_kill_type, fix_array, floor2,
     game_loaded, get_critical_table, get_ini_section, get_ini_setting,
-    get_proto_data, get_sfall_arg, get_weapon_ammo_pid, len_array,
+    get_proto_data, get_sfall_arg, get_weapon_ammo_pid, len_array, map,
     register_hook_proc, set_ini_setting, set_proto_data, set_sfall_arg,
-    set_sfall_return, sfall_typeof, string_split, temp_array_map, weapon_dmg_type,
+    set_sfall_return, sfall_typeof, string_split, weapon_dmg_type,
     DAM_BACKWASH, DAM_BYPASS, DAM_DEAD,
     DMG_electrical, DMG_emp, DMG_explosion, DMG_fire, DMG_laser, DMG_normal_dam, DMG_plasma,
     FLOAT_MSG_WARNING, HOOK_COMBATDAMAGE, KILL_TYPE_robot_kills,
@@ -68,12 +68,12 @@ function is_instadeath_hit(flags: number) {
 
 let old_total = 0;
 let new_total = 0;
-let ammo_pids: number[];
-let mod_ammo_pids: number[];
+let ammo_pids: SfallList<number>;
+let mod_ammo_pids: SfallList<number>;
 let enabled: number;
-let dr_mod_list: number[];
-let type_ammo: any;
-let ammo_damage: any;
+let dr_mod_list: SfallMap<number, number>;
+let type_ammo: SfallMap<string, string>;
+let ammo_damage: SfallMap<number, number>;
 let damage_difficulty: number;
 let party_scale_damage: number;
 
@@ -85,24 +85,24 @@ function start() {
       check_damage_formula();
       // custom DR values
       const default_dr_mod_list = get_default_dr_mod_list();
-      const custom_dr_mod_list = get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_dr);
-      dr_mod_list = array_append(default_dr_mod_list as any, custom_dr_mod_list as any) as number[];
-      fix_array(dr_mod_list as any[]);
+      const custom_dr_mod_list = get_ini_section_ints(fo2tweaks_ini, sec_damage_mod_ammo_dr);
+      dr_mod_list = array_append(default_dr_mod_list, custom_dr_mod_list);
+      fix_array(dr_mod_list);
       ndebug("dr_mod_list length is " + len_array(dr_mod_list));
       update_dr_mod(dr_mod_list);
 
       // cosmetic change
       ammo_pids = f2_ammo_pids();
       mod_ammo_pids = fo2tweaks_comsep_setting_ints(sec_damage_mod, set_damage_mod_ammo_pids);
-      ammo_pids = array_append(ammo_pids as any[], mod_ammo_pids as any[]) as number[];
-      fix_array(ammo_pids as any[]);
+      ammo_pids = array_append(ammo_pids, mod_ammo_pids);
+      fix_array(ammo_pids);
       fix_ammo_stats(ammo_pids);
 
       update_weapons();
       // ammo types dealing alternative damage
       type_ammo = get_ini_section(fo2tweaks_ini, sec_damage_mod_ammo_type);
-      ammo_damage = load_ammo_damage_type(type_ammo) as Record<number, number>;
-      fix_array(ammo_damage as any[]);
+      ammo_damage = load_ammo_damage_type(type_ammo);
+      fix_array(ammo_damage);
 
       party_scale_damage = fo2tweaks_setting(sec_damage_mod, set_damage_mod_party_scale_damage);
       damage_difficulty = fo2tweaks_setting(sec_damage_mod, set_damage_mod_difficulty);
@@ -113,10 +113,10 @@ function start() {
   }
 }
 
-function load_ammo_damage_type(type_ammo_arg: any): any {
+function load_ammo_damage_type(type_ammo_arg: SfallMap<string, string>): SfallMap<number, number> {
   ndebug("load_ammo_damage_type()");
-  const ar = temp_array_map();
-  for (const [k, v] of type_ammo_arg as [string, string][]) {
+  const ar: SfallMap<number, number> = map({});
+  for (const [k, v] of type_ammo_arg) {
     const tmp = string_split(v, ",");
     for (const t of tmp) {
       const pid = atoi(t);
@@ -128,9 +128,9 @@ function load_ammo_damage_type(type_ammo_arg: any): any {
   return ar;
 }
 
-function get_default_dr_mod_list(): Record<number, number> {
+function get_default_dr_mod_list(): SfallMap<number, number> {
   ndebug("get_default_dr_mod_list()");
-  const mod_list = {
+  return map({
     [PID_44_MAGNUM_JHP]: 35,
     [PID_4_7MM_CASELESS]: -20,
     [PID_7_62MM_AMMO]: -20,
@@ -150,8 +150,7 @@ function get_default_dr_mod_list(): Record<number, number> {
     [PID_PBS_40MM_IC]: 25,
     [PID_PBS_14MM_JHP]: 25,
     [PID_PBS_SHOTGUN_BUCKSHOTS]: 25,
-  };
-  return mod_list;
+  });
 }
 
 function map_enter_p_proc() {
@@ -176,13 +175,13 @@ function check_damage_formula() {
   return true;
 }
 
-function update_dr_mod(dr_mod_list_arg: any) {
+function update_dr_mod(dr_mod_list_arg: SfallMap<number | string, number | string>) {
   // have to pass strings, as 0's can't be stored in a map
-  for (const [pid, mod] of dr_mod_list_arg as [number | string, number | string][]) {
-    let pidInt: number = pid as number;
-    let modInt: number = mod as number;
-    if (sfall_typeof(pidInt) != VALTYPE_INT) pidInt = atoi(pidInt as unknown as string);
-    if (sfall_typeof(modInt) != VALTYPE_INT) modInt = atoi(modInt as unknown as string);
+  for (const [pid, mod] of dr_mod_list_arg) {
+    let pidInt = pid as number;
+    let modInt = mod as number;
+    if (sfall_typeof(pid) != VALTYPE_INT) pidInt = atoi(pid as string);
+    if (sfall_typeof(mod) != VALTYPE_INT) modInt = atoi(mod as string);
 
     if (!is_ammo_pid(pidInt)) {  // not ammo, how did it get here?
       ndebug("warning | item pid " + pidInt + " is not ammo");
@@ -194,7 +193,7 @@ function update_dr_mod(dr_mod_list_arg: any) {
 
 function update_weapons() {
   ndebug("update_weapons");
-  const min_damage = {
+  const min_damage: SfallMap<number, number> = map({
     [PID_MINIGUN]: 9,
     [PID_14MM_PISTOL]: 18,
     [PID_HK_G11]: 16,
@@ -203,8 +202,8 @@ function update_weapons() {
     [PID_M72_GAUSS_RIFLE]: 46,
     [PID_PK12_GAUSS_PISTOL]: 36,
     [PID_VINDICATOR_MINIGUN]: 20,
-  };
-  const max_damage = {
+  });
+  const max_damage: SfallMap<number, number> = map({
     [PID_MINIGUN]: 13,
     [PID_14MM_PISTOL]: 28,
     [PID_HK_G11]: 26,
@@ -213,15 +212,15 @@ function update_weapons() {
     [PID_M72_GAUSS_RIFLE]: 68,
     [PID_PK12_GAUSS_PISTOL]: 46,
     [PID_VINDICATOR_MINIGUN]: 30,
-  };
-  for (const [pid, dmg] of min_damage as any as [number, number][]) {
+  });
+  for (const [pid, dmg] of min_damage) {
     if (!is_weapon_pid(pid)) {
       ndebug("warning | item pid " + pid + " is not a weapon");
       continue;
     }
     set_proto_data(pid, PROTO_WP_DMG_MIN, dmg);
   }
-  for (const [pid, dmg] of max_damage as any as [number, number][]) {
+  for (const [pid, dmg] of max_damage) {
     if (!is_weapon_pid(pid)) {
       ndebug("warning | item pid " + pid + " is not a weapon");
       continue;
@@ -232,9 +231,8 @@ function update_weapons() {
   set_proto_data(PID_VINDICATOR_MINIGUN, PROTO_WP_PERK, PERK_weapon_long_range);
 }
 
-function fix_ammo_stats(pids: number[]) {
-  ndebug("fix_ammo_stats()");
-  ndebug(pids as any as string);
+function fix_ammo_stats(pids: SfallList<number>) {
+  ndebug("fix_ammo_stats(), " + len_array(pids) + " items");
   // let divisor: number;
   for (const pid of pids) {
     let divisor = 100;
@@ -660,7 +658,7 @@ function damage_handler() {
 
 function get_real_damage_type(weapon: ItemPtr): number {
   const ammo_pid = get_weapon_ammo_pid(weapon);
-  const type = (ammo_damage as Record<number, number>)[ammo_pid];
+  const type = ammo_damage[ammo_pid];
   if (type != 0) {
     ndebug("damage type changed to " + type);
     return type;

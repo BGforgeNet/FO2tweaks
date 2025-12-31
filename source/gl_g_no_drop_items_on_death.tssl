@@ -1,11 +1,11 @@
 import { fo2tweaks_setting, sec_main, is_critter } from "./fo2tweaks";
 import { obj_name, move_obj_inven_to_obj, rm_obj_from_inven,
     add_obj_to_inven, destroy_object, create_object_sid, ndebug,
-    ObjectPtr, CritterPtr, NullPtr
+    ObjectPtr, CritterPtr, NullPtr, SfallMap
 } from "folib";
 import {
-    create_array_map, critter_inven_obj2, fix_array, game_loaded, get_sfall_arg,
-    inven_count, inven_ptr, register_hook_proc,
+    critter_inven_obj2, fix_array, game_loaded, get_sfall_arg,
+    inven_count, inven_ptr, map, register_hook_proc,
     HOOK_DEATHANIM2, HOOK_ONDEATH, INVEN_TYPE_WORN,
 } from "folib/sfall";
 import { ANIM_electrified_to_nothing, ANIM_exploded_to_nothing } from "folib/rp/animcomd";
@@ -13,7 +13,7 @@ import { PID_FOOTLOCKER_CLEAN_LEFT } from "folib/rp/itempid";
 
 const SCRIPT_REALNAME = "gl_g_no_drop_items_on_death";
 
-let critters_boxes: Record<number, ObjectPtr>;
+let critters_boxes: SfallMap<CritterPtr, ObjectPtr>;
 
 /**
  * Like `move_obj_inven_to_obj`, but keeps armor if equipped.
@@ -73,8 +73,8 @@ function start() {
     if (enabled == 1) {
       register_hook_proc(HOOK_DEATHANIM2, deathanim2_handler);
       register_hook_proc(HOOK_ONDEATH, ondeath_handler);
-      critters_boxes = create_array_map() as Record<number, ObjectPtr>;
-      fix_array(critters_boxes as unknown as any[]);
+      critters_boxes = map({});
+      fix_array(critters_boxes);
       ndebug("initialized");
     }
   }

@@ -1,8 +1,8 @@
 import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
-import { dude_obj, global_var, set_global_var, item_caps_total, ndebug } from "folib";
+import { dude_obj, global_var, set_global_var, item_caps_total, ndebug, SfallList, ObjectPtr } from "folib";
 import {
-    array_push, create_array, dialog_obj, game_loaded, get_script, get_sfall_arg,
-    get_sfall_global_int, is_in_array, load_array, register_hook_proc, save_array,
+    array_push, dialog_obj, game_loaded, get_script, get_sfall_arg,
+    get_sfall_global_int, is_in_array, list, load_array, register_hook_proc, save_array,
     set_sfall_global, set_sfall_return,
     HOOK_SETGLOBALVAR, HOOK_STDPROCEDURE, talk_proc,
 } from "folib/sfall";
@@ -29,7 +29,7 @@ const SGVAR_bathhouse1 = "g_gi_ba1";
 const SGVAR_bathhouse2 = "g_gi_ba2";
 
 /** Var to keep list_had_sex_with */
-let sex_list!: any[];
+let sex_list!: SfallList<number>;
 
 /** Avoid race condition in set_gvar hook */
 let set_from_hook = 0;
@@ -37,7 +37,7 @@ let set_from_hook = 0;
 let gigolo_limit: number;
 
 /** Stores list of objects with whom dude had sex on random maps (trappers, rave party). Reset on map enter */
-let map_unique: any[];
+let map_unique: SfallList<ObjectPtr>;
 
 /** Track dude caps for bathhouse procedure */
 let caps: number;
@@ -80,7 +80,7 @@ function set_gvar_hook() {
     }
 }
 
-function check_unique(script: number, sex_list: any[]): boolean {
+function check_unique(script: number, sex_list: SfallList<number>): boolean {
     switch (script) {
         case SCRIPT_NCKITTY:
             if (cats_paw()) return true;
@@ -106,7 +106,7 @@ function check_unique(script: number, sex_list: any[]): boolean {
  * Each critter is unique each time dude enters the map (rave party, etc)
  */
 function map_enter_p_proc() {
-    map_unique = create_array(0, 0);
+    map_unique = list<ObjectPtr>();
 }
 
 function check_unique_map(): boolean {
@@ -176,9 +176,9 @@ function start() {
             register_hook_proc(HOOK_STDPROCEDURE, dialog_hook);
             const loaded = load_array(list_had_sex_with);
             if (loaded) {
-                sex_list = loaded;
+                sex_list = loaded as SfallList<number>;
             } else {
-                sex_list = create_array(0, 0);
+                sex_list = list<number>();
                 save_array(list_had_sex_with, sex_list);
             }
             ndebug("initialized");

@@ -1,9 +1,9 @@
 import { fo2tweaks_setting, fo2tweaks_ini, sec_main } from "./fo2tweaks";
 import { char_to_dik } from "./fo2tweaks/keys";
-import { ndebug } from "folib";
+import { ndebug, SfallMap } from "folib";
 import {
     fix_array, game_loaded, get_game_mode, get_ini_section, get_sfall_arg,
-    register_hook_proc, scan_array, set_sfall_return, temp_array_map,
+    map, register_hook_proc, scan_array, set_sfall_return,
     HOOK_KEYPRESS, SAVEGAME,
 } from "folib/sfall";
 
@@ -17,13 +17,13 @@ const set_keymap = "keymap";
 const sec_keymap = "keymap";
 
 let enabled: number;
-let keymap: { [key: number]: number };
+let keymap: SfallMap<number, number>;
 
 function keypress_handler() {
   const pressed = get_sfall_arg() as number;
   const key = get_sfall_arg() as number;
 
-  const new_key = scan_array(keymap as any as any[], key) as number;
+  const new_key = scan_array(keymap, key);
 
   // Default save shortcuts: F4, F6. Any other shortcuts shouldn't be needed in savegame mode.
   if ((get_game_mode() & SAVEGAME) && !((new_key == DIK_F4) || (new_key == DIK_F6))) return;
@@ -47,8 +47,8 @@ function start() {
   if (game_loaded()) {
     enabled = fo2tweaks_setting(sec_main, set_keymap);
     if (enabled == 1) {
-      const tmp = get_ini_section(fo2tweaks_ini, sec_keymap) as unknown as [string, string][];
-      keymap = temp_array_map();
+      const tmp = get_ini_section(fo2tweaks_ini, sec_keymap);
+      keymap = map({});
       for (const [k, v] of tmp) {
         ndebug("remapping key " + v + " to " + k);
         const k_code = char_to_dik(k);
@@ -56,7 +56,7 @@ function start() {
         keymap[v_code] = k_code;
         ndebug("remapped key code " + v_code + " to " + k_code);
       }
-      fix_array(keymap as unknown as any[]);
+      fix_array(keymap);
       register_hook_proc(HOOK_KEYPRESS, keypress_handler);
       ndebug("initialized");
     }

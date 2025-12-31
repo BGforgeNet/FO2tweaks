@@ -2,12 +2,13 @@ import { fo2tweaks_setting, sec_main, get_party_skill_level } from "./fo2tweaks"
 import {
     CritterPtr, SkillID, dude_obj, obj_name, obj_pid, display_msg, float_msg,
     random, has_trait, critter_heal, critter_add_trait, critter_state, game_time_advance,
-    game_ticks, get_day, give_exp_points, get_critter_stat, combat_is_initialized, ndebug
+    game_ticks, get_day, give_exp_points, get_critter_stat, combat_is_initialized, ndebug,
+    SfallList
 } from "folib";
 import {
-    add_extra_msg_file, array_push, clear_array, create_array, critter_skill_level,
+    add_extra_msg_file, array_push, clear_array, critter_skill_level,
     critter_uninjure, dude_name, floor2, game_loaded, get_sfall_arg, get_sfall_global_int,
-    in_world_map, intface_redraw, is_critter_dead, is_in_array, load_array,
+    in_world_map, intface_redraw, is_critter_dead, is_in_array, list, load_array,
     message_str_game, mstr_skill, parse_str_2, party_member_list_critters,
     register_hook_proc, save_array, set_global_script_repeat, set_global_script_type,
     set_sfall_global, set_sfall_return, sprintf,
@@ -49,8 +50,8 @@ const msg_got_xp = 10;
 const msg_healed_for = 11;
 const msg_dead = 12;
 
-let doctor_used: any[];
-let fa_used: any[];
+let doctor_used: SfallList<number>;
+let fa_used: SfallList<number>;
 let enabled: number;
 const doctor_min = 20;
 const doctor_mult = 10;
@@ -340,18 +341,18 @@ function start() {
 
             living_anatomy_min_doctor = fo2tweaks_setting(sec_healing_revision, set_healing_living_anatomy_min_doctor);
 
-            const loaded_doctor = load_array(doctor_used_array);
+            const loaded_doctor = load_array(doctor_used_array) as SfallList<number>;
             if (loaded_doctor) {
                 doctor_used = loaded_doctor;
             } else {
-                doctor_used = create_array(0, 0);
+                doctor_used = list();
                 save_array(doctor_used_array, doctor_used);
             }
-            const loaded_fa = load_array(fa_used_array);
+            const loaded_fa = load_array(fa_used_array) as SfallList<number>;
             if (loaded_fa) {
                 fa_used = loaded_fa;
             } else {
-                fa_used = create_array(0, 0);
+                fa_used = list();
                 save_array(fa_used_array, fa_used);
             }
 
