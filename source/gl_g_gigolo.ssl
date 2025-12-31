@@ -25,6 +25,7 @@
 
 procedure is_in_array(variable item, variable array);
 procedure array_push(variable array, variable item);
+procedure load_create_array(variable name, variable size);
 procedure fo2tweaks_setting(variable section, variable setting);
 procedure dude_caps();
 procedure set_gvar_hook();
@@ -45,6 +46,15 @@ procedure array_push(variable array, variable item) begin
     resize_array(array, n + 1);
     set_array(array, n, item);
     return array;
+end
+procedure load_create_array(variable name, variable size) begin
+    variable arr = load_array(name);
+    if (arr == 0) then begin
+        arr = temp_array(size, 0);
+        fix_array(arr);
+        save_array(name, arr);
+    end
+    return arr;
 end
 procedure fo2tweaks_setting(variable section, variable setting) begin
     return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
@@ -190,13 +200,7 @@ procedure start() begin
             end
             register_hook_proc(HOOK_SETGLOBALVAR, set_gvar_hook);
             register_hook_proc(HOOK_STDPROCEDURE, dialog_hook);
-            variable loaded = load_array(list_had_sex_with);
-            if (loaded) then begin
-                sex_list = loaded;
-            end else begin
-                sex_list = [];
-                save_array(list_had_sex_with, sex_list);
-            end
+            sex_list = load_create_array(list_had_sex_with, 0);
             ndebug("initialized");
             variable counter = get_sfall_global_int(SGVAR_alt_sex_counter);
             ndebug("current count: " + counter + ", threshold: " + gigolo_limit);

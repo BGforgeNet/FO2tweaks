@@ -62,6 +62,7 @@ procedure is_in_array(variable item, variable array);
 procedure clear_array(variable array);
 procedure party_member_list_critters();
 procedure array_push(variable array, variable item);
+procedure load_create_array(variable name, variable size);
 procedure parse_str_2(variable str, variable x1, variable x2);
 procedure fo2tweaks_setting(variable section, variable setting);
 procedure get_party_skill_level(variable skill);
@@ -104,6 +105,15 @@ procedure array_push(variable array, variable item) begin
     resize_array(array, n + 1);
     set_array(array, n, item);
     return array;
+end
+procedure load_create_array(variable name, variable size) begin
+    variable arr = load_array(name);
+    if (arr == 0) then begin
+        arr = temp_array(size, 0);
+        fix_array(arr);
+        save_array(name, arr);
+    end
+    return arr;
 end
 procedure parse_str_2(variable str, variable x1, variable x2) begin
     variable token;
@@ -429,20 +439,8 @@ procedure start() begin
         enabled = fo2tweaks_setting(sec_main, set_healing_revision);
         if (enabled == 1) then begin
             living_anatomy_min_doctor = fo2tweaks_setting(sec_healing_revision, set_healing_living_anatomy_min_doctor);
-            variable loaded_doctor = load_array(doctor_used_array);
-            if (loaded_doctor) then begin
-                doctor_used = loaded_doctor;
-            end else begin
-                doctor_used = [];
-                save_array(doctor_used_array, doctor_used);
-            end
-            variable loaded_fa = load_array(fa_used_array);
-            if (loaded_fa) then begin
-                fa_used = loaded_fa;
-            end else begin
-                fa_used = [];
-                save_array(fa_used_array, fa_used);
-            end
+            doctor_used = load_create_array(doctor_used_array, 0);
+            fa_used = load_create_array(fa_used_array, 0);
             register_hook_proc(HOOK_USESKILL, healing_handler);
             register_hook_proc(HOOK_RESTTIMER, rest_handler);
             set_global_script_type(3);

@@ -2,7 +2,7 @@ import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
 import { dude_obj, global_var, set_global_var, item_caps_total, ndebug, SfallList, ObjectPtr } from "folib";
 import {
     array_push, dialog_obj, game_loaded, get_script, get_sfall_arg,
-    get_sfall_global_int, is_in_array, list, load_array, register_hook_proc, save_array,
+    get_sfall_global_int, is_in_array, list, load_create_array, register_hook_proc,
     set_sfall_global, set_sfall_return,
     HOOK_SETGLOBALVAR, HOOK_STDPROCEDURE, talk_proc,
 } from "folib/sfall";
@@ -174,13 +174,7 @@ function start() {
             }
             register_hook_proc(HOOK_SETGLOBALVAR, set_gvar_hook);
             register_hook_proc(HOOK_STDPROCEDURE, dialog_hook);
-            const loaded = load_array(list_had_sex_with);
-            if (loaded) {
-                sex_list = loaded as SfallList<number>;
-            } else {
-                sex_list = list<number>();
-                save_array(list_had_sex_with, sex_list);
-            }
+            sex_list = load_create_array(list_had_sex_with, 0);
             ndebug("initialized");
             const counter = get_sfall_global_int(SGVAR_alt_sex_counter);
             ndebug("current count: " + counter + ", threshold: " + gigolo_limit);

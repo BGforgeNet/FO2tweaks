@@ -8,9 +8,9 @@ import {
 import {
     add_extra_msg_file, array_push, clear_array, critter_skill_level,
     critter_uninjure, dude_name, floor2, game_loaded, get_sfall_arg, get_sfall_global_int,
-    in_world_map, intface_redraw, is_critter_dead, is_in_array, list, load_array,
+    in_world_map, intface_redraw, is_critter_dead, is_in_array, load_create_array,
     message_str_game, mstr_skill, parse_str_2, party_member_list_critters,
-    register_hook_proc, save_array, set_global_script_repeat, set_global_script_type,
+    register_hook_proc, set_global_script_repeat, set_global_script_type,
     set_sfall_global, set_sfall_return, sprintf,
     DAM_BLIND, DAM_CRIP_ARM_LEFT, DAM_CRIP_ARM_RIGHT, DAM_CRIP_LEG_LEFT, DAM_CRIP_LEG_RIGHT,
     FLOAT_MSG_WHITE, HOOK_RESTTIMER, HOOK_USESKILL, PERK_healer, PERK_living_anatomy_perk,
@@ -341,20 +341,8 @@ function start() {
 
             living_anatomy_min_doctor = fo2tweaks_setting(sec_healing_revision, set_healing_living_anatomy_min_doctor);
 
-            const loaded_doctor = load_array(doctor_used_array) as SfallList<number>;
-            if (loaded_doctor) {
-                doctor_used = loaded_doctor;
-            } else {
-                doctor_used = list();
-                save_array(doctor_used_array, doctor_used);
-            }
-            const loaded_fa = load_array(fa_used_array) as SfallList<number>;
-            if (loaded_fa) {
-                fa_used = loaded_fa;
-            } else {
-                fa_used = list();
-                save_array(fa_used_array, fa_used);
-            }
+            doctor_used = load_create_array(doctor_used_array, 0);
+            fa_used = load_create_array(fa_used_array, 0);
 
             register_hook_proc(HOOK_USESKILL, healing_handler);
             register_hook_proc(HOOK_RESTTIMER, rest_handler);
