@@ -4,8 +4,8 @@ msgstr ""
 "Project-Id-Version: Spanish (Fallout)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-04-12:22+0000\n"
-"PO-Revision-Date: 2025-01-28 02:40+0000\n"
-"Last-Translator: Genzek Spanish <alejzuzu@gmail.com>\n"
+"PO-Revision-Date: 2026-01-13 22:52+0000\n"
+"Last-Translator: Kharma <carloslagekhrm@gmail.com>\n"
 "Language-Team: Spanish <https://hive.bgforge.net/projects/fallout/fo2tweaks/"
 "es/>\n"
 "Language: spanish\n"
@@ -33,7 +33,7 @@ msgstr "No crees que haya alguna posibilidad de curar esto."
 
 #: game/g_healing_revision.msg:5
 msgid " is already healthy."
-msgstr " ya está en buen estado."
+msgstr " ya está sano."
 
 #: game/g_healing_revision.msg:6
 msgid "%1% has already been healed with %2% skill today. Try tomorrow."
@@ -49,7 +49,7 @@ msgstr "¡Vaya! ¡Ahora realmente sé cómo herir a alguien!"
 
 #: game/g_healing_revision.msg:9
 msgid "has earned Living Anatomy perk."
-msgstr "ha ganado Anatomía Vital."
+msgstr "ha ganado la habilidad Anatomía Vital."
 
 #: game/g_healing_revision.msg:10
 msgid "You receive %1% experience for successful use of %2% skill."
