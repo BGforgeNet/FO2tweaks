@@ -4,7 +4,7 @@ msgstr ""
 "Project-Id-Version: Spanish (Fallout)\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-04-12:22+0000\n"
-"PO-Revision-Date: 2026-01-13 22:52+0000\n"
+"PO-Revision-Date: 2026-01-15 14:52+0000\n"
 "Last-Translator: Kharma <carloslagekhrm@gmail.com>\n"
 "Language-Team: Spanish <https://hive.bgforge.net/projects/fallout/fo2tweaks/"
 "es/>\n"
@@ -49,7 +49,7 @@ msgstr "¡Vaya! ¡Ahora realmente sé cómo herir a alguien!"
 
 #: game/g_healing_revision.msg:9
 msgid "has earned Living Anatomy perk."
-msgstr "ha ganado la habilidad Anatomía Vital."
+msgstr "ha ganado la habilidad Anatomía Viviente."
 
 #: game/g_healing_revision.msg:10
 msgid "You receive %1% experience for successful use of %2% skill."
