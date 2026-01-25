@@ -88,7 +88,7 @@ procedure list_all_critters begin
   variable c;
   foreach c in list_as_array(LIST_CRITTERS) begin
     ndebug(c + " is " + obj_name(c));
-  END
+  end
 end
 
 procedure map_enter_p_proc begin
