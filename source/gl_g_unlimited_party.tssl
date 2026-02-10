@@ -5,7 +5,7 @@ import { dude_obj, obj_pid, obj_name, set_critter_stat,
 import {
     array_append, dialog_obj, fix_array, game_loaded, get_game_mode, get_sfall_arg,
     get_sfall_arg_at, is_in_array, party_member_list_critters, register_hook_proc,
-    DIALOG, HOOK_GAMEMODECHANGE, HOOK_STDPROCEDURE, INVEN_TYPE_WORN, STAT_ch, talk_proc, critter_inven_obj2
+    DIALOG, HOOK_GAMEMODECHANGE, HOOK_STDPROCEDURE, INVEN_TYPE_WORN, STAT, talk_proc, critter_inven_obj2
 } from "folib/sfall";
 import { dude_charisma } from "folib/rp/command";
 import { f2rp_party_member_pids, PID_DOGMEAT } from "folib/rp/critterpid";
@@ -58,7 +58,7 @@ function allow_join(cri: CritterPtr) {
   ndebug("dude charisma is " + dude_cha);
   if (dude_cha < 2) {
     // set_critter_stat doesn't set stats, it applies a mod
-    set_critter_stat(dude_obj, STAT_ch, 1);
+    set_critter_stat(dude_obj, STAT.ch, 1);
     ndebug("boosted charisma from 1 to 2");
     boosted = 1;
   }
@@ -68,7 +68,7 @@ function reset_state() {
   ndebug("dropped is " + dropped + ", boosted is " + boosted);
   if (boosted) {
     // set_critter_stat doesn't set stats, it applies a mod
-    set_critter_stat(dude_obj, STAT_ch, -1);
+    set_critter_stat(dude_obj, STAT.ch, -1);
     ndebug("reset charisma to 1");
     boosted = 0;
   }

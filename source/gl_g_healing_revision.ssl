@@ -48,10 +48,10 @@
 #define CHAR_PERCENT 37
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define sec_main "main"
-#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
-#define dude_name obj_name(dude_obj)
 #define critter_skill_level(who, skill) has_skill(who, skill)
 #define critter_uninjure(who, flags) critter_injure(who, flags bwor DAM_PERFORM_REVERSE)
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define dude_name obj_name(dude_obj)
 #define floor2(value) sfall_func1("floor2", value)
 #define intface_redraw sfall_func0("intface_redraw")
 #define add_extra_msg_file(fileName) sfall_func1("add_extra_msg_file", fileName)

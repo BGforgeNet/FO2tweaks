@@ -2,9 +2,9 @@
 
 #define SCRIPT_REALNAME "gl_g_auto_cursor"
 
-#define DIK_M 50
 #define OBJ_TYPE_CRITTER 1
 #define CRITTER_IS_DEAD 1
+#define DIK_M 50
 #define PCOMBAT 2048
 #define HOOK_KEYPRESS 19
 #define HOOK_MOUSECLICK 20

@@ -3,11 +3,11 @@
 #define SCRIPT_REALNAME "gl_g_auto_reload"
 #define set_auto_reload "auto_reload"
 
-#define FLOAT1 1
 #define PROTO_WP_CALIBER 88
 #define PROTO_WP_MAG_SIZE 96
 #define PROTO_AM_PACK_SIZE 40
 #define item_type_weapon 3
+#define FLOAT1 1
 #define COMBAT 64
 #define HOOK_GAMEMODECHANGE 31
 #define PID_SOLAR_SCORCHER 390

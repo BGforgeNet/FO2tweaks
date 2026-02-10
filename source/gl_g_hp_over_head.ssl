@@ -22,8 +22,8 @@
 #define LIST_CRITTERS 0
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define sec_main "main"
-#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define obj_is_visible_flag(who) has_trait(TRAIT_OBJECT, who, OBJECT_VISIBILITY)
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define get_sfall_arg_at(index) sfall_func1("get_sfall_arg_at", index)
 #define string_toupper(text) sfall_func2("string_to_case", text, 1)
 #define string_format2(fmt, a1, a2) sfall_func3("string_format", fmt, a1, a2)

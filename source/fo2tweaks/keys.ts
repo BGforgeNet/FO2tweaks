@@ -1,6 +1,6 @@
 // Keyboard scan code mapping (from keys.h)
 
-import { string_toupper } from "folib/sfall/sfall";
+import { string_toupper } from "folib/sfall";
 import { ndebug } from "folib";
 
 /**

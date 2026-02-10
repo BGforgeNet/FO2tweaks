@@ -6,7 +6,7 @@ import { CritterPtr, ObjectPtr, get_critter_stat, ndebug, SfallList } from "foli
 import {
     fix_array, game_loaded, get_sfall_arg, get_sfall_arg_at, is_in_array,
     register_hook_proc, set_sfall_arg, set_sfall_return,
-    HOOK_TOHIT, STAT_ac,
+    HOOK_TOHIT, STAT,
 } from "folib/sfall";
 
 const SCRIPT_REALNAME = "gl_g_grenades_tohit";
@@ -53,7 +53,7 @@ function tohit_handler() {
     if (is_in_array(weapon_pid, explosive_weapon_pids)
         || is_in_array(ammo_pid, explosive_ammo_pids)) {
         // ignore target ac
-        const target_ac = get_critter_stat(target, STAT_ac);
+        const target_ac = get_critter_stat(target, STAT.ac);
         tohit_raw = tohit_raw + target_ac;
         ndebug("chance to hit increased by " + target_ac);
 

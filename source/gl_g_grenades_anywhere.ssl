@@ -20,10 +20,10 @@
 #define CURSOR_TARGETING 2
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define sec_main "main"
+#define create_object(pid, tile, elev) create_object_sid(pid, tile, elev, -1)
 #define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define dude_tile tile_num(dude_obj)
 #define dude_elevation elevation(dude_obj)
-#define create_object(pid, tile, elev) create_object_sid(pid, tile, elev, -1)
 #define critter_inven_obj2(critter, slot) sfall_func2("critter_inven_obj2", critter, slot)
 #define get_sfall_arg_at(index) sfall_func1("get_sfall_arg_at", index)
 #define get_flags(obj) sfall_func1("get_flags", obj)

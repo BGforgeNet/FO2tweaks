@@ -1,4 +1,3 @@
-import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import tsParser from "@typescript-eslint/parser";
 import unusedImports from 'eslint-plugin-unused-imports';
@@ -573,7 +572,6 @@ const JS_UNAVAILABLE_GLOBALS = [
 ];
 
 export default tseslint.config(
-  eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked.map(config => ({
     ...config,
     files: ["**/*.ts", "**/*.tssl"],

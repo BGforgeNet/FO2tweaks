@@ -73,8 +73,8 @@
 #define SC_TYPE_STAIRS 1
 #define SC_TYPE_LADDER_TOP 3
 #define SC_TYPE_LADDER_BOTTOM 4
-#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define inven_ptr(who, where) inven_cmds(who, INVEN_CMD_INDEX_PTR, where)
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define get_flags(obj) sfall_func1("get_flags", obj)
 #define get_outline(obj) sfall_func1("get_outline", obj)
 #define set_outline(obj, color) sfall_func2("set_outline", obj, color)

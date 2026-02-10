@@ -10,7 +10,7 @@ import {
     set_global_script_repeat, sprintf, string_format2,
     COMBAT, FLOAT_MSG_GREEN, FLOAT_MSG_NORMAL, FLOAT_MSG_RED, HOOK_COMBATTURN,
     HOOK_GAMEMODECHANGE, HOOK_KEYPRESS, HOOK_ONDEATH, HOOK_USEOBJ, HOOK_USEOBJON,
-    LIST_CRITTERS, obj_is_visible_flag, STAT_current_hp, STAT_max_hp,
+    LIST_CRITTERS, obj_is_visible_flag, STAT,
 } from "folib/sfall";
 
 const SCRIPT_REALNAME = "gl_g_hp_over_head";
@@ -32,8 +32,8 @@ function update_hp() {
   if (!combat_is_initialized && key) {
     for (const who of party_member_list_critters()) {
       if (is_dead(who)) continue;
-      cur_hp = get_critter_stat(who, STAT_current_hp);
-      max_hp = get_critter_stat(who, STAT_max_hp);
+      cur_hp = get_critter_stat(who, STAT.current_hp);
+      max_hp = get_critter_stat(who, STAT.max_hp);
       msg = string_format2("%d/%d", cur_hp, max_hp);
       float_msg(who, msg, FLOAT_MSG_GREEN);
     }
@@ -43,7 +43,7 @@ function update_hp() {
   if (only_party == 1) {
     for (const who of party_member_list_critters()) {
       if (is_dead(who)) continue;
-      cur_hp = get_critter_stat(who, STAT_current_hp);
+      cur_hp = get_critter_stat(who, STAT.current_hp);
       msg = sprintf("%d", cur_hp);
       float_msg(who, msg, FLOAT_MSG_GREEN);
     }
@@ -62,7 +62,7 @@ function update_hp() {
     color = FLOAT_MSG_RED;
     if (in_party(who)) color = FLOAT_MSG_GREEN;
 
-    cur_hp = get_critter_stat(who, STAT_current_hp);
+    cur_hp = get_critter_stat(who, STAT.current_hp);
     msg = sprintf("%d", cur_hp);
     float_msg(who, msg, color);
   }

@@ -6,7 +6,7 @@ import {
 import {
     FLOAT1, combat_difficulty, dude_obj, float_msg, get_critter_stat,
     has_trait, obj_name, obj_pid, random, ndebug,
-    CritterPtr, ItemPtr, StatID, SfallMap, SfallList
+    CritterPtr, ItemPtr, STAT, SfallMap, SfallList
 } from "folib";
 import {
     array_append, atoi, critter_kill_type, fix_array, floor2,
@@ -21,15 +21,9 @@ import {
     PERK_pyromaniac_perk, PERK_sniper, PERK_weapon_long_range, PERK_weapon_penetrate,
     PROTO_AM_DMG_DIV, PROTO_AM_DMG_MULT, PROTO_AM_DR_MOD,
     PROTO_WP_DMG_MAX, PROTO_WP_DMG_MIN, PROTO_WP_PERK,
-    STAT_crit_chance, STAT_dmg_resist, STAT_dmg_resist_electrical,
-    STAT_dmg_resist_emp, STAT_dmg_resist_explosion, STAT_dmg_resist_fire,
-    STAT_dmg_resist_laser, STAT_dmg_resist_plasma, STAT_dmg_thresh,
-    STAT_dmg_thresh_electrical, STAT_dmg_thresh_emp, STAT_dmg_thresh_explosion,
-    STAT_dmg_thresh_fire, STAT_dmg_thresh_laser, STAT_dmg_thresh_plasma, STAT_lu,
-    TRAIT_finesse, TRAIT_PERK, TRAIT_TRAIT, VALTYPE_INT,
+    BODY, TRAIT_finesse, TRAIT_PERK, TRAIT_TRAIT, VALTYPE_INT,
     CRITICAL_VALUE_EFFECTS,
     CRITICAL_VALUE_MULT,
-    BODY_UNCALLED,
 } from "folib/sfall";
 import {
     PID_14MM_AP, PID_14MM_PISTOL, PID_44_MAGNUM_JHP, PID_4_7MM_CASELESS,
@@ -298,14 +292,14 @@ function get_critical_type(attacker: CritterPtr, target: CritterPtr, check_snipe
 
   // Sniper check
   if (check_sniper && has_trait(TRAIT_PERK, attacker, PERK_sniper)) {
-    const luck = get_critter_stat(attacker, STAT_lu);
+    const luck = get_critter_stat(attacker, STAT.lu);
     rnd = random(1, 10);
     if (rnd <= luck) crit = true;
   }
 
   // Normal crit check
   if (crit == false) {
-    const chance = get_critter_stat(attacker, STAT_crit_chance);
+    const chance = get_critter_stat(attacker, STAT.crit_chance);
     rnd = random(1, 100);
     if (rnd <= chance) crit = true;
   }
@@ -314,8 +308,8 @@ function get_critical_type(attacker: CritterPtr, target: CritterPtr, check_snipe
   if (crit == false) return [FLOAT1 * mult / 2, flags];
 
   const crit_level = get_critical_level(attacker);
-  mult = get_critical_table(critter_kill_type(target), BODY_UNCALLED, crit_level, CRITICAL_VALUE_MULT);
-  flags = get_critical_table(critter_kill_type(target), BODY_UNCALLED, crit_level, CRITICAL_VALUE_EFFECTS);
+  mult = get_critical_table(critter_kill_type(target), BODY.UNCALLED, crit_level, CRITICAL_VALUE_MULT);
+  flags = get_critical_table(critter_kill_type(target), BODY.UNCALLED, crit_level, CRITICAL_VALUE_EFFECTS);
   ndebug("critical level " + crit_level + ", critical mult " + mult + ", flags " + flags);
   return [FLOAT1 * mult / 2, flags];
 }
@@ -419,41 +413,41 @@ function get_total_damage(
   return total_damage;
 }
 
-function get_resist_defines(dmg_type: number): [StatID, StatID] {
-  let cr_dt_type: StatID, cr_dr_type: StatID;
+function get_resist_defines(dmg_type: number): [STAT, STAT] {
+  let cr_dt_type: STAT, cr_dr_type: STAT;
 
   switch (dmg_type) {
     case DMG_normal_dam:
-      cr_dr_type = STAT_dmg_resist;
-      cr_dt_type = STAT_dmg_thresh;
+      cr_dr_type = STAT.dmg_resist;
+      cr_dt_type = STAT.dmg_thresh;
       break;
     case DMG_laser:
-      cr_dr_type = STAT_dmg_resist_laser;
-      cr_dt_type = STAT_dmg_thresh_laser;
+      cr_dr_type = STAT.dmg_resist_laser;
+      cr_dt_type = STAT.dmg_thresh_laser;
       break;
     case DMG_fire:
-      cr_dr_type = STAT_dmg_resist_fire;
-      cr_dt_type = STAT_dmg_thresh_fire;
+      cr_dr_type = STAT.dmg_resist_fire;
+      cr_dt_type = STAT.dmg_thresh_fire;
       break;
     case DMG_plasma:
-      cr_dr_type = STAT_dmg_resist_plasma;
-      cr_dt_type = STAT_dmg_thresh_plasma;
+      cr_dr_type = STAT.dmg_resist_plasma;
+      cr_dt_type = STAT.dmg_thresh_plasma;
       break;
     case DMG_electrical:
-      cr_dr_type = STAT_dmg_resist_electrical;
-      cr_dt_type = STAT_dmg_thresh_electrical;
+      cr_dr_type = STAT.dmg_resist_electrical;
+      cr_dt_type = STAT.dmg_thresh_electrical;
       break;
     case DMG_emp:
-      cr_dr_type = STAT_dmg_resist_emp;
-      cr_dt_type = STAT_dmg_thresh_emp;
+      cr_dr_type = STAT.dmg_resist_emp;
+      cr_dt_type = STAT.dmg_thresh_emp;
       break;
     case DMG_explosion:
-      cr_dr_type = STAT_dmg_resist_explosion;
-      cr_dt_type = STAT_dmg_thresh_explosion;
+      cr_dr_type = STAT.dmg_resist_explosion;
+      cr_dt_type = STAT.dmg_thresh_explosion;
       break;
     default:  // should never fire, but just in case
-      cr_dr_type = STAT_dmg_resist;
-      cr_dt_type = STAT_dmg_thresh;
+      cr_dr_type = STAT.dmg_resist;
+      cr_dt_type = STAT.dmg_thresh;
   }
 
   return [cr_dr_type, cr_dt_type];

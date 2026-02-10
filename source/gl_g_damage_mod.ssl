@@ -17,7 +17,6 @@
 #define sec_damage_mod_ammo_type "damage_mod_ammo_type"
 
 #define LEFT_HAND 0
-#define FLOAT1 1
 #define BODY_UNCALLED 8
 #define OBJ_TYPE_CRITTER 1
 #define PROTO_WP_ANIM 36
@@ -80,6 +79,7 @@
 #define METARULE_W_DAMAGE_TYPE 49
 #define METARULE_CRITTER_KILL_TYPE 51
 #define KILL_TYPE_robot_kills 10
+#define FLOAT1 1
 #define HOOK_COMBATDAMAGE 5
 #define VALTYPE_INT 1
 #define PID_MINIGUN 12
@@ -117,9 +117,9 @@
 #define PID_FLAMETHROWER_FUEL_MK_II 382
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define sec_main "main"
-#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define weapon_dmg_type(weapon) metarule(METARULE_W_DAMAGE_TYPE, weapon)
 #define critter_kill_type(who) metarule(METARULE_CRITTER_KILL_TYPE, who)
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define critter_inven_obj2(critter, slot) sfall_func2("critter_inven_obj2", critter, slot)
 #define floor2(value) sfall_func1("floor2", value)
 #define get_ini_section(file, sect) sfall_func2("get_ini_section", file, sect)

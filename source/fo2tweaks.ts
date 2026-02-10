@@ -1,7 +1,7 @@
 // fo2tweaks library - TypeScript implementation
 
 import {
-    ObjectPtr, ItemPtr, CritterPtr, SceneryPtr, ContainerPtr, DoorPtr, SkillID, LEFT_HAND,
+    ObjectPtr, ItemPtr, CritterPtr, SceneryPtr, ContainerPtr, DoorPtr, SKILL, LEFT_HAND,
     dude_obj, obj_item_subtype, obj_type, obj_pid, obj_name, proto_data,
     critter_inven_obj, critter_state, use_obj_on_obj, float_msg, ndebug,
     SfallList, SfallMap
@@ -426,7 +426,7 @@ export function get_ini_section_ints(file: string, section: string): SfallMap<nu
  * @param skill Skill ID to check
  * @returns Array of [best_party_member, skill_level]
  */
-export function get_party_skill_level(skill: SkillID): [CritterPtr, number] {
+export function get_party_skill_level(skill: SKILL): [CritterPtr, number] {
     let who_best!: CritterPtr;
     let skill_level = 0;
     for (const who of party_member_list_critters()) {

@@ -14,8 +14,8 @@
 #define sec_main "main"
 #define ANIM_electrified_to_nothing 30
 #define ANIM_exploded_to_nothing 31
-#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define inven_ptr(who, where) inven_cmds(who, INVEN_CMD_INDEX_PTR, where)
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define critter_inven_obj2(critter, slot) sfall_func2("critter_inven_obj2", critter, slot)
 
 procedure inven_count(variable who);
@@ -28,7 +28,7 @@ procedure start();
 
 /* ===== bundled ===== */
 procedure inven_count(variable who) begin
-    return critter_inven_obj2(who, INVEN_TYPE_INV_COUNT);
+    return critter_inven_obj(who, INVEN_TYPE_INV_COUNT);
 end
 procedure fo2tweaks_setting(variable section, variable setting) begin
     return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);

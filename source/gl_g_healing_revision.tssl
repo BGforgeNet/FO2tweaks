@@ -1,6 +1,6 @@
 import { fo2tweaks_setting, sec_main, get_party_skill_level } from "./fo2tweaks";
 import {
-    CritterPtr, SkillID, dude_obj, obj_name, obj_pid, display_msg, float_msg,
+    CritterPtr, SKILL, dude_obj, obj_name, obj_pid, display_msg, float_msg,
     random, has_trait, critter_heal, critter_add_trait, critter_state, game_time_advance,
     game_ticks, get_day, give_exp_points, get_critter_stat, combat_is_initialized, ndebug,
     SfallList
@@ -14,7 +14,7 @@ import {
     set_sfall_global, set_sfall_return, sprintf,
     DAM_BLIND, DAM_CRIP_ARM_LEFT, DAM_CRIP_ARM_RIGHT, DAM_CRIP_LEG_LEFT, DAM_CRIP_LEG_RIGHT,
     FLOAT_MSG_WHITE, HOOK_RESTTIMER, HOOK_USESKILL, PERK_healer, PERK_living_anatomy_perk,
-    SKILL_DOCTOR, SKILL_FIRST_AID, STAT_current_hp, STAT_max_hp, TRAIT_PERK,
+    STAT, TRAIT_PERK,
 } from "folib/sfall";
 
 const SCRIPT_REALNAME = "gl_g_healing_revision";
@@ -92,8 +92,8 @@ function heal_disabilities(user: CritterPtr, target: CritterPtr, effective_skill
 }
 
 function is_healthy(target: CritterPtr): boolean {
-    const max_hp = get_critter_stat(target, STAT_max_hp);
-    const cur_hp = get_critter_stat(target, STAT_current_hp);
+    const max_hp = get_critter_stat(target, STAT.max_hp);
+    const cur_hp = get_critter_stat(target, STAT.current_hp);
     if (cur_hp >= max_hp && !is_disabled(target)) {
         return true;
     } else {
@@ -131,16 +131,16 @@ function get_fa_healed(target: CritterPtr, fa_level: number): number {
 }
 
 function missing_hp(target: CritterPtr): number {
-    const max_hp = get_critter_stat(target, STAT_max_hp);
-    const cur_hp = get_critter_stat(target, STAT_current_hp);
+    const max_hp = get_critter_stat(target, STAT.max_hp);
+    const cur_hp = get_critter_stat(target, STAT.current_hp);
     const mhp = max_hp - cur_hp;
     return mhp;
 }
 
 function use_doctor(user: CritterPtr, target: CritterPtr, skill_bonus: number, interactive: boolean = true): boolean {
-    let tmp: [CritterPtr, number] = get_party_skill_level(SKILL_DOCTOR);
+    let tmp: [CritterPtr, number] = get_party_skill_level(SKILL.DOCTOR);
     const doctor_level = tmp[1];
-    tmp = get_party_skill_level(SKILL_FIRST_AID);
+    tmp = get_party_skill_level(SKILL.FIRST_AID);
     const fa_level = tmp[1];
     const effective_doctor = doctor_level + skill_bonus;
 
@@ -156,7 +156,7 @@ function use_doctor(user: CritterPtr, target: CritterPtr, skill_bonus: number, i
             return false;
         } else {
             if (is_in_array(obj_pid(target), doctor_used)) { // already used doctor today
-                const skill_name = get_skill_name(SKILL_DOCTOR);
+                const skill_name = get_skill_name(SKILL.DOCTOR);
                 display_msg(parse_str_2(mymsg(msg_already_used), obj_name(target), skill_name));
                 return false;
             }
@@ -183,13 +183,13 @@ function use_doctor(user: CritterPtr, target: CritterPtr, skill_bonus: number, i
         }
         critter_heal(target, hp);
         display_msg(parse_str_2(mymsg(msg_healed_for), obj_name(target), hp));
-        grant_xp(hp, SKILL_DOCTOR);
+        grant_xp(hp, SKILL.DOCTOR);
     }
     return true;
 }
 
 function use_first_aid(user: CritterPtr, target: CritterPtr, skill_bonus: number, interactive: boolean = true): boolean {
-    const tmp = get_party_skill_level(SKILL_FIRST_AID);
+    const tmp = get_party_skill_level(SKILL.FIRST_AID);
     const fa_level = tmp[1];
     const effective_fa = fa_level + skill_bonus;
     ndebug("fa level " + fa_level + ", skill bonus " + skill_bonus + ", effective " + effective_fa);
@@ -205,7 +205,7 @@ function use_first_aid(user: CritterPtr, target: CritterPtr, skill_bonus: number
             return false;
         } else {
             if (is_in_array(obj_pid(target), fa_used)) { // already used fa today
-                const skill_name = get_skill_name(SKILL_FIRST_AID);
+                const skill_name = get_skill_name(SKILL.FIRST_AID);
                 display_msg(parse_str_2(mymsg(msg_already_used), obj_name(target), skill_name));
                 return false;
             }
@@ -227,7 +227,7 @@ function use_first_aid(user: CritterPtr, target: CritterPtr, skill_bonus: number
         }
         critter_heal(target, hp);
         display_msg(parse_str_2(mymsg(msg_healed_for), obj_name(target), hp));
-        grant_xp(hp, SKILL_FIRST_AID);
+        grant_xp(hp, SKILL.FIRST_AID);
     }
     return true;
 }
@@ -245,9 +245,9 @@ function update_heal_arrays(): void {
     if (get_day != last_day) reset_heal_arrays();
 }
 
-function get_skill_name(skill: number): string {
+function get_skill_name(skill: SKILL): string {
     let skill_name: string;
-    if (skill == SKILL_DOCTOR) {
+    if (skill == SKILL.DOCTOR) {
         skill_name = mstr_skill(doctor_skill_name);
     } else {
         skill_name = mstr_skill(fa_skill_name);
@@ -255,21 +255,21 @@ function get_skill_name(skill: number): string {
     return skill_name;
 }
 
-function grant_xp(hp: number, skill: number): void {
+function grant_xp(hp: number, skill: SKILL): void {
     const xp = hp * 10;
     const skill_name = get_skill_name(skill);
     give_exp_points(xp);
     display_msg(parse_str_2(mymsg(msg_got_xp), xp, skill_name));
 }
 
-function use_skill(user: CritterPtr, target: CritterPtr, skill: number, skill_bonus: number): void {
+function use_skill(user: CritterPtr, target: CritterPtr, skill: SKILL, skill_bonus: number): void {
     update_heal_arrays();
     ndebug("user1 " + user + " target " + target);
-    if (skill == SKILL_DOCTOR) {
+    if (skill == SKILL.DOCTOR) {
         use_doctor(user, target, skill_bonus);
         set_sfall_return(0);
     }
-    if (skill == SKILL_FIRST_AID) {
+    if (skill == SKILL.FIRST_AID) {
         use_first_aid(user, target, skill_bonus);
     }
 }
@@ -278,10 +278,10 @@ function healing_handler(): void {
     // HOOK_USESKILL args are critters for healing skills
     const user = get_sfall_arg() as CritterPtr;
     const target = get_sfall_arg() as CritterPtr;
-    const skill = get_sfall_arg() as SkillID;
+    const skill = get_sfall_arg() as SKILL;
     const skill_bonus = get_sfall_arg() as number;
     ndebug("user " + user + " target " + target);
-    if (enabled == 1 && (skill == SKILL_FIRST_AID || skill == SKILL_DOCTOR)) {
+    if (enabled == 1 && (skill == SKILL.FIRST_AID || skill == SKILL.DOCTOR)) {
         set_sfall_return(0); // override
         if (combat_is_initialized) {
             display_mymsg(msg_not_in_combat);
@@ -322,7 +322,7 @@ function map_enter_p_proc() {
     if (enabled == 1) {
         ndebug("living_anatomy_min_doctor=" + living_anatomy_min_doctor);
         if (living_anatomy_min_doctor < 300) {
-            if (critter_skill_level(dude_obj, SKILL_DOCTOR) >= living_anatomy_min_doctor
+            if (critter_skill_level(dude_obj, SKILL.DOCTOR) >= living_anatomy_min_doctor
                 && !has_trait(TRAIT_PERK, dude_obj, PERK_living_anatomy_perk)
             ) {
                 ndebug(obj_name(dude_obj) + " gets living anatomy!");

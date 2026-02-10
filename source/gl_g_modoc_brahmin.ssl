@@ -14,8 +14,8 @@
 #define sec_main "main"
 #define MAP_MODOC_BRAHMINPASTURES 20
 #define TEAM_PLAYER 0
-#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define critter_kill_type(who) metarule(METARULE_CRITTER_KILL_TYPE, who)
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 
 procedure map_first_run();
 procedure fo2tweaks_setting(variable section, variable setting);
