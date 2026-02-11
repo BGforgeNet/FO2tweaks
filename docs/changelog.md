@@ -1,5 +1,9 @@
 ## Changelog
 
+### Version 14
+
+Re-written in tssl.
+
 ### Version 13
 
 - [Changed](https://forums.bgforge.net/viewtopic.php?t=129) damage formula implementation.
