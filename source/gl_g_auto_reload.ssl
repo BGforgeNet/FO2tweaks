@@ -8,21 +8,21 @@
 #define PROTO_AM_PACK_SIZE 40
 #define item_type_weapon 3
 #define FLOAT1 1
+#define REG_ANIM_CLEAR 2
+#define PID_SOLAR_SCORCHER 390
 #define COMBAT 64
 #define HOOK_GAMEMODECHANGE 31
-#define PID_SOLAR_SCORCHER 390
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define sec_main "main"
-#define REG_ANIM_CLEAR 2
 #define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define critter_inven_obj2(critter, slot) sfall_func2("critter_inven_obj2", critter, slot)
 #define get_sfall_arg_at(index) sfall_func1("get_sfall_arg_at", index)
 #define intface_redraw sfall_func0("intface_redraw")
 
+procedure reg_anim_clear(variable obj);
 procedure fo2tweaks_setting(variable section, variable setting);
 procedure is_weapon(variable obj);
 procedure in_combat();
-procedure reg_anim_clear(variable obj);
 procedure actual_ammo_count(variable crit, variable obj);
 procedure set_actual_ammo_count(variable invenobj, variable item, variable newcount);
 procedure set_item_count(variable invenobj, variable item, variable newcount);
@@ -31,6 +31,9 @@ procedure auto_reload();
 procedure start();
 
 /* ===== bundled ===== */
+procedure reg_anim_clear(variable obj) begin
+    reg_anim_func(REG_ANIM_CLEAR, obj);
+end
 procedure fo2tweaks_setting(variable section, variable setting) begin
     return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
 end
@@ -39,9 +42,6 @@ procedure is_weapon(variable obj) begin
 end
 procedure in_combat() begin
     return (get_game_mode bwand COMBAT) != 0;
-end
-procedure reg_anim_clear(variable obj) begin
-    reg_anim_func(REG_ANIM_CLEAR, obj);
 end
 /* ===== end bundled ===== */
 

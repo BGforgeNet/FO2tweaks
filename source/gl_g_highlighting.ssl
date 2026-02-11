@@ -35,6 +35,17 @@
 #define CRITTER_IS_DEAD 1
 #define item_type_container 1
 #define INVEN_CMD_INDEX_PTR 13
+#define PID_MOTION_SENSOR 59
+#define PID_CAVE_FLOOR_TRAP_VISIBLE 33555383
+#define PID_CAVE_FLOOR_TRAP_DISARMED 33555384
+#define PID_CAVE_FLOOR_TRAP_DEPRESSED 33555385
+#define PID_METAL_FLOOR_TRAP_VISIBLE 33555429
+#define PID_METAL_FLOOR_TRAP_DISARMED 33555430
+#define PID_METAL_FLOOR_TRAP_DEPRESSED 33555431
+#define PRODATA_SC_TYPE 32
+#define SC_TYPE_STAIRS 1
+#define SC_TYPE_LADDER_TOP 3
+#define SC_TYPE_LADDER_BOTTOM 4
 #define WORLDMAP 1
 #define DIALOG 4
 #define ESCMENU 8
@@ -58,21 +69,10 @@
 #define CURSOR_COMMAND 1
 #define CURSOR_TARGETING 2
 #define BLOCKING_TYPE_SHOOT 1
-#define PID_MOTION_SENSOR 59
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define sec_main "main"
-#define PRODATA_SC_TYPE 32
-#define SC_TYPE_DOOR 0
-#define PID_CAVE_FLOOR_TRAP_VISIBLE 33555383
-#define PID_CAVE_FLOOR_TRAP_DISARMED 33555384
-#define PID_CAVE_FLOOR_TRAP_DEPRESSED 33555385
-#define PID_METAL_FLOOR_TRAP_VISIBLE 33555429
-#define PID_METAL_FLOOR_TRAP_DISARMED 33555430
-#define PID_METAL_FLOOR_TRAP_DEPRESSED 33555431
 #define PRODATA_SC_TYPE2 32
-#define SC_TYPE_STAIRS 1
-#define SC_TYPE_LADDER_TOP 3
-#define SC_TYPE_LADDER_BOTTOM 4
+#define SC_TYPE_DOOR 0
 #define inven_ptr(who, where) inven_cmds(who, INVEN_CMD_INDEX_PTR, where)
 #define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define get_flags(obj) sfall_func1("get_flags", obj)
@@ -182,7 +182,7 @@ procedure fo2tweaks_comsep_setting(variable section, variable setting) begin
     return load_comsep_ini_setting(fo2tweaks_ini, section, setting);
 end
 procedure is_door(variable scenery_obj) begin
-    if (get_proto_data(obj_pid(scenery_obj), PRODATA_SC_TYPE) == SC_TYPE_DOOR) then begin
+    if (get_proto_data(obj_pid(scenery_obj), PRODATA_SC_TYPE2) == SC_TYPE_DOOR) then begin
         return true;
     end
     return false;
@@ -239,7 +239,7 @@ procedure invalid_game_mode() begin
     return (get_game_mode bwand (WORLDMAP bwor DIALOG bwor ESCMENU bwor SAVEGAME bwor LOADGAME bwor OPTIONS bwor HELP bwor CHARSCREEN bwor PIPBOY bwor AUTOMAP bwor BARTER bwor HEROWIN bwor DIALOGVIEW)) != 0;
 end
 procedure is_stairs(variable scenery_obj) begin
-    variable type = get_proto_data(obj_pid(scenery_obj), PRODATA_SC_TYPE2);
+    variable type = get_proto_data(obj_pid(scenery_obj), PRODATA_SC_TYPE);
     if (type == SC_TYPE_STAIRS or type == SC_TYPE_LADDER_BOTTOM or type == SC_TYPE_LADDER_TOP) then begin
         return true;
     end

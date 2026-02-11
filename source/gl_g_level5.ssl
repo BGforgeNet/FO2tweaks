@@ -4,9 +4,9 @@
 #define set_level5 "level5"
 
 #define METARULE_TEST_FIRSTRUN 14
+#define MAP_ARROYO_VILLAGE 4
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define sec_main "main"
-#define MAP_ARROYO_VILLAGE 4
 #define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define add_extra_msg_file(fileName) sfall_func1("add_extra_msg_file", fileName)
 

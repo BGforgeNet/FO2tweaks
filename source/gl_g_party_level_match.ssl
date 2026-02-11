@@ -39,10 +39,10 @@
 #define get_ini_section(file, sect) sfall_func2("get_ini_section", file, sect)
 
 procedure party_member_list_critters();
+procedure true_party_size();
 procedure fo2tweaks_setting(variable section, variable setting);
 procedure mode_ended(variable mode_to_check, variable old_mode, variable new_mode);
 procedure mode_started(variable mode_to_check, variable old_mode, variable new_mode);
-procedure true_party_size();
 procedure levelup();
 procedure gamemode_handler();
 procedure map_enter_p_proc();
@@ -52,6 +52,9 @@ procedure start();
 /* ===== bundled ===== */
 procedure party_member_list_critters() begin
     return party_member_list(false);
+end
+procedure true_party_size() begin
+    return len_array(party_member_list_critters()) - 1;
 end
 procedure fo2tweaks_setting(variable section, variable setting) begin
     return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
@@ -67,9 +70,6 @@ procedure mode_started(variable mode_to_check, variable old_mode, variable new_m
         return true;
     end
     return false;
-end
-procedure true_party_size() begin
-    return len_array(party_member_list_critters()) - 1;
 end
 /* ===== end bundled ===== */
 

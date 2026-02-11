@@ -10,16 +10,16 @@
 #define SGVAR_bathhouse2 "g_gi_ba2"
 
 #define talk_proc 11
-#define HOOK_SETGLOBALVAR 29
-#define HOOK_STDPROCEDURE 40
-#define fo2tweaks_ini "mods\\fo2tweaks.ini"
-#define sec_main "main"
+#define GVAR_SEX_COUNTER 358
+#define GVAR_GIGALO 589
 #define SCRIPT_KCSALLY 82
 #define SCRIPT_NCKITTY 452
 #define SCRIPT_ECTRAPPR 509
 #define SCRIPT_ECRAVPTY 629
-#define GVAR_SEX_COUNTER 358
-#define GVAR_GIGALO 589
+#define HOOK_SETGLOBALVAR 29
+#define HOOK_STDPROCEDURE 40
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
 #define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define dialog_obj sfall_func0("dialog_obj")
 

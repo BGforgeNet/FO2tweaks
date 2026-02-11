@@ -13,9 +13,9 @@
 #define INVEN_TYPE_LEFT_HAND 2
 #define item_type_weapon 3
 #define DMG_fire 2
+#define PID_MOLOTOV_COCKTAIL 159
 #define HOOK_AFTERHITROLL 1
 #define HOOK_ITEMDAMAGE 16
-#define PID_MOLOTOV_COCKTAIL 159
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define sec_main "main"
 #define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)

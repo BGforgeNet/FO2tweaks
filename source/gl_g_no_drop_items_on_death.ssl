@@ -7,13 +7,13 @@
 #define INVEN_TYPE_WORN 0
 #define INVEN_TYPE_INV_COUNT -2
 #define INVEN_CMD_INDEX_PTR 13
-#define HOOK_DEATHANIM2 4
-#define HOOK_ONDEATH 6
-#define PID_FOOTLOCKER_CLEAN_LEFT 128
-#define fo2tweaks_ini "mods\\fo2tweaks.ini"
-#define sec_main "main"
 #define ANIM_electrified_to_nothing 30
 #define ANIM_exploded_to_nothing 31
+#define PID_FOOTLOCKER_CLEAN_LEFT 128
+#define HOOK_DEATHANIM2 4
+#define HOOK_ONDEATH 6
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
 #define inven_ptr(who, where) inven_cmds(who, INVEN_CMD_INDEX_PTR, where)
 #define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define critter_inven_obj2(critter, slot) sfall_func2("critter_inven_obj2", critter, slot)

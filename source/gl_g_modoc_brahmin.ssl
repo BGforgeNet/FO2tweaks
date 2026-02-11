@@ -10,10 +10,10 @@
 #define KILL_TYPE_brahmin_kills 5
 #define HOOK_COMBATTURN 27
 #define LIST_CRITTERS 0
+#define TEAM_PLAYER 0
+#define MAP_MODOC_BRAHMINPASTURES 20
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define sec_main "main"
-#define MAP_MODOC_BRAHMINPASTURES 20
-#define TEAM_PLAYER 0
 #define critter_kill_type(who) metarule(METARULE_CRITTER_KILL_TYPE, who)
 #define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 

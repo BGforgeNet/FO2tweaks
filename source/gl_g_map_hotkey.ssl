@@ -7,30 +7,33 @@
 #define FLOAT_MSG_NORMAL 0
 #define METARULE_GIVE_CAR_TO_PARTY 31
 #define bit_1 1
-#define DIK_0 11
-#define DIK_T 20
 #define HOOK_KEYPRESS 19
 #define LIST_SCENERY 2
-#define fo2tweaks_ini "mods\\fo2tweaks.ini"
-#define sec_main "main"
-#define MAP_MODOC_DOWNTHESHITTER 22
 #define GVAR_PLAYER_GOT_CAR 18
 #define GVAR_MODOC_GENERIC_FLAG_1 297
+#define MAP_MODOC_DOWNTHESHITTER 22
 #define SCRIPT_MISHTRKS 208
+#define DIK_0 11
+#define DIK_T 20
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
 #define car_give_to_party metarule(METARULE_GIVE_CAR_TO_PARTY, 0)
 #define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define string_toupper(text) sfall_func2("string_to_case", text, 1)
 #define add_extra_msg_file(fileName) sfall_func1("add_extra_msg_file", fileName)
 #define dude_has_car global_var(GVAR_PLAYER_GOT_CAR)
 
+procedure shitter_has_blown();
 procedure fo2tweaks_string(variable section, variable setting);
 procedure char_to_dik(variable char);
-procedure shitter_has_blown();
 procedure blowing_shitter();
 procedure keypress_handler();
 procedure start();
 
 /* ===== bundled ===== */
+procedure shitter_has_blown() begin
+    return (global_var(GVAR_MODOC_GENERIC_FLAG_1) bwand bit_1) != 0;
+end
 procedure fo2tweaks_string(variable section, variable setting) begin
     return get_ini_string(fo2tweaks_ini + "|" + section + "|" + setting);
 end
@@ -42,9 +45,6 @@ procedure char_to_dik(variable char) begin
         ndebug("failed to parse character " + char);
     end
     return dik_code;
-end
-procedure shitter_has_blown() begin
-    return (global_var(GVAR_MODOC_GENERIC_FLAG_1) bwand bit_1) != 0;
 end
 /* ===== end bundled ===== */
 

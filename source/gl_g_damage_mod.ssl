@@ -80,8 +80,6 @@
 #define METARULE_CRITTER_KILL_TYPE 51
 #define KILL_TYPE_robot_kills 10
 #define FLOAT1 1
-#define HOOK_COMBATDAMAGE 5
-#define VALTYPE_INT 1
 #define PID_MINIGUN 12
 #define PID_14MM_PISTOL 22
 #define PID_HK_G11 352
@@ -115,6 +113,8 @@
 #define PID_HN_AP_NEEDLER_CARTRIDGE 362
 #define PID_7_62MM_AMMO 363
 #define PID_FLAMETHROWER_FUEL_MK_II 382
+#define HOOK_COMBATDAMAGE 5
+#define VALTYPE_INT 1
 #define fo2tweaks_ini "mods\\fo2tweaks.ini"
 #define sec_main "main"
 #define weapon_dmg_type(weapon) metarule(METARULE_W_DAMAGE_TYPE, weapon)
@@ -470,9 +470,9 @@ procedure get_critical_level(variable who) begin
 end
 /**
  * Gets critical type for burst rounds (uncalled to torso)
- * @param attacker 
- * @param target 
- * @param check_sniper 
+ * @param attacker
+ * @param target
+ * @param check_sniper
  * @returns [critical mult, critical effect flags]
  */
 procedure get_critical_type(variable attacker, variable target, variable check_sniper) begin
