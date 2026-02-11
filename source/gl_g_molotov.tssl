@@ -1,12 +1,14 @@
-import { fo2tweaks_setting, sec_main, is_critter, get_active_weapon_pid } from "./fo2tweaks";
-import { obj_name, obj_pid, ndebug, CritterPtr, ObjectPtr, ItemPtr, HitResult, HITRESULT_MISS } from "folib";
-import {
-    game_loaded, get_sfall_arg, get_sfall_arg_at, register_hook_proc,
-    set_attack_explosion_pattern, set_attack_is_explosion_fire, set_proto_data,
-    DMG_fire, HOOK_AFTERHITROLL, HOOK_ITEMDAMAGE, PERK_weapon_flameboy,
-    PROTO_WP_DMG_TYPE, PROTO_WP_PERK,
-} from "folib/sfall";
+import { CritterPtr, HitResult, HITRESULT_MISS, ItemPtr, ndebug, obj_name, obj_pid, ObjectPtr } from "folib";
 import { PID_MOLOTOV_COCKTAIL } from "folib/rp/itempid";
+import {
+    DMG_fire,
+    game_loaded, get_sfall_arg, get_sfall_arg_at,
+    HOOK_AFTERHITROLL, HOOK_ITEMDAMAGE, PERK_weapon_flameboy,
+    PROTO_WP_DMG_TYPE, PROTO_WP_PERK,
+    register_hook_proc,
+    set_attack_explosion_pattern, set_attack_is_explosion_fire, set_proto_data,
+} from "folib/sfall";
+import { fo2tweaks_setting, get_active_weapon_pid, is_critter, sec_main } from "./fo2tweaks";
 
 const SCRIPT_REALNAME = "gl_g_molotov";
 const set_molotov_fire = "molotov_fire";
@@ -14,53 +16,53 @@ const set_molotov_fire = "molotov_fire";
 let enabled = 0;
 
 function set_molotov_stats() {
-  set_proto_data(PID_MOLOTOV_COCKTAIL, PROTO_WP_DMG_TYPE, DMG_fire);
-  set_proto_data(PID_MOLOTOV_COCKTAIL, PROTO_WP_PERK, PERK_weapon_flameboy);
-  ndebug("set molotov to fire type, enabled flameboy");
+    set_proto_data(PID_MOLOTOV_COCKTAIL, PROTO_WP_DMG_TYPE, DMG_fire);
+    set_proto_data(PID_MOLOTOV_COCKTAIL, PROTO_WP_PERK, PERK_weapon_flameboy);
+    ndebug("set molotov to fire type, enabled flameboy");
 }
 
 function set_attack_fire() {
-  set_attack_explosion_pattern(1, 0);
-  set_attack_is_explosion_fire();
-  ndebug("set attack to fire explosion.");
+    set_attack_explosion_pattern(1, 0);
+    set_attack_is_explosion_fire();
+    ndebug("set attack to fire explosion.");
 }
 
 function afterhit_hook() {
-  const hit_type = get_sfall_arg() as HitResult;
-  const attacker = get_sfall_arg() as CritterPtr;
-  const target = get_sfall_arg() as ObjectPtr;
+    const hit_type = get_sfall_arg() as HitResult;
+    const attacker = get_sfall_arg() as CritterPtr;
+    const target = get_sfall_arg() as ObjectPtr;
 
-  if (target && attacker) {
-    if ((is_critter(target) && hit_type <= HITRESULT_MISS) || (!is_critter(target) && hit_type)) {
-      // miss hit
-      const item_pid = get_active_weapon_pid(attacker);
-      if (item_pid == PID_MOLOTOV_COCKTAIL) {
-        ndebug("attacker is " + obj_name(attacker) + ", target is " + obj_name(target));
-        set_attack_fire();
-      }
+    if (target && attacker) {
+        if ((is_critter(target) && hit_type <= HITRESULT_MISS) || (!is_critter(target) && hit_type)) {
+            // miss hit
+            const item_pid = get_active_weapon_pid(attacker);
+            if (item_pid == PID_MOLOTOV_COCKTAIL) {
+                ndebug("attacker is " + obj_name(attacker) + ", target is " + obj_name(target));
+                set_attack_fire();
+            }
+        }
     }
-  }
-  ndebug("afterhit hook");
+    ndebug("afterhit hook");
 }
 
 function damage_hook() {
-  const weapon = get_sfall_arg_at(2) as ItemPtr;
-  if (weapon && obj_pid(weapon) == PID_MOLOTOV_COCKTAIL) set_attack_fire();
-  ndebug("damage hook");
+    const weapon = get_sfall_arg_at(2) as ItemPtr;
+    if (weapon && obj_pid(weapon) == PID_MOLOTOV_COCKTAIL) set_attack_fire();
+    ndebug("damage hook");
 }
 
 function map_enter_p_proc() {
-  if (enabled == 1) set_molotov_stats();
+    if (enabled == 1) set_molotov_stats();
 }
 
 function start() {
-  if (game_loaded()) {
-    enabled = fo2tweaks_setting(sec_main, set_molotov_fire);
-    if (enabled == 1) {
-      set_molotov_stats();
-      register_hook_proc(HOOK_AFTERHITROLL, afterhit_hook);
-      register_hook_proc(HOOK_ITEMDAMAGE, damage_hook);
-      ndebug("initialized");
+    if (game_loaded()) {
+        enabled = fo2tweaks_setting(sec_main, set_molotov_fire);
+        if (enabled == 1) {
+            set_molotov_stats();
+            register_hook_proc(HOOK_AFTERHITROLL, afterhit_hook);
+            register_hook_proc(HOOK_ITEMDAMAGE, damage_hook);
+            ndebug("initialized");
+        }
     }
-  }
 }

@@ -1,17 +1,26 @@
-import { fo2tweaks_setting, sec_main, in_combat, is_weapon } from "./fo2tweaks";
 import {
-    ItemPtr, ObjectPtr, FLOAT1, InvenSlot, dude_obj, obj_pid, obj_name,
-    obj_carrying_pid_obj, obj_is_carrying_obj_pid, add_obj_to_inven, add_mult_objs_to_inven,
-    rm_mult_objs_from_inven, create_object_sid, destroy_object, animate_stand_obj, ndebug
+    FLOAT1, InvenSlot,
+    ItemPtr, ObjectPtr,
+    add_mult_objs_to_inven,
+    add_obj_to_inven,
+    animate_stand_obj,
+    create_object_sid, destroy_object,
+    dude_obj,
+    ndebug,
+    obj_carrying_pid_obj, obj_is_carrying_obj_pid,
+    obj_name,
+    obj_pid,
+    rm_mult_objs_from_inven
 } from "folib";
+import { reg_anim_clear } from "folib/rp/animcomd";
+import { PID_SOLAR_SCORCHER } from "folib/rp/itempid";
 import {
+    COMBAT, HOOK_GAMEMODECHANGE, PROTO_AM_PACK_SIZE, PROTO_WP_CALIBER, PROTO_WP_MAG_SIZE,
     ceil, critter_inven_obj2, game_loaded, get_game_mode, get_light_level,
     get_proto_data, get_sfall_arg_at, get_weapon_ammo_count, get_weapon_ammo_pid,
     intface_redraw, register_hook_proc, set_weapon_ammo_count, set_weapon_ammo_pid,
-    COMBAT, HOOK_GAMEMODECHANGE, PROTO_AM_PACK_SIZE, PROTO_WP_CALIBER, PROTO_WP_MAG_SIZE,
 } from "folib/sfall";
-import { reg_anim_clear } from "folib/rp/animcomd";
-import { PID_SOLAR_SCORCHER } from "folib/rp/itempid";
+import { fo2tweaks_setting, in_combat, is_weapon, sec_main } from "./fo2tweaks";
 
 const SCRIPT_REALNAME = "gl_g_auto_reload";
 const set_auto_reload = "auto_reload";

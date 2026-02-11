@@ -1,15 +1,24 @@
-import { fo2tweaks_setting, sec_main, mode_started, mode_ended, is_door } from "./fo2tweaks";
 import {
-    DoorPtr, dude_obj, cur_map_index, combat_is_initialized,
-    obj_pid, obj_is_open, obj_close, tile_distance_objs, ndebug
+    combat_is_initialized,
+    cur_map_index,
+    DoorPtr, dude_obj,
+    ndebug,
+    obj_close,
+    obj_is_open,
+    obj_pid,
+    tile_distance_objs
 } from "folib";
-import {
-    game_loaded, get_game_mode, get_script, get_sfall_arg_at,
-    list_as_array, party_member_list_critters, register_hook_proc, set_proto_data,
-    COMBAT, FLAG_WALKTHRU, HOOK_GAMEMODECHANGE, LIST_SCENERY,
-} from "folib/sfall";
 import { MAP_VAULT_CITY_VAULT } from "folib/rp/maps";
 import { SCRIPT_VIVLTDOR } from "folib/rp/scripts";
+import {
+    COMBAT, FLAG_WALKTHRU,
+    game_loaded, get_game_mode, get_script, get_sfall_arg_at,
+    HOOK_GAMEMODECHANGE,
+    list_as_array,
+    LIST_SCENERY,
+    party_member_list_critters, register_hook_proc, set_proto_data,
+} from "folib/sfall";
+import { fo2tweaks_setting, is_door, mode_ended, mode_started, sec_main } from "./fo2tweaks";
 
 const SCRIPT_REALNAME = "gl_g_autodoors";
 

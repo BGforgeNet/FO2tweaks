@@ -1,11 +1,14 @@
-import { fo2tweaks_setting, sec_main, mode_started } from "./fo2tweaks";
-import { ObjectPtr, obj_name, ndebug, SfallMap } from "folib";
+import { ndebug, obj_name, ObjectPtr, SfallMap } from "folib";
 import {
-    game_loaded, get_critter_current_ap, get_game_mode, map,
-    get_sfall_arg, get_sfall_arg_at, register_hook_proc,
+    COMBAT,
+    game_loaded, get_critter_current_ap, get_game_mode,
+    get_sfall_arg, get_sfall_arg_at,
+    HOOK_COMBATTURN, HOOK_GAMEMODECHANGE,
+    map,
+    register_hook_proc,
     set_critter_current_ap, set_unspent_ap_bonus,
-    COMBAT, HOOK_COMBATTURN, HOOK_GAMEMODECHANGE,
 } from "folib/sfall";
+import { fo2tweaks_setting, mode_started, sec_main } from "./fo2tweaks";
 
 const SCRIPT_REALNAME = "gl_g_ap_rollover";
 

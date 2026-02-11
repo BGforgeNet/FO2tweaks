@@ -1,19 +1,19 @@
-import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
-import { cur_map_index, give_exp_points, display_msg, ndebug } from "folib";
-import { add_extra_msg_file, map_first_run, message_str_game } from "folib/sfall";
+import { cur_map_index, display_msg, give_exp_points, ndebug } from "folib";
 import { MAP_ARROYO_VILLAGE } from "folib/rp/maps";
+import { add_extra_msg_file, map_first_run, message_str_game } from "folib/sfall";
+import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
 
 const SCRIPT_REALNAME = "g_gl_level5";
 const set_level5 = "level5";
 
 function map_enter_p_proc() {
-  if (map_first_run() && cur_map_index == MAP_ARROYO_VILLAGE) {
-    const enabled = fo2tweaks_setting(sec_main, set_level5);
-    if (enabled == 1) {
-      const msg = add_extra_msg_file("g_level5.msg");
-      give_exp_points(9500);
-      ndebug("added 9500 XP");
-      display_msg(message_str_game(msg, 1));
+    if (map_first_run() && cur_map_index == MAP_ARROYO_VILLAGE) {
+        const enabled = fo2tweaks_setting(sec_main, set_level5);
+        if (enabled == 1) {
+            const msg = add_extra_msg_file("g_level5.msg");
+            give_exp_points(9500);
+            ndebug("added 9500 XP");
+            display_msg(message_str_game(msg, 1));
+        }
     }
-  }
 }

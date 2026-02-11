@@ -2,19 +2,30 @@
  * Created by Mr.Stalin
  * https://github.com/FakelsHub/sFall-Extended/commit/ecfa68a04a9178c21cdd178874b9f4fa8523f49c#commitcomment-36388003
  */
+import { destroy_object, dude_obj, move_to, ndebug, NullPtr, ObjectPtr, random, SfallList, tile_num } from "folib";
 import {
-    fo2tweaks_setting, fo2tweaks_comsep_setting, sec_main,
-    get_active_weapon_pid, get_active_ammo_pid, in_party
-} from "./fo2tweaks";
-import { ObjectPtr, NullPtr, dude_obj, tile_num, random, move_to, destroy_object, ndebug, SfallList } from "folib";
-import {
-    create_object, dude_elevation, dude_tile, fix_array, game_loaded,
+    create_object,
+    CURSOR_TARGETING,
+    dude_elevation, dude_tile, fix_array,
+    FLAG_FLAT,
+    game_loaded,
     get_cursor_mode, get_flags, get_game_mode, get_sfall_arg, get_sfall_arg_at,
-    is_in_array, objects_in_radius, register_hook_proc, set_flags,
+    HOOK_GAMEMODECHANGE, HOOK_ONEXPLOSION, HOOK_TARGETOBJECT,
+    is_in_array,
+    OBJ_DATA_WHO_HIT_ME, OBJ_TYPE_CRITTER,
+    objects_in_radius,
+    PCOMBAT,
+    register_hook_proc, set_flags,
     set_object_data, set_sfall_arg, set_sfall_return, tile_under_cursor,
-    CURSOR_TARGETING, FLAG_FLAT, HOOK_GAMEMODECHANGE, HOOK_ONEXPLOSION, HOOK_TARGETOBJECT,
-    OBJ_DATA_WHO_HIT_ME, OBJ_TYPE_CRITTER, PCOMBAT,
 } from "folib/sfall";
+import {
+    fo2tweaks_comsep_setting,
+    fo2tweaks_setting,
+    get_active_ammo_pid,
+    get_active_weapon_pid,
+    in_party,
+    sec_main
+} from "./fo2tweaks";
 
 const SCRIPT_REALNAME = "gl_g_grenades_anywhere";
 

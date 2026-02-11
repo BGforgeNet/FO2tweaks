@@ -1,21 +1,39 @@
-import { fo2tweaks_setting, sec_main, get_party_skill_level } from "./fo2tweaks";
 import {
-    CritterPtr, SKILL, dude_obj, obj_name, obj_pid, display_msg, float_msg,
-    random, has_trait, critter_heal, critter_add_trait, critter_state, game_time_advance,
-    game_ticks, get_day, give_exp_points, get_critter_stat, combat_is_initialized, ndebug,
-    SfallList
+    combat_is_initialized,
+    critter_add_trait,
+    critter_heal,
+    critter_state,
+    CritterPtr,
+    display_msg,
+    dude_obj,
+    float_msg,
+    game_ticks,
+    game_time_advance,
+    get_critter_stat,
+    get_day, give_exp_points,
+    has_trait,
+    ndebug,
+    obj_name, obj_pid,
+    random,
+    SfallList,
+    SKILL
 } from "folib";
 import {
     add_extra_msg_file, array_push, clear_array, critter_skill_level,
-    critter_uninjure, dude_name, floor2, game_loaded, get_sfall_arg, get_sfall_global_int,
+    critter_uninjure,
+    DAM_BLIND, DAM_CRIP_ARM_LEFT, DAM_CRIP_ARM_RIGHT, DAM_CRIP_LEG_LEFT, DAM_CRIP_LEG_RIGHT,
+    dude_name,
+    FLOAT_MSG_WHITE,
+    floor2, game_loaded, get_sfall_arg, get_sfall_global_int,
+    HOOK_RESTTIMER, HOOK_USESKILL,
     in_world_map, intface_redraw, is_critter_dead, is_in_array, load_create_array,
     message_str_game, mstr_skill, parse_str_2, party_member_list_critters,
+    PERK_healer, PERK_living_anatomy_perk,
     register_hook_proc, set_global_script_repeat, set_global_script_type,
     set_sfall_global, set_sfall_return, sprintf,
-    DAM_BLIND, DAM_CRIP_ARM_LEFT, DAM_CRIP_ARM_RIGHT, DAM_CRIP_LEG_LEFT, DAM_CRIP_LEG_RIGHT,
-    FLOAT_MSG_WHITE, HOOK_RESTTIMER, HOOK_USESKILL, PERK_healer, PERK_living_anatomy_perk,
     STAT, TRAIT_PERK,
 } from "folib/sfall";
+import { fo2tweaks_setting, get_party_skill_level, sec_main } from "./fo2tweaks";
 
 const SCRIPT_REALNAME = "gl_g_healing_revision";
 

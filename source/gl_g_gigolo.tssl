@@ -1,13 +1,15 @@
-import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
-import { dude_obj, global_var, set_global_var, item_caps_total, ndebug, SfallList, ObjectPtr } from "folib";
+import { dude_obj, global_var, item_caps_total, ndebug, ObjectPtr, set_global_var, SfallList } from "folib";
+import { GVAR_GIGALO, GVAR_SEX_COUNTER } from "folib/rp/global";
+import { SCRIPT_ECRAVPTY, SCRIPT_ECTRAPPR, SCRIPT_KCSALLY, SCRIPT_NCKITTY } from "folib/rp/scripts";
 import {
     array_push, dialog_obj, game_loaded, get_script, get_sfall_arg,
-    get_sfall_global_int, is_in_array, list, load_create_array, register_hook_proc,
+    get_sfall_global_int,
+    HOOK_SETGLOBALVAR, HOOK_STDPROCEDURE,
+    is_in_array, list, load_create_array, register_hook_proc,
     set_sfall_global, set_sfall_return,
-    HOOK_SETGLOBALVAR, HOOK_STDPROCEDURE, talk_proc,
+    talk_proc,
 } from "folib/sfall";
-import { SCRIPT_NCKITTY, SCRIPT_ECTRAPPR, SCRIPT_ECRAVPTY, SCRIPT_KCSALLY } from "folib/rp/scripts";
-import { GVAR_SEX_COUNTER, GVAR_GIGALO } from "folib/rp/global";
+import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
 
 const SCRIPT_REALNAME = "gl_g_gigolo";
 

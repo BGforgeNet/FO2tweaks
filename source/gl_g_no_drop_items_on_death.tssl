@@ -1,15 +1,26 @@
-import { fo2tweaks_setting, sec_main, is_critter } from "./fo2tweaks";
-import { obj_name, move_obj_inven_to_obj, rm_obj_from_inven,
-    add_obj_to_inven, destroy_object, create_object_sid, ndebug,
-    ObjectPtr, CritterPtr, NullPtr, SfallMap
-} from "folib";
 import {
-    critter_inven_obj2, fix_array, game_loaded, get_sfall_arg,
-    inven_count, inven_ptr, map, register_hook_proc,
-    HOOK_DEATHANIM2, HOOK_ONDEATH, INVEN_TYPE_WORN,
-} from "folib/sfall";
+    add_obj_to_inven,
+    create_object_sid,
+    CritterPtr,
+    destroy_object,
+    move_obj_inven_to_obj,
+    ndebug,
+    NullPtr,
+    obj_name,
+    ObjectPtr,
+    rm_obj_from_inven,
+    SfallMap
+} from "folib";
 import { ANIM_electrified_to_nothing, ANIM_exploded_to_nothing } from "folib/rp/animcomd";
 import { PID_FOOTLOCKER_CLEAN_LEFT } from "folib/rp/itempid";
+import {
+    critter_inven_obj2, fix_array, game_loaded, get_sfall_arg,
+    HOOK_DEATHANIM2, HOOK_ONDEATH,
+    inven_count, inven_ptr,
+    INVEN_TYPE_WORN,
+    map, register_hook_proc,
+} from "folib/sfall";
+import { fo2tweaks_setting, is_critter, sec_main } from "./fo2tweaks";
 
 const SCRIPT_REALNAME = "gl_g_no_drop_items_on_death";
 
@@ -19,63 +30,63 @@ let critters_boxes: SfallMap<CritterPtr, ObjectPtr>;
  * Like `move_obj_inven_to_obj`, but keeps armor if equipped.
  */
 function move_inven_except_armor(src: CritterPtr, dst: ObjectPtr) {
-  const armor = critter_inven_obj2(src, INVEN_TYPE_WORN);
+    const armor = critter_inven_obj2(src, INVEN_TYPE_WORN);
 
-  // not critter or critter has no armor
-  if (!armor) {
-    move_obj_inven_to_obj(src, dst);
-    return;
-  }
+    // not critter or critter has no armor
+    if (!armor) {
+        move_obj_inven_to_obj(src, dst);
+        return;
+    }
 
-  let num_items = inven_count(src);
-  while (num_items > 0) {
-    const item = inven_ptr(src, num_items);
-    num_items -= 1;
-    if (item == armor) continue;
-    rm_obj_from_inven(src, item);
-    add_obj_to_inven(dst, item);
-  }
+    let num_items = inven_count(src);
+    while (num_items > 0) {
+        const item = inven_ptr(src, num_items);
+        num_items -= 1;
+        if (item == armor) continue;
+        rm_obj_from_inven(src, item);
+        add_obj_to_inven(dst, item);
+    }
 }
 
 function deathanim2_handler() {
-  const _item_pid = get_sfall_arg() as number;
-  const _attacker = get_sfall_arg() as CritterPtr;
-  const target = get_sfall_arg() as CritterPtr;
-  const _damage_amount = get_sfall_arg() as number;
-  const death_anim_id = get_sfall_arg() as number;
+    const _item_pid = get_sfall_arg() as number;
+    const _attacker = get_sfall_arg() as CritterPtr;
+    const target = get_sfall_arg() as CritterPtr;
+    const _damage_amount = get_sfall_arg() as number;
+    const death_anim_id = get_sfall_arg() as number;
 
-  // shouldn't ever fire, but just in case
-  if (!is_critter(target)) return;
+    // shouldn't ever fire, but just in case
+    if (!is_critter(target)) return;
 
-  // Only ANIM_electrified_to_nothing and ANIM_exploded_to_nothing will drop everything on the ground
-  if (death_anim_id == ANIM_electrified_to_nothing || death_anim_id == ANIM_exploded_to_nothing) {
-    const box = create_object_sid(PID_FOOTLOCKER_CLEAN_LEFT, 0, 0, -1);
-    move_inven_except_armor(target, box);
-    critters_boxes[target] = box;
-    ndebug("moved inventory from " + obj_name(target) + " to temp box");
-  }
+    // Only ANIM_electrified_to_nothing and ANIM_exploded_to_nothing will drop everything on the ground
+    if (death_anim_id == ANIM_electrified_to_nothing || death_anim_id == ANIM_exploded_to_nothing) {
+        const box = create_object_sid(PID_FOOTLOCKER_CLEAN_LEFT, 0, 0, -1);
+        move_inven_except_armor(target, box);
+        critters_boxes[target] = box;
+        ndebug("moved inventory from " + obj_name(target) + " to temp box");
+    }
 }
 
 function ondeath_handler() {
-  const critter = get_sfall_arg() as CritterPtr;
-  const box = critters_boxes[critter];
-  if (box) {
-    move_obj_inven_to_obj(box, critter);
-    destroy_object(box);
-    critters_boxes[critter] = NullPtr;
-    ndebug("moved inventory from temp box back to " + obj_name(critter));
-  }
+    const critter = get_sfall_arg() as CritterPtr;
+    const box = critters_boxes[critter];
+    if (box) {
+        move_obj_inven_to_obj(box, critter);
+        destroy_object(box);
+        critters_boxes[critter] = NullPtr;
+        ndebug("moved inventory from temp box back to " + obj_name(critter));
+    }
 }
 
 function start() {
-  if (game_loaded()) {
-    const enabled = fo2tweaks_setting(sec_main, "no_drop_items_on_death");
-    if (enabled == 1) {
-      register_hook_proc(HOOK_DEATHANIM2, deathanim2_handler);
-      register_hook_proc(HOOK_ONDEATH, ondeath_handler);
-      critters_boxes = map({});
-      fix_array(critters_boxes);
-      ndebug("initialized");
+    if (game_loaded()) {
+        const enabled = fo2tweaks_setting(sec_main, "no_drop_items_on_death");
+        if (enabled == 1) {
+            register_hook_proc(HOOK_DEATHANIM2, deathanim2_handler);
+            register_hook_proc(HOOK_ONDEATH, ondeath_handler);
+            critters_boxes = map({});
+            fix_array(critters_boxes);
+            ndebug("initialized");
+        }
     }
-  }
 }

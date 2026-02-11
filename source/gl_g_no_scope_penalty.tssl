@@ -1,10 +1,11 @@
-import { fo2tweaks_setting, fo2tweaks_comsep_setting_ints, sec_main } from "./fo2tweaks";
 import { ndebug } from "folib";
 import {
-    floor2, game_loaded, get_proto_data, intface_redraw, set_proto_data, sfall_typeof,
+    floor2, game_loaded, get_proto_data, intface_redraw,
     PERK_weapon_long_range, PROTO_WP_APCOST_2, PROTO_WP_BURST, PROTO_WP_PERK,
     PROTO_WP_RANGE_1,
+    set_proto_data, sfall_typeof,
 } from "folib/sfall";
+import { fo2tweaks_comsep_setting_ints, fo2tweaks_setting, sec_main } from "./fo2tweaks";
 
 const SCRIPT_REALNAME = "gl_g_no_scope_penalty";
 const set_no_scope_penalty = "no_scope_penalty";
@@ -15,42 +16,42 @@ const set_scope_to_long = "to_long";
 let enabled: number;
 
 function remove_scope() {
-  ndebug("initializing");
+    ndebug("initializing");
 
-  // vanilla scoped rifle
-  const pids_remove = fo2tweaks_comsep_setting_ints(sec_no_scope_penalty, set_scope_remove);
-  for (const pid of pids_remove) {
-    set_proto_data(pid, PROTO_WP_PERK, -1); // remove scope range
-    const old_range = get_proto_data(pid, PROTO_WP_RANGE_1);
-    const new_range = floor2(old_range * 1.2);
-    set_proto_data(pid, PROTO_WP_RANGE_1, new_range);
-    ndebug("removed scope range from pid " + pid + " " + sfall_typeof(pid) + ", old range " + old_range + " new range " + new_range);
-  }
-
-  // EcCo: set long_range for bozar and sniper rifle
-  const pids_long = fo2tweaks_comsep_setting_ints(sec_no_scope_penalty, set_scope_to_long);
-  for (const pid of pids_long) {
-    const perk = get_proto_data(pid, PROTO_WP_PERK);
-    const burst = get_proto_data(pid, PROTO_WP_BURST);
-    const ap2 = get_proto_data(pid, PROTO_WP_APCOST_2);
-    ndebug("pid " + pid + " burst " + burst + " ap2 " + ap2 + " perk " + perk);
-    if (perk != PERK_weapon_long_range && !(burst > 1) && ap2 == 0) {
-      set_proto_data(pid, PROTO_WP_PERK, PERK_weapon_long_range);
-      ndebug("added long range to pid " + pid);
+    // vanilla scoped rifle
+    const pids_remove = fo2tweaks_comsep_setting_ints(sec_no_scope_penalty, set_scope_remove);
+    for (const pid of pids_remove) {
+        set_proto_data(pid, PROTO_WP_PERK, -1); // remove scope range
+        const old_range = get_proto_data(pid, PROTO_WP_RANGE_1);
+        const new_range = floor2(old_range * 1.2);
+        set_proto_data(pid, PROTO_WP_RANGE_1, new_range);
+        ndebug("removed scope range from pid " + pid + " " + sfall_typeof(pid) + ", old range " + old_range + " new range " + new_range);
     }
-  }
 
-  intface_redraw();
-  ndebug("initialized");
+    // EcCo: set long_range for bozar and sniper rifle
+    const pids_long = fo2tweaks_comsep_setting_ints(sec_no_scope_penalty, set_scope_to_long);
+    for (const pid of pids_long) {
+        const perk = get_proto_data(pid, PROTO_WP_PERK);
+        const burst = get_proto_data(pid, PROTO_WP_BURST);
+        const ap2 = get_proto_data(pid, PROTO_WP_APCOST_2);
+        ndebug("pid " + pid + " burst " + burst + " ap2 " + ap2 + " perk " + perk);
+        if (perk != PERK_weapon_long_range && !(burst > 1) && ap2 == 0) {
+            set_proto_data(pid, PROTO_WP_PERK, PERK_weapon_long_range);
+            ndebug("added long range to pid " + pid);
+        }
+    }
+
+    intface_redraw();
+    ndebug("initialized");
 }
 
 function map_enter_p_proc() {
-  if (enabled == 1) remove_scope();
+    if (enabled == 1) remove_scope();
 }
 
 function start() {
-  if (game_loaded()) {
-    enabled = fo2tweaks_setting(sec_main, set_no_scope_penalty);
-    if (enabled == 1) remove_scope();
-  }
+    if (game_loaded()) {
+        enabled = fo2tweaks_setting(sec_main, set_no_scope_penalty);
+        if (enabled == 1) remove_scope();
+    }
 }

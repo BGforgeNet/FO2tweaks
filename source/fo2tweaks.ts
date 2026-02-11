@@ -1,25 +1,50 @@
 // fo2tweaks library - TypeScript implementation
 
 import {
-    ObjectPtr, ItemPtr, CritterPtr, SceneryPtr, ContainerPtr, DoorPtr, SKILL, LEFT_HAND,
-    dude_obj, obj_item_subtype, obj_type, obj_pid, obj_name, proto_data,
-    critter_inven_obj, critter_state, use_obj_on_obj, float_msg, ndebug,
-    SfallList, SfallMap
+    ContainerPtr,
+    critter_inven_obj, critter_state,
+    CritterPtr,
+    DoorPtr,
+    dude_obj,
+    float_msg,
+    ItemPtr,
+    LEFT_HAND,
+    ndebug,
+    obj_item_subtype,
+    obj_name,
+    obj_pid,
+    obj_type,
+    ObjectPtr,
+    proto_data,
+    SceneryPtr,
+    SfallList, SfallMap,
+    SKILL,
+    use_obj_on_obj
 } from "folib";
 import {
     // Functions
-    active_hand, atoi, critter_inven_obj2, critter_skill_level,
-    get_array, get_game_mode, get_ini_section, get_ini_setting, get_ini_string,
-    get_light_level, get_proto_data, get_weapon_ammo_pid, inven_ptr, is_in_array,
-    len_array, list, map, party_member_list_critters, set_array, set_ini_setting, set_self,
-    temp_array_map,
+    active_hand,
     // Array helpers
-    array_append, array_push, string_split_ints,
+    array_append, array_push,
+    atoi,
     // Constants
-    COMBAT, CRITTER_IS_DEAD, DIALOG, FLOAT_MSG_WARNING,
+    COMBAT,
+    critter_inven_obj2,
+    CRITTER_IS_DEAD,
+    critter_skill_level,
+    DIALOG, FLOAT_MSG_WARNING,
+    get_array, get_game_mode, get_ini_section, get_ini_setting, get_ini_string,
+    get_light_level, get_proto_data, get_weapon_ammo_pid, inven_ptr,
     INVEN_TYPE_LEFT_HAND, INVEN_TYPE_RIGHT_HAND, INVEN_TYPE_WORN, INVENTORY,
+    is_in_array,
     it_type, item_type_ammo, item_type_armor, item_type_container, item_type_weapon,
-    OBJ_TYPE_CRITTER, OBJ_TYPE_ITEM, OBJ_TYPE_SCENERY, PROTO_WP_ANIM,
+    len_array, list, map,
+    OBJ_TYPE_CRITTER, OBJ_TYPE_ITEM, OBJ_TYPE_SCENERY,
+    party_member_list_critters,
+    PROTO_WP_ANIM,
+    set_array, set_ini_setting, set_self,
+    string_split_ints,
+    temp_array_map,
     WPN_ANIM_BIG_GUN, WPN_ANIM_MINIGUN, WPN_ANIM_PISTOL, WPN_ANIM_RIFLE,
     WPN_ANIM_ROCKET_LAUNCHER, WPN_ANIM_SMG,
 } from "folib/sfall";
@@ -532,21 +557,51 @@ export function light_level_pct_to_abs(pct_level: number): number {
 
 // Party member PIDs - imported from folib/rp/critterpid
 import {
-    PID_VIC, PID_SULIK, PID_JOHN_MACRAE, PID_LENNY, PID_MYRON, PID_MARCUS,
-    PID_DAVIN, PID_MIRIA, PID_BRAINBOT, PID_ROBOBRAIN_CHIMP, PID_ROBOBRAIN_HUMAN,
-    PID_ROBOBRAIN_ABNORMAL, PID_GORIS, PID_CYBERDOG, PID_K9, PID_DOGMEAT,
-    PID_KITSUNE, PID_DEX, PID_CAT_JULES
+    PID_BRAINBOT,
+    PID_CAT_JULES,
+    PID_CYBERDOG,
+    PID_DAVIN,
+    PID_DEX,
+    PID_DOGMEAT,
+    PID_GORIS,
+    PID_JOHN_MACRAE,
+    PID_K9,
+    PID_KITSUNE,
+    PID_LENNY,
+    PID_MARCUS,
+    PID_MIRIA,
+    PID_MYRON,
+    PID_ROBOBRAIN_ABNORMAL,
+    PID_ROBOBRAIN_CHIMP, PID_ROBOBRAIN_HUMAN,
+    PID_SULIK,
+    PID_VIC
 } from "folib/rp/critterpid";
 
 // Ammo PIDs - imported from folib/rp/itempid
 import {
-    PID_EXPLOSIVE_ROCKET, PID_10MM_JHP, PID_10MM_AP, PID_44_MAGNUM_JHP,
-    PID_FLAMETHROWER_FUEL, PID_14MM_AP, PID_223_FMJ, PID_5MM_JHP, PID_5MM_AP,
-    PID_ROCKET_AP, PID_SMALL_ENERGY_CELL, PID_MICRO_FUSION_CELL, PID_SHOTGUN_SHELLS,
-    PID_44_FMJ_MAGNUM, PID_9MM_BALL, PID_BBS, PID_ROBO_ROCKET_AMMO,
-    PID_45_CALIBER_AMMO, PID_2MM_EC_AMMO, PID_4_7MM_CASELESS, PID_9MM_AMMO,
-    PID_HN_NEEDLER_CARTRIDGE, PID_HN_AP_NEEDLER_CARTRIDGE, PID_7_62MM_AMMO,
-    PID_FLAMETHROWER_FUEL_MK_II
+    PID_10MM_AP,
+    PID_10MM_JHP,
+    PID_14MM_AP, PID_223_FMJ,
+    PID_2MM_EC_AMMO,
+    PID_44_FMJ_MAGNUM,
+    PID_44_MAGNUM_JHP,
+    PID_45_CALIBER_AMMO,
+    PID_4_7MM_CASELESS,
+    PID_5MM_AP,
+    PID_5MM_JHP,
+    PID_7_62MM_AMMO,
+    PID_9MM_AMMO,
+    PID_9MM_BALL, PID_BBS,
+    PID_EXPLOSIVE_ROCKET,
+    PID_FLAMETHROWER_FUEL,
+    PID_FLAMETHROWER_FUEL_MK_II,
+    PID_HN_AP_NEEDLER_CARTRIDGE,
+    PID_HN_NEEDLER_CARTRIDGE,
+    PID_MICRO_FUSION_CELL,
+    PID_ROBO_ROCKET_AMMO,
+    PID_ROCKET_AP,
+    PID_SHOTGUN_SHELLS,
+    PID_SMALL_ENERGY_CELL
 } from "folib/rp/itempid";
 
 /**

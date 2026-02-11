@@ -1,9 +1,9 @@
-import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
 import { ndebug } from "folib";
 import {
     game_loaded, get_pc_extra_stat, set_pc_extra_stat, set_pc_stat_max,
     STAT,
 } from "folib/sfall";
+import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
 
 const SCRIPT_REALNAME = "gl_g_carry_weight";
 

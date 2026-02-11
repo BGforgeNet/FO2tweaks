@@ -1,15 +1,18 @@
-import { fo2tweaks_setting, sec_main, mode_started, is_critter, is_dead } from "./fo2tweaks";
-import { MOUSE_BTN_RIGHT } from "./fo2tweaks/mouse";
-import { ObjectPtr, tile_num, ndebug } from "folib";
+import { ndebug, ObjectPtr, tile_num } from "folib";
+import { dude_elevation } from "folib/rp/command";
+import { tile_is_blocked } from "folib/rp/scenepid";
 import {
+    CURSOR_MOVEMENT, CURSOR_TARGETING,
     DIK_M,
     game_loaded, get_cursor_mode, get_game_mode, get_sfall_arg, get_sfall_arg_at,
-    obj_under_cursor, register_hook_proc, set_cursor_mode,
+    HOOK_GAMEMODECHANGE, HOOK_KEYPRESS, HOOK_MOUSECLICK,
+    obj_under_cursor,
+    PCOMBAT,
+    register_hook_proc, set_cursor_mode,
     set_global_script_repeat, tile_under_cursor,
-    CURSOR_MOVEMENT, CURSOR_TARGETING, HOOK_GAMEMODECHANGE, HOOK_KEYPRESS, HOOK_MOUSECLICK, PCOMBAT,
 } from "folib/sfall";
-import { tile_is_blocked } from "folib/rp/scenepid";
-import { dude_elevation } from "folib/rp/command";
+import { fo2tweaks_setting, is_critter, is_dead, mode_started, sec_main } from "./fo2tweaks";
+import { MOUSE_BTN_RIGHT } from "./fo2tweaks/mouse";
 
 const SCRIPT_REALNAME = "gl_g_auto_cursor";
 
@@ -51,8 +54,7 @@ function update_cursor() {
 
     if ((!who || !is_critter(who) || is_dead(who))
         && (get_cursor_mode() == CURSOR_TARGETING)
-        && !tile_is_blocked(who_tile, dude_elevation()))
-    {
+        && !tile_is_blocked(who_tile, dude_elevation())) {
         who_tile = 0;
         ndebug("no critter, tile changed");
         set_cursor_mode(CURSOR_MOVEMENT);
