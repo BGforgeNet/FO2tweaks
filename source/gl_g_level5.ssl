@@ -1,17 +1,38 @@
+/* Do not edit. This file is generated from gl_g_level5.tssl. Make your changes there and regenerate this file. */
+
 #define SCRIPT_REALNAME "g_gl_level5"
-
-#include "headers/fo2tweaks/fo2tweaks.h"
-
 #define set_level5 "level5"
 
-procedure map_enter_p_proc begin
-  if map_first_run and cur_map_index == MAP_ARROYO_VILLAGE then begin
-    variable enabled = fo2tweaks_setting(sec_main, set_level5);
-    if enabled == 1 then begin
-      variable msg = add_extra_msg_file("g_level5.msg");
-      give_exp_points(9500);
-      ndebug("added 9500 XP");
-      display_msg(message_str_game(msg,1));
-    end
-  end
+#define METARULE_TEST_FIRSTRUN 14
+#define MAP_ARROYO_VILLAGE 4
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define add_extra_msg_file(fileName) sfall_func1("add_extra_msg_file", fileName)
+
+procedure map_first_run();
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure map_enter_p_proc();
+
+/* ===== bundled ===== */
+procedure map_first_run() begin
+    return metarule(METARULE_TEST_FIRSTRUN, 0) != 0;
 end
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+/* ===== end bundled ===== */
+
+/* ===== main body ===== */
+procedure map_enter_p_proc() begin
+    if (map_first_run() and cur_map_index == MAP_ARROYO_VILLAGE) then begin
+        variable enabled = fo2tweaks_setting(sec_main, set_level5);
+        if (enabled == 1) then begin
+            variable msg = add_extra_msg_file("g_level5.msg");
+            give_exp_points(9500);
+            ndebug("added 9500 XP");
+            display_msg(message_str_game(msg, 1));
+        end
+    end
+end
+/* ===== end main body ===== */

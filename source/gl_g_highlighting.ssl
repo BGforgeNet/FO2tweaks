@@ -1,17 +1,13 @@
+/* Do not edit. This file is generated from gl_g_highlighting.tssl. Make your changes there and regenerate this file. */
+
 #define SCRIPT_REALNAME "gl_g_highlighting"
-
-#include "headers/fo2tweaks/fo2tweaks.h"
-#include "headers/rp/scenepid.h"
-
 #define set_highlight "highlighting"
-
 #define sec_highlight "highlighting"
 #define set_highlight_check_los "check_los"
 #define set_highlight_key "key"
 #define set_highlight_ignore_nohighlight "ignore_nohighlight"
 #define set_highlight_motion_scanner "motion_scanner"
 #define set_highlight_color_critters "color_critters"
-#define set_highlight_color_hostile_critters "color_hostile_critters"
 #define set_highlight_color_corpses "color_corpses"
 #define set_highlight_color_containers "color_containers"
 #define set_highlight_color_containers_locked "color_locked_containers"
@@ -25,290 +21,421 @@
 #define set_highlight_skip_items "skip_items"
 #define set_highlight_traps "traps"
 #define set_highlight_transitions "transitions"
-
-#define CRITTER_IS_DEAD   (1)
-#define PID_MOTION_SENSOR  (59)
-#define NO_HIGHLIGHT(obj)  (get_flags(obj) bwand FLAG_NOHIGHLIGHT)
-#define NO_STEAL(obj)    (get_proto_data(obj_pid(obj), PROTO_CR_FLAGS) bwand CFLG_NOSTEAL)
-
-#define TRAP_CAVE_ARMED(obj) ( \
-  obj_pid(obj) == PID_CAVE_FLOOR_TRAP_VISIBLE \
-  and not tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_CAVE_FLOOR_TRAP_DISARMED) \
-  and not tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_CAVE_FLOOR_TRAP_DEPRESSED) \
-)
-#define TRAP_METAL_ARMED(obj) ( \
-  obj_pid(obj) == PID_METAL_FLOOR_TRAP_VISIBLE \
-  and not tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_METAL_FLOOR_TRAP_DISARMED) \
-  and not tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_METAL_FLOOR_TRAP_DEPRESSED) \
-)
-
-// sonora
 #define PID_TRAP_SONORA_VISIBLE 33554435
 #define PID_TRAP_SONORA_DISARMED 33554436
-#define TRAP_SONORA_ARMED(obj) ( \
-  obj_pid(obj) == PID_TRAP_SONORA_VISIBLE \
-  and not tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_TRAP_SONORA_DISARMED) \
-)
 #define PID_BEARTRAP_SONORA 33554439
-#define BEARTRAP_SONORA_ARMED(obj) (obj_pid(obj) == PID_BEARTRAP_SONORA)
 
-#define is_trap(obj) ( \
-  TRAP_CAVE_ARMED(obj) or TRAP_METAL_ARMED(obj) or TRAP_SONORA_ARMED(obj) or BEARTRAP_SONORA_ARMED(obj) \
-)
+#define OBJ_TYPE_ITEM 0
+#define OBJ_TYPE_CRITTER 1
+#define OBJ_TYPE_SCENERY 2
+#define FLAG_NOBLOCK 16
+#define FLAG_NOHIGHLIGHT 4096
+#define CFLG_NOSTEAL 32
+#define PROTO_CR_FLAGS 32
+#define CRITTER_IS_DEAD 1
+#define item_type_container 1
+#define INVEN_CMD_INDEX_PTR 13
+#define PID_MOTION_SENSOR 59
+#define PID_CAVE_FLOOR_TRAP_VISIBLE 33555383
+#define PID_CAVE_FLOOR_TRAP_DISARMED 33555384
+#define PID_CAVE_FLOOR_TRAP_DEPRESSED 33555385
+#define PID_METAL_FLOOR_TRAP_VISIBLE 33555429
+#define PID_METAL_FLOOR_TRAP_DISARMED 33555430
+#define PID_METAL_FLOOR_TRAP_DEPRESSED 33555431
+#define PRODATA_SC_TYPE 32
+#define SC_TYPE_STAIRS 1
+#define SC_TYPE_LADDER_TOP 3
+#define SC_TYPE_LADDER_BOTTOM 4
+#define WORLDMAP 1
+#define DIALOG 4
+#define ESCMENU 8
+#define SAVEGAME 16
+#define LOADGAME 32
+#define COMBAT 64
+#define OPTIONS 128
+#define HELP 256
+#define CHARSCREEN 512
+#define PIPBOY 1024
+#define AUTOMAP 8192
+#define INTFACELOOT 65536
+#define BARTER 131072
+#define HEROWIN 262144
+#define DIALOGVIEW 524288
+#define HOOK_KEYPRESS 19
+#define LIST_CRITTERS 0
+#define LIST_GROUNDITEMS 1
+#define LIST_SCENERY 2
+#define OUTLINE_NONE 0
+#define CURSOR_COMMAND 1
+#define CURSOR_TARGETING 2
+#define BLOCKING_TYPE_SHOOT 1
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define PRODATA_SC_TYPE2 32
+#define SC_TYPE_DOOR 0
+#define inven_ptr(who, where) inven_cmds(who, INVEN_CMD_INDEX_PTR, where)
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define get_flags(obj) sfall_func1("get_flags", obj)
+#define get_outline(obj) sfall_func1("get_outline", obj)
+#define set_outline(obj, color) sfall_func2("set_outline", obj, color)
+#define get_cursor_mode sfall_func0("get_cursor_mode")
+#define set_cursor_mode(mode) sfall_func1("set_cursor_mode", mode)
+#define tile_refresh_display sfall_func0("tile_refresh_display")
+#define intface_redraw sfall_func0("intface_redraw")
+#define outlined_object sfall_func0("outlined_object")
 
-#define in_loot_mode (get_game_mode BWAND INTFACELOOT)
-#define obj_can_detect_obj(source, target) (obj_can_see_obj(source, target) or obj_can_hear_obj(source, target))
-#define invalid_game_mode ( \
-  get_game_mode bwand \
-  ( WORLDMAP bwor DIALOG bwor ESCMENU bwor SAVEGAME bwor LOADGAME \
-  bwor OPTIONS bwor HELP bwor CHARSCREEN bwor PIPBOY \
-  bwor AUTOMAP bwor BARTER bwor HEROWIN bwor DIALOGVIEW) \
-)
+procedure temp_array_list(variable size);
+procedure is_in_array(variable item, variable array);
+procedure party_member_list_critters();
+procedure string_split_ints(variable str, variable split);
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure is_critter(variable obj);
+procedure is_item(variable obj);
+procedure is_scenery(variable obj);
+procedure is_dead(variable critter_obj);
+procedure is_container(variable obj);
+procedure is_empty(variable container_or_critter_obj);
+procedure load_comsep_ini_setting(variable file, variable section, variable setting);
+procedure fo2tweaks_comsep_setting(variable section, variable setting);
+procedure is_door(variable scenery_obj);
+procedure no_highlight(variable obj);
+procedure no_steal(variable obj);
+procedure trap_cave_armed(variable obj);
+procedure trap_metal_armed(variable obj);
+procedure trap_sonora_armed(variable obj);
+procedure beartrap_sonora_armed(variable obj);
+procedure is_trap(variable obj);
+procedure in_loot_mode();
+procedure in_combat();
+procedure invalid_game_mode();
+procedure is_stairs(variable scenery_obj);
+procedure get_color(variable obj);
+procedure enable_highlight();
+procedure disable_highlight();
+procedure reset_highlight();
+procedure keypress_handler();
+procedure start();
 
-#define msg_no_sensor mstr_misc(17)
-#define msg_sensor_no_charges mstr_misc(18)
-
-variable begin
-  highlight_key;
-  check_los;
-  motion_scanner;
-  ignore_nohighlight;
-  skip_empty;
-  traps;
-  transitions;
-  skip_items;
-
-  color_critters;
-  color_hostile_critters;
-  color_corpses;
-  color_containers;
-  color_containers_locked;
-  color_traps;
-  color_party;
-  color_dude;
-  color_doors_locked;
-  color_items;
-  color_transitions;
-
-  variant = "default"; // F2,RP
+/* ===== bundled ===== */
+procedure temp_array_list(variable size) begin
+    return temp_array(size, 0);
 end
+procedure is_in_array(variable item, variable array) begin
+    return scan_array(array, item) != -1;
+end
+procedure party_member_list_critters() begin
+    return party_member_list(false);
+end
+procedure string_split_ints(variable str, variable split) begin
+    if (str == "") then begin
+        return temp_array_list(0);
+    end
+    variable parts = string_split(str, split);
+    variable result = temp_array_list(0);
+    variable n = 0;
+    variable len = len_array(parts);
+    for (variable i = 0; i < len; i++) begin
+        variable val = get_array(parts, i);
+        if (val != "") then begin
+            resize_array(result, n + 1);
+            set_array(result, n, atoi(val));
+            n++;
+        end
+    end
+    return result;
+end
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+procedure is_critter(variable obj) begin
+    return obj_type(obj) == OBJ_TYPE_CRITTER;
+end
+procedure is_item(variable obj) begin
+    return obj_type(obj) == OBJ_TYPE_ITEM;
+end
+procedure is_scenery(variable obj) begin
+    return obj_type(obj) == OBJ_TYPE_SCENERY;
+end
+procedure is_dead(variable critter_obj) begin
+    return critter_state(critter_obj) == CRITTER_IS_DEAD;
+end
+procedure is_container(variable obj) begin
+    if (obj_type(obj) != OBJ_TYPE_ITEM) then begin
+        return false;
+    end
+    if (obj_item_subtype(obj) != item_type_container) then begin
+        return false;
+    end
+    return true;
+end
+procedure is_empty(variable container_or_critter_obj) begin
+    if (inven_ptr(container_or_critter_obj, 0)) then begin
+        return false;
+    end
+    return true;
+end
+procedure load_comsep_ini_setting(variable file, variable section, variable setting) begin
+    variable str = get_ini_string(file + "|" + section + "|" + setting);
+    return string_split_ints(str, ",");
+end
+procedure fo2tweaks_comsep_setting(variable section, variable setting) begin
+    return load_comsep_ini_setting(fo2tweaks_ini, section, setting);
+end
+procedure is_door(variable scenery_obj) begin
+    if (get_proto_data(obj_pid(scenery_obj), PRODATA_SC_TYPE2) == SC_TYPE_DOOR) then begin
+        return true;
+    end
+    return false;
+end
+/* ===== end bundled ===== */
 
+/* ===== main body ===== */
+variable highlight_key;
+variable check_los;
+variable motion_scanner;
+variable ignore_nohighlight;
+variable skip_empty_setting;
+variable traps;
+variable transitions;
+variable skip_items;
+variable color_critters;
+variable color_corpses;
+variable color_containers;
+variable color_containers_locked;
+variable color_traps;
+variable color_party;
+variable color_dude;
+variable color_doors_locked;
+variable color_items;
+variable color_transitions;
+procedure no_highlight(variable obj) begin
+    return (get_flags(obj) bwand FLAG_NOHIGHLIGHT) != 0;
+end
+procedure no_steal(variable obj) begin
+    return (get_proto_data(obj_pid(obj), PROTO_CR_FLAGS) bwand CFLG_NOSTEAL) != 0;
+end
+procedure trap_cave_armed(variable obj) begin
+    return obj_pid(obj) == PID_CAVE_FLOOR_TRAP_VISIBLE and not tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_CAVE_FLOOR_TRAP_DISARMED) and not tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_CAVE_FLOOR_TRAP_DEPRESSED);
+end
+procedure trap_metal_armed(variable obj) begin
+    return obj_pid(obj) == PID_METAL_FLOOR_TRAP_VISIBLE and not tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_METAL_FLOOR_TRAP_DISARMED) and not tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_METAL_FLOOR_TRAP_DEPRESSED);
+end
+procedure trap_sonora_armed(variable obj) begin
+    return obj_pid(obj) == PID_TRAP_SONORA_VISIBLE and not tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_TRAP_SONORA_DISARMED);
+end
+procedure beartrap_sonora_armed(variable obj) begin
+    return obj_pid(obj) == PID_BEARTRAP_SONORA;
+end
+procedure is_trap(variable obj) begin
+    return trap_cave_armed(obj) or trap_metal_armed(obj) or trap_sonora_armed(obj) or beartrap_sonora_armed(obj);
+end
+procedure in_loot_mode() begin
+    return (get_game_mode bwand INTFACELOOT) != 0;
+end
+procedure in_combat() begin
+    return (get_game_mode bwand COMBAT) != 0;
+end
+procedure invalid_game_mode() begin
+    return (get_game_mode bwand (WORLDMAP bwor DIALOG bwor ESCMENU bwor SAVEGAME bwor LOADGAME bwor OPTIONS bwor HELP bwor CHARSCREEN bwor PIPBOY bwor AUTOMAP bwor BARTER bwor HEROWIN bwor DIALOGVIEW)) != 0;
+end
 procedure is_stairs(variable scenery_obj) begin
-  variable type = get_proto_data(obj_pid(scenery_obj), PRODATA_SC_TYPE);
-  if type == SC_TYPE_STAIRS
-    or type == SC_TYPE_LADDER_BOTTOM
-    or type == SC_TYPE_LADDER_TOP
-  then return true;
-  return false;
+    variable type = get_proto_data(obj_pid(scenery_obj), PRODATA_SC_TYPE);
+    if (type == SC_TYPE_STAIRS or type == SC_TYPE_LADDER_BOTTOM or type == SC_TYPE_LADDER_TOP) then begin
+        return true;
+    end
+    return false;
 end
-
 procedure get_color(variable obj) begin
-  variable color = OUTLINE_NONE;
-  variable blocking_obj;
-
-  if not obj then begin
-    ndebug("skipping, not an object");
-    return OUTLINE_NONE;
-  end
-
-  if elevation(obj) != elevation(dude_obj) then begin
-    //ndebug("skipping, wrong elevation");
-    return OUTLINE_NONE;
-  end
-
-  blocking_obj = obj_blocking_line(dude_obj, tile_num(obj), BLOCKING_TYPE_SHOOT);
-  if check_los and blocking_obj and (obj != blocking_obj) then begin
-    // ndebug("skipping by checklos: " + obj_name(obj) + " blocked by " + obj_name(blocking_obj));
-    return OUTLINE_NONE;
-  end
-
-  if NO_HIGHLIGHT(obj) and not ignore_nohighlight then begin
-    ndebug("skipping, no-highlight, " + NO_HIGHLIGHT(obj) + ", "+ ignore_nohighlight);
-    return OUTLINE_NONE;
-  end
-
-  //critters and corpses
-  if obj_type(obj) == OBJ_TYPE_CRITTER then begin
-    if is_dead(obj) then begin
-      if skip_empty and is_empty(obj) then return OUTLINE_NONE;
-      if NO_STEAL(obj) then return OUTLINE_NONE;
-      return color_corpses;
-    end else begin
-      if obj == dude_obj then return color_dude;
-      if is_in_array(obj, party_member_list_critters) then return color_party;
-
-      //don't change critter outline in combat
-      if in_combat and get_cursor_mode == CURSOR_TARGETING then begin
-        variable current_outline = get_outline(obj);
-        if current_outline != OUTLINE_NONE then begin
-          ndebug("already outlined, keeping color");
-          return current_outline;
+    if (not obj) then begin
+        ndebug("skipping, not an object");
+        return OUTLINE_NONE;
+    end
+    if (elevation(obj) != elevation(dude_obj)) then begin
+        return OUTLINE_NONE;
+    end
+    variable blocking_obj = obj_blocking_line(dude_obj, tile_num(obj), BLOCKING_TYPE_SHOOT);
+    if (check_los and blocking_obj and obj != blocking_obj) then begin
+        return OUTLINE_NONE;
+    end
+    if (no_highlight(obj) and not ignore_nohighlight) then begin
+        ndebug("skipping, no-highlight");
+        return OUTLINE_NONE;
+    end
+    if (is_critter(obj)) then begin
+        if (is_dead(obj)) then begin
+            if (skip_empty_setting and is_empty(obj)) then begin
+                return OUTLINE_NONE;
+            end
+            if (no_steal(obj)) then begin
+                return OUTLINE_NONE;
+            end
+            return color_corpses;
+        end else begin
+            if (obj == dude_obj) then begin
+                return color_dude;
+            end
+            if (is_in_array(obj, party_member_list_critters())) then begin
+                return color_party;
+            end
+            if (in_combat() and get_cursor_mode == CURSOR_TARGETING) then begin
+                variable current_outline = get_outline(obj);
+                if (current_outline != OUTLINE_NONE) then begin
+                    ndebug("already outlined, keeping color");
+                    return current_outline;
+                end
+            end
         end
-      end
-
- //     if hostile(obj) then return color_hostile_critters;
+        return color_critters;
     end
-    return color_critters;
-  end
-
-  //items and containers
-  if obj_type(obj) == OBJ_TYPE_ITEM then begin
-    //skip excluded
-    if is_in_array(obj_pid(obj), skip_items) then return OUTLINE_NONE;
-
-    if obj_item_subtype(obj) == item_type_container then begin
-      if obj_is_locked(obj) then return color_containers_locked;
-      if skip_empty and is_empty(obj) then return OUTLINE_NONE;
-      return color_containers;
-    end else return color_items; // default ground items
-  end
-
-  //scenery: traps, doors, transitions
-  if obj_type(obj) == OBJ_TYPE_SCENERY then begin
-    if (is_trap(obj) or is_in_array(obj_pid(obj), traps))
-      and (get_flags(obj) bwand FLAG_NOBLOCK) // Sonora re-uses F2 trap proto as bath. A trap should be walkable, though.
-    then return color_traps;
-
-    if is_in_array(obj_pid(obj), transitions) then return color_transitions;
-
-    if obj_is_locked(obj) and not obj_is_open(obj) and is_door(obj) then begin
-      return color_doors_locked;
+    if (is_item(obj)) then begin
+        if (is_in_array(obj_pid(obj), skip_items)) then begin
+            return OUTLINE_NONE;
+        end
+        if (is_container(obj)) then begin
+            if (obj_is_locked(obj)) then begin
+                return color_containers_locked;
+            end
+            if (skip_empty_setting and is_empty(obj)) then begin
+                return OUTLINE_NONE;
+            end
+            return color_containers;
+        end else begin
+            return color_items;
+        end
     end
-
-    if is_stairs(obj) then begin
-      return color_transitions;
+    if (is_scenery(obj)) then begin
+        if ((is_trap(obj) or is_in_array(obj_pid(obj), traps)) and get_flags(obj) bwand FLAG_NOBLOCK) then begin
+            return color_traps;
+        end
+        if (is_in_array(obj_pid(obj), transitions)) then begin
+            return color_transitions;
+        end
+        if (is_door(obj) and obj_is_locked(obj) and not obj_is_open(obj)) then begin
+            return color_doors_locked;
+        end
+        if (is_stairs(obj)) then begin
+            return color_transitions;
+        end
     end
-  end
-
-  return OUTLINE_NONE; //fallback
+    return OUTLINE_NONE;
 end
-
-procedure enable_highlight begin
-  variable obj, color = OUTLINE_NONE;
-  if tile_distance_objs(dude_obj, obj) < 2 then begin
-    float_msg(obj, "pid is " + obj_pid(obj) + ", color is " + color + ", script is " + get_script(obj), FLOAT_COLOR_GOOD);
-  end
-  if color_items or color_containers or color_containers_locked then begin
-    foreach obj in list_as_array(LIST_GROUNDITEMS) begin
-      color = get_color(obj);
-      if color != OUTLINE_NONE then set_outline(obj, color);
+procedure enable_highlight() begin
+    variable color;
+    if (color_items or color_containers or color_containers_locked) then begin
+        foreach (variable obj in list_as_array(LIST_GROUNDITEMS)) begin
+            color = get_color(obj);
+            if (color != OUTLINE_NONE) then begin
+                set_outline(obj, color);
+            end
+        end
     end
-  end
-
-  if color_corpses or color_critters then begin
-    foreach obj in list_as_array(LIST_CRITTERS) begin
-      color = get_color(obj);
-      if color != OUTLINE_NONE then set_outline(obj, color);
+    if (color_corpses or color_critters) then begin
+        foreach (variable obj in list_as_array(LIST_CRITTERS)) begin
+            color = get_color(obj);
+            if (color != OUTLINE_NONE) then begin
+                set_outline(obj, color);
+            end
+        end
     end
-  end
-
-  if color_traps or color_doors_locked or color_transitions then begin
-    foreach obj in list_as_array(LIST_SCENERY) begin
-      color = get_color(obj);
-      if color != OUTLINE_NONE then set_outline(obj, color);
+    if (color_traps or color_doors_locked or color_transitions) then begin
+        foreach (variable obj in list_as_array(LIST_SCENERY)) begin
+            color = get_color(obj);
+            if (color != OUTLINE_NONE) then begin
+                set_outline(obj, color);
+            end
+        end
     end
-  end
-
-  tile_refresh_display;
+    tile_refresh_display;
 end
-
-procedure disable_highlight begin
-  variable obj;
-  ndebug("disable highlight");
-  foreach obj in list_as_array(LIST_GROUNDITEMS) begin
-    if obj != outlined_object then set_outline(obj, OUTLINE_NONE);
-  end
-  if color_corpses or color_critters then begin
-    foreach obj in list_as_array(LIST_CRITTERS) begin
-      set_outline(obj, OUTLINE_NONE);
+procedure disable_highlight() begin
+    ndebug("disable highlight");
+    foreach (variable obj in list_as_array(LIST_GROUNDITEMS)) begin
+        if (obj != outlined_object) then begin
+            set_outline(obj, OUTLINE_NONE);
+        end
     end
-  end
-  if color_traps or color_doors_locked or color_transitions then begin
-    foreach obj in list_as_array(LIST_SCENERY) begin
-      set_outline(obj, OUTLINE_NONE);
+    if (color_corpses or color_critters) then begin
+        foreach (variable obj in list_as_array(LIST_CRITTERS)) begin
+            set_outline(obj, OUTLINE_NONE);
+        end
     end
-  end
-  tile_refresh_display;
+    if (color_traps or color_doors_locked or color_transitions) then begin
+        foreach (variable obj in list_as_array(LIST_SCENERY)) begin
+            set_outline(obj, OUTLINE_NONE);
+        end
+    end
+    tile_refresh_display;
 end
-
-procedure reset_highlight begin
-  ndebug("reset highlight");
-  call disable_highlight;
-  if in_combat and get_cursor_mode == CURSOR_TARGETING then begin
-    set_cursor_mode(CURSOR_COMMAND);
-    set_cursor_mode(CURSOR_TARGETING);
-  end
+procedure reset_highlight() begin
+    ndebug("reset highlight");
+    call disable_highlight();
+    if (in_combat() and get_cursor_mode == CURSOR_TARGETING) then begin
+        set_cursor_mode(CURSOR_COMMAND);
+        set_cursor_mode(CURSOR_TARGETING);
+    end
 end
-
-procedure keypress_handler begin
-  variable pressed = get_sfall_arg,
-        key = get_sfall_arg,
-        scanner, charges;
-
-  if key != highlight_key then return;
-  if invalid_game_mode then return;
-  if not pressed then begin
-    call reset_highlight;
-    return;
-  end
-
-  if not in_loot_mode then begin
-    if motion_scanner then begin
-      scanner = obj_carrying_pid_obj(dude_obj, PID_MOTION_SENSOR);
-      if not scanner then begin
-        display_msg(msg_no_sensor);
+procedure keypress_handler() begin
+    variable pressed = get_sfall_arg;
+    variable key = get_sfall_arg;
+    if (key != highlight_key) then begin
         return;
-      end
-
-      if motion_scanner >= 2 then begin
-        charges = get_weapon_ammo_count(scanner);
-        if not charges > 0 then begin
-          display_msg(msg_sensor_no_charges);
-          return;
+    end
+    if (invalid_game_mode()) then begin
+        return;
+    end
+    if (not pressed) then begin
+        call reset_highlight();
+        return;
+    end
+    if (not in_loot_mode()) then begin
+        if (motion_scanner) then begin
+            variable scanner = obj_carrying_pid_obj(dude_obj, PID_MOTION_SENSOR);
+            if (not scanner) then begin
+                display_msg(message_str(101, 17));
+                return;
+            end
+            if (motion_scanner >= 2) then begin
+                variable charges = get_weapon_ammo_count(scanner);
+                if (not (charges > 0)) then begin
+                    display_msg(message_str(101, 18));
+                    return;
+                end
+                set_weapon_ammo_count(scanner, charges - 1);
+                intface_redraw;
+            end
         end
-        set_weapon_ammo_count(scanner, charges - 1);
-        intface_redraw;
-      end
+        call enable_highlight();
     end
-    call enable_highlight;
-  end
-
 end
-
-procedure start begin
-  if game_loaded then begin
-    variable enabled = fo2tweaks_setting(sec_main, set_highlight);
-    if enabled == 1 then begin
-
-      ndebug("enabled");
-      highlight_key = fo2tweaks_setting(sec_highlight, set_highlight_key);
-      check_los = fo2tweaks_setting(sec_highlight, set_highlight_check_los);
-      motion_scanner = fo2tweaks_setting(sec_highlight, set_highlight_motion_scanner);
-      ignore_nohighlight = fo2tweaks_setting(sec_highlight, set_highlight_ignore_nohighlight);
-
-      color_critters = fo2tweaks_setting(sec_highlight, set_highlight_color_critters);
-      color_hostile_critters = fo2tweaks_setting(sec_highlight, set_highlight_color_hostile_critters);
-      color_corpses = fo2tweaks_setting(sec_highlight, set_highlight_color_corpses);
-      color_containers = fo2tweaks_setting(sec_highlight, set_highlight_color_containers);
-      color_containers_locked = fo2tweaks_setting(sec_highlight, set_highlight_color_containers_locked);
-      color_traps = fo2tweaks_setting(sec_highlight, set_highlight_color_traps);
-      color_party = fo2tweaks_setting(sec_highlight, set_highlight_color_party);
-      color_dude = fo2tweaks_setting(sec_highlight, set_highlight_color_dude);
-      color_doors_locked = fo2tweaks_setting(sec_highlight, set_highlight_color_doors_locked);
-      color_items = fo2tweaks_setting(sec_highlight, set_highlight_color_items);
-      color_transitions = fo2tweaks_setting(sec_highlight, set_highlight_color_transitions);
-      skip_empty = fo2tweaks_setting(sec_highlight, set_highlight_skip_empty);
-
-      skip_items = fo2tweaks_comsep_setting(sec_highlight, set_highlight_skip_items);
-      fix_array(skip_items);
-      traps = fo2tweaks_comsep_setting(sec_highlight, set_highlight_traps);
-      fix_array(traps);
-      transitions = fo2tweaks_comsep_setting(sec_highlight, set_highlight_transitions);
-      fix_array(transitions);
-
-      register_hook_proc(HOOK_KEYPRESS, keypress_handler);
-
-      ndebug("initialized");
+procedure start() begin
+    if (game_loaded) then begin
+        variable enabled = fo2tweaks_setting(sec_main, set_highlight);
+        if (enabled == 1) then begin
+            ndebug("enabled");
+            highlight_key = fo2tweaks_setting(sec_highlight, set_highlight_key);
+            check_los = fo2tweaks_setting(sec_highlight, set_highlight_check_los);
+            motion_scanner = fo2tweaks_setting(sec_highlight, set_highlight_motion_scanner);
+            ignore_nohighlight = fo2tweaks_setting(sec_highlight, set_highlight_ignore_nohighlight);
+            color_critters = fo2tweaks_setting(sec_highlight, set_highlight_color_critters);
+            color_corpses = fo2tweaks_setting(sec_highlight, set_highlight_color_corpses);
+            color_containers = fo2tweaks_setting(sec_highlight, set_highlight_color_containers);
+            color_containers_locked = fo2tweaks_setting(sec_highlight, set_highlight_color_containers_locked);
+            color_traps = fo2tweaks_setting(sec_highlight, set_highlight_color_traps);
+            color_party = fo2tweaks_setting(sec_highlight, set_highlight_color_party);
+            color_dude = fo2tweaks_setting(sec_highlight, set_highlight_color_dude);
+            color_doors_locked = fo2tweaks_setting(sec_highlight, set_highlight_color_doors_locked);
+            color_items = fo2tweaks_setting(sec_highlight, set_highlight_color_items);
+            color_transitions = fo2tweaks_setting(sec_highlight, set_highlight_color_transitions);
+            skip_empty_setting = fo2tweaks_setting(sec_highlight, set_highlight_skip_empty);
+            skip_items = fo2tweaks_comsep_setting(sec_highlight, set_highlight_skip_items);
+            fix_array(skip_items);
+            traps = fo2tweaks_comsep_setting(sec_highlight, set_highlight_traps);
+            fix_array(traps);
+            transitions = fo2tweaks_comsep_setting(sec_highlight, set_highlight_transitions);
+            fix_array(transitions);
+            register_hook_proc(HOOK_KEYPRESS, keypress_handler);
+            ndebug("initialized");
+        end
     end
-  end
 end
+/* ===== end main body ===== */

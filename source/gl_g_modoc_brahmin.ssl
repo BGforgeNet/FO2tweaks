@@ -1,28 +1,55 @@
-#define SCRIPT_REALNAME "gl_g_modoc_brahmin"
-#include "headers/fo2tweaks/fo2tweaks.h"
+/* Do not edit. This file is generated from gl_g_modoc_brahmin.tssl. Make your changes there and regenerate this file. */
 
+#define SCRIPT_REALNAME "gl_g_modoc_brahmin"
 #define set_modoc_brahmin "modoc_brahmin"
 
+#define METARULE_TEST_FIRSTRUN 14
+#define TRAIT_OBJECT 1
+#define OBJECT_TEAM_NUM 6
+#define METARULE_CRITTER_KILL_TYPE 51
+#define KILL_TYPE_brahmin_kills 5
+#define HOOK_COMBATTURN 27
+#define LIST_CRITTERS 0
+#define TEAM_PLAYER 0
+#define MAP_MODOC_BRAHMINPASTURES 20
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define critter_kill_type(who) metarule(METARULE_CRITTER_KILL_TYPE, who)
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+
+procedure map_first_run();
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure brahmin_allegiance();
+procedure map_enter_p_proc();
+
+/* ===== bundled ===== */
+procedure map_first_run() begin
+    return metarule(METARULE_TEST_FIRSTRUN, 0) != 0;
+end
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+/* ===== end bundled ===== */
+
+/* ===== main body ===== */
 variable changed = 0;
-
-procedure brahmin_allegiance begin
-  variable who;
-  if changed == 0 then begin
-    foreach who in list_as_array(LIST_CRITTERS) begin
-      if critter_kill_type(who) == KILL_TYPE_brahmin_kills then begin
-        critter_add_trait(who, TRAIT_OBJECT, OBJECT_TEAM_NUM, TEAM_PLAYER);
-      end
+procedure brahmin_allegiance() begin
+    if (changed == 0) then begin
+        foreach (variable who in list_as_array(LIST_CRITTERS)) begin
+            if (critter_kill_type(who) == KILL_TYPE_brahmin_kills) then begin
+                critter_add_trait(who, TRAIT_OBJECT, OBJECT_TEAM_NUM, TEAM_PLAYER);
+            end
+        end
+        changed = 1;
+        ndebug("changed allegiance to player");
     end
-    changed = 1;
-    ndebug("changed allegiance to player");
-  end
 end
-
-procedure map_enter_p_proc begin
-  if cur_map_index == MAP_MODOC_BRAHMINPASTURES and map_first_run then begin
-    variable enabled = fo2tweaks_setting(sec_main, set_modoc_brahmin);
-    if enabled == 1 then begin
-      register_hook_proc(HOOK_COMBATTURN, brahmin_allegiance);
+procedure map_enter_p_proc() begin
+    if (cur_map_index == MAP_MODOC_BRAHMINPASTURES and map_first_run()) then begin
+        variable enabled = fo2tweaks_setting(sec_main, set_modoc_brahmin);
+        if (enabled == 1) then begin
+            register_hook_proc(HOOK_COMBATTURN, brahmin_allegiance);
+        end
     end
-  end
 end
+/* ===== end main body ===== */

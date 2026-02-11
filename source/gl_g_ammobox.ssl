@@ -1,81 +1,178 @@
-#define SCRIPT_REALNAME "gl_g_ammobox"
-#include "headers/fo2tweaks/fo2tweaks.h"
+/* Do not edit. This file is generated from gl_g_ammobox.tssl. Make your changes there and regenerate this file. */
 
+#define SCRIPT_REALNAME "gl_g_ammobox"
 #define set_ammobox "ammobox"
 #define sec_ammobox "ammobox"
 #define set_ammobox_number "number"
 #define set_ammobox_color "color"
 
+#define LEFT_HAND 0
+#define PROTO_WP_ANIM 36
+#define WPN_ANIM_PISTOL 5
+#define WPN_ANIM_SMG 6
+#define WPN_ANIM_RIFLE 7
+#define WPN_ANIM_BIG_GUN 8
+#define WPN_ANIM_MINIGUN 9
+#define WPN_ANIM_ROCKET_LAUNCHER 10
+#define INVEN_TYPE_RIGHT_HAND 1
+#define INVEN_TYPE_LEFT_HAND 2
+#define item_type_weapon 3
+#define COMBAT 64
+#define HOOK_CALCAPCOST 2
+#define HOOK_GAMEMODECHANGE 31
+#define GAME_MSG_PRO_ITEM 4096
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define critter_inven_obj2(critter, slot) sfall_func2("critter_inven_obj2", critter, slot)
+#define get_sfall_arg_at(index) sfall_func1("get_sfall_arg_at", index)
+#define set_iface_tag_text(tag, text, color) sfall_func3("set_iface_tag_text", tag, text, color)
+
+procedure is_in_array(variable item, variable array);
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure is_weapon(variable obj);
+procedure in_combat();
+procedure get_active_weapon(variable attacker);
+procedure get_dude_inactive_weapon();
+procedure get_active_ammo_pid(variable attacker);
+procedure get_dude_inactive_ammo_pid();
+procedure is_gun(variable obj);
+procedure start();
+procedure update_box(variable show_new);
+procedure gamemode_hook();
+procedure apcost_hook();
+
+/* ===== bundled ===== */
+procedure is_in_array(variable item, variable array) begin
+    return scan_array(array, item) != -1;
+end
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+procedure is_weapon(variable obj) begin
+    return obj_item_subtype(obj) == item_type_weapon;
+end
+procedure in_combat() begin
+    return (get_game_mode bwand COMBAT) != 0;
+end
+procedure get_active_weapon(variable attacker) begin
+    variable item;
+    if (attacker == dude_obj and active_hand == LEFT_HAND) then begin
+        item = critter_inven_obj2(attacker, INVEN_TYPE_LEFT_HAND);
+    end else begin
+        item = critter_inven_obj2(attacker, INVEN_TYPE_RIGHT_HAND);
+    end
+    if (item and is_weapon(item)) then begin
+        return item;
+    end
+    return 0;
+end
+procedure get_dude_inactive_weapon() begin
+    variable item;
+    if (active_hand == LEFT_HAND) then begin
+        item = critter_inven_obj2(dude_obj, INVEN_TYPE_RIGHT_HAND);
+    end else begin
+        item = critter_inven_obj2(dude_obj, INVEN_TYPE_LEFT_HAND);
+    end
+    if (item and is_weapon(item)) then begin
+        return item;
+    end
+    return 0;
+end
+procedure get_active_ammo_pid(variable attacker) begin
+    variable weapon = get_active_weapon(attacker);
+    if (not weapon) then begin
+        return 0;
+    end
+    variable ammo_pid = get_weapon_ammo_pid(weapon);
+    if (ammo_pid == -1) then begin
+        return 0;
+    end
+    return ammo_pid;
+end
+procedure get_dude_inactive_ammo_pid() begin
+    variable weapon = get_dude_inactive_weapon();
+    if (not weapon) then begin
+        return 0;
+    end
+    variable ammo_pid = get_weapon_ammo_pid(weapon);
+    if (ammo_pid == -1) then begin
+        return 0;
+    end
+    return ammo_pid;
+end
+procedure is_gun(variable obj) begin
+    variable WPN_ANIM_RIFLE_EXTRA = 13;
+    variable ranged_codes = [WPN_ANIM_PISTOL, WPN_ANIM_SMG, WPN_ANIM_RIFLE, WPN_ANIM_BIG_GUN, WPN_ANIM_MINIGUN, WPN_ANIM_ROCKET_LAUNCHER, WPN_ANIM_RIFLE_EXTRA];
+    if (not is_weapon(obj)) then begin
+        return false;
+    end
+    variable anim_code = get_proto_data(obj_pid(obj), PROTO_WP_ANIM);
+    ndebug("anim_code = " + anim_code);
+    return is_in_array(anim_code, ranged_codes);
+end
+/* ===== end bundled ===== */
+
+/* ===== main body ===== */
 variable box_num;
 variable box_color;
-
-procedure start;
-procedure update_box(variable show_new);
-procedure gamemode_hook;
-procedure apcost_hook;
-
-procedure start begin
-  if game_loaded then begin
-    variable enabled = fo2tweaks_setting(sec_main, set_ammobox);
-    box_num = fo2tweaks_setting(sec_ammobox, set_ammobox_number);
-    box_color = fo2tweaks_setting(sec_ammobox, set_ammobox_color);
-    if enabled == 1 then begin
-      register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_hook);
-      register_hook_proc(HOOK_CALCAPCOST, apcost_hook);
-      ndebug("initialized");
+procedure start() begin
+    if (game_loaded) then begin
+        variable enabled = fo2tweaks_setting(sec_main, set_ammobox);
+        box_num = fo2tweaks_setting(sec_ammobox, set_ammobox_number);
+        box_color = fo2tweaks_setting(sec_ammobox, set_ammobox_color);
+        if (enabled == 1) then begin
+            register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_hook);
+            register_hook_proc(HOOK_CALCAPCOST, apcost_hook);
+            ndebug("initialized");
+        end
     end
-  end
 end
-
-procedure apcost_hook begin
-  variable who = get_sfall_arg;
-  if who == dude_obj then begin
-    ndebug("apcost");
-    call update_box(1);
-  end
-end
-
-//combat start/stop
-procedure gamemode_hook begin
-  variable old_mode = get_sfall_arg_at(1);
-  variable new_mode = get_game_mode;
-  if (old_mode bwand COMBAT) != (new_mode bwand COMBAT) then begin
-    call update_box(1);
-    ndebug("update box - gamemode combat");
-    return;
-  end
-end
-
-//some hooks are run before actual change
-//show_new = 0 shows currently active ammo
-//show_new = 1 shows currently inactive ammo which will become active
 procedure update_box(variable show_new) begin
-  variable item, weapon, ammo_pid, ammo_label;
-  if not in_combat then begin
-    if is_iface_tag_active(box_num) then begin
-      hide_iface_tag(box_num);
+    variable weapon;
+    variable ammo_pid;
+    variable ammo_label;
+    if (not in_combat()) then begin
+        if (is_iface_tag_active(box_num)) then begin
+            hide_iface_tag(box_num);
+        end
+        return;
     end
-    return;
-  end
-
-  // in combat
-  if show_new == 1 then begin
-    ammo_pid = get_active_ammo_pid(dude_obj);
-    weapon = get_active_weapon(dude_obj);
-  end else begin
-    ammo_pid = get_dude_inactive_ammo_pid;
-    weapon = get_dude_inactive_weapon;
-  end
-  if ammo_pid and is_gun(weapon) then begin
-    ammo_label = message_str_game(GAME_MSG_PRO_ITEM, ammo_pid * 100);
-    set_iface_tag_text(box_num, ammo_label, box_color);
-    if not is_iface_tag_active(box_num) then begin
-      show_iface_tag(box_num);
+    if (show_new) then begin
+        ammo_pid = get_active_ammo_pid(dude_obj);
+        weapon = get_active_weapon(dude_obj);
+    end else begin
+        ammo_pid = get_dude_inactive_ammo_pid();
+        weapon = get_dude_inactive_weapon();
     end
-  end else begin
-    if is_iface_tag_active(box_num) then begin
-      hide_iface_tag(box_num);
+    ndebug("ammo_pid = " + ammo_pid);
+    if (ammo_pid and is_gun(weapon)) then begin
+        ammo_label = message_str_game(GAME_MSG_PRO_ITEM, ammo_pid * 100);
+        set_iface_tag_text(box_num, ammo_label, box_color);
+        if (not is_iface_tag_active(box_num)) then begin
+            show_iface_tag(box_num);
+        end
+    end else begin
+        if (is_iface_tag_active(box_num)) then begin
+            hide_iface_tag(box_num);
+        end
     end
-  end
-
 end
+procedure gamemode_hook() begin
+    variable old_mode = get_sfall_arg_at(1);
+    variable new_mode = get_game_mode;
+    ndebug("update box - gamemode combat 0");
+    if ((old_mode bwand COMBAT) != (new_mode bwand COMBAT)) then begin
+        call update_box(true);
+        ndebug("update box - gamemode combat");
+        return;
+    end
+end
+procedure apcost_hook() begin
+    variable who = get_sfall_arg;
+    if (who == dude_obj) then begin
+        ndebug("apcost");
+        call update_box(true);
+    end
+end
+/* ===== end main body ===== */

@@ -1,0 +1,96 @@
+import { cur_map_index, dude_obj, float_msg, ndebug, world_map } from "folib";
+import { dude_has_car } from "folib/rp/command";
+import { MAP_MODOC_DOWNTHESHITTER } from "folib/rp/maps";
+import { SCRIPT_MISHTRKS, shitter_has_blown } from "folib/rp/modoc";
+import {
+    add_extra_msg_file, car_give_to_party, DIK_0, DIK_T, FLOAT_MSG_NORMAL, game_loaded, get_game_mode, get_script,
+    get_sfall_arg, HOOK_KEYPRESS, in_world_map, list_as_array, LIST_SCENERY, message_str_game, register_hook_proc, tap_key
+} from "folib/sfall";
+import { fo2tweaks_string, sec_main } from "./fo2tweaks";
+import { char_to_dik } from "./fo2tweaks/keys";
+
+const SCRIPT_REALNAME = "gl_g_map_hotkey";
+const set_worldmap_key = "worldmap_key";
+const set_townmap_key = "townmap_key";
+
+let worldmap_key: number;
+let townmap_key: number;
+
+function blowing_shitter(): boolean {
+    if (cur_map_index != MAP_MODOC_DOWNTHESHITTER) return false;
+    if (shitter_has_blown()) return false;
+
+    const msg = add_extra_msg_file("g_map_hotkey.msg");
+
+    let really_in_shitter = false;
+    for (const s of list_as_array(LIST_SCENERY)) {
+        if (get_script(s) == SCRIPT_MISHTRKS) really_in_shitter = true;
+        break;
+    }
+
+    if (really_in_shitter) {
+        float_msg(dude_obj, message_str_game(msg, 1), FLOAT_MSG_NORMAL);
+        ndebug("blowing shitter, pass");
+        return true;
+    } else {
+        ndebug("not really in shitter, pass");
+        return false;
+    }
+}
+
+function keypress_handler() {
+    const pressed = get_sfall_arg() as number;
+    const key = get_sfall_arg() as number;
+    if (!pressed) return; // released
+
+    // allow to use the same town map key on world map
+    if (in_world_map()) {
+        tap_key(DIK_T);
+        return;
+    }
+
+    if (get_game_mode()) return; // some other windows open, pass
+
+    if (worldmap_key && key == worldmap_key) {
+        if (blowing_shitter()) return;
+        ndebug("key pressed, mode valid - calling world map");
+        if (dude_has_car()) {
+            car_give_to_party();
+        } else {
+            world_map();
+        }
+    }
+
+    if (townmap_key && key == townmap_key) {
+        if (blowing_shitter()) return;
+        ndebug("key pressed, mode valid - calling town map");
+        if (dude_has_car()) {
+            car_give_to_party();
+        } else {
+            world_map();
+        }
+        tap_key(DIK_T);
+    }
+}
+
+function start() {
+    if (game_loaded()) {
+        const worldmap_key_char = fo2tweaks_string(sec_main, set_worldmap_key);
+        worldmap_key = char_to_dik(worldmap_key_char);
+        const townmap_key_char = fo2tweaks_string(sec_main, set_townmap_key);
+        townmap_key = char_to_dik(townmap_key_char);
+        if (worldmap_key == DIK_0) { // "0"
+            worldmap_key = 0;
+        }
+        if (townmap_key == DIK_0 || townmap_key == DIK_T) {
+            townmap_key = 0;
+        }
+        if (worldmap_key || townmap_key) {
+            if (worldmap_key) ndebug("worldmap key is " + worldmap_key);
+            if (townmap_key) ndebug("townmap key is " + townmap_key);
+            else ndebug("townmap key is default = T");
+            ndebug("initialized");
+            register_hook_proc(HOOK_KEYPRESS, keypress_handler);
+        }
+    }
+}

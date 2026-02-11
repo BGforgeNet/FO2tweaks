@@ -1,0 +1,346 @@
+import {
+    display_msg,
+    dude_obj, elevation,
+    message_str, ndebug,
+    obj_carrying_pid_obj,
+    obj_is_locked, obj_is_open,
+    obj_pid,
+    ObjectPtr, SceneryPtr, SfallList,
+    tile_contains_obj_pid,
+    tile_num
+} from "folib";
+import { PID_MOTION_SENSOR } from "folib/rp/itempid";
+import {
+    PID_CAVE_FLOOR_TRAP_DEPRESSED,
+    PID_CAVE_FLOOR_TRAP_DISARMED,
+    PID_CAVE_FLOOR_TRAP_VISIBLE,
+    PID_METAL_FLOOR_TRAP_DEPRESSED,
+    PID_METAL_FLOOR_TRAP_DISARMED,
+    PID_METAL_FLOOR_TRAP_VISIBLE,
+    PRODATA_SC_TYPE,
+    SC_TYPE_LADDER_BOTTOM, SC_TYPE_LADDER_TOP,
+    SC_TYPE_STAIRS
+} from "folib/rp/scenepid";
+import {
+    AUTOMAP, BARTER, BLOCKING_TYPE_SHOOT, CFLG_NOSTEAL, CHARSCREEN, COMBAT, CURSOR_COMMAND,
+    CURSOR_TARGETING, DIALOG, DIALOGVIEW, ESCMENU,
+    fix_array,
+    FLAG_NOBLOCK, FLAG_NOHIGHLIGHT,
+    game_loaded, get_cursor_mode, get_flags, get_game_mode, get_outline,
+    get_proto_data, get_sfall_arg, get_weapon_ammo_count,
+    HELP, HEROWIN, HOOK_KEYPRESS,
+    intface_redraw,
+    INTFACELOOT,
+    is_in_array, list_as_array,
+    LIST_CRITTERS, LIST_GROUNDITEMS, LIST_SCENERY, LOADGAME,
+    obj_blocking_line,
+    OPTIONS, OUTLINE_NONE,
+    outlined_object, party_member_list_critters,
+    PIPBOY, PROTO_CR_FLAGS,
+    register_hook_proc,
+    SAVEGAME,
+    set_cursor_mode, set_outline, set_weapon_ammo_count,
+    tile_refresh_display,
+    WORLDMAP,
+} from "folib/sfall";
+import { fo2tweaks_comsep_setting, fo2tweaks_setting, is_container, is_critter, is_dead, is_door, is_empty, is_item, is_scenery, sec_main } from "./fo2tweaks";
+
+const SCRIPT_REALNAME = "gl_g_highlighting";
+const set_highlight = "highlighting";
+
+const sec_highlight = "highlighting";
+const set_highlight_check_los = "check_los";
+const set_highlight_key = "key";
+const set_highlight_ignore_nohighlight = "ignore_nohighlight";
+const set_highlight_motion_scanner = "motion_scanner";
+const set_highlight_color_critters = "color_critters";
+const set_highlight_color_corpses = "color_corpses";
+const set_highlight_color_containers = "color_containers";
+const set_highlight_color_containers_locked = "color_locked_containers";
+const set_highlight_color_doors_locked = "color_locked_doors";
+const set_highlight_color_traps = "color_traps";
+const set_highlight_color_party = "color_party";
+const set_highlight_color_dude = "color_dude";
+const set_highlight_color_items = "color_items";
+const set_highlight_color_transitions = "color_transitions";
+const set_highlight_skip_empty = "skip_empty";
+const set_highlight_skip_items = "skip_items";
+const set_highlight_traps = "traps";
+const set_highlight_transitions = "transitions";
+
+// Sonora trap PIDs
+const PID_TRAP_SONORA_VISIBLE = 33554435;
+const PID_TRAP_SONORA_DISARMED = 33554436;
+const PID_BEARTRAP_SONORA = 33554439;
+
+let highlight_key: number;
+let check_los: number;
+let motion_scanner: number;
+let ignore_nohighlight: number;
+let skip_empty_setting: number;
+let traps: SfallList<number>;
+let transitions: SfallList<number>;
+let skip_items: SfallList<number>;
+
+let color_critters: number;
+let color_corpses: number;
+let color_containers: number;
+let color_containers_locked: number;
+let color_traps: number;
+let color_party: number;
+let color_dude: number;
+let color_doors_locked: number;
+let color_items: number;
+let color_transitions: number;
+
+function no_highlight(obj: ObjectPtr): boolean {
+    return (get_flags(obj) & FLAG_NOHIGHLIGHT) != 0;
+}
+
+function no_steal(obj: ObjectPtr): boolean {
+    return (get_proto_data(obj_pid(obj), PROTO_CR_FLAGS) & CFLG_NOSTEAL) != 0;
+}
+
+function trap_cave_armed(obj: ObjectPtr): boolean {
+    return obj_pid(obj) == PID_CAVE_FLOOR_TRAP_VISIBLE
+        && !tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_CAVE_FLOOR_TRAP_DISARMED)
+        && !tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_CAVE_FLOOR_TRAP_DEPRESSED);
+}
+
+function trap_metal_armed(obj: ObjectPtr): boolean {
+    return obj_pid(obj) == PID_METAL_FLOOR_TRAP_VISIBLE
+        && !tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_METAL_FLOOR_TRAP_DISARMED)
+        && !tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_METAL_FLOOR_TRAP_DEPRESSED);
+}
+
+function trap_sonora_armed(obj: ObjectPtr): boolean {
+    return obj_pid(obj) == PID_TRAP_SONORA_VISIBLE
+        && !tile_contains_obj_pid(tile_num(obj), elevation(obj), PID_TRAP_SONORA_DISARMED);
+}
+
+function beartrap_sonora_armed(obj: ObjectPtr): boolean {
+    return obj_pid(obj) == PID_BEARTRAP_SONORA;
+}
+
+function is_trap(obj: ObjectPtr): boolean {
+    return trap_cave_armed(obj) || trap_metal_armed(obj) || trap_sonora_armed(obj) || beartrap_sonora_armed(obj);
+}
+
+function in_loot_mode(): boolean {
+    return (get_game_mode() & INTFACELOOT) != 0;
+}
+
+function in_combat(): boolean {
+    return (get_game_mode() & COMBAT) != 0;
+}
+
+function invalid_game_mode(): boolean {
+    return (get_game_mode() & (WORLDMAP | DIALOG | ESCMENU | SAVEGAME | LOADGAME | OPTIONS | HELP | CHARSCREEN | PIPBOY | AUTOMAP | BARTER | HEROWIN | DIALOGVIEW)) != 0;
+}
+
+function is_stairs(scenery_obj: SceneryPtr): boolean {
+    const type = get_proto_data(obj_pid(scenery_obj), PRODATA_SC_TYPE);
+    if (type == SC_TYPE_STAIRS || type == SC_TYPE_LADDER_BOTTOM || type == SC_TYPE_LADDER_TOP) return true;
+    return false;
+}
+
+function get_color(obj: ObjectPtr): number {
+    if (!obj) {
+        ndebug("skipping, not an object");
+        return OUTLINE_NONE;
+    }
+
+    if (elevation(obj) != elevation(dude_obj)) {
+        return OUTLINE_NONE;
+    }
+
+    const blocking_obj = obj_blocking_line(dude_obj, tile_num(obj), BLOCKING_TYPE_SHOOT);
+    if (check_los && blocking_obj && (obj != blocking_obj)) {
+        return OUTLINE_NONE;
+    }
+
+    if (no_highlight(obj) && !ignore_nohighlight) {
+        ndebug("skipping, no-highlight");
+        return OUTLINE_NONE;
+    }
+
+    // Critters and corpses
+    if (is_critter(obj)) {
+        if (is_dead(obj)) {
+            if (skip_empty_setting && is_empty(obj)) return OUTLINE_NONE;
+            if (no_steal(obj)) return OUTLINE_NONE;
+            return color_corpses;
+        } else {
+            if (obj == dude_obj) return color_dude;
+            if (is_in_array(obj, party_member_list_critters())) return color_party;
+
+            // Don't change critter outline in combat
+            if (in_combat() && get_cursor_mode() == CURSOR_TARGETING) {
+                const current_outline = get_outline(obj);
+                if (current_outline != OUTLINE_NONE) {
+                    ndebug("already outlined, keeping color");
+                    return current_outline;
+                }
+            }
+        }
+        return color_critters;
+    }
+
+    // Items and containers
+    if (is_item(obj)) {
+        if (is_in_array(obj_pid(obj), skip_items)) return OUTLINE_NONE;
+
+        if (is_container(obj)) {
+            if (obj_is_locked(obj)) return color_containers_locked;
+            if (skip_empty_setting && is_empty(obj)) return OUTLINE_NONE;
+            return color_containers;
+        } else {
+            return color_items;
+        }
+    }
+
+    // Scenery: traps, doors, transitions
+    if (is_scenery(obj)) {
+        if ((is_trap(obj) || is_in_array(obj_pid(obj), traps))
+            && (get_flags(obj) & FLAG_NOBLOCK)) {
+            return color_traps;
+        }
+
+        if (is_in_array(obj_pid(obj), transitions)) return color_transitions;
+
+        if (is_door(obj) && obj_is_locked(obj) && !obj_is_open(obj)) {
+            return color_doors_locked;
+        }
+
+        if (is_stairs(obj)) {
+            return color_transitions;
+        }
+    }
+
+    return OUTLINE_NONE;
+}
+
+function enable_highlight() {
+    let color: number;
+    if (color_items || color_containers || color_containers_locked) {
+        for (const obj of list_as_array(LIST_GROUNDITEMS)) {
+            color = get_color(obj);
+            if (color != OUTLINE_NONE) set_outline(obj, color);
+        }
+    }
+
+    if (color_corpses || color_critters) {
+        for (const obj of list_as_array(LIST_CRITTERS)) {
+            color = get_color(obj);
+            if (color != OUTLINE_NONE) set_outline(obj, color);
+        }
+    }
+
+    if (color_traps || color_doors_locked || color_transitions) {
+        for (const obj of list_as_array(LIST_SCENERY)) {
+            color = get_color(obj);
+            if (color != OUTLINE_NONE) set_outline(obj, color);
+        }
+    }
+
+    tile_refresh_display();
+}
+
+function disable_highlight() {
+    ndebug("disable highlight");
+    for (const obj of list_as_array(LIST_GROUNDITEMS)) {
+        if (obj != outlined_object()) set_outline(obj, OUTLINE_NONE);
+    }
+
+    if (color_corpses || color_critters) {
+        for (const obj of list_as_array(LIST_CRITTERS)) {
+            set_outline(obj, OUTLINE_NONE);
+        }
+    }
+
+    if (color_traps || color_doors_locked || color_transitions) {
+        for (const obj of list_as_array(LIST_SCENERY)) {
+            set_outline(obj, OUTLINE_NONE);
+        }
+    }
+
+    tile_refresh_display();
+}
+
+function reset_highlight() {
+    ndebug("reset highlight");
+    disable_highlight();
+    if (in_combat() && get_cursor_mode() == CURSOR_TARGETING) {
+        set_cursor_mode(CURSOR_COMMAND);
+        set_cursor_mode(CURSOR_TARGETING);
+    }
+}
+
+function keypress_handler() {
+    const pressed = get_sfall_arg() as number;
+    const key = get_sfall_arg() as number;
+
+    if (key != highlight_key) return;
+    if (invalid_game_mode()) return;
+    if (!pressed) {
+        reset_highlight();
+        return;
+    }
+
+    if (!in_loot_mode()) {
+        if (motion_scanner) {
+            const scanner = obj_carrying_pid_obj(dude_obj, PID_MOTION_SENSOR);
+            if (!scanner) {
+                display_msg(message_str(101, 17));
+                return;
+            }
+
+            if (motion_scanner >= 2) {
+                const charges = get_weapon_ammo_count(scanner);
+                if (!(charges > 0)) {
+                    display_msg(message_str(101, 18));
+                    return;
+                }
+                set_weapon_ammo_count(scanner, charges - 1);
+                intface_redraw();
+            }
+        }
+        enable_highlight();
+    }
+}
+
+function start() {
+    if (game_loaded()) {
+        const enabled = fo2tweaks_setting(sec_main, set_highlight);
+        if (enabled == 1) {
+            ndebug("enabled");
+            highlight_key = fo2tweaks_setting(sec_highlight, set_highlight_key);
+            check_los = fo2tweaks_setting(sec_highlight, set_highlight_check_los);
+            motion_scanner = fo2tweaks_setting(sec_highlight, set_highlight_motion_scanner);
+            ignore_nohighlight = fo2tweaks_setting(sec_highlight, set_highlight_ignore_nohighlight);
+
+            color_critters = fo2tweaks_setting(sec_highlight, set_highlight_color_critters);
+            color_corpses = fo2tweaks_setting(sec_highlight, set_highlight_color_corpses);
+            color_containers = fo2tweaks_setting(sec_highlight, set_highlight_color_containers);
+            color_containers_locked = fo2tweaks_setting(sec_highlight, set_highlight_color_containers_locked);
+            color_traps = fo2tweaks_setting(sec_highlight, set_highlight_color_traps);
+            color_party = fo2tweaks_setting(sec_highlight, set_highlight_color_party);
+            color_dude = fo2tweaks_setting(sec_highlight, set_highlight_color_dude);
+            color_doors_locked = fo2tweaks_setting(sec_highlight, set_highlight_color_doors_locked);
+            color_items = fo2tweaks_setting(sec_highlight, set_highlight_color_items);
+            color_transitions = fo2tweaks_setting(sec_highlight, set_highlight_color_transitions);
+            skip_empty_setting = fo2tweaks_setting(sec_highlight, set_highlight_skip_empty);
+
+            skip_items = fo2tweaks_comsep_setting(sec_highlight, set_highlight_skip_items);
+            fix_array(skip_items);
+            traps = fo2tweaks_comsep_setting(sec_highlight, set_highlight_traps);
+            fix_array(traps);
+            transitions = fo2tweaks_comsep_setting(sec_highlight, set_highlight_transitions);
+            fix_array(transitions);
+
+            register_hook_proc(HOOK_KEYPRESS, keypress_handler);
+
+            ndebug("initialized");
+        }
+    }
+}

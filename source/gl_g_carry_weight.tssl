@@ -1,0 +1,29 @@
+import { ndebug } from "folib";
+import {
+    game_loaded, get_pc_extra_stat, set_pc_extra_stat, set_pc_stat_max,
+    STAT,
+} from "folib/sfall";
+import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
+
+const SCRIPT_REALNAME = "gl_g_carry_weight";
+
+const set_carry_weight = "carry_weight";
+
+export function start() {
+    if (game_loaded()) {
+        const enabled = fo2tweaks_setting(sec_main, set_carry_weight);
+        if (enabled == 1) {
+            set_pc_stat_max(STAT.carry_amt, 99999);
+            set_pc_extra_stat(STAT.carry_amt, 99999);
+            ndebug("initialized");
+        } else {
+            // Upon disabling the setting, reset carry weight back
+            // Without set_pc_extra_stat, it's clamped to 999
+            // Apparently perks should be applied automatically after set_pc_extra_stat? Not sure.
+            if (get_pc_extra_stat(STAT.carry_amt) > 900) {
+                set_pc_extra_stat(STAT.carry_amt, 0);
+                ndebug("Reset carry weight to default value");
+            }
+        }
+    }
+}

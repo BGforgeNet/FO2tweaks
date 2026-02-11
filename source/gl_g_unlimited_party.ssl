@@ -1,112 +1,236 @@
-#define SCRIPT_REALNAME "gl_g_unlimited_party"
-#include "headers/fo2tweaks/fo2tweaks.h"
+/* Do not edit. This file is generated from gl_g_unlimited_party.tssl. Make your changes there and regenerate this file. */
 
+#define SCRIPT_REALNAME "gl_g_unlimited_party"
 #define set_unlimited_party "unlimited_party"
 #define sec_unlimited_party "unlimited_party"
 #define set_unlimited_party_npc_pids "npc_pids"
 
-variable begin
-  party_members;
-  potential_party_member_pids;
-  mod_npc_pids;
-  dude_cha;
-  boosted = 0;
-  dropped = 0;
+#define talk_proc 11
+#define STAT_ch 3
+#define INVEN_TYPE_WORN 0
+#define DIALOG 4
+#define HOOK_GAMEMODECHANGE 31
+#define HOOK_STDPROCEDURE 40
+#define PID_VIC 16777278
+#define PID_BRAINBOT 16777295
+#define PID_JOHN_MACRAE 16777305
+#define PID_SULIK 16777313
+#define PID_LENNY 16777323
+#define PID_CYBERDOG 16777352
+#define PID_GORIS 16777368
+#define PID_MYRON 16777376
+#define PID_MARCUS 16777377
+#define PID_DAVIN 16777379
+#define PID_MIRIA 16777380
+#define PID_DOGMEAT 16777558
+#define PID_ROBOBRAIN_CHIMP 16777595
+#define PID_ROBOBRAIN_ABNORMAL 16777596
+#define PID_ROBOBRAIN_HUMAN 16777597
+#define PID_K9 16777687
+#define PID_KITSUNE 16777718
+#define PID_DEX 16777719
+#define PID_CAT_JULES 16777720
+#define f2_party_member_pids [PID_VIC, PID_SULIK, PID_JOHN_MACRAE, PID_LENNY, PID_MYRON, PID_MARCUS, PID_DAVIN, PID_MIRIA, PID_BRAINBOT, PID_ROBOBRAIN_CHIMP, PID_ROBOBRAIN_HUMAN, PID_ROBOBRAIN_ABNORMAL, PID_GORIS, PID_CYBERDOG, PID_K9, PID_DOGMEAT]
+#define rp_party_member_pids [PID_KITSUNE, PID_DEX, PID_CAT_JULES]
+#define f2rp_party_member_pids [PID_VIC, PID_SULIK, PID_JOHN_MACRAE, PID_LENNY, PID_MYRON, PID_MARCUS, PID_DAVIN, PID_MIRIA, PID_BRAINBOT, PID_ROBOBRAIN_CHIMP, PID_ROBOBRAIN_HUMAN, PID_ROBOBRAIN_ABNORMAL, PID_GORIS, PID_CYBERDOG, PID_K9, PID_DOGMEAT, PID_KITSUNE, PID_DEX, PID_CAT_JULES]
+#define f2rp_npc_stages {PID_SULIK: "6,3", PID_VIC: "5,4", PID_JOHN_MACRAE: "10,4", PID_LENNY: "10,5", PID_MARCUS: "12,3", PID_MYRON: "6,4", PID_BRAINBOT: "10,4", PID_CYBERDOG: "9,4", PID_GORIS: "10,4", PID_K9: "12,4", PID_DOGMEAT: "6,3", PID_CAT_JULES: "12,3", PID_KITSUNE: "12,3", PID_DEX: "12,3"}
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define critter_inven_obj2(critter, slot) sfall_func2("critter_inven_obj2", critter, slot)
+#define get_sfall_arg_at(index) sfall_func1("get_sfall_arg_at", index)
+#define dialog_obj sfall_func0("dialog_obj")
+#define dude_charisma get_critter_stat(dude_obj, STAT_ch)
+
+procedure temp_array_list(variable size);
+procedure is_in_array(variable item, variable array);
+procedure array_is_map(variable array);
+procedure party_member_list_critters();
+procedure copy_array(variable src, variable srcPos, variable dest, variable dstPos, variable size);
+procedure array_append(variable arr1, variable arr2);
+procedure string_split_ints(variable str, variable split);
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure mode_ended(variable mode_to_check, variable old_mode, variable new_mode);
+procedure mode_started(variable mode_to_check, variable old_mode, variable new_mode);
+procedure load_comsep_ini_setting(variable file, variable section, variable setting);
+procedure fo2tweaks_comsep_setting(variable section, variable setting);
+procedure allow_join(variable cri);
+procedure reset_state();
+procedure gamemode_handler();
+procedure talk_handler();
+procedure start();
+
+/* ===== bundled ===== */
+procedure temp_array_list(variable size) begin
+    return temp_array(size, 0);
 end
+procedure is_in_array(variable item, variable array) begin
+    return scan_array(array, item) != -1;
+end
+procedure array_is_map(variable array) begin
+    return array_key(array, -1) == 1;
+end
+procedure party_member_list_critters() begin
+    return party_member_list(false);
+end
+procedure copy_array(variable src, variable srcPos, variable dest, variable dstPos, variable size) begin
+    variable srcLen = len_array(src);
+    if (srcPos + size > srcLen) then begin
+        size = srcLen - srcPos;
+    end
+    for (variable i = 0; i < size; i++) begin
+        set_array(dest, dstPos + i, get_array(src, srcPos + i));
+    end
+end
+procedure array_append(variable arr1, variable arr2) begin
+    if (array_is_map(arr1)) then begin
+        variable len2 = len_array(arr2);
+        for (variable i = 0; i < len2; i++) begin
+            variable k = array_key(arr2, i);
+            set_array(arr1, k, get_array(arr2, k));
+        end
+    end else begin
+        variable arr1Len = len_array(arr1);
+        variable arr2Len = len_array(arr2);
+        resize_array(arr1, arr1Len + arr2Len);
+        call copy_array(arr2, 0, arr1, arr1Len, arr2Len);
+    end
+    return arr1;
+end
+procedure string_split_ints(variable str, variable split) begin
+    if (str == "") then begin
+        return temp_array_list(0);
+    end
+    variable parts = string_split(str, split);
+    variable result = temp_array_list(0);
+    variable n = 0;
+    variable len = len_array(parts);
+    for (variable i = 0; i < len; i++) begin
+        variable val = get_array(parts, i);
+        if (val != "") then begin
+            resize_array(result, n + 1);
+            set_array(result, n, atoi(val));
+            n++;
+        end
+    end
+    return result;
+end
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+procedure mode_ended(variable mode_to_check, variable old_mode, variable new_mode) begin
+    if ((old_mode bwand mode_to_check) > 0 and (new_mode bwand mode_to_check) == 0) then begin
+        return true;
+    end
+    return false;
+end
+procedure mode_started(variable mode_to_check, variable old_mode, variable new_mode) begin
+    if ((old_mode bwand mode_to_check) == 0 and (new_mode bwand mode_to_check) > 0) then begin
+        return true;
+    end
+    return false;
+end
+procedure load_comsep_ini_setting(variable file, variable section, variable setting) begin
+    variable str = get_ini_string(file + "|" + section + "|" + setting);
+    return string_split_ints(str, ",");
+end
+procedure fo2tweaks_comsep_setting(variable section, variable setting) begin
+    return load_comsep_ini_setting(fo2tweaks_ini, section, setting);
+end
+/* ===== end bundled ===== */
 
-procedure start;
-procedure gamemode_handler;
-
+/* ===== main body ===== */
+variable party_members;
+variable potential_party_member_pids;
+variable mod_npc_pids;
+variable dude_cha;
+variable boosted = 0;
+variable dropped = 0;
 procedure allow_join(variable cri) begin
-  variable who;
-  party_members = party_member_list_critters;
-  fix_array(party_members);
-
-  ndebug("current party members:");
-  foreach who in party_members begin
-    if who != dude_obj then ndebug(obj_name(who));
-  end
-
-  ndebug("talking to " + obj_name(cri));
-
-  if is_in_array(cri, party_members) then begin
-    ndebug(obj_name(cri) + " is already in party, skipping");
-    return;
-  end
-  if not is_in_array(obj_pid(cri), potential_party_member_pids) then begin
-    ndebug(obj_name(cri) + " is not a joinable NPC, skipping");
-    return;
-  end else ndebug(obj_name(cri) + " is a joinable NPC, applying unlimited tweak");
-
-  //drop everyone else
-  foreach who in party_members begin
-    if who != dude_obj then begin
-      party_remove(who);
-      ndebug("dropped " + obj_name(who) + " from party");
-      dropped = 1;
+    party_members = party_member_list_critters();
+    fix_array(party_members);
+    ndebug("current party members:");
+    foreach (variable who in party_members) begin
+        if (who != dude_obj) then begin
+            ndebug(obj_name(who));
+        end
     end
-  end
-
-  // boost charisma
-  dude_cha = dude_charisma;
-  ndebug("dude charisma is " + dude_cha);
-  if dude_cha < 2 then begin
-    // set_critter_stat doesn't set stats, it applies a mod
-    set_critter_stat(dude_obj, STAT_ch, 1);
-    ndebug("boosted charisma from 1 to 2");
-    boosted = 1;
-  end
-
-end
-
-procedure reset_state begin
-  variable who;
-  ndebug("dropped is " + dropped + ", boosted is " + boosted);
-  if boosted then begin
-    // set_critter_stat doesn't set stats, it applies a mod
-    set_critter_stat(dude_obj, STAT_ch, -1);
-    ndebug("reset charisma to 1");
-    boosted = 0;
-  end
-  if dropped then begin
-    foreach who in party_members begin
-      if who != dude_obj then begin
-        party_add(who);
-        ndebug("added " + obj_name(who) + " back to party");
-      end
+    ndebug("talking to " + obj_name(cri));
+    if (is_in_array(cri, party_members)) then begin
+        ndebug(obj_name(cri) + " is already in party, skipping");
+        return;
     end
-    dropped = 0;
-  end
-end
-
-procedure gamemode_handler begin
-  variable old_mode = get_sfall_arg_at(1);
-  variable new_mode = get_game_mode;
-  if mode_ended(DIALOG, old_mode, new_mode) then call reset_state;
-  if mode_started(DIALOG, old_mode, new_mode) and obj_pid(dialog_obj) != PID_DOGMEAT then call allow_join(dialog_obj);
-end
-
-procedure talk_handler begin // Dogmeat only
-  variable proc = get_sfall_arg;
-  variable self = get_sfall_arg;
-  variable armor = critter_inven_obj(dude_obj, INVEN_TYPE_WORN);
-  if proc == talk_proc
-    and obj_pid(self) == PID_DOGMEAT
-    and not armor
-  then call allow_join(self);
-end
-
-procedure start begin
-  if game_loaded then begin
-    variable enabled = fo2tweaks_setting(sec_main, set_unlimited_party);
-    if enabled == 1 then begin
-      potential_party_member_pids = f2rp_party_member_pids;
-      mod_npc_pids = fo2tweaks_comsep_setting(sec_unlimited_party, set_unlimited_party_npc_pids);
-      potential_party_member_pids = array_append(potential_party_member_pids, mod_npc_pids);
-      fix_array(potential_party_member_pids);
-      register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
-      register_hook_proc(HOOK_STDPROCEDURE, talk_handler); //specifically for Dogmeat, who checks party limit outside of dialog mode
-      ndebug("initialized");
+    if (not is_in_array(obj_pid(cri), potential_party_member_pids)) then begin
+        ndebug(obj_name(cri) + " is not a joinable NPC, skipping");
+        return;
+    end else begin
+        ndebug(obj_name(cri) + " is a joinable NPC, applying unlimited tweak");
     end
-  end
+    foreach (variable who in party_members) begin
+        if (who != dude_obj) then begin
+            party_remove(who);
+            ndebug("dropped " + obj_name(who) + " from party");
+            dropped = 1;
+        end
+    end
+    dude_cha = dude_charisma;
+    ndebug("dude charisma is " + dude_cha);
+    if (dude_cha < 2) then begin
+        set_critter_stat(dude_obj, STAT_ch, 1);
+        ndebug("boosted charisma from 1 to 2");
+        boosted = 1;
+    end
 end
+procedure reset_state() begin
+    ndebug("dropped is " + dropped + ", boosted is " + boosted);
+    if (boosted) then begin
+        set_critter_stat(dude_obj, STAT_ch, -1);
+        ndebug("reset charisma to 1");
+        boosted = 0;
+    end
+    if (dropped) then begin
+        foreach (variable who in party_members) begin
+            if (who != dude_obj) then begin
+                party_add(who);
+                ndebug("added " + obj_name(who) + " back to party");
+            end
+        end
+        dropped = 0;
+    end
+end
+procedure gamemode_handler() begin
+    variable old_mode = get_sfall_arg_at(1);
+    variable new_mode = get_game_mode;
+    if (mode_ended(DIALOG, old_mode, new_mode)) then begin
+        call reset_state();
+    end
+    if (mode_started(DIALOG, old_mode, new_mode)) then begin
+        variable dialogCritter = dialog_obj;
+        if (obj_pid(dialogCritter) != PID_DOGMEAT) then begin
+            call allow_join(dialogCritter);
+        end
+    end
+end
+procedure talk_handler() begin
+    variable proc = get_sfall_arg;
+    variable self = get_sfall_arg;
+    variable armor = critter_inven_obj2(dude_obj, INVEN_TYPE_WORN);
+    if (proc == talk_proc and obj_pid(self) == PID_DOGMEAT and not armor) then begin
+        call allow_join(self);
+    end
+end
+procedure start() begin
+    if (game_loaded) then begin
+        variable enabled = fo2tweaks_setting(sec_main, set_unlimited_party);
+        if (enabled == 1) then begin
+            potential_party_member_pids = f2rp_party_member_pids;
+            mod_npc_pids = fo2tweaks_comsep_setting(sec_unlimited_party, set_unlimited_party_npc_pids);
+            potential_party_member_pids = array_append(potential_party_member_pids, mod_npc_pids);
+            fix_array(potential_party_member_pids);
+            register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+            register_hook_proc(HOOK_STDPROCEDURE, talk_handler);
+            ndebug("initialized");
+        end
+    end
+end
+/* ===== end main body ===== */

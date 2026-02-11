@@ -1,39 +1,45 @@
+/* Do not edit. This file is generated from gl_g_speedup.tssl. Make your changes there and regenerate this file. */
+
 #define SCRIPT_REALNAME "gl_g_speedup"
-#include "headers/fo2tweaks/fo2tweaks.h"
 #define set_speedup "speedup"
 
-procedure set_settings begin
-  variable misc, k, v, speedmulti, speedmulti_string = "ddraw.ini|Speed|SpeedMultiInitial";
-  set_ini_setting("f2_res.ini|OTHER_SETTINGS|SPLASH_SCRN_TIME", 0);
-  set_ini_setting("f2_res.ini|OTHER_SETTINGS|FADE_TIME_MODIFIER", 0);
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define set_ini_setting(setting, value) sfall_func2("set_ini_setting", setting, value)
 
-  speedmulti = get_ini_setting(speedmulti_string);
-  if speedmulti < 115 then set_ini_setting(speedmulti_string, 115);
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure set_settings();
+procedure start();
 
-  misc = {
-    "SpeedInterfaceCounterAnims": 2,
-    "SpeedInventoryPCRotation": 880,
-    "CombatPanelAnimDelay": 0,
-    "DialogPanelAnimDelay": 0,
-    "PipboyTimeAnimDelay": 0,
-    "StackEmptyWeapons": 1,
-    "ReloadReserve": 0,
-    "InstantWeaponEquip": 1,
-    "SkipOpeningMovies": 2,
-    "SkipLoadingGameSettings": 1
-  };
-  foreach k: v in misc begin
-    set_ini_setting("ddraw.ini|Misc|" + k, v);
-  end
-  set_ini_setting("ddraw.ini|Graphics|FadeMultiplier", 0);
+/* ===== bundled ===== */
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
 end
+/* ===== end bundled ===== */
 
-procedure start begin
-  if game_loaded then begin
-    variable enabled = fo2tweaks_setting(sec_main, set_speedup);
-    if enabled == 1 then begin
-      call set_settings;
-      ndebug("initialized");
+/* ===== main body ===== */
+procedure set_settings() begin
+    variable speedmulti_string = "ddraw.ini|Speed|SpeedMultiInitial";
+    set_ini_setting("f2_res.ini|OTHER_SETTINGS|SPLASH_SCRN_TIME", 0);
+    set_ini_setting("f2_res.ini|OTHER_SETTINGS|FADE_TIME_MODIFIER", 0);
+    variable speedmulti = get_ini_setting(speedmulti_string);
+    if (speedmulti < 115) then begin
+        set_ini_setting(speedmulti_string, 115);
     end
-  end
+    variable misc = {"SpeedInterfaceCounterAnims": 2, "SpeedInventoryPCRotation": 880, "CombatPanelAnimDelay": 0, "DialogPanelAnimDelay": 0, "PipboyTimeAnimDelay": 0, "StackEmptyWeapons": 1, "ReloadReserve": 0, "InstantWeaponEquip": 1, "SkipOpeningMovies": 2, "SkipLoadingGameSettings": 1};
+    foreach (variable k: v in misc) begin
+        set_ini_setting("ddraw.ini|Misc|" + k, v);
+    end
+    set_ini_setting("ddraw.ini|Graphics|FadeMultiplier", 0);
 end
+procedure start() begin
+    if (game_loaded) then begin
+        variable enabled = fo2tweaks_setting(sec_main, set_speedup);
+        if (enabled == 1) then begin
+            call set_settings();
+            ndebug("initialized");
+        end
+    end
+end
+/* ===== end main body ===== */

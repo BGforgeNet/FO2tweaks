@@ -1,0 +1,118 @@
+import {
+    combat_is_initialized,
+    cur_map_index,
+    DoorPtr, dude_obj,
+    ndebug,
+    obj_close,
+    obj_is_open,
+    obj_pid,
+    tile_distance_objs
+} from "folib";
+import { MAP_VAULT_CITY_VAULT } from "folib/rp/maps";
+import { SCRIPT_VIVLTDOR } from "folib/rp/scripts";
+import {
+    COMBAT, FLAG_WALKTHRU,
+    game_loaded, get_game_mode, get_script, get_sfall_arg_at,
+    HOOK_GAMEMODECHANGE,
+    list_as_array,
+    LIST_SCENERY,
+    party_member_list_critters, register_hook_proc, set_proto_data,
+} from "folib/sfall";
+import { fo2tweaks_setting, is_door, mode_ended, mode_started, sec_main } from "./fo2tweaks";
+
+const SCRIPT_REALNAME = "gl_g_autodoors";
+
+const DOOR_FLAGS = 0x24;
+
+/** If there's any party member within this distance, door won't autoclose. */
+const DOOR_CLOSE_DIST = 5;
+
+/**
+ * ini main/autodoors setting
+ */
+const SET_AUTODOORS = "autodoors";
+
+/**
+ * - 0 = disabled
+ * - 1 = auto open
+ * - 2 = auto open + auto close
+ */
+let enabled = 0;
+
+function start() {
+    if (game_loaded()) {
+        enabled = fo2tweaks_setting(sec_main, SET_AUTODOORS);
+        if (enabled > 0) {
+            register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+            map_enter_p_proc();
+            ndebug("initialized");
+        }
+    }
+}
+
+function map_enter_p_proc() {
+    if (enabled > 0) {
+        set_door_flag(FLAG_WALKTHRU);
+    }
+}
+
+function map_update_p_proc() {
+    if (combat_is_initialized) return;
+    if (enabled > 1) {
+        autoclose();
+    }
+}
+
+function set_door_flag(flag: number) {
+    for (const obj of list_as_array(LIST_SCENERY)) {
+        if (is_door(obj)) {
+            set_proto_data(obj_pid(obj), DOOR_FLAGS, flag);
+        }
+    }
+}
+
+function gamemode_handler() {
+    const old_mode = get_sfall_arg_at(1);
+    const new_mode = get_game_mode();
+    if (mode_ended(COMBAT, old_mode, new_mode)) {
+        set_door_flag(FLAG_WALKTHRU);
+        ndebug("combat ended, enabled walking through doors");
+    }
+    if (mode_started(COMBAT, old_mode, new_mode)) {
+        set_door_flag(0);
+        ndebug("combat started, disabled walking through doors");
+    }
+}
+
+/**
+ * Iterate over scenery, call close_door on each door.
+ */
+function autoclose() {
+    let in_vault = false;
+    // Skip Vault City Vault doors on second elevation, to avoid them getting stuck.
+    // https://github.com/BGforgeNet/FO2tweaks/issues/116
+    if (cur_map_index == MAP_VAULT_CITY_VAULT) {
+        in_vault = true;
+    }
+    for (const obj of list_as_array(LIST_SCENERY)) {
+        if (in_vault && (get_script(obj) == SCRIPT_VIVLTDOR)) {
+            ndebug("in vault, skipping close");
+            return;
+        }
+        if (is_door(obj)) {
+            close_door(obj);
+        }
+    }
+}
+
+/**
+ * Closes the door, if there are no nearby party members.
+ */
+function close_door(door: DoorPtr) {
+    if (!obj_is_open(door)) return;
+    if (tile_distance_objs(dude_obj, door) <= DOOR_CLOSE_DIST) return;
+    for (const who of party_member_list_critters()) {
+        if (tile_distance_objs(who, door) <= DOOR_CLOSE_DIST) return;
+    }
+    obj_close(door);
+}

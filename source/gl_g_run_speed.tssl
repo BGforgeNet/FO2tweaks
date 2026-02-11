@@ -1,0 +1,84 @@
+import { ndebug } from "folib";
+import { fs_copy, fs_seek, fs_write_short, game_loaded } from "folib/sfall";
+import { check_filesystem_override, fo2tweaks_setting, sec_main } from "./fo2tweaks";
+
+const SCRIPT_REALNAME = "gl_g_run_speed";
+const set_run_speed = "run_speed";
+const sec_run_speed = "run_speed";
+const set_run_speed_dude = "dude";
+const set_run_speed_party = "party";
+const fps_offset = 4;
+
+let enabled: number;
+
+function set_run_fps(path: string, new_fps: number) {
+    const path_ab = path + "ab.frm";
+    const path_at = path + "at.frm";
+    let file = fs_copy(path_at, path_at);
+    if (file == -1) {
+        ndebug(path_at + " is missing, copying from " + path_ab);
+        file = fs_copy(path_at, path_ab);
+    }
+    if (file == -1) {
+        ndebug("warning: couldn't find or create " + path_at);
+        return;
+    }
+    fs_seek(file, fps_offset);
+    fs_write_short(file, new_fps);
+    ndebug("set fps to " + new_fps + " in " + path_at);
+}
+
+function start() {
+    if (game_loaded()) {
+        const fs_override = check_filesystem_override(SCRIPT_REALNAME);
+        enabled = fo2tweaks_setting(sec_main, set_run_speed);
+        if (enabled == 1 && fs_override) {
+            let fps: number;
+            let path: string;
+            const dude = fo2tweaks_setting(sec_run_speed, set_run_speed_dude);
+            const party = fo2tweaks_setting(sec_run_speed, set_run_speed_party);
+            ndebug("initialized");
+
+            if (dude) {
+                ndebug("dude enabled");
+                fps = 20; // same as no armor fps
+                const dude_frms = [
+                    "hanpwr", "hapowr", "harobe", "hfcmbt", "hfjmps",
+                    "hflthr", "hfmaxx", "hfmetl", "hfprim", "hmcmbt",
+                    "hmjmps", "hmlthr", "hmmaxx", "hmmetl", "hmwarr"
+                ];
+                for (const frm of dude_frms) {
+                    path = "art\\critters\\" + frm;
+                    set_run_fps(path, fps);
+                }
+            }
+
+            if (party) {
+                ndebug("party enabled");
+                fps = 20;
+                const party_frms = [
+                    // vanilla
+                    "macybr", // cyberdog, k-9
+                    "maddog", // dogmeat
+                    "marobe", // goris
+                    "mamtn2", // marcus
+                    "nmfatt", // vic
+                    "nmmyrn", // myron
+                    "nmlthr", // cassidy
+                    "navgul", // lenny
+                    "nmwarr", // sulik
+                    // new RP frms without AT anims
+                    "malieu", // marcus RP armor
+                    "laghul"  // lenny RP new
+                ];
+                for (const frm of party_frms) {
+                    path = "art\\critters\\" + frm;
+                    set_run_fps(path, fps);
+                }
+
+                // skynet is really slow, handling separately
+                set_run_fps("art\\critters\\marobo", 40);
+            }
+        }
+    }
+}

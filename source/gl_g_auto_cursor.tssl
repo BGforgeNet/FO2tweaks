@@ -1,0 +1,100 @@
+import { ndebug, ObjectPtr, tile_num } from "folib";
+import { dude_elevation } from "folib/rp/command";
+import { tile_is_blocked } from "folib/rp/scenepid";
+import {
+    CURSOR_MOVEMENT, CURSOR_TARGETING,
+    DIK_M,
+    game_loaded, get_cursor_mode, get_game_mode, get_sfall_arg, get_sfall_arg_at,
+    HOOK_GAMEMODECHANGE, HOOK_KEYPRESS, HOOK_MOUSECLICK,
+    obj_under_cursor,
+    PCOMBAT,
+    register_hook_proc, set_cursor_mode,
+    set_global_script_repeat, tile_under_cursor,
+} from "folib/sfall";
+import { fo2tweaks_setting, is_critter, is_dead, mode_started, sec_main } from "./fo2tweaks";
+import { MOUSE_BTN_RIGHT } from "./fo2tweaks/mouse";
+
+const SCRIPT_REALNAME = "gl_g_auto_cursor";
+
+let who_tile = 0;
+let last_who: ObjectPtr;
+let cursor_manual = 0;
+
+function in_pcombat(): boolean {
+    return (get_game_mode() & PCOMBAT) != 0;
+}
+
+function update_cursor() {
+    if (!in_pcombat() || cursor_manual) {
+        set_global_script_repeat(0);
+        return;
+    }
+
+    set_global_script_repeat(6);
+
+    const who = obj_under_cursor(true, false);
+    if (who && is_critter(who) && !is_dead(who)) {
+        last_who = who;
+        who_tile = tile_num(last_who);
+        if (get_cursor_mode() == CURSOR_MOVEMENT) {
+            ndebug("who: movement to target");
+            set_cursor_mode(CURSOR_TARGETING);
+        }
+        return;
+    }
+
+    if (tile_under_cursor() == who_tile) {
+        ndebug("same tile, keeping target cursor");
+        if (get_cursor_mode() == CURSOR_MOVEMENT) {
+            ndebug("tile: movement to target");
+            set_cursor_mode(CURSOR_TARGETING);
+        }
+        return;
+    }
+
+    if ((!who || !is_critter(who) || is_dead(who))
+        && (get_cursor_mode() == CURSOR_TARGETING)
+        && !tile_is_blocked(who_tile, dude_elevation())) {
+        who_tile = 0;
+        ndebug("no critter, tile changed");
+        set_cursor_mode(CURSOR_MOVEMENT);
+    }
+}
+
+function gamemode_handler() {
+    const old_mode = get_sfall_arg_at(1);
+    if (mode_started(PCOMBAT, old_mode, get_game_mode())) {
+        cursor_manual = 0;
+        update_cursor();
+    }
+}
+
+function mouseclick_handler() {
+    const pressed = get_sfall_arg() as boolean;
+    const button = get_sfall_arg() as number;
+    if (in_pcombat() && pressed && (button == MOUSE_BTN_RIGHT)) {
+        cursor_manual = 1;
+    }
+}
+
+function keypress_handler() {
+    const pressed = get_sfall_arg() as boolean;
+    const key = get_sfall_arg() as number;
+    if (in_pcombat() && pressed && (key == DIK_M)) {
+        cursor_manual = 1;
+    }
+}
+
+function start() {
+    if (game_loaded()) {
+        const enabled = fo2tweaks_setting(sec_main, "auto_cursor");
+        if (enabled == 1) {
+            register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+            register_hook_proc(HOOK_MOUSECLICK, mouseclick_handler);
+            register_hook_proc(HOOK_KEYPRESS, keypress_handler);
+            ndebug("enabled");
+        }
+    } else {
+        update_cursor();
+    }
+}

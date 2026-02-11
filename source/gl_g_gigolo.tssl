@@ -1,0 +1,185 @@
+import { dude_obj, global_var, item_caps_total, ndebug, ObjectPtr, set_global_var, SfallList } from "folib";
+import { GVAR_GIGALO, GVAR_SEX_COUNTER } from "folib/rp/global";
+import { SCRIPT_ECRAVPTY, SCRIPT_ECTRAPPR, SCRIPT_KCSALLY, SCRIPT_NCKITTY } from "folib/rp/scripts";
+import {
+    array_push, dialog_obj, game_loaded, get_script, get_sfall_arg,
+    get_sfall_global_int,
+    HOOK_SETGLOBALVAR, HOOK_STDPROCEDURE,
+    is_in_array, list, load_create_array, register_hook_proc,
+    set_sfall_global, set_sfall_return,
+    talk_proc,
+} from "folib/sfall";
+import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
+
+const SCRIPT_REALNAME = "gl_g_gigolo";
+
+const set_gigolo = "gigolo_limit";
+
+/** Global array to keep unique sex script numbers */
+const list_had_sex_with = "g_sex_list";
+
+/** Global var to keep unique sex count. Different from array length, because some scripts are special (Kitty, Sally) */
+const SGVAR_alt_sex_counter = "g_gigolo";
+
+/** Cat's Paw counter */
+const SGVAR_cats_paw_counter = "g_gi_paw";
+const CATS_PAW_NUM_GIRLS = 6;
+
+/** Bathhouse, girl 1 */
+const SGVAR_bathhouse1 = "g_gi_ba1";
+/** Bathhouse, girl 2 - Jenny */
+const SGVAR_bathhouse2 = "g_gi_ba2";
+
+/** Var to keep list_had_sex_with */
+let sex_list!: SfallList<number>;
+
+/** Avoid race condition in set_gvar hook */
+let set_from_hook = 0;
+
+let gigolo_limit: number;
+
+/** Stores list of objects with whom dude had sex on random maps (trappers, rave party). Reset on map enter */
+let map_unique: SfallList<ObjectPtr>;
+
+/** Track dude caps for bathhouse procedure */
+let caps: number;
+
+/**
+ * Returns dude's current caps
+ */
+function dude_caps(): number {
+    return item_caps_total(dude_obj);
+}
+
+function set_gvar_hook() {
+    const gvar_index = get_sfall_arg() as number;
+    const gvar_value = get_sfall_arg() as number;
+    ndebug("setting gvar index: " + gvar_index + ", value: " + gvar_value);
+    if (gvar_index != GVAR_SEX_COUNTER && gvar_index != GVAR_GIGALO) {
+        return;
+    }
+
+    if (gvar_index == GVAR_GIGALO && set_from_hook == 0) {
+        ndebug("game is trying to set gigolo, overriding");
+        set_sfall_return(0);
+        return;
+    }
+
+    // Sex really only happens in dialog
+    const current_script = get_script(dialog_obj());
+    ndebug("current script: " + current_script);
+
+    if (!check_unique(current_script, sex_list)) return;
+
+    const alt_sex_counter = get_sfall_global_int(SGVAR_alt_sex_counter);
+    ndebug("new encounter: " + current_script);
+    set_sfall_global(SGVAR_alt_sex_counter, alt_sex_counter + 1);
+    if (get_sfall_global_int(SGVAR_alt_sex_counter) >= gigolo_limit) {
+        set_from_hook = 1;
+        set_global_var(GVAR_GIGALO, 1);
+        ndebug("hooray, made gigolo!");
+        set_from_hook = 0;
+    }
+}
+
+function check_unique(script: number, sex_list: SfallList<number>): boolean {
+    switch (script) {
+        case SCRIPT_NCKITTY:
+            if (cats_paw()) return true;
+            break;
+        case SCRIPT_ECTRAPPR:
+            if (check_unique_map()) return true;
+            break;
+        case SCRIPT_ECRAVPTY:
+            if (check_unique_map()) return true;
+            break;
+        case SCRIPT_KCSALLY:
+            if (bathhouse()) return true;
+            break;
+    }
+    if (is_in_array(script, sex_list)) {
+        ndebug("already counted, pass");
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Each critter is unique each time dude enters the map (rave party, etc)
+ */
+function map_enter_p_proc() {
+    map_unique = list<ObjectPtr>();
+}
+
+function check_unique_map(): boolean {
+    const who = dialog_obj();
+    ndebug("map unique check");
+    if (is_in_array(who, map_unique)) return false;
+    ndebug("map unique check: passed");
+    array_push(map_unique, who);
+    return true;
+}
+
+/**
+ * Cat's Paw has 6 girls
+ */
+function cats_paw(): boolean {
+    let counter = get_sfall_global_int(SGVAR_cats_paw_counter);
+    ndebug("cat's paw check");
+    if (counter > CATS_PAW_NUM_GIRLS) return false;
+    counter = counter + 1;
+    set_sfall_global(SGVAR_cats_paw_counter, counter);
+    ndebug("cat's paw check passed, new counter: " + counter);
+    return true;
+}
+
+/**
+ * Bathhouse: only 2 real girls
+ */
+function bathhouse(): boolean {
+    const caps_change = caps - dude_caps();
+    let bath_gvar: number;
+    if (caps_change == 55 || caps_change == 70) {
+        bath_gvar = get_sfall_global_int(SGVAR_bathhouse1);
+        if (bath_gvar == 0) {
+            set_sfall_global(SGVAR_bathhouse1, 1);
+            ndebug("bathhouse: first girl visited");
+            return true;
+        }
+    }
+    if (caps_change == 125 || caps_change == 185) {
+        bath_gvar = get_sfall_global_int(SGVAR_bathhouse2);
+        if (bath_gvar == 0) {
+            set_sfall_global(SGVAR_bathhouse2, 1);
+            ndebug("bathhouse: second girl visited");
+            return true;
+        }
+    }
+    return false;
+}
+
+function dialog_hook() {
+    const proc = get_sfall_arg() as number;
+    if (proc != talk_proc) return;
+    if (get_script(dialog_obj()) != SCRIPT_KCSALLY) return;
+    caps = dude_caps();
+    ndebug("talking to Sally, caps: " + caps);
+}
+
+function start() {
+    if (game_loaded()) {
+        gigolo_limit = fo2tweaks_setting(sec_main, set_gigolo);
+        if (gigolo_limit > 0) {
+            if (global_var(GVAR_GIGALO) == 1) {
+                ndebug("already gigolo, pass");
+                return;
+            }
+            register_hook_proc(HOOK_SETGLOBALVAR, set_gvar_hook);
+            register_hook_proc(HOOK_STDPROCEDURE, dialog_hook);
+            sex_list = load_create_array(list_had_sex_with, 0);
+            ndebug("initialized");
+            const counter = get_sfall_global_int(SGVAR_alt_sex_counter);
+            ndebug("current count: " + counter + ", threshold: " + gigolo_limit);
+        }
+    }
+}

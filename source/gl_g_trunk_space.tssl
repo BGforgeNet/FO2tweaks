@@ -1,0 +1,44 @@
+import { ndebug } from "folib";
+import { PID_CAR_TRUNK } from "folib/rp/itempid";
+import { get_proto_data, OBJ_TYPE_ITEM, PROTO_CN_MAX_SIZE, PROTO_IT_TYPE, set_proto_data } from "folib/sfall";
+import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
+
+const SCRIPT_REALNAME = "gl_g_trunk_space";
+const set_trunk_space = "trunk_space";
+
+const PID_MOTO_TRUNK = 532; // ettu
+const PROTO_TYPE = 0;
+const PROTO_IT_TYPE_CONTAINER = 1;
+
+let enabled = 0;
+
+function bloat_trunk() {
+    if (enabled != 1) return;
+
+    const pids = [PID_CAR_TRUNK, PID_MOTO_TRUNK];
+    for (const pid of pids) {
+        const type = get_proto_data(pid, PROTO_TYPE) & 0x11110000;
+        if (type == OBJ_TYPE_ITEM) {
+            const subtype = get_proto_data(pid, PROTO_IT_TYPE);
+            if (subtype == PROTO_IT_TYPE_CONTAINER) {
+                set_proto_data(pid, PROTO_CN_MAX_SIZE, 99999);
+                ndebug(pid + " space set to 99999");
+            }
+        }
+    }
+}
+
+function map_enter_p_proc() {
+    if (enabled == 1) {
+        bloat_trunk();
+        ndebug("increased trunk space");
+    }
+}
+
+function start() {
+    enabled = fo2tweaks_setting(sec_main, set_trunk_space);
+    if (enabled == 1) {
+        bloat_trunk();
+        ndebug("initialized");
+    }
+}

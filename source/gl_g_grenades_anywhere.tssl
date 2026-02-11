@@ -1,0 +1,132 @@
+/**
+ * Created by Mr.Stalin
+ * https://github.com/FakelsHub/sFall-Extended/commit/ecfa68a04a9178c21cdd178874b9f4fa8523f49c#commitcomment-36388003
+ */
+import { destroy_object, dude_obj, move_to, ndebug, NullPtr, ObjectPtr, random, SfallList, tile_num } from "folib";
+import {
+    create_object,
+    CURSOR_TARGETING,
+    dude_elevation, dude_tile, fix_array,
+    FLAG_FLAT,
+    game_loaded,
+    get_cursor_mode, get_flags, get_game_mode, get_sfall_arg, get_sfall_arg_at,
+    HOOK_GAMEMODECHANGE, HOOK_ONEXPLOSION, HOOK_TARGETOBJECT,
+    is_in_array,
+    OBJ_DATA_WHO_HIT_ME, OBJ_TYPE_CRITTER,
+    objects_in_radius,
+    PCOMBAT,
+    register_hook_proc, set_flags,
+    set_object_data, set_sfall_arg, set_sfall_return, tile_under_cursor,
+} from "folib/sfall";
+import {
+    fo2tweaks_comsep_setting,
+    fo2tweaks_setting,
+    get_active_ammo_pid,
+    get_active_weapon_pid,
+    in_party,
+    sec_main
+} from "./fo2tweaks";
+
+const SCRIPT_REALNAME = "gl_g_grenades_anywhere";
+
+/** scroll blocker */
+const TARGET_PID = 0x500000C;
+
+let target: ObjectPtr;
+let only_once: number;
+let explosive_weapon_pids: SfallList<number>;
+let explosive_ammo_pids: SfallList<number>;
+
+function start() {
+    if (game_loaded()) {
+        const enabled = fo2tweaks_setting(sec_main, "improved_grenades");
+        if (enabled == 1) {
+            explosive_weapon_pids = fo2tweaks_comsep_setting("improved_grenades", "weapons");
+            fix_array(explosive_weapon_pids);
+            explosive_ammo_pids = fo2tweaks_comsep_setting("improved_grenades", "ammo");
+            fix_array(explosive_ammo_pids);
+            register_hook_proc(HOOK_TARGETOBJECT, target_object_handler);
+            register_hook_proc(HOOK_ONEXPLOSION, explosion_handler);
+            register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+            ndebug("enabled");
+        }
+    }
+}
+
+function target_object_handler() {
+    if (get_cursor_mode() != CURSOR_TARGETING) {
+        destroy_target();
+        return;
+    }
+
+    if (get_sfall_arg() != 0) { // event type: exit on actual attack
+        only_once = 1;
+        return;
+    }
+
+    if (get_sfall_arg()) { // exit on valid target
+        destroy_target();
+        return;
+    }
+
+    const weapon_pid = get_active_weapon_pid(dude_obj);
+    ndebug("weapon pid = " + weapon_pid);
+
+    if (!weapon_pid) {
+        destroy_target();
+        return;
+    }
+
+    const ammo_pid = get_active_ammo_pid(dude_obj);
+    ndebug("ammo pid = " + ammo_pid);
+
+    if (!is_in_array(weapon_pid, explosive_weapon_pids)
+        && !(ammo_pid && is_in_array(ammo_pid, explosive_ammo_pids))) {
+        destroy_target();
+        return;
+    }
+
+    const tile = tile_under_cursor();
+    if (tile == dude_tile() || tile == -1) return; // TODO: need fix bug explosion on dude tile
+
+    if (target) {
+        ndebug("move throwing target to: " + tile);
+        move_to(target, tile, dude_elevation());
+    } else {
+        ndebug("create throwing target at: " + tile);
+        target = create_object(TARGET_PID, tile, dude_elevation());
+        set_flags(target, get_flags(target) | FLAG_FLAT); // skip "X was hit instead of Scroll Blocker" on display.
+    }
+    set_sfall_arg(1, 1); // set valid target
+    set_sfall_arg(2, target);
+    set_sfall_return(target);
+}
+
+const _attacker = 1;
+const _throw = 6;
+
+function explosion_handler() {
+    if (only_once && target && get_sfall_arg_at(_throw) && (get_sfall_arg_at(_attacker) == dude_obj)) {
+        ndebug("explosion_handler");
+        const tile = tile_num(target);
+        const critters = objects_in_radius(tile, random(4, 6), dude_elevation(), OBJ_TYPE_CRITTER);
+        for (const object of critters) {
+            // see https://github.com/BGforgeNet/FO2tweaks/issues/98
+            if (object != dude_obj && !in_party(object)) {
+                set_object_data(object, OBJ_DATA_WHO_HIT_ME, dude_obj);
+            }
+        }
+        only_once = 0;
+    }
+}
+
+function gamemode_handler() {
+    if (get_game_mode() != PCOMBAT) destroy_target();
+}
+
+function destroy_target() {
+    if (!target) return;
+    ndebug("destroy throwing target");
+    destroy_object(target);
+    target = NullPtr;
+}

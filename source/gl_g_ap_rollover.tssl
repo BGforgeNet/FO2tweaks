@@ -1,0 +1,74 @@
+import { ndebug, obj_name, ObjectPtr, SfallMap } from "folib";
+import {
+    COMBAT,
+    game_loaded, get_critter_current_ap, get_game_mode,
+    get_sfall_arg, get_sfall_arg_at,
+    HOOK_COMBATTURN, HOOK_GAMEMODECHANGE,
+    map,
+    register_hook_proc,
+    set_critter_current_ap, set_unspent_ap_bonus,
+} from "folib/sfall";
+import { fo2tweaks_setting, mode_started, sec_main } from "./fo2tweaks";
+
+const SCRIPT_REALNAME = "gl_g_ap_rollover";
+
+const EVENT_turn_start = 1;
+const EVENT_turn_end = 0;
+
+let max_rollover = 0;
+let leftover_ap_map: SfallMap<ObjectPtr, number>;
+
+function combatturn_handler() {
+    const event = get_sfall_arg() as number;
+    const who = get_sfall_arg() as ObjectPtr;
+    const current_ap = get_critter_current_ap(who);
+
+    // End turn: save leftover AP
+    if (event == EVENT_turn_end) {
+        ndebug(obj_name(who) + ": end turn");
+        let leftover_ap = current_ap;
+        if (leftover_ap > 0) {
+            ndebug("leftover: " + leftover_ap);
+            // Limit to max
+            if (leftover_ap > max_rollover) {
+                leftover_ap = max_rollover;
+            }
+            ndebug(obj_name(who) + " has " + leftover_ap + " rollover AP");
+            leftover_ap_map[who] = leftover_ap;
+        }
+    }
+
+    // Start turn: restore leftover AP
+    if (event == EVENT_turn_start) {
+        ndebug(obj_name(who) + ": start turn");
+        const rollover_ap = leftover_ap_map[who];
+        if (rollover_ap > 0) {
+            ndebug(obj_name(who) + " has " + current_ap + " current AP and " + rollover_ap + " rollover AP");
+            set_critter_current_ap(who, current_ap + rollover_ap);
+            ndebug(obj_name(who) + " now has " + get_critter_current_ap(who) + " AP");
+            leftover_ap_map[who] = 0;
+        }
+    }
+}
+
+function gamemode_handler() {
+    const old_mode = get_sfall_arg_at(1);
+    const new_mode = get_game_mode();
+    if (mode_started(COMBAT, old_mode, new_mode)) {
+        leftover_ap_map = map({});
+    }
+}
+
+function start() {
+    if (game_loaded()) {
+        max_rollover = fo2tweaks_setting(sec_main, "ap_rollover");
+        if (max_rollover > 0) {
+            ndebug("" + max_rollover);
+            register_hook_proc(HOOK_COMBATTURN, combatturn_handler);
+            register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+            leftover_ap_map = map({});
+            set_unspent_ap_bonus(0);
+            ndebug("enabled");
+        }
+    }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "scripts": {
+    "lint": "eslint source/"
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^8.55.0",
+    "esbuild": "^0.27.3",
+    "eslint": "^9.39.2",
+    "eslint-plugin-unused-imports": "^4.4.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.55.0"
+  },
+  "dependencies": {
+    "folib": "^0.1.2"
+  }
+}

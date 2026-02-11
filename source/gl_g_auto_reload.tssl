@@ -1,0 +1,145 @@
+import {
+    FLOAT1, InvenSlot,
+    ItemPtr, ObjectPtr,
+    add_mult_objs_to_inven,
+    add_obj_to_inven,
+    animate_stand_obj,
+    create_object_sid, destroy_object,
+    dude_obj,
+    ndebug,
+    obj_carrying_pid_obj, obj_is_carrying_obj_pid,
+    obj_name,
+    obj_pid,
+    rm_mult_objs_from_inven
+} from "folib";
+import { reg_anim_clear } from "folib/rp/animcomd";
+import { PID_SOLAR_SCORCHER } from "folib/rp/itempid";
+import {
+    COMBAT, HOOK_GAMEMODECHANGE, PROTO_AM_PACK_SIZE, PROTO_WP_CALIBER, PROTO_WP_MAG_SIZE,
+    ceil, critter_inven_obj2, game_loaded, get_game_mode, get_light_level,
+    get_proto_data, get_sfall_arg_at, get_weapon_ammo_count, get_weapon_ammo_pid,
+    intface_redraw, register_hook_proc, set_weapon_ammo_count, set_weapon_ammo_pid,
+} from "folib/sfall";
+import { fo2tweaks_setting, in_combat, is_weapon, sec_main } from "./fo2tweaks";
+
+const SCRIPT_REALNAME = "gl_g_auto_reload";
+const set_auto_reload = "auto_reload";
+
+let enabled: number;
+
+// Calculate actual ammo count across all stacks
+function actual_ammo_count(crit: ObjectPtr, obj: ItemPtr): number {
+    return (obj_is_carrying_obj_pid(crit, obj_pid(obj)) - 1) * get_proto_data(obj_pid(obj), PROTO_AM_PACK_SIZE) + get_weapon_ammo_count(obj);
+}
+
+// Set actual ammo count, adjusting stack count as needed
+function set_actual_ammo_count(invenobj: ObjectPtr, item: ItemPtr, newcount: number) {
+    if (newcount < 0) newcount = 0;
+    const packsize = get_proto_data(obj_pid(item), PROTO_AM_PACK_SIZE);
+    set_item_count(invenobj, item, ceil(FLOAT1 * newcount / packsize));
+    // if number of items reduced, object reference will be different
+    item = obj_carrying_pid_obj(invenobj, obj_pid(item));
+    if (item && (newcount % packsize) > 0) {
+        set_weapon_ammo_count(item, newcount % packsize);
+    }
+}
+
+// Set item count in inventory
+function set_item_count(invenobj: ObjectPtr, item: ItemPtr, newcount: number) {
+    const count = obj_is_carrying_obj_pid(invenobj, obj_pid(item));
+    if (newcount > count) {
+        // Cast: creating a copy of an item, so result is also an item
+        const newitem = create_object_sid(obj_pid(item), 0, 0, -1) as ItemPtr;
+        add_mult_objs_to_inven(invenobj, newitem, newcount - count);
+    } else if (newcount < count) {
+        const _ = rm_mult_objs_from_inven(invenobj, item, count - newcount);
+        destroy_object(item);
+    }
+}
+
+// Change ammo amount by certain value
+function inc_ammo_count(invenobj: ObjectPtr, ammopid: number, inc: number) {
+    let item: ItemPtr;
+    item = obj_carrying_pid_obj(invenobj, ammopid);
+    if (!item) {
+        // Cast: creating ammo item by pid
+        item = create_object_sid(ammopid, 0, 0, -1) as ItemPtr;
+        add_obj_to_inven(invenobj, item);
+    }
+    set_actual_ammo_count(invenobj, item, actual_ammo_count(invenobj, item) + inc);
+}
+
+function auto_reload() {
+    let weapon: ItemPtr;
+    let ammopid: number;
+    let ammo: ItemPtr;
+    let caliber: number;
+    let magsize: number;
+    const who = dude_obj;
+    const old_mode = get_sfall_arg_at(1);
+    const new_mode = get_game_mode();
+
+    ndebug("old mode " + old_mode + ", new mode " + new_mode);
+
+    if (in_combat()) {
+        ndebug("in combat, pass");
+        return;
+    }
+
+    if ((old_mode & COMBAT) == 0) {
+        ndebug("not coming from combat, pass");
+        return;
+    }
+
+    for (let i = 1; i <= 2; i++) {
+        weapon = critter_inven_obj2(who, i as InvenSlot);
+
+        if (obj_pid(weapon) == PID_SOLAR_SCORCHER && get_light_level() == 65536) {
+            ndebug("solar scorcher: 100% light, reloading");
+            magsize = get_proto_data(obj_pid(weapon), PROTO_WP_MAG_SIZE);
+            set_weapon_ammo_count(weapon, magsize);
+            continue;
+        }
+
+        if (!weapon || !is_weapon(weapon)) continue;
+        ammopid = get_weapon_ammo_pid(weapon);
+        if (ammopid == -1) continue;
+
+        caliber = get_proto_data(obj_pid(weapon), PROTO_WP_CALIBER);
+        magsize = get_proto_data(obj_pid(weapon), PROTO_WP_MAG_SIZE);
+
+        ndebug("found weapon " + obj_name(weapon) + " with caliber " + caliber + ", ammo pid " + ammopid);
+        ndebug("magsize is " + magsize + " ammo count " + get_weapon_ammo_count(weapon));
+
+        if (magsize > get_weapon_ammo_count(weapon)) {
+            ammo = obj_carrying_pid_obj(who, ammopid);
+            if (ammo) {
+                ndebug("found inven ammo pid " + ammopid);
+                // first, unload existing ammo
+                inc_ammo_count(who, ammopid, get_weapon_ammo_count(weapon));
+                // then, load new ammo
+                set_weapon_ammo_pid(weapon, ammopid);
+                if (actual_ammo_count(who, ammo) < magsize) {
+                    magsize = actual_ammo_count(who, ammo);
+                }
+                set_weapon_ammo_count(weapon, magsize);
+                inc_ammo_count(who, ammopid, -magsize);
+                reg_anim_clear(who);
+                animate_stand_obj(who);
+            } else {
+                ndebug("not found :(");
+            }
+        }
+    }
+    intface_redraw();
+}
+
+function start() {
+    if (game_loaded()) {
+        enabled = fo2tweaks_setting(sec_main, set_auto_reload);
+        if (enabled == 1) {
+            ndebug("initialized");
+            register_hook_proc(HOOK_GAMEMODECHANGE, auto_reload);
+        }
+    }
+}

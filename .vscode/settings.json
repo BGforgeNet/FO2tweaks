@@ -1,5 +1,8 @@
 {
+    "files.associations": {
+        "*.tssl": "typescript"
+    },
     "yaml.schemas": {
         "https://json.schemastore.org/github-workflow.json": "file://.github/workflows/build.yml"
-    }
+    },
 }

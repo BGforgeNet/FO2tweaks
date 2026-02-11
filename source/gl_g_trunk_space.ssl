@@ -1,45 +1,59 @@
+/* Do not edit. This file is generated from gl_g_trunk_space.tssl. Make your changes there and regenerate this file. */
+
 #define SCRIPT_REALNAME "gl_g_trunk_space"
-#include "headers/fo2tweaks/fo2tweaks.h"
-
 #define set_trunk_space "trunk_space"
-
-#define PID_MOTO_TRUNK 532 // ettu
+#define PID_MOTO_TRUNK 532
 #define PROTO_TYPE 0
 #define PROTO_IT_TYPE_CONTAINER 1
 
+#define OBJ_TYPE_ITEM 0
+#define PROTO_IT_TYPE 32
+#define PROTO_CN_MAX_SIZE 36
+#define PID_CAR_TRUNK 455
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure bloat_trunk();
+procedure map_enter_p_proc();
+procedure start();
+
+/* ===== bundled ===== */
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+/* ===== end bundled ===== */
+
+/* ===== main body ===== */
 variable enabled = 0;
-
-procedure bloat_trunk;
-
-procedure map_enter_p_proc begin
-  if enabled == 1 then begin
-    call bloat_trunk;
-    ndebug("increased trunk space");
-  end
-end
-
-procedure start begin
-  enabled = fo2tweaks_setting(sec_main, set_trunk_space);
-  if enabled == 1 then begin
-    call bloat_trunk;
-    ndebug("initialized");
-  end
-end
-
-procedure bloat_trunk begin
-  variable pid, type, subtype;
-  variable pids = [PID_CAR_TRUNK, PID_MOTO_TRUNK];
-
-  if enabled != 1 then return;
-
-  foreach pid in pids begin
-    type = get_proto_data(pid, PROTO_TYPE) bwand 0x11110000;
-    if type == OBJ_TYPE_ITEM then begin
-      subtype = get_proto_data(pid, PROTO_IT_TYPE);
-      if subtype == PROTO_IT_TYPE_CONTAINER then begin
-        set_proto_data(pid, PROTO_CN_MAX_SIZE, 99999);
-        ndebug(pid + " space set to 99999");
-      end
+procedure bloat_trunk() begin
+    if (enabled != 1) then begin
+        return;
     end
-  end
+    variable pids = [PID_CAR_TRUNK, PID_MOTO_TRUNK];
+    foreach (variable pid in pids) begin
+        variable type = get_proto_data(pid, PROTO_TYPE) bwand 286326784;
+        if (type == OBJ_TYPE_ITEM) then begin
+            variable subtype = get_proto_data(pid, PROTO_IT_TYPE);
+            if (subtype == PROTO_IT_TYPE_CONTAINER) then begin
+                set_proto_data(pid, PROTO_CN_MAX_SIZE, 99999);
+                ndebug(pid + " space set to 99999");
+            end
+        end
+    end
 end
+procedure map_enter_p_proc() begin
+    if (enabled == 1) then begin
+        call bloat_trunk();
+        ndebug("increased trunk space");
+    end
+end
+procedure start() begin
+    enabled = fo2tweaks_setting(sec_main, set_trunk_space);
+    if (enabled == 1) then begin
+        call bloat_trunk();
+        ndebug("initialized");
+    end
+end
+/* ===== end main body ===== */

@@ -1,78 +1,55 @@
-#define SCRIPT_REALNAME "gl_g_max_knockback"
-#include "headers/fo2tweaks/fo2tweaks.h"
+/* Do not edit. This file is generated from gl_g_knockback.tssl. Make your changes there and regenerate this file. */
 
+#define SCRIPT_REALNAME "gl_g_max_knockback"
 #define set_max_knockback "max_knockback"
 
-procedure start;
-procedure combat_damage_hook;
+#define HOOK_COMBATDAMAGE 5
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define get_sfall_arg_at(index) sfall_func1("get_sfall_arg_at", index)
 
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure start();
+procedure combat_damage_hook();
+
+/* ===== bundled ===== */
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+/* ===== end bundled ===== */
+
+/* ===== main body ===== */
 variable max_knockback;
-
-procedure start begin
-  if game_loaded then begin
-    max_knockback = fo2tweaks_setting(sec_main, set_max_knockback);
-    if max_knockback >= 0 then begin
-      register_hook_proc(HOOK_COMBATDAMAGE, combat_damage_hook);
-      ndebug("initialized, max knockback = " + max_knockback);
+procedure start() begin
+    if (game_loaded) then begin
+        max_knockback = fo2tweaks_setting(sec_main, set_max_knockback);
+        if (max_knockback >= 0) then begin
+            register_hook_proc(HOOK_COMBATDAMAGE, combat_damage_hook);
+            ndebug("initialized, max knockback = " + max_knockback);
+        end
     end
-  end
 end
-
-procedure combat_damage_hook begin
-  /*
-  Runs when:
-  1) Game calculates how much damage each target will get. This includes primary target as well as all extras (explosions and bursts). This happens BEFORE the actual attack animation.
-  2) AI decides whether it is safe to use area attack (burst, grenades), if he might hit friendlies.
-  Does not run for misses, or non-combat damage like dynamite explosions.
-
-  critter arg1  - The target
-  critter arg2  - The attacker
-  int     arg3  - The amount of damage to the target
-  int     arg4  - The amount of damage to the attacker
-  int     arg5  - The special effect flags for the target
-  int     arg6  - The special effect flags for the attacker
-  int     arg7  - The weapon used in the attack
-  int     arg8  - The bodypart that was struck
-  int     arg9  - Damage Multiplier (this is divided by 2, so a value of 3 does 1.5x damage, and 8 does 4x damage. Usually it's 2, but with Silent Death perk and the corresponding attack conditions, it's 4; for critical hits, the value is taken from the critical table)
-  int     arg10 - Number of bullets actually hit the target (1 for melee attacks)
-  int     arg11 - The amount of knockback to the target
-  int     arg12 - Attack Type (see ATKTYPE_* constants)
-
-  int     ret1 - The damage to the target
-  int     ret2 - The damage to the attacker
-  int     ret3 - The special effect flags for the target
-  int     ret4 - The special effect flags for the attacker
-  int     ret5 - The amount of knockback to the target
-  */
-
-  variable target;
-  variable attacker;
-  variable target_damage;
-  variable attacker_damage;
-  variable target_flags;
-  variable attacker_flags;
-  variable knockback, tmp;
-
-  target = get_sfall_arg;
-  attacker = get_sfall_arg;
-  target_damage = get_sfall_arg;
-  attacker_damage = get_sfall_arg;
-  target_flags = get_sfall_arg;
-  attacker_flags = get_sfall_arg;
-  knockback = get_sfall_arg_at(10);
-
-  if knockback > max_knockback then begin
-    set_sfall_return(target_damage);
-    set_sfall_arg(2, target_damage);
-    set_sfall_return(attacker_damage);
-    set_sfall_arg(3, attacker_damage);
-    set_sfall_return(target_flags);
-    set_sfall_arg(4, target_flags);
-    set_sfall_return(attacker_flags);
-    set_sfall_arg(5, attacker_flags);
-    //finally, knockback
-    set_sfall_return(max_knockback);
-    set_sfall_arg(10, max_knockback);
-    ndebug("knockback distance reduced from " + knockback + " to " + max_knockback);
-  end
+procedure combat_damage_hook() begin
+    variable _target = get_sfall_arg;
+    variable _attacker = get_sfall_arg;
+    variable target_damage = get_sfall_arg;
+    variable attacker_damage = get_sfall_arg;
+    variable target_flags = get_sfall_arg;
+    variable attacker_flags = get_sfall_arg;
+    variable knockback = get_sfall_arg_at(10);
+    if (knockback > max_knockback) then begin
+        set_sfall_return(target_damage);
+        set_sfall_arg(2, target_damage);
+        set_sfall_return(attacker_damage);
+        set_sfall_arg(3, attacker_damage);
+        set_sfall_return(target_flags);
+        set_sfall_arg(4, target_flags);
+        set_sfall_return(attacker_flags);
+        set_sfall_arg(5, attacker_flags);
+        set_sfall_return(max_knockback);
+        set_sfall_arg(10, max_knockback);
+        ndebug("knockback distance reduced from " + knockback + " to " + max_knockback);
+    end
 end
+/* ===== end main body ===== */

@@ -1,55 +1,81 @@
-#define SCRIPT_REALNAME "gl_g_keymap"
+/* Do not edit. This file is generated from gl_g_keymap.tssl. Make your changes there and regenerate this file. */
 
-#include "headers/fo2tweaks/fo2tweaks.h"
+#define DIK_F4 62
+#define DIK_F6 64
+#define DIK_UNLABELED 151
+#define SCRIPT_REALNAME "gl_g_keymap"
 #define set_keymap "keymap"
 #define sec_keymap "keymap"
 
+#define SAVEGAME 16
+#define HOOK_KEYPRESS 19
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define string_toupper(text) sfall_func2("string_to_case", text, 1)
+#define get_ini_section(file, sect) sfall_func2("get_ini_section", file, sect)
+
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure char_to_dik(variable char);
+procedure keypress_handler();
+procedure start();
+
+/* ===== bundled ===== */
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+procedure char_to_dik(variable char) begin
+    variable charmap = {"ESCAPE": 1, "ESC": 1, "1": 2, "2": 3, "3": 4, "4": 5, "5": 6, "6": 7, "7": 8, "8": 9, "9": 10, "0": 11, "-": 12, "=": 13, "BACK": 14, "BACKSPACE": 14, "TAB": 15, "Q": 16, "W": 17, "E": 18, "R": 19, "T": 20, "Y": 21, "U": 22, "I": 23, "O": 24, "P": 25, "LBRACKET": 26, "LEFTBRACKET": 26, "RIGHTBRACKET": 27, "RETURN": 28, "ENTER": 28, "LCONTROL": 29, "LEFTCONTROL": 29, "A": 30, "S": 31, "D": 32, "F": 33, "G": 34, "H": 35, "J": 36, "K": 37, "L": 38, ";": 39, "'": 40, "`": 41, "LSHIFT": 42, "LEFTSHIFT": 42, "\\": 43, "Z": 44, "X": 45, "C": 46, "V": 47, "B": 48, "N": 49, "M": 50, ",": 51, ".": 52, "/": 53, "RSHIFT": 54, "RIGHTSHIFT": 54, "*": 55, "LMENU": 56, "LEFTALT": 56, "SPACE": 57, "CAPITAL": 58, "F1": 59, "F2": 60, "F3": 61, "F4": 62, "F5": 63, "F6": 64, "F7": 65, "F8": 66, "F9": 67, "F10": 68, "NUMLOCK": 69, "SCROLL": 70, "SCROLLOCK": 70, "NUMPAD7": 71, "NUMPAD8": 72, "NUMPAD9": 73, "SUBTRACT": 74, "NUMPAD4": 75, "NUMPAD5": 76, "NUMPAD6": 77, "ADD": 78, "NUMPAD1": 79, "NUMPAD2": 80, "NUMPAD3": 81, "NUMPAD0": 82, "DECIMAL": 83, "F11": 87, "F12": 88, "NUMPADEQUALS": 141, "AT": 145, "COLON": 146, "UNDERLINE": 147, "STOP": 149, "AX": 150, "UNLABELED": 151, "NUMPADENTER": 156, "RCONTROL": 157, "NUMPADCOMMA": 179, "DIVIDE": 181, "SYSRQ": 183, "RMENU": 184, "RIGHTALT": 184, "HOME": 199, "UP": 200, "PRIOR": 201, "PGUP": 201, "PAGEUP": 201, "LEFT": 203, "RIGHT": 205, "END": 207, "DOWN": 208, "NEXT": 209, "PGDN": 209, "PAGEDOWN": 209, "INSERT": 210, "INS": 210, "DELETE": 211, "DEL": 211, "LWIN": 219, "LEFTWIN": 219, "RWIN": 220, "RIGHTWIN": 220, "APPS": 221, "NUMPADSTAR": 55, "LALT": 56, "CAPSLOCK": 58, "NUMPADMINUS": 74, "NUMPADPLUS": 78, "NUMPADPERIOD": 83, "NUMPADSLASH": 181, "UPARROW": 200, "LEFTARROW": 203, "RIGHTARROW": 205, "DOWNARROW": 208};
+    char = string_toupper(char);
+    variable dik_code = charmap[char];
+    if (dik_code == 0) then begin
+        ndebug("failed to parse character " + char);
+    end
+    return dik_code;
+end
+/* ===== end bundled ===== */
+
+/* ===== main body ===== */
 variable enabled;
 variable keymap;
-
-procedure start;
-
-procedure keypress_handler begin
-  variable pressed = get_sfall_arg, key = get_sfall_arg;
-  variable k, v, new_key;
-
-  new_key = scan_array(keymap, key);
-
-  // Default save shortcuts: F4, F6. Any other shortcuts shouldn't be needed in savegame mode.
-  if (get_game_mode bwand SAVEGAME) and not ( (new_key == DIK_F4) or (new_key == DIK_F6) ) then return;
-
-  //remap
-  if new_key != -1 then begin
-    if pressed then ndebug("pressed key " + key + " changed to " + new_key);
-    else ndebug("released key " + key + " changed to " + new_key);
-    set_sfall_return(new_key);
-    return;
-  end
-
-  //disable old key
-  if keymap[key] != 0 then begin
-    ndebug("old key " + key + " is not mapped, disabling");
-    set_sfall_return(DIK_UNLABELED); //hope you don't use katakana my friend
-  end
-end
-
-procedure start begin
-  if game_loaded then begin
-    enabled = fo2tweaks_setting(sec_main, set_keymap);
-    if enabled == 1 then begin
-      variable tmp = get_ini_section(fo2tweaks_ini, sec_keymap);
-      variable k, v;
-      keymap = temp_array_map;
-      foreach k: v in tmp begin
-        ndebug("remapping key " + v + " to " + k);
-        k = char_to_dik(k);
-        v = char_to_dik(v);
-        keymap[v] = k; // reversed for array check
-        ndebug("remapped key code " + v + " to " + k);
-      end
-      fix_array(keymap);
-      register_hook_proc(HOOK_KEYPRESS, keypress_handler);
-      ndebug("initialized");
+procedure keypress_handler() begin
+    variable pressed = get_sfall_arg;
+    variable key = get_sfall_arg;
+    variable new_key = scan_array(keymap, key);
+    if (get_game_mode bwand SAVEGAME and not (new_key == DIK_F4 or new_key == DIK_F6)) then begin
+        return;
     end
-  end
+    if (new_key != -1) then begin
+        if (pressed) then begin
+            ndebug("pressed key " + key + " changed to " + new_key);
+        end else begin
+            ndebug("released key " + key + " changed to " + new_key);
+        end
+        set_sfall_return(new_key);
+        return;
+    end
+    if (keymap[key] != 0) then begin
+        ndebug("old key " + key + " is not mapped, disabling");
+        set_sfall_return(DIK_UNLABELED);
+    end
 end
+procedure start() begin
+    if (game_loaded) then begin
+        enabled = fo2tweaks_setting(sec_main, set_keymap);
+        if (enabled == 1) then begin
+            variable tmp = get_ini_section(fo2tweaks_ini, sec_keymap);
+            keymap = {};
+            foreach (variable k: v in tmp) begin
+                ndebug("remapping key " + v + " to " + k);
+                variable k_code = char_to_dik(k);
+                variable v_code = char_to_dik(v);
+                keymap[v_code] = k_code;
+                ndebug("remapped key code " + v_code + " to " + k_code);
+            end
+            fix_array(keymap);
+            register_hook_proc(HOOK_KEYPRESS, keypress_handler);
+            ndebug("initialized");
+        end
+    end
+end
+/* ===== end main body ===== */

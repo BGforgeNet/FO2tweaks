@@ -1,92 +1,140 @@
+/* Do not edit. This file is generated from gl_g_autodoors.tssl. Make your changes there and regenerate this file. */
+
 #define SCRIPT_REALNAME "gl_g_autodoors"
+#define DOOR_FLAGS 0x24
+#define DOOR_CLOSE_DIST 5
+#define SET_AUTODOORS "autodoors"
 
-#include "headers/fo2tweaks/fo2tweaks.h"
+#define FLAG_WALKTHRU 4
+#define MAP_VAULT_CITY_VAULT 30
+#define SCRIPT_VIVLTDOR 982
+#define COMBAT 64
+#define HOOK_GAMEMODECHANGE 31
+#define LIST_SCENERY 2
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define PRODATA_SC_TYPE 32
+#define SC_TYPE_DOOR 0
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define get_sfall_arg_at(index) sfall_func1("get_sfall_arg_at", index)
 
-procedure start;
-procedure map_enter_p_proc;
-procedure set_door_flag(variable state);
-procedure gamemode_handler;
-procedure autoclose;
+procedure party_member_list_critters();
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure mode_ended(variable mode_to_check, variable old_mode, variable new_mode);
+procedure mode_started(variable mode_to_check, variable old_mode, variable new_mode);
+procedure is_door(variable scenery_obj);
+procedure start();
+procedure map_enter_p_proc();
+procedure map_update_p_proc();
+procedure set_door_flag(variable flag);
+procedure gamemode_handler();
+procedure autoclose();
 procedure close_door(variable door);
 
-#define PORTAL      (0)
-#define DOOR_FLAGS  (0x24)
-
-/**
- * If there's any party member within this distance, door won't autoclose.
- */
-#define DOOR_CLOSE_DIST  5
-
-#define set_autodoors "autodoors"
-variable only_once = 0;
-variable enabled = 0;
-
-procedure start begin
-  if game_loaded then begin
-    enabled = fo2tweaks_setting(sec_main, set_autodoors);
-    if enabled > 0 then begin
-      register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
-      call map_enter_p_proc;
-      ndebug("initialized");
+/* ===== bundled ===== */
+procedure party_member_list_critters() begin
+    return party_member_list(false);
+end
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+procedure mode_ended(variable mode_to_check, variable old_mode, variable new_mode) begin
+    if ((old_mode bwand mode_to_check) > 0 and (new_mode bwand mode_to_check) == 0) then begin
+        return true;
     end
-  end
+    return false;
 end
-
-procedure map_enter_p_proc begin
-  if enabled > 0 then call set_door_flag(FLAG_WALKTHRU);
+procedure mode_started(variable mode_to_check, variable old_mode, variable new_mode) begin
+    if ((old_mode bwand mode_to_check) == 0 and (new_mode bwand mode_to_check) > 0) then begin
+        return true;
+    end
+    return false;
 end
-
-procedure map_update_p_proc begin
-  if combat_is_initialized then return;
-  if enabled > 1 then call autoclose;
+procedure is_door(variable scenery_obj) begin
+    if (get_proto_data(obj_pid(scenery_obj), PRODATA_SC_TYPE) == SC_TYPE_DOOR) then begin
+        return true;
+    end
+    return false;
 end
+/* ===== end bundled ===== */
 
+/* ===== main body ===== */
+variable enabled = 0;
+procedure start() begin
+    if (game_loaded) then begin
+        enabled = fo2tweaks_setting(sec_main, SET_AUTODOORS);
+        if (enabled > 0) then begin
+            register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+            call map_enter_p_proc();
+            ndebug("initialized");
+        end
+    end
+end
+procedure map_enter_p_proc() begin
+    if (enabled > 0) then begin
+        call set_door_flag(FLAG_WALKTHRU);
+    end
+end
+procedure map_update_p_proc() begin
+    if (combat_is_initialized) then begin
+        return;
+    end
+    if (enabled > 1) then begin
+        call autoclose();
+    end
+end
 procedure set_door_flag(variable flag) begin
-  variable obj, pid;
-  foreach (obj in list_as_array(LIST_SCENERY)) begin
-    if is_door(obj) then set_proto_data(obj_pid(obj), DOOR_FLAGS, flag);
-  end
+    foreach (variable obj in list_as_array(LIST_SCENERY)) begin
+        if (is_door(obj)) then begin
+            set_proto_data(obj_pid(obj), DOOR_FLAGS, flag);
+        end
+    end
 end
-
-procedure gamemode_handler begin
-  variable old_mode = get_sfall_arg_at(1);
-  variable new_mode = get_game_mode;
-  if mode_ended(COMBAT, old_mode, new_mode) then begin
-    call set_door_flag(FLAG_WALKTHRU);
-    ndebug("combat ended, enabled walking through doors");
-  end
-  if mode_started(COMBAT, old_mode, new_mode) then begin
-    call set_door_flag(0);
-    ndebug("combat started, disabled walking through doors");
-  end
+procedure gamemode_handler() begin
+    variable old_mode = get_sfall_arg_at(1);
+    variable new_mode = get_game_mode;
+    if (mode_ended(COMBAT, old_mode, new_mode)) then begin
+        call set_door_flag(FLAG_WALKTHRU);
+        ndebug("combat ended, enabled walking through doors");
+    end
+    if (mode_started(COMBAT, old_mode, new_mode)) then begin
+        call set_door_flag(0);
+        ndebug("combat started, disabled walking through doors");
+    end
 end
-
 /**
  * Iterate over scenery, call close_door on each door.
  */
 procedure autoclose() begin
-  variable obj, in_vault = false;
-  // Skip Vault City Vault doors on second elevation, to avoid them getting stuck.
-  // https://github.com/BGforgeNet/FO2tweaks/issues/116
-  if (cur_map_index == MAP_VAULT_CITY_VAULT) then in_vault = true;
-  foreach (obj in list_as_array(LIST_SCENERY)) begin
-    if in_vault and (get_script(obj) == SCRIPT_VIVLTDOR) then begin
-      ndebug("in vault, skipping close");
-      return;
+    variable in_vault = false;
+    if (cur_map_index == MAP_VAULT_CITY_VAULT) then begin
+        in_vault = true;
     end
-    if is_door(obj) then call close_door(obj);
-  end
+    foreach (variable obj in list_as_array(LIST_SCENERY)) begin
+        if (in_vault and get_script(obj) == SCRIPT_VIVLTDOR) then begin
+            ndebug("in vault, skipping close");
+            return;
+        end
+        if (is_door(obj)) then begin
+            call close_door(obj);
+        end
+    end
 end
-
 /**
  * Closes the door, if there are no nearby party members.
  */
 procedure close_door(variable door) begin
-  variable who;
-  if not (obj_is_open(door)) then return;
-  if (tile_distance_objs(dude_obj, door) <= DOOR_CLOSE_DIST) then return;
-  foreach who in party_member_list_critters begin
-    if (tile_distance_objs(who, door) <= DOOR_CLOSE_DIST) then return;
-  end
-  obj_close(door);
+    if (not obj_is_open(door)) then begin
+        return;
+    end
+    if (tile_distance_objs(dude_obj, door) <= DOOR_CLOSE_DIST) then begin
+        return;
+    end
+    foreach (variable who in party_member_list_critters()) begin
+        if (tile_distance_objs(who, door) <= DOOR_CLOSE_DIST) then begin
+            return;
+        end
+    end
+    obj_close(door);
 end
+/* ===== end main body ===== */

@@ -1,0 +1,39 @@
+import { ndebug } from "folib";
+import {
+    exec_map_update_scripts, game_loaded, get_sfall_arg,
+    HOOK_SETLIGHTING,
+    register_hook_proc, set_sfall_return,
+} from "folib/sfall";
+import { fo2tweaks_setting, light_level_abs_to_pct, light_level_pct_to_abs, sec_main } from "./fo2tweaks";
+
+const SCRIPT_REALNAME = "gl_g_light_level";
+const set_min_light_level = "min_light_level";
+
+let min_light_level: number;
+
+function lightning_handler() {
+    const obj = get_sfall_arg() as number;
+    const light_level = get_sfall_arg() as number;
+    if (obj == -1) { // map
+        const pct_ll = light_level_abs_to_pct(light_level);
+        if (pct_ll < min_light_level) {
+            ndebug("light level too low, increasing to " + min_light_level);
+            set_sfall_return(light_level_pct_to_abs(min_light_level));
+        }
+    }
+}
+
+function map_enter_p_proc() {
+    if (min_light_level > 0) exec_map_update_scripts();
+}
+
+function start() {
+    if (game_loaded()) {
+        min_light_level = fo2tweaks_setting(sec_main, set_min_light_level);
+        if (min_light_level > 0) { // -1 means missing, 0 is disabled
+            register_hook_proc(HOOK_SETLIGHTING, lightning_handler);
+            ndebug("initialized");
+            exec_map_update_scripts();
+        }
+    }
+}

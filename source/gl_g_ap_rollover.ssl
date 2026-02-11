@@ -1,69 +1,83 @@
+/* Do not edit. This file is generated from gl_g_ap_rollover.tssl. Make your changes there and regenerate this file. */
+
 #define SCRIPT_REALNAME "gl_g_ap_rollover"
-
-#include "headers/fo2tweaks/fo2tweaks.h"
-
 #define EVENT_turn_start 1
 #define EVENT_turn_end 0
-variable max_rollover = 0;
-variable leftover_ap;
-variable leftover_ap_map = 0;
 
-procedure combatturn_handler begin
+#define COMBAT 64
+#define HOOK_COMBATTURN 27
+#define HOOK_GAMEMODECHANGE 31
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define get_sfall_arg_at(index) sfall_func1("get_sfall_arg_at", index)
+
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure mode_started(variable mode_to_check, variable old_mode, variable new_mode);
+procedure combatturn_handler();
+procedure gamemode_handler();
+procedure start();
+
+/* ===== bundled ===== */
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+procedure mode_started(variable mode_to_check, variable old_mode, variable new_mode) begin
+    if ((old_mode bwand mode_to_check) == 0 and (new_mode bwand mode_to_check) > 0) then begin
+        return true;
+    end
+    return false;
+end
+/* ===== end bundled ===== */
+
+/* ===== main body ===== */
+variable max_rollover = 0;
+variable leftover_ap_map;
+procedure combatturn_handler() begin
     variable event = get_sfall_arg;
     variable who = get_sfall_arg;
-    variable leftover_ap;
     variable current_ap = get_critter_current_ap(who);
-
-    // End turn: save leftover AP
-    if event == EVENT_turn_end then begin
+    if (event == EVENT_turn_end) then begin
         ndebug(obj_name(who) + ": end turn");
-        leftover_ap = current_ap;
-        if leftover_ap > 0 then begin
+        variable leftover_ap = current_ap;
+        if (leftover_ap > 0) then begin
             ndebug("leftover: " + leftover_ap);
-            // Limit to max
-            if leftover_ap > max_rollover then begin
+            if (leftover_ap > max_rollover) then begin
                 leftover_ap = max_rollover;
             end
             ndebug(obj_name(who) + " has " + leftover_ap + " rollover AP");
             leftover_ap_map[who] = leftover_ap;
         end
     end
-
-    // Start turn: restore leftover AP
-    if event == EVENT_turn_start then begin
+    if (event == EVENT_turn_start) then begin
         ndebug(obj_name(who) + ": start turn");
         variable rollover_ap = leftover_ap_map[who];
-        if rollover_ap > 0 then begin
-            leftover_ap_map[who] = leftover_ap;
+        if (rollover_ap > 0) then begin
             ndebug(obj_name(who) + " has " + current_ap + " current AP and " + rollover_ap + " rollover AP");
             set_critter_current_ap(who, current_ap + rollover_ap);
             ndebug(obj_name(who) + " now has " + get_critter_current_ap(who) + " AP");
             leftover_ap_map[who] = 0;
         end
     end
-    
 end
-
-procedure gamemode_handler begin
+procedure gamemode_handler() begin
     variable old_mode = get_sfall_arg_at(1);
     variable new_mode = get_game_mode;
-    if mode_started(COMBAT, old_mode, new_mode) then begin
-        leftover_ap_map = create_array_map;
+    if (mode_started(COMBAT, old_mode, new_mode)) then begin
+        leftover_ap_map = {};
     end
 end
-
-procedure start begin
-    if game_loaded then begin
+procedure start() begin
+    if (game_loaded) then begin
         max_rollover = fo2tweaks_setting(sec_main, "ap_rollover");
-        if max_rollover > 0 then begin
-            ndebug(max_rollover);
+        if (max_rollover > 0) then begin
+            ndebug("" + max_rollover);
             register_hook_proc(HOOK_COMBATTURN, combatturn_handler);
             register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
-            if leftover_ap_map == 0 then begin
-                leftover_ap_map = create_array_map;
-            end
+            leftover_ap_map = {};
             set_unspent_ap_bonus(0);
             ndebug("enabled");
         end
     end
 end
+/* ===== end main body ===== */

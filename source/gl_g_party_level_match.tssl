@@ -1,0 +1,106 @@
+import { get_pc_stat, ndebug, obj_name, obj_pid, SfallMap } from "folib";
+import { true_party_size } from "folib/rp/command";
+import { f2rp_npc_stages } from "folib/rp/critterpid";
+import {
+    atoi,
+    COMBAT, DIALOG,
+    fix_array, floor2, game_loaded, get_game_mode, get_ini_section, get_npc_level,
+    get_sfall_arg_at,
+    HOOK_GAMEMODECHANGE,
+    inc_npc_level, len_array, map, party_member_list_critters,
+    PCSTAT_level,
+    register_hook_proc,
+    string_split,
+} from "folib/sfall";
+import { fo2tweaks_ini, fo2tweaks_setting, mode_ended, mode_started, sec_main } from "./fo2tweaks";
+
+const SCRIPT_REALNAME = "gl_g_party_level_match";
+const set_party_level_match = "party_level_match";
+const sec_party_level_match = "party_level_match";
+
+let enabled: number;
+let pid_mlevel: SfallMap<number, number>;
+let pid_step: SfallMap<number, number>;
+let old_party_size: number;
+
+function levelup() {
+    if (true_party_size() == 0) return;
+
+    const pc_level = get_pc_stat(PCSTAT_level);
+    const party = party_member_list_critters();
+    for (const who of party) {
+        const pid = obj_pid(who);
+
+        ndebug("pc_level = " + pc_level);
+        ndebug("npc is " + obj_name(who) + ", pid " + pid);
+
+        const present = pid_mlevel[pid];
+        if (present == 0) continue; // not in config
+
+        const min_level = pid_mlevel[pid];
+        const step = pid_step[pid];
+
+        ndebug("step = " + step);
+        let cur_stage = get_npc_level(pid);
+        ndebug("cur_stage = " + cur_stage);
+        const expected_stage = floor2((pc_level - min_level) / step);
+        ndebug("expected_stage = " + expected_stage);
+
+        while (cur_stage < (expected_stage + 1)) { // min_level corresponds to stage 0
+            ndebug("leveling up " + obj_name(who));
+            inc_npc_level(pid);
+            cur_stage = cur_stage + 1;
+        }
+    }
+}
+
+function gamemode_handler() {
+    const old_mode = get_sfall_arg_at(1);
+    const new_mode = get_game_mode();
+    let new_party_size: number;
+
+    if (mode_started(DIALOG, old_mode, new_mode)) old_party_size = len_array(party_member_list_critters());
+    if (mode_ended(DIALOG, old_mode, new_mode)) {
+        new_party_size = len_array(party_member_list_critters());
+        if (old_party_size < new_party_size) levelup();
+    }
+    if (mode_ended(COMBAT, old_mode, new_mode)) levelup();
+}
+
+function map_enter_p_proc() {
+    if (enabled == 1) levelup();
+}
+
+function parse_stages(npc_list: SfallMap<string | number, string>) {
+    for (const [pid, mlevel_step_str] of npc_list) {
+        const mlevel_step = string_split(mlevel_step_str, ",");
+        const min_level = atoi(mlevel_step[0]);
+        const step = atoi(mlevel_step[1]);
+        pid_mlevel[pid] = min_level;
+        pid_step[pid] = step;
+    }
+}
+
+function start() {
+    if (game_loaded()) {
+        enabled = fo2tweaks_setting(sec_main, set_party_level_match);
+        if (enabled == 1) {
+            pid_mlevel = map({});
+            pid_step = map({});
+
+            // load default, override from ini
+            parse_stages(f2rp_npc_stages);
+            const override = get_ini_section(fo2tweaks_ini, sec_party_level_match);
+            parse_stages(override);
+
+            for (const [pid, mlevel] of pid_mlevel) {
+                ndebug(pid + ": " + mlevel + "/" + pid_step[pid]);
+            }
+            fix_array(pid_mlevel);
+            fix_array(pid_step);
+
+            register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+            ndebug("initialized");
+        }
+    }
+}

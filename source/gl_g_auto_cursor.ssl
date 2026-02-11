@@ -1,91 +1,129 @@
+/* Do not edit. This file is generated from gl_g_auto_cursor.tssl. Make your changes there and regenerate this file. */
+
 #define SCRIPT_REALNAME "gl_g_auto_cursor"
 
-#include "headers/fo2tweaks/fo2tweaks.h"
+#define OBJ_TYPE_CRITTER 1
+#define CRITTER_IS_DEAD 1
+#define PCOMBAT 2048
+#define HOOK_KEYPRESS 19
+#define HOOK_MOUSECLICK 20
+#define HOOK_GAMEMODECHANGE 31
+#define CURSOR_MOVEMENT 0
+#define CURSOR_TARGETING 2
+#define PID_BLOCKING_HEX 33554499
+#define DIK_M 50
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
+#define MOUSE_BTN_RIGHT 1
+#define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
+#define get_sfall_arg_at(index) sfall_func1("get_sfall_arg_at", index)
+#define get_cursor_mode sfall_func0("get_cursor_mode")
+#define set_cursor_mode(mode) sfall_func1("set_cursor_mode", mode)
+#define obj_under_cursor(onlyCritter, includeDude) sfall_func2("obj_under_cursor", onlyCritter, includeDude)
+#define dude_elevation elevation(dude_obj)
 
-#define in_pcombat (get_game_mode bwand PCOMBAT)
+procedure tile_is_blocked(variable tile, variable elev);
+procedure fo2tweaks_setting(variable section, variable setting);
+procedure is_critter(variable obj);
+procedure is_dead(variable critter_obj);
+procedure mode_started(variable mode_to_check, variable old_mode, variable new_mode);
+procedure in_pcombat();
+procedure update_cursor();
+procedure gamemode_handler();
+procedure mouseclick_handler();
+procedure keypress_handler();
+procedure start();
 
-variable who_tile = 0; // keep cursor form on the same tile to reduce flapping
-variable last_who = 0; // same
-variable cursor_manual = 0; // if player has changed cursor manually, stop updating until next turn
-
-procedure start;
-
-procedure update_cursor begin
-  variable who;
-
-  if (not in_pcombat) or cursor_manual then begin
-    set_global_script_repeat(0);
-    return;
-  end
-
-  set_global_script_repeat(6);
-
-  who = obj_under_cursor(true, false);
-  if who and not is_dead(who) then begin
-    last_who = who;
-    who_tile = tile_num(last_who);
-    if get_cursor_mode == CURSOR_MOVEMENT then begin
-      ndebug("who: movement to target");
-      set_cursor_mode(CURSOR_TARGETING);
+/* ===== bundled ===== */
+procedure tile_is_blocked(variable tile, variable elev) begin
+    return tile_contains_obj_pid(tile, elev, PID_BLOCKING_HEX);
+end
+procedure fo2tweaks_setting(variable section, variable setting) begin
+    return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
+end
+procedure is_critter(variable obj) begin
+    return obj_type(obj) == OBJ_TYPE_CRITTER;
+end
+procedure is_dead(variable critter_obj) begin
+    return critter_state(critter_obj) == CRITTER_IS_DEAD;
+end
+procedure mode_started(variable mode_to_check, variable old_mode, variable new_mode) begin
+    if ((old_mode bwand mode_to_check) == 0 and (new_mode bwand mode_to_check) > 0) then begin
+        return true;
     end
-    return;
-  end
+    return false;
+end
+/* ===== end bundled ===== */
 
-  if tile_under_cursor == who_tile then begin
-    ndebug("same tile, keeping target cursor");
-    if get_cursor_mode == CURSOR_MOVEMENT then begin
-      ndebug("tile: movement to target");
-      set_cursor_mode(CURSOR_TARGETING);
+/* ===== main body ===== */
+variable who_tile = 0;
+variable last_who;
+variable cursor_manual = 0;
+procedure in_pcombat() begin
+    return (get_game_mode bwand PCOMBAT) != 0;
+end
+procedure update_cursor() begin
+    if (not in_pcombat() or cursor_manual) then begin
+        set_global_script_repeat(0);
+        return;
     end
-    return;
-  end
-
-  if (not who or is_dead(who))
-    and (get_cursor_mode == CURSOR_TARGETING)
-    and not tile_is_blocked(who_tile, dude_elevation)
-  then begin
-    who_tile = 0;
-    ndebug("no critter, tile changed");
-    set_cursor_mode(CURSOR_MOVEMENT);
-  end
-end
-
-procedure gamemode_handler begin
-  variable old_mode = get_sfall_arg_at(1);
-  if mode_started(PCOMBAT, old_mode, get_game_mode) then begin
-    cursor_manual = 0;
-    call update_cursor;
-  end
-end
-
-procedure mouseclick_handler begin
-  variable pressed = get_sfall_arg;
-  variable button = get_sfall_arg;
-  if in_pcombat
-    and pressed
-    and (button == MOUSE_BTN_RIGHT)
-  then cursor_manual = 1;
-end
-
-procedure keypress_handler begin
-  variable pressed = get_sfall_arg;
-  variable key = get_sfall_arg;
-  if in_pcombat
-    and pressed
-    and (key == DIK_M)
-  then cursor_manual = 1;
-end
-
-procedure start begin
-  if game_loaded then begin
-    variable enabled = fo2tweaks_setting(sec_main, "auto_cursor");
-    if enabled == 1 then begin
-      register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
-      register_hook_proc(HOOK_MOUSECLICK, mouseclick_handler);
-      register_hook_proc(HOOK_KEYPRESS, keypress_handler);
-      ndebug("enabled");
+    set_global_script_repeat(6);
+    variable who = obj_under_cursor(true, false);
+    if (who and is_critter(who) and not is_dead(who)) then begin
+        last_who = who;
+        who_tile = tile_num(last_who);
+        if (get_cursor_mode == CURSOR_MOVEMENT) then begin
+            ndebug("who: movement to target");
+            set_cursor_mode(CURSOR_TARGETING);
+        end
+        return;
     end
-  end else begin
-    call update_cursor;
-  end
+    if (tile_under_cursor == who_tile) then begin
+        ndebug("same tile, keeping target cursor");
+        if (get_cursor_mode == CURSOR_MOVEMENT) then begin
+            ndebug("tile: movement to target");
+            set_cursor_mode(CURSOR_TARGETING);
+        end
+        return;
+    end
+    if ((not who or not is_critter(who) or is_dead(who)) and get_cursor_mode == CURSOR_TARGETING and not tile_is_blocked(who_tile, dude_elevation)) then begin
+        who_tile = 0;
+        ndebug("no critter, tile changed");
+        set_cursor_mode(CURSOR_MOVEMENT);
+    end
 end
+procedure gamemode_handler() begin
+    variable old_mode = get_sfall_arg_at(1);
+    if (mode_started(PCOMBAT, old_mode, get_game_mode)) then begin
+        cursor_manual = 0;
+        call update_cursor();
+    end
+end
+procedure mouseclick_handler() begin
+    variable pressed = get_sfall_arg;
+    variable button = get_sfall_arg;
+    if (in_pcombat() and pressed and button == MOUSE_BTN_RIGHT) then begin
+        cursor_manual = 1;
+    end
+end
+procedure keypress_handler() begin
+    variable pressed = get_sfall_arg;
+    variable key = get_sfall_arg;
+    if (in_pcombat() and pressed and key == DIK_M) then begin
+        cursor_manual = 1;
+    end
+end
+procedure start() begin
+    if (game_loaded) then begin
+        variable enabled = fo2tweaks_setting(sec_main, "auto_cursor");
+        if (enabled == 1) then begin
+            register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
+            register_hook_proc(HOOK_MOUSECLICK, mouseclick_handler);
+            register_hook_proc(HOOK_KEYPRESS, keypress_handler);
+            ndebug("enabled");
+        end
+    end else begin
+        call update_cursor();
+    end
+end
+/* ===== end main body ===== */

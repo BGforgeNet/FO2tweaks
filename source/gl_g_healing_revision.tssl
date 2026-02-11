@@ -1,0 +1,383 @@
+import {
+    combat_is_initialized,
+    critter_add_trait,
+    critter_heal,
+    critter_state,
+    CritterPtr,
+    display_msg,
+    dude_obj,
+    float_msg,
+    game_ticks,
+    game_time_advance,
+    get_critter_stat,
+    get_day, give_exp_points,
+    has_trait,
+    ndebug,
+    obj_name, obj_pid,
+    random,
+    SfallList,
+    SKILL
+} from "folib";
+import {
+    add_extra_msg_file, array_push, clear_array, critter_skill_level,
+    critter_uninjure,
+    DAM_BLIND, DAM_CRIP_ARM_LEFT, DAM_CRIP_ARM_RIGHT, DAM_CRIP_LEG_LEFT, DAM_CRIP_LEG_RIGHT,
+    dude_name,
+    FLOAT_MSG_WHITE,
+    floor2, game_loaded, get_sfall_arg, get_sfall_global_int,
+    HOOK_RESTTIMER, HOOK_USESKILL,
+    in_world_map, intface_redraw, is_critter_dead, is_in_array, load_create_array,
+    message_str_game, mstr_skill, parse_str_2, party_member_list_critters,
+    PERK_healer, PERK_living_anatomy_perk,
+    register_hook_proc, set_global_script_repeat, set_global_script_type,
+    set_sfall_global, set_sfall_return, sprintf,
+    STAT, TRAIT_PERK,
+} from "folib/sfall";
+import { fo2tweaks_setting, get_party_skill_level, sec_main } from "./fo2tweaks";
+
+const SCRIPT_REALNAME = "gl_g_healing_revision";
+
+const all_disabilities = (DAM_CRIP_ARM_LEFT | DAM_CRIP_ARM_RIGHT | DAM_CRIP_LEG_LEFT | DAM_CRIP_LEG_RIGHT | DAM_BLIND);
+
+function is_disabled(x: CritterPtr): boolean {
+    return (critter_state(x) & all_disabilities) != 0;
+}
+
+const doctor_used_array = "g_doctor_used";
+const fa_used_array = "g_fa_used";
+
+const doctor_skill_name = 107;
+const fa_skill_name = 106;
+
+const set_healing_revision = "healing_revision";
+const sec_healing_revision = "healing_revision";
+
+const set_healing_living_anatomy_min_doctor = "living_anatomy_min_doctor";
+
+const msg_file = "g_healing_revision.msg";
+const msg_heal_disabilities = 1;
+const msg_fail_disabilities = 2;
+const msg_not_in_combat = 3;
+const msg_no_chance = 4;
+const msg_healthy = 5;
+const msg_already_used = 6;
+const msg_fail = 7;
+const msg_living_anatomy = 8;
+const msg_living_anatomy_2 = 9;
+const msg_got_xp = 10;
+const msg_healed_for = 11;
+const msg_dead = 12;
+
+let doctor_used: SfallList<number>;
+let fa_used: SfallList<number>;
+let enabled: number;
+const doctor_min = 20;
+const doctor_mult = 10;
+const fa_mult = 5;
+const heal_max = 15;
+let living_anatomy_min_doctor: number;
+let msg: number;
+
+/**
+ * Gets message `x` from **game** message file `msg`
+ */
+function mymsg(x: number): string {
+    return message_str_game(msg, x);
+}
+
+/**
+ * Displays message `x` from **game** message file `msg`
+ */
+function display_mymsg(x: number): void {
+    display_msg(mymsg(x));
+}
+
+function heal_disabilities(user: CritterPtr, target: CritterPtr, effective_skill: number): void {
+    const chance = effective_skill - doctor_min; // percentage
+    ndebug("user " + user + ", target " + target + ", eff. doctor " + effective_skill);
+    ndebug("chance " + chance + " eff. skill " + effective_skill + " min. doctor " + doctor_min);
+    if (chance < 1) {
+        display_mymsg(msg_no_chance);
+    } else {
+        const r = random(1, 100);
+        if (r < chance) {
+            display_mymsg(msg_heal_disabilities);
+            critter_uninjure(target, all_disabilities);
+        } else {
+            display_mymsg(msg_fail_disabilities);
+        }
+    }
+}
+
+function is_healthy(target: CritterPtr): boolean {
+    const max_hp = get_critter_stat(target, STAT.max_hp);
+    const cur_hp = get_critter_stat(target, STAT.current_hp);
+    if (cur_hp >= max_hp && !is_disabled(target)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function get_healed_hp(target: CritterPtr, doctor_level: number, fa_level: number): number {
+    const mhp = missing_hp(target);
+    let healed = 0;
+    if (doctor_level > 100) doctor_level = 100;
+    if (fa_level > 100) fa_level = 100;
+    healed = (doctor_level / 100.0) * (fa_level / 100.0) * doctor_mult + random(-1, 1);
+    healed = healed + 2 * has_trait(TRAIT_PERK, dude_obj, PERK_healer);
+    if (healed < 0) healed = 0;
+    const healed_str = sprintf("%f", healed);
+    ndebug("missing " + mhp + " doctor_level " + doctor_level + " fa_level " + fa_level + " healed " + healed_str
+        + " max: " + heal_max + " |" + fa_mult + "|" + doctor_mult);
+    healed = floor2(healed);
+    if (healed > mhp) healed = mhp;
+    return healed;
+}
+
+function get_fa_healed(target: CritterPtr, fa_level: number): number {
+    const mhp = missing_hp(target);
+    let healed = 0;
+    if (fa_level > 100) fa_level = 100;
+    healed = fa_mult * fa_level / 100.0 + random(-1, 1);
+    if (healed < 0) healed = 0;
+    const healed_str = sprintf("%f", healed);
+    ndebug("missing " + mhp + " fa_level " + fa_level + " healed " + healed_str + " | " + fa_mult);
+    healed = floor2(healed);
+    if (healed > mhp) healed = mhp;
+    return healed;
+}
+
+function missing_hp(target: CritterPtr): number {
+    const max_hp = get_critter_stat(target, STAT.max_hp);
+    const cur_hp = get_critter_stat(target, STAT.current_hp);
+    const mhp = max_hp - cur_hp;
+    return mhp;
+}
+
+function use_doctor(user: CritterPtr, target: CritterPtr, skill_bonus: number, interactive: boolean = true): boolean {
+    let tmp: [CritterPtr, number] = get_party_skill_level(SKILL.DOCTOR);
+    const doctor_level = tmp[1];
+    tmp = get_party_skill_level(SKILL.FIRST_AID);
+    const fa_level = tmp[1];
+    const effective_doctor = doctor_level + skill_bonus;
+
+    ndebug("doctor level " + doctor_level + ", skill bonus " + skill_bonus + ", effective " + effective_doctor);
+
+    if (interactive) {
+        if (is_critter_dead(target)) {
+            display_mymsg(msg_dead);
+            return false;
+        }
+        if (is_healthy(target)) { // healthy, nothing to do
+            display_msg(obj_name(target) + mymsg(msg_healthy));
+            return false;
+        } else {
+            if (is_in_array(obj_pid(target), doctor_used)) { // already used doctor today
+                const skill_name = get_skill_name(SKILL.DOCTOR);
+                display_msg(parse_str_2(mymsg(msg_already_used), obj_name(target), skill_name));
+                return false;
+            }
+        }
+    }
+
+    ndebug("user " + user + ", target " + target + ", eff. doctor " + effective_doctor);
+    ndebug("critter state " + sprintf("%d", critter_state(target)));
+
+    if (is_disabled(target)) heal_disabilities(user, target, effective_doctor);
+
+    if (missing_hp(target) > 0) {
+        const name = obj_name(target);
+        const hp = get_healed_hp(target, effective_doctor, fa_level);
+        ndebug("trying to heal " + name);
+
+        array_push(doctor_used, obj_pid(target));
+        set_sfall_global("g_heal_d", get_day);
+
+        game_time_advance(game_ticks(3600));
+        if (hp < 1) {
+            display_mymsg(msg_fail);
+            return false;
+        }
+        critter_heal(target, hp);
+        display_msg(parse_str_2(mymsg(msg_healed_for), obj_name(target), hp));
+        grant_xp(hp, SKILL.DOCTOR);
+    }
+    return true;
+}
+
+function use_first_aid(user: CritterPtr, target: CritterPtr, skill_bonus: number, interactive: boolean = true): boolean {
+    const tmp = get_party_skill_level(SKILL.FIRST_AID);
+    const fa_level = tmp[1];
+    const effective_fa = fa_level + skill_bonus;
+    ndebug("fa level " + fa_level + ", skill bonus " + skill_bonus + ", effective " + effective_fa);
+    ndebug("userfa " + user + " target " + target);
+
+    if (interactive) {
+        if (is_critter_dead(target)) {
+            display_mymsg(msg_dead);
+            return false;
+        }
+        if (is_healthy(target)) { // healthy, nothing to do
+            display_msg(obj_name(target) + mymsg(msg_healthy));
+            return false;
+        } else {
+            if (is_in_array(obj_pid(target), fa_used)) { // already used fa today
+                const skill_name = get_skill_name(SKILL.FIRST_AID);
+                display_msg(parse_str_2(mymsg(msg_already_used), obj_name(target), skill_name));
+                return false;
+            }
+        }
+    }
+
+    if (missing_hp(target) > 0) {
+        const name = obj_name(target);
+        const hp = get_fa_healed(target, effective_fa);
+        ndebug("trying to heal " + name);
+
+        array_push(fa_used, obj_pid(target));
+        set_sfall_global("g_heal_d", get_day);
+
+        game_time_advance(game_ticks(1800));
+        if (hp < 1) {
+            display_mymsg(msg_fail);
+            return false;
+        }
+        critter_heal(target, hp);
+        display_msg(parse_str_2(mymsg(msg_healed_for), obj_name(target), hp));
+        grant_xp(hp, SKILL.FIRST_AID);
+    }
+    return true;
+}
+
+function reset_heal_arrays(): void {
+    ndebug("resetting heal arrays");
+    clear_array(fa_used);
+    clear_array(doctor_used);
+}
+
+function update_heal_arrays(): void {
+    const last_day = get_sfall_global_int("g_heal_d");
+    ndebug("Last day " + last_day);
+    if (last_day == 0) return;
+    if (get_day != last_day) reset_heal_arrays();
+}
+
+function get_skill_name(skill: SKILL): string {
+    let skill_name: string;
+    if (skill == SKILL.DOCTOR) {
+        skill_name = mstr_skill(doctor_skill_name);
+    } else {
+        skill_name = mstr_skill(fa_skill_name);
+    }
+    return skill_name;
+}
+
+function grant_xp(hp: number, skill: SKILL): void {
+    const xp = hp * 10;
+    const skill_name = get_skill_name(skill);
+    give_exp_points(xp);
+    display_msg(parse_str_2(mymsg(msg_got_xp), xp, skill_name));
+}
+
+function use_skill(user: CritterPtr, target: CritterPtr, skill: SKILL, skill_bonus: number): void {
+    update_heal_arrays();
+    ndebug("user1 " + user + " target " + target);
+    if (skill == SKILL.DOCTOR) {
+        use_doctor(user, target, skill_bonus);
+        set_sfall_return(0);
+    }
+    if (skill == SKILL.FIRST_AID) {
+        use_first_aid(user, target, skill_bonus);
+    }
+}
+
+function healing_handler(): void {
+    // HOOK_USESKILL args are critters for healing skills
+    const user = get_sfall_arg() as CritterPtr;
+    const target = get_sfall_arg() as CritterPtr;
+    const skill = get_sfall_arg() as SKILL;
+    const skill_bonus = get_sfall_arg() as number;
+    ndebug("user " + user + " target " + target);
+    if (enabled == 1 && (skill == SKILL.FIRST_AID || skill == SKILL.DOCTOR)) {
+        set_sfall_return(0); // override
+        if (combat_is_initialized) {
+            display_mymsg(msg_not_in_combat);
+        } else {
+            use_skill(user, target, skill, skill_bonus);
+        }
+        set_sfall_return(0); // override again?
+    }
+}
+
+function rest_handler() {
+    ndebug("rest ping");
+    update_heal_arrays();
+    for (const who of party_member_list_critters()) {
+        if (!is_healthy(who) && !is_in_array(obj_pid(who), doctor_used)) {
+            use_doctor(dude_obj, who, 0, false);
+        }
+        if (!is_healthy(who) && !is_in_array(obj_pid(who), fa_used)) {
+            use_first_aid(dude_obj, who, 0, false);
+        }
+    }
+    intface_redraw();
+}
+
+function travel_handler() {
+    ndebug("travel ping");
+    for (const who of party_member_list_critters()) {
+        if (!is_healthy(who) && !is_in_array(obj_pid(who), doctor_used)) {
+            use_doctor(dude_obj, who, 0, false);
+        }
+        if (!is_healthy(who) && !is_in_array(obj_pid(who), fa_used)) {
+            use_first_aid(dude_obj, who, 0, false);
+        }
+    }
+}
+
+function map_enter_p_proc() {
+    if (enabled == 1) {
+        ndebug("living_anatomy_min_doctor=" + living_anatomy_min_doctor);
+        if (living_anatomy_min_doctor < 300) {
+            if (critter_skill_level(dude_obj, SKILL.DOCTOR) >= living_anatomy_min_doctor
+                && !has_trait(TRAIT_PERK, dude_obj, PERK_living_anatomy_perk)
+            ) {
+                ndebug(obj_name(dude_obj) + " gets living anatomy!");
+                critter_add_trait(dude_obj, TRAIT_PERK, PERK_living_anatomy_perk, 1);
+                display_msg(dude_name() + " " + mymsg(msg_living_anatomy_2));
+                float_msg(dude_obj, mymsg(msg_living_anatomy), FLOAT_MSG_WHITE);
+            }
+        }
+    }
+}
+
+function start() {
+    if (game_loaded()) {
+        enabled = fo2tweaks_setting(sec_main, set_healing_revision);
+        if (enabled == 1) {
+
+            living_anatomy_min_doctor = fo2tweaks_setting(sec_healing_revision, set_healing_living_anatomy_min_doctor);
+
+            doctor_used = load_create_array(doctor_used_array, 0);
+            fa_used = load_create_array(fa_used_array, 0);
+
+            register_hook_proc(HOOK_USESKILL, healing_handler);
+            register_hook_proc(HOOK_RESTTIMER, rest_handler);
+
+            // reset healed arrays at midnight, any screen except dialog
+            set_global_script_type(3);
+            set_global_script_repeat(1800);
+
+            msg = add_extra_msg_file(msg_file);
+            ndebug("initialized");
+        }
+    } else {
+        if (enabled == 1) {
+            update_heal_arrays();
+            if (in_world_map()) {
+                travel_handler();
+            }
+        }
+    }
+}
