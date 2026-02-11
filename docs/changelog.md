@@ -2,7 +2,9 @@
 
 ### Version 14
 
-Re-written in tssl.
+Rewritten in TSSL.
+
+- Fix: alternative Gigolo implementation actually works.
 
 ### Version 13
 

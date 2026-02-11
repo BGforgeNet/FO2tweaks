@@ -27,35 +27,36 @@ It is highly configurable, any component can be used with or without others. Som
 ## Components
 
 - [Inventory](#inventory)
-  - [Unlimited carry weight](#unlimited-carry-weight)
-  - [Unlimited trunk](#unlimited-trunk)
-  - [Auto reload](#auto-reload)
-  - [Don't drop items on death](#dont-drop-items-on-death)
+    - [Unlimited carry weight](#unlimited-carry-weight)
+    - [Unlimited trunk](#unlimited-trunk)
+    - [Auto reload](#auto-reload)
+    - [Don't drop items on death](#dont-drop-items-on-death)
 - [Party](#party)
-  - [Unlimited party](#unlimited-party)
-  - [Party level match](#party-level-match)
+    - [Unlimited party](#unlimited-party)
+    - [Party level match](#party-level-match)
 - [Speed](#speed)
-  - [General game speedup](#general-game-speedup)
-  - [Party run speed](#party-run-speed)
+    - [General game speedup](#general-game-speedup)
+    - [Party run speed](#party-run-speed)
 - [Combat](#combat)
-  - [Ammobox](#ammobox)
-  - [Damage mod](#damage-mod)
-  - [Limit knockback](#limit-knockback)
-  - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
-  - [Improved grenades](#improved-grenades)
-  - [No close range penalty for scoped weapons](#no-close-range-penalty-for-scoped-weapons)
-  - [HP over head](#hp-over-head)
-  - [Auto cursor](#auto-cursor)
-  - [Action Points rollover](#action-points-rollover)
+    - [Ammobox](#ammobox)
+    - [Damage mod](#damage-mod)
+    - [Limit knockback](#limit-knockback)
+    - [Molotov cocktail: fire damage](#molotov-cocktail-fire-damage)
+    - [Improved grenades](#improved-grenades)
+    - [No close range penalty for scoped weapons](#no-close-range-penalty-for-scoped-weapons)
+    - [HP over head](#hp-over-head)
+    - [Auto cursor](#auto-cursor)
+    - [Action Points rollover](#action-points-rollover)
 - [Miscellaneous](#miscellaneous)
-  - [Autodoors](#autodoors)
-  - [Healing revision](#healing-revision)
-  - [Level 5 after Temple of Trials](#level-5-after-temple-of-trials)
-  - [Map hotkey](#map-hotkey)
-  - [Keymap](#keymap)
-  - [Modoc brahmin](#modoc-brahmin)
-  - [Expanded highlighting](#expanded-highlighting)
-  - [Light level](#light-level)
+    - [Autodoors](#autodoors)
+    - [Healing revision](#healing-revision)
+    - [Level 5 after Temple of Trials](#level-5-after-temple-of-trials)
+    - [Map hotkey](#map-hotkey)
+    - [Keymap](#keymap)
+    - [Modoc brahmin](#modoc-brahmin)
+    - [Expanded highlighting](#expanded-highlighting)
+    - [Light level](#light-level)
+    - [Alternative Gigolo implementation](#alternative-gigolo-implementation)
 
 ### Inventory
 
@@ -121,8 +122,8 @@ Are you tired of Marcus, Skynet, Lenny lagging behind? Then this coomponent is f
 
 - Make PC's run speed constant. In vanilla game, wearing heavy armor descreases run speed by approximately 20%. This option disables the penalty for the PC.
 - Increase companions run speed:
-  - All NPCs get a slight boost (like PC above).
-  - NPCs who have no running animation (Marcus, Skynet, Lenny) get one, so they will be able to catch up with the PC.
+    - All NPCs get a slight boost (like PC above).
+    - NPCs who have no running animation (Marcus, Skynet, Lenny) get one, so they will be able to catch up with the PC.
 
 ### Combat
 
@@ -254,6 +255,12 @@ Designed for Restoration Project users. Unfortunately, many areas in RP are quit
 
 This allows to set a lower limit for the ambient light level. Refer to the [wiki](https://falloutmods.fandom.com/wiki/Fallout_2_light_levels) to understand how light works in Fallout.
 
+#### Alternative Gigolo implementation
+
+Original Gigolo perk is given to PC after having sex 10 times, no other conditions.
+
+Alternative implementation grants Gigolo once PC had sex with 10 different people (number is configurable).
+
 ## Installation
 
 - Download `fo2tweaks_v*.zip` from the [latest release](https://github.com/BGforgeNet/FO2tweaks/releases/latest) page.
@@ -279,11 +286,11 @@ Delete `mods/fo2tweaks.*` files.
 
 1. Discussion and questions: see the [forum](https://forums.bgforge.net/viewforum.php?f=26).
 1. Bug reports:
-   - describe the bug
-   - attach a savegame
-   - detail the steps to trigger the bug
-   - note versions: FO2tweaks, `ddraw.dll`, any other mods you have installed. _Actual_ versions, don't just say "latest".
-   - also attach [`debug.log`](https://github.com/BGforgeNet/Fallout2_Unofficial_Patch/blob/master/docs/debug.md)
+    - describe the bug
+    - attach a savegame
+    - detail the steps to trigger the bug
+    - note versions: FO2tweaks, `ddraw.dll`, any other mods you have installed. _Actual_ versions, don't just say "latest".
+    - also attach [`debug.log`](https://github.com/BGforgeNet/Fallout2_Unofficial_Patch/blob/master/docs/debug.md)
 1. For feature requests: free form, but please be descriptive.
 
 ## Author
