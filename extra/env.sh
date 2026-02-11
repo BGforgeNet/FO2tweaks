@@ -5,13 +5,13 @@ set -xeu -o pipefail
 # Tool versions and URLs
 export SFALL_VERSION="4.4.8"
 export SFALL_GIT_VERSION="v$SFALL_VERSION"
-SSLC_VERSION="2025-06-18-01-40-04"
+SSLC_VERSION="2026-02-07-11-20-26"
 export SSLC_URL="https://github.com/sfall-team/sslc/releases/download/${SSLC_VERSION}/sslc-linux"
-DAT3_VERSION="v0.5.0"
+DAT3_VERSION="v0.6.0"
 export DAT3_URL="https://github.com/BGforgeNet/dat3/releases/download/${DAT3_VERSION}/dat3"
 
 # Repository URLs
-export RPU_VERSION="v2.3.33"
+export RPU_VERSION="v2.3.34"
 export RPU_REPO_URL="https://github.com/BGforgeNet/Fallout2_Restoration_Project.git"
 export RPU_HEADERS_PATH="scripts_src/headers"
 export PARTY_ORDERS_VERSION="v1.16"
