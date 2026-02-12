@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       folib:
-        specifier: ^0.1.2
-        version: 0.1.2
+        specifier: ^0.2.4
+        version: 0.2.4(eslint-plugin-unused-imports@4.4.1(@typescript-eslint/eslint-plugin@8.55.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2))(eslint@9.39.2)(typescript-eslint@8.55.0(eslint@9.39.2)(typescript@5.9.3))
     devDependencies:
       '@typescript-eslint/parser':
         specifier: ^8.55.0
@@ -19,7 +19,7 @@ importers:
         specifier: ^0.27.3
         version: 0.27.3
       eslint:
-        specifier: ^9.39.2
+        specifier: '9'
         version: 9.39.2
       eslint-plugin-unused-imports:
         specifier: ^4.4.1
@@ -464,8 +464,19 @@ packages:
   flatted@3.3.3:
     resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
 
-  folib@0.1.2:
-    resolution: {integrity: sha512-Yav3lcxxWJcDNPpaTcOshIyu695hsBDJbofWLL19fYTOGj+R0Z+zuPgSTXpG5buwyGwPqxRykpwFuIiJBlmtBA==}
+  folib@0.2.4:
+    resolution: {integrity: sha512-ZkBp13Z0NeABNb93Sym+z37StzdNgBS1FNHonwp8esqEdwXBElETnDqMds52wrVc9/dJ1CCrDP3oyFDsHPjVbA==}
+    peerDependencies:
+      eslint: ^9.0.0
+      eslint-plugin-unused-imports: ^4.0.0
+      typescript-eslint: ^8.0.0
+    peerDependenciesMeta:
+      eslint:
+        optional: true
+      eslint-plugin-unused-imports:
+        optional: true
+      typescript-eslint:
+        optional: true
 
   glob-parent@6.0.2:
     resolution: {integrity: sha512-XxwI8EOhVQgWp6iDL+3b0r86f4d6AX6zSU55HfB4ydCEuXLXc5FcYeOu+nnGftS4TEju/11rt4KJPTMgbfmv4A==}
@@ -1067,7 +1078,11 @@ snapshots:
 
   flatted@3.3.3: {}
 
-  folib@0.1.2: {}
+  folib@0.2.4(eslint-plugin-unused-imports@4.4.1(@typescript-eslint/eslint-plugin@8.55.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2))(eslint@9.39.2)(typescript-eslint@8.55.0(eslint@9.39.2)(typescript@5.9.3)):
+    optionalDependencies:
+      eslint: 9.39.2
+      eslint-plugin-unused-imports: 4.4.1(@typescript-eslint/eslint-plugin@8.55.0(@typescript-eslint/parser@8.55.0(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2)(typescript@5.9.3))(eslint@9.39.2)
+      typescript-eslint: 8.55.0(eslint@9.39.2)(typescript@5.9.3)
 
   glob-parent@6.0.2:
     dependencies:
