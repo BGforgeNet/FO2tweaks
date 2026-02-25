@@ -236,9 +236,12 @@ function update_weapons() {
 
 function fix_ammo_stats(pids: SfallList<number>) {
     ndebug("fix_ammo_stats(), " + len_array(pids) + " items");
-    // let divisor: number;
+    // sslc only initializes `variable x = constant` once in a loop body,
+    // so divisor and mult must be declared outside and reassigned each iteration.
+    let divisor;
+    let mult;
     for (const pid of pids) {
-        let divisor = 100;
+        divisor = 100;
 
         if (!is_ammo_pid(pid)) {  // not ammo, how did it get here?
             ndebug("warning | item pid " + pid + " is not ammo");
@@ -246,7 +249,7 @@ function fix_ammo_stats(pids: SfallList<number>) {
         }
 
         const dr_mod = get_proto_data(pid, PROTO_AM_DR_MOD);
-        let mult = 100 + dr_mod;
+        mult = 100 + dr_mod;
 
         const cd = gcd(divisor, mult);
         divisor = divisor / cd;

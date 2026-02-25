@@ -427,14 +427,16 @@ procedure update_weapons() begin
 end
 procedure fix_ammo_stats(variable pids) begin
     ndebug("fix_ammo_stats(), " + len_array(pids) + " items");
+    variable divisor;
+    variable mult;
     foreach (variable pid in pids) begin
-        variable divisor = 100;
+        divisor = 100;
         if (not is_ammo_pid(pid)) then begin
             ndebug("warning | item pid " + pid + " is not ammo");
             continue;
         end
         variable dr_mod = get_proto_data(pid, PROTO_AM_DR_MOD);
-        variable mult = 100 + dr_mod;
+        mult = 100 + dr_mod;
         variable cd = gcd(divisor, mult);
         divisor = divisor / cd;
         mult = mult / cd;
