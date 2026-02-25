@@ -381,7 +381,7 @@ procedure check_damage_formula() begin
     ndebug("check_damage_formula()");
     variable damage_formula = get_ini_setting("ddraw.ini|Misc|DamageFormula");
     if (damage_formula != 0) then begin
-        ndebug("Damage Formula set to, resetting" + damage_formula);
+        ndebug("Damage Formula set to " + damage_formula + ", resetting");
         set_ini_setting("ddraw.ini|Misc|DamageFormula", 0);
         float_msg(dude_obj, "FO2tweaks: damage formula setting in ddraw.ini was incorrect, damage mod failed to load. The setting is fixed now. EXIT AND RE-LAUNCH THE GAME now.", FLOAT_MSG_WARNING);
         return false;
