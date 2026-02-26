@@ -1,5 +1,9 @@
 ## Changelog
 
+### Version 14.1
+
+Fixed: wrong ammo damage mod display, introduced in v14.
+
 ### Version 14
 
 Rewritten in TSSL.
