@@ -1,6 +1,6 @@
 import { dude_obj, global_var, item_caps_total, ndebug, ObjectPtr, set_global_var, SfallList } from "folib";
-import { GVAR_GIGALO, GVAR_SEX_COUNTER } from "folib/rp/global";
-import { SCRIPT_ECRAVPTY, SCRIPT_ECTRAPPR, SCRIPT_KCSALLY, SCRIPT_NCKITTY } from "folib/rp/scripts";
+import { GVAR_GIGALO, GVAR_SEX_COUNTER } from "folib/rpu/global";
+import { SCRIPT_ECRAVPTY, SCRIPT_ECTRAPPR, SCRIPT_KCSALLY, SCRIPT_NCKITTY } from "folib/rpu/scripts";
 import {
     array_push, dialog_obj, game_loaded, get_script, get_sfall_arg,
     get_sfall_global_int,

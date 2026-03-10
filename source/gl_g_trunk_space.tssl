@@ -1,5 +1,5 @@
 import { ndebug } from "folib";
-import { PID_CAR_TRUNK } from "folib/rp/itempid";
+import { PID_CAR_TRUNK } from "folib/rpu/itempid";
 import { get_proto_data, OBJ_TYPE_ITEM, PROTO_CN_MAX_SIZE, PROTO_IT_TYPE, set_proto_data } from "folib/sfall";
 import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
 

@@ -12,8 +12,8 @@ import {
     obj_pid,
     rm_mult_objs_from_inven
 } from "folib";
-import { reg_anim_clear } from "folib/rp/animcomd";
-import { PID_SOLAR_SCORCHER } from "folib/rp/itempid";
+import { reg_anim_clear } from "folib/rpu/animcomd";
+import { PID_SOLAR_SCORCHER } from "folib/rpu/itempid";
 import {
     COMBAT, HOOK_GAMEMODECHANGE, PROTO_AM_PACK_SIZE, PROTO_WP_CALIBER, PROTO_WP_MAG_SIZE,
     ceil, critter_inven_obj2, game_loaded, get_game_mode, get_light_level,

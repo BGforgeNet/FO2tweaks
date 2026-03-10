@@ -11,8 +11,8 @@ import {
     rm_obj_from_inven,
     SfallMap
 } from "folib";
-import { ANIM_electrified_to_nothing, ANIM_exploded_to_nothing } from "folib/rp/animcomd";
-import { PID_FOOTLOCKER_CLEAN_LEFT } from "folib/rp/itempid";
+import { ANIM_electrified_to_nothing, ANIM_exploded_to_nothing } from "folib/rpu/animcomd";
+import { PID_FOOTLOCKER_CLEAN_LEFT } from "folib/rpu/itempid";
 import {
     critter_inven_obj2, fix_array, game_loaded, get_sfall_arg,
     HOOK_DEATHANIM2, HOOK_ONDEATH,

@@ -1,6 +1,6 @@
 import { ndebug, ObjectPtr, tile_num } from "folib";
-import { dude_elevation } from "folib/rp/command";
-import { tile_is_blocked } from "folib/rp/scenepid";
+import { dude_elevation } from "folib/rpu/command";
+import { tile_is_blocked } from "folib/rpu/scenepid";
 import {
     CURSOR_MOVEMENT, CURSOR_TARGETING,
     DIK_M,

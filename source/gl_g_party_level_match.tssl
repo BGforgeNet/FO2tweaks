@@ -1,6 +1,6 @@
 import { get_pc_stat, ndebug, obj_name, obj_pid, SfallMap } from "folib";
-import { true_party_size } from "folib/rp/command";
-import { f2rp_npc_stages } from "folib/rp/critterpid";
+import { true_party_size } from "folib/rpu/command";
+import { f2rp_npc_stages } from "folib/rpu/critterpid";
 import {
     atoi,
     COMBAT, DIALOG,

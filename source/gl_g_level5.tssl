@@ -1,5 +1,5 @@
 import { cur_map_index, display_msg, give_exp_points, ndebug } from "folib";
-import { MAP_ARROYO_VILLAGE } from "folib/rp/maps";
+import { MAP_ARROYO_VILLAGE } from "folib/rpu/maps";
 import { add_extra_msg_file, map_first_run, message_str_game } from "folib/sfall";
 import { fo2tweaks_setting, sec_main } from "./fo2tweaks";
 

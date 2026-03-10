@@ -9,7 +9,7 @@ import {
     tile_contains_obj_pid,
     tile_num
 } from "folib";
-import { PID_MOTION_SENSOR } from "folib/rp/itempid";
+import { PID_MOTION_SENSOR } from "folib/rpu/itempid";
 import {
     PID_CAVE_FLOOR_TRAP_DEPRESSED,
     PID_CAVE_FLOOR_TRAP_DISARMED,
@@ -20,7 +20,7 @@ import {
     PRODATA_SC_TYPE,
     SC_TYPE_LADDER_BOTTOM, SC_TYPE_LADDER_TOP,
     SC_TYPE_STAIRS
-} from "folib/rp/scenepid";
+} from "folib/rpu/scenepid";
 import {
     AUTOMAP, BARTER, BLOCKING_TYPE_SHOOT, CFLG_NOSTEAL, CHARSCREEN, COMBAT, CURSOR_COMMAND,
     CURSOR_TARGETING, DIALOG, DIALOGVIEW, ESCMENU,

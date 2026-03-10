@@ -8,8 +8,8 @@ import {
     set_critter_stat,
     SfallList
 } from "folib";
-import { dude_charisma } from "folib/rp/command";
-import { f2rp_party_member_pids, PID_DOGMEAT } from "folib/rp/critterpid";
+import { dude_charisma } from "folib/rpu/command";
+import { f2rp_party_member_pids, PID_DOGMEAT } from "folib/rpu/critterpid";
 import {
     array_append,
     critter_inven_obj2,

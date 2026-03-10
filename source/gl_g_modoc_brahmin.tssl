@@ -1,6 +1,6 @@
 import { critter_add_trait, cur_map_index, ndebug } from "folib";
-import { TEAM_PLAYER } from "folib/rp/command";
-import { MAP_MODOC_BRAHMINPASTURES } from "folib/rp/maps";
+import { TEAM_PLAYER } from "folib/rpu/command";
+import { MAP_MODOC_BRAHMINPASTURES } from "folib/rpu/maps";
 import {
     critter_kill_type,
     HOOK_COMBATTURN, KILL_TYPE_brahmin_kills,

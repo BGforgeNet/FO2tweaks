@@ -1,5 +1,5 @@
 import { CritterPtr, HitResult, HITRESULT_MISS, ItemPtr, ndebug, obj_name, obj_pid, ObjectPtr } from "folib";
-import { PID_MOLOTOV_COCKTAIL } from "folib/rp/itempid";
+import { PID_MOLOTOV_COCKTAIL } from "folib/rpu/itempid";
 import {
     DMG_fire,
     game_loaded, get_sfall_arg, get_sfall_arg_at,

@@ -8,8 +8,8 @@ import {
     obj_pid,
     tile_distance_objs
 } from "folib";
-import { MAP_VAULT_CITY_VAULT } from "folib/rp/maps";
-import { SCRIPT_VIVLTDOR } from "folib/rp/scripts";
+import { MAP_VAULT_CITY_VAULT } from "folib/rpu/maps";
+import { SCRIPT_VIVLTDOR } from "folib/rpu/scripts";
 import {
     COMBAT, FLAG_WALKTHRU,
     game_loaded, get_game_mode, get_script, get_sfall_arg_at,
