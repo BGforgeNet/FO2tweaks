@@ -1,8 +1,12 @@
 ## Changelog
 
+### Version 14.2
+
+Fixed AP rollover not working, introduced in v14.
+
 ### Version 14.1
 
-Fixed: wrong ammo damage mod display, introduced in v14.
+Fixed: wrong ammo damage mod displayed, introduced in v14.
 
 ### Version 14
 

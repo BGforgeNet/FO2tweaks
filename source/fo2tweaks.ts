@@ -575,7 +575,7 @@ import {
     PID_ROBOBRAIN_CHIMP, PID_ROBOBRAIN_HUMAN,
     PID_SULIK,
     PID_VIC
-} from "folib/rp/critterpid";
+} from "folib/rpu/critterpid";
 
 // Ammo PIDs - imported from folib/rp/itempid
 import {
@@ -602,7 +602,7 @@ import {
     PID_ROCKET_AP,
     PID_SHOTGUN_SHELLS,
     PID_SMALL_ENERGY_CELL
-} from "folib/rp/itempid";
+} from "folib/rpu/itempid";
 
 /**
  * Get list of Fallout 2 party member PIDs

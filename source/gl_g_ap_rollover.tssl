@@ -1,10 +1,10 @@
 import { ndebug, obj_name, ObjectPtr, SfallMap } from "folib";
 import {
     COMBAT,
+    create_array_map,
     game_loaded, get_critter_current_ap, get_game_mode,
     get_sfall_arg, get_sfall_arg_at,
     HOOK_COMBATTURN, HOOK_GAMEMODECHANGE,
-    map,
     register_hook_proc,
     set_critter_current_ap, set_unspent_ap_bonus,
 } from "folib/sfall";
@@ -55,7 +55,7 @@ function gamemode_handler() {
     const old_mode = get_sfall_arg_at(1);
     const new_mode = get_game_mode();
     if (mode_started(COMBAT, old_mode, new_mode)) {
-        leftover_ap_map = map({});
+        leftover_ap_map = create_array_map();
     }
 }
 
@@ -66,7 +66,7 @@ function start() {
             ndebug("" + max_rollover);
             register_hook_proc(HOOK_COMBATTURN, combatturn_handler);
             register_hook_proc(HOOK_GAMEMODECHANGE, gamemode_handler);
-            leftover_ap_map = map({});
+            leftover_ap_map = create_array_map();
             set_unspent_ap_bonus(0);
             ndebug("enabled");
         }
