@@ -1,5 +1,0 @@
-/* Do not edit. This file is generated from test_type.tssl. Make your changes there and regenerate this file. */
-
-#define m map()
-#define key "hello"
-
