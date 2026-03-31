@@ -50,7 +50,7 @@ function start() {
         enabled = fo2tweaks_setting(sec_main, set_keymap);
         if (enabled == 1) {
             const tmp = get_ini_section(fo2tweaks_ini, sec_keymap);
-            keymap = map({});
+            keymap = map<number, number>();
             for (const [k, v] of tmp) {
                 ndebug("remapping key " + v + " to " + k);
                 const k_code = char_to_dik(k);

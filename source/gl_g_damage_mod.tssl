@@ -118,7 +118,7 @@ function start() {
 
 function load_ammo_damage_type(type_ammo_arg: SfallMap<string, string>): SfallMap<number, number> {
     ndebug("load_ammo_damage_type()");
-    const ar: SfallMap<number, number> = map({});
+    const ar: SfallMap<number, number> = map<number, number>();
     for (const [k, v] of type_ammo_arg) {
         const tmp = string_split(v, ",");
         for (const t of tmp) {
@@ -178,7 +178,7 @@ function check_damage_formula() {
     return true;
 }
 
-function update_dr_mod(dr_mod_list_arg: SfallMap<number | string, number | string>) {
+function update_dr_mod<K extends string | number>(dr_mod_list_arg: SfallMap<K, string | number>) {
     // have to pass strings, as 0's can't be stored in a map
     for (const [pid, mod] of dr_mod_list_arg) {
         let pidInt = pid as number;

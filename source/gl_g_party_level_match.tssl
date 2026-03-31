@@ -1,4 +1,4 @@
-import { get_pc_stat, ndebug, obj_name, obj_pid, SfallMap } from "folib";
+import { dude_obj, get_pc_stat, map, ndebug, obj_name, obj_pid, SfallMap } from "folib";
 import { true_party_size } from "folib/rpu/command";
 import { f2rp_npc_stages } from "folib/rpu/critterpid";
 import {
@@ -7,10 +7,12 @@ import {
     fix_array, floor2, game_loaded, get_game_mode, get_ini_section, get_npc_level,
     get_sfall_arg_at,
     HOOK_GAMEMODECHANGE,
-    inc_npc_level, len_array, map, party_member_list_critters,
+    inc_npc_level, len_array, party_member_list_critters,
     PCSTAT_level,
     register_hook_proc,
+    sfall_typeof,
     string_split,
+    VALTYPE_INT,
 } from "folib/sfall";
 import { fo2tweaks_ini, fo2tweaks_setting, mode_ended, mode_started, sec_main } from "./fo2tweaks";
 
@@ -29,15 +31,22 @@ function levelup() {
     const pc_level = get_pc_stat(PCSTAT_level);
     const party = party_member_list_critters();
     for (const who of party) {
+        if (who == dude_obj) {
+            continue;
+        }
         const pid = obj_pid(who);
 
         ndebug("pc_level = " + pc_level);
         ndebug("npc is " + obj_name(who) + ", pid " + pid);
 
-        const present = pid_mlevel[pid];
-        if (present == 0) continue; // not in config
-
         const min_level = pid_mlevel[pid];
+        ndebug("pid_mlevel for pid " + pid + " is " + min_level);
+
+        // not in config
+        if (min_level == 0) {
+            continue;
+        }
+
         const step = pid_step[pid];
 
         ndebug("step = " + step);
@@ -71,13 +80,20 @@ function map_enter_p_proc() {
     if (enabled == 1) levelup();
 }
 
-function parse_stages(npc_list: SfallMap<string | number, string>) {
+function parse_stages<K extends string | number>(npc_list: SfallMap<K, string>) {
     for (const [pid, mlevel_step_str] of npc_list) {
         const mlevel_step = string_split(mlevel_step_str, ",");
         const min_level = atoi(mlevel_step[0]);
         const step = atoi(mlevel_step[1]);
-        pid_mlevel[pid] = min_level;
-        pid_step[pid] = step;
+        let pid_key;
+        if (sfall_typeof(pid) != VALTYPE_INT) {
+            pid_key = atoi(pid);
+        } else {
+            // TS can't infer type from VALTYPE_INT
+            pid_key = pid as number;
+        }
+        pid_mlevel[pid_key] = min_level;
+        pid_step[pid_key] = step;
     }
 }
 
@@ -85,8 +101,8 @@ function start() {
     if (game_loaded()) {
         enabled = fo2tweaks_setting(sec_main, set_party_level_match);
         if (enabled == 1) {
-            pid_mlevel = map({});
-            pid_step = map({});
+            pid_mlevel = map();
+            pid_step = map();
 
             // load default, override from ini
             parse_stages(f2rp_npc_stages);

@@ -8,6 +8,7 @@
 #define DIALOG 4
 #define COMBAT 64
 #define HOOK_GAMEMODECHANGE 31
+#define VALTYPE_INT 1
 #define PID_VIC 16777278
 #define PID_BRAINBOT 16777295
 #define PID_JOHN_MACRAE 16777305
@@ -85,14 +86,17 @@ procedure levelup() begin
     variable pc_level = get_pc_stat(PCSTAT_level);
     variable party = party_member_list_critters();
     foreach (variable who in party) begin
+        if (who == dude_obj) then begin
+            continue;
+        end
         variable pid = obj_pid(who);
         ndebug("pc_level = " + pc_level);
         ndebug("npc is " + obj_name(who) + ", pid " + pid);
-        variable present = pid_mlevel[pid];
-        if (present == 0) then begin
+        variable min_level = pid_mlevel[pid];
+        ndebug("pid_mlevel for pid " + pid + " is " + min_level);
+        if (min_level == 0) then begin
             continue;
         end
-        variable min_level = pid_mlevel[pid];
         variable step = pid_step[pid];
         ndebug("step = " + step);
         variable cur_stage = get_npc_level(pid);
@@ -133,8 +137,14 @@ procedure parse_stages(variable npc_list) begin
         variable mlevel_step = string_split(mlevel_step_str, ",");
         variable min_level = atoi(mlevel_step[0]);
         variable step = atoi(mlevel_step[1]);
-        pid_mlevel[pid] = min_level;
-        pid_step[pid] = step;
+        variable pid_key;
+        if (typeof(pid) != VALTYPE_INT) then begin
+            pid_key = atoi(pid);
+        end else begin
+            pid_key = pid;
+        end
+        pid_mlevel[pid_key] = min_level;
+        pid_step[pid_key] = step;
     end
 end
 procedure start() begin

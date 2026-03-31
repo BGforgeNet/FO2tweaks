@@ -84,7 +84,7 @@ function start() {
         if (enabled == 1) {
             register_hook_proc(HOOK_DEATHANIM2, deathanim2_handler);
             register_hook_proc(HOOK_ONDEATH, ondeath_handler);
-            critters_boxes = map({});
+            critters_boxes = map<CritterPtr, ObjectPtr>();
             fix_array(critters_boxes);
             ndebug("initialized");
         }

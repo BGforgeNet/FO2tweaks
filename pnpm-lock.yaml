@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       folib:
-        specifier: ^0.3.0
-        version: 0.3.0(eslint-plugin-unused-imports@4.4.1(@typescript-eslint/eslint-plugin@8.57.0(@typescript-eslint/parser@8.57.0(eslint@10.0.3)(typescript@5.9.3))(eslint@10.0.3)(typescript@5.9.3))(eslint@10.0.3))(eslint@10.0.3)(typescript-eslint@8.57.0(eslint@10.0.3)(typescript@5.9.3))
+        specifier: ^0.4.1
+        version: 0.4.1(eslint-plugin-unused-imports@4.4.1(@typescript-eslint/eslint-plugin@8.57.0(@typescript-eslint/parser@8.57.0(eslint@10.0.3)(typescript@5.9.3))(eslint@10.0.3)(typescript@5.9.3))(eslint@10.0.3))(eslint@10.0.3)(typescript-eslint@8.57.0(eslint@10.0.3)(typescript@5.9.3))
     devDependencies:
       '@typescript-eslint/parser':
         specifier: ^8.57.0
@@ -433,8 +433,8 @@ packages:
   flatted@3.4.1:
     resolution: {integrity: sha512-IxfVbRFVlV8V/yRaGzk0UVIcsKKHMSfYw66T/u4nTwlWteQePsxe//LjudR1AMX4tZW3WFCh3Zqa/sjlqpbURQ==}
 
-  folib@0.3.0:
-    resolution: {integrity: sha512-O1XLmrCoTSa0i6Q1rudT5YJgVsQxOLMEPqh88394pHcWUDBu5Q5Vh2oaDgQ750eriXn3SjtrUzuedlQuDOLGvw==}
+  folib@0.4.1:
+    resolution: {integrity: sha512-UOZ/T0RWtjIuhMbQBXTbx7p7jJkvaQU/EK6mbm6BstPVvXbQTDNn2wxdv/EUN+6RScEDQ/XpD+HUxWhqUThd/w==}
     peerDependencies:
       eslint: ^9.0.0
       eslint-plugin-unused-imports: ^4.0.0
@@ -967,7 +967,7 @@ snapshots:
 
   flatted@3.4.1: {}
 
-  folib@0.3.0(eslint-plugin-unused-imports@4.4.1(@typescript-eslint/eslint-plugin@8.57.0(@typescript-eslint/parser@8.57.0(eslint@10.0.3)(typescript@5.9.3))(eslint@10.0.3)(typescript@5.9.3))(eslint@10.0.3))(eslint@10.0.3)(typescript-eslint@8.57.0(eslint@10.0.3)(typescript@5.9.3)):
+  folib@0.4.1(eslint-plugin-unused-imports@4.4.1(@typescript-eslint/eslint-plugin@8.57.0(@typescript-eslint/parser@8.57.0(eslint@10.0.3)(typescript@5.9.3))(eslint@10.0.3)(typescript@5.9.3))(eslint@10.0.3))(eslint@10.0.3)(typescript-eslint@8.57.0(eslint@10.0.3)(typescript@5.9.3)):
     optionalDependencies:
       eslint: 10.0.3
       eslint-plugin-unused-imports: 4.4.1(@typescript-eslint/eslint-plugin@8.57.0(@typescript-eslint/parser@8.57.0(eslint@10.0.3)(typescript@5.9.3))(eslint@10.0.3)(typescript@5.9.3))(eslint@10.0.3)
