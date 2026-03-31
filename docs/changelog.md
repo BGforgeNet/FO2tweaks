@@ -1,8 +1,12 @@
 ## Changelog
 
+### Version 14.3
+
+[Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/121) level match not working for custom companions.
+
 ### Version 14.2
 
-Fixed AP rollover not working, introduced in v14.
+[Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/120) AP rollover not working, introduced in v14.
 
 ### Version 14.1
 
