@@ -81,7 +81,8 @@ procedure keypress_handler() begin
     if (not pressed) then begin
         return;
     end
-    if (in_world_map) then begin
+    if (townmap_key and key == townmap_key and in_world_map) then begin
+        ndebug("town key pressed, mode worldmap - calling town map");
         tap_key(DIK_T);
         return;
     end

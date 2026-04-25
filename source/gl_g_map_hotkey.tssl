@@ -44,7 +44,8 @@ function keypress_handler() {
     if (!pressed) return; // released
 
     // allow to use the same town map key on world map
-    if (in_world_map()) {
+    if (townmap_key && key == townmap_key && in_world_map()) {
+        ndebug("town key pressed, mode worldmap - calling town map");
         tap_key(DIK_T);
         return;
     }

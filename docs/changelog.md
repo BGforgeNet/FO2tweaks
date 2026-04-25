@@ -1,5 +1,9 @@
 ## Changelog
 
+### Version 14.4
+
+[Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/122) every key functioning as town key on worldmap.
+
 ### Version 14.3
 
 [Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/121) level match not working for custom companions.
