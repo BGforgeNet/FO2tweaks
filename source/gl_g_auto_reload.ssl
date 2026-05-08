@@ -124,6 +124,7 @@ procedure auto_reload() begin
             if (ammo) then begin
                 ndebug("found inven ammo pid " + ammopid);
                 call inc_ammo_count(who, ammopid, get_weapon_ammo_count(weapon));
+                ammo = obj_carrying_pid_obj(who, ammopid);
                 set_weapon_ammo_pid(weapon, ammopid);
                 if (actual_ammo_count(who, ammo) < magsize) then begin
                     magsize = actual_ammo_count(who, ammo);

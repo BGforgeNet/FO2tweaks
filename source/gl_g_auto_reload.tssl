@@ -115,9 +115,13 @@ function auto_reload() {
             ammo = obj_carrying_pid_obj(who, ammopid);
             if (ammo) {
                 ndebug("found inven ammo pid " + ammopid);
-                // first, unload existing ammo
+                // First, unload existing ammo
                 inc_ammo_count(who, ammopid, get_weapon_ammo_count(weapon));
-                // then, load new ammo
+                // Unloading ammo may cause stacks to be desroyed/created, that may crash Fallout CE
+                // So we we reinitialize it
+                // Ref https://github.com/BGforgeNet/FO2tweaks/issues/123
+                ammo = obj_carrying_pid_obj(who, ammopid);
+                // Then, load new ammo
                 set_weapon_ammo_pid(weapon, ammopid);
                 if (actual_ammo_count(who, ammo) < magsize) {
                     magsize = actual_ammo_count(who, ammo);
