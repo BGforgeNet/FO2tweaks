@@ -1,5 +1,9 @@
 ## Changelog
 
+### Version 14.5
+
+[Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/123) Fallout CE crashing on autoreload sometimes.
+
 ### Version 14.4
 
 [Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/122) every key functioning as town key on worldmap.
