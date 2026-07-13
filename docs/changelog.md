@@ -1,5 +1,10 @@
 ## Changelog
 
+### Version 14.6
+
+- [Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/126) `no_drop_items_on_death` preventing the PC from dying in some cases.
+- Updated sfall to 4.5.
+
 ### Version 14.5
 
 [Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/123) Fallout CE crashing on autoreload sometimes.
