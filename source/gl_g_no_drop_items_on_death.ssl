@@ -69,6 +69,9 @@ procedure deathanim2_handler() begin
     if (not is_critter(target)) then begin
         return;
     end
+    if (target == dude_obj) then begin
+        return;
+    end
     if (death_anim_id == ANIM_electrified_to_nothing or death_anim_id == ANIM_exploded_to_nothing) then begin
         variable box = create_object_sid(PID_FOOTLOCKER_CLEAN_LEFT, 0, 0, -1);
         call move_inven_except_armor(target, box);

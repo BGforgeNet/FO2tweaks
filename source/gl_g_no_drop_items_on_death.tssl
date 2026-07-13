@@ -3,6 +3,7 @@ import {
     create_object_sid,
     CritterPtr,
     destroy_object,
+    dude_obj,
     move_obj_inven_to_obj,
     ndebug,
     NullPtr,
@@ -57,6 +58,10 @@ function deathanim2_handler() {
 
     // shouldn't ever fire, but just in case
     if (!is_critter(target)) return;
+
+    // if PC dies, skip run. Otherwise, it interrupts the death sequence.
+    // https://github.com/BGforgeNet/FO2tweaks/issues/126
+    if (target == dude_obj) return;
 
     // Only ANIM_electrified_to_nothing and ANIM_exploded_to_nothing will drop everything on the ground
     if (death_anim_id == ANIM_electrified_to_nothing || death_anim_id == ANIM_exploded_to_nothing) {
