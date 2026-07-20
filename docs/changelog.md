@@ -1,5 +1,9 @@
 ## Changelog
 
+### Version 14.7
+
+- [Fixed](https://github.com/BGforgeNet/FO2tweaks/pull/127) intermittent issues with auto reload.
+
 ### Version 14.6
 
 - [Fixed](https://github.com/BGforgeNet/FO2tweaks/issues/126) `no_drop_items_on_death` preventing the PC from dying in some cases.
