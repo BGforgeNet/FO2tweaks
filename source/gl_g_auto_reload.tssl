@@ -32,43 +32,59 @@ function actual_ammo_count(crit: ObjectPtr, obj: ItemPtr): number {
     return (obj_is_carrying_obj_pid(crit, obj_pid(obj)) - 1) * get_proto_data(obj_pid(obj), PROTO_AM_PACK_SIZE) + get_weapon_ammo_count(obj);
 }
 
-// Set actual ammo count, adjusting stack count as needed
-function set_actual_ammo_count(invenobj: ObjectPtr, item: ItemPtr, newcount: number) {
-    if (newcount < 0) newcount = 0;
+/**
+ * Set actual ammo count, adjusting stack count as needed
+ * @param target who or what (inventory holder)
+ * @param item weapon in the inventory
+ * @param newCount new item count
+ */
+function set_actual_ammo_count(target: ObjectPtr, item: ItemPtr, newCount: number) {
+    if (newCount < 0) newCount = 0;
     const itemPid = obj_pid(item);
     const packsize = get_proto_data(itemPid, PROTO_AM_PACK_SIZE);
-    set_item_count(invenobj, item, ceil(FLOAT1 * newcount / packsize));
-    // if number of items reduced, object reference will be different
-    item = obj_carrying_pid_obj(invenobj, itemPid);
-    if (item && (newcount % packsize) > 0) {
-        set_weapon_ammo_count(item, newcount % packsize);
+    set_item_count(target, item, ceil(FLOAT1 * newCount / packsize));
+    // if count was reduced, object reference will be different (objects destroyed)
+    item = obj_carrying_pid_obj(target, itemPid);
+    if (item && (newCount % packsize) > 0) {
+        set_weapon_ammo_count(item, newCount % packsize);
     }
 }
 
-// Set item count in inventory
-function set_item_count(invenobj: ObjectPtr, item: ItemPtr, newcount: number) {
+/**
+ * Set item count in inventory
+ * @param target who or what (inventory holder)
+ * @param item item in the inventory
+ * @param newCount new item count
+ * Note that `item` may get destroyed, breaking references to it.
+ */
+function set_item_count(target: ObjectPtr, item: ItemPtr, newCount: number) {
     const itemPid = obj_pid(item);
-    const count = obj_is_carrying_obj_pid(invenobj, itemPid);
-    if (newcount > count) {
+    const count = obj_is_carrying_obj_pid(target, itemPid);
+    if (newCount > count) {
         // Cast: creating a copy of an item, so result is also an item
         const newitem = create_object_sid(itemPid, 0, 0, -1) as ItemPtr;
-        add_mult_objs_to_inven(invenobj, newitem, newcount - count);
-    } else if (newcount < count) {
-        const _ = rm_mult_objs_from_inven(invenobj, item, count - newcount);
+        add_mult_objs_to_inven(target, newitem, newCount - count);
+    } else if (newCount < count) {
+        const _ = rm_mult_objs_from_inven(target, item, count - newCount);
         destroy_object(item);
     }
 }
 
-// Change ammo amount by certain value
-function inc_ammo_count(invenobj: ObjectPtr, ammopid: number, inc: number) {
+/**
+ * Change ammo amount by certain value
+ * @param target who or what (inventory holder)
+ * @param ammoPid ammo PID
+ * @param inc how much to add/remove
+ */
+function inc_ammo_count(target: ObjectPtr, ammoPid: number, inc: number) {
     let item: ItemPtr;
-    item = obj_carrying_pid_obj(invenobj, ammopid);
+    item = obj_carrying_pid_obj(target, ammoPid);
     if (!item) {
         // Cast: creating ammo item by pid
-        item = create_object_sid(ammopid, 0, 0, -1) as ItemPtr;
-        add_obj_to_inven(invenobj, item);
+        item = create_object_sid(ammoPid, 0, 0, -1) as ItemPtr;
+        add_obj_to_inven(target, item);
     }
-    set_actual_ammo_count(invenobj, item, actual_ammo_count(invenobj, item) + inc);
+    set_actual_ammo_count(target, item, actual_ammo_count(target, item) + inc);
 }
 
 function auto_reload() {

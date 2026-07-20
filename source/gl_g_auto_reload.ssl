@@ -24,9 +24,9 @@ procedure fo2tweaks_setting(variable section, variable setting);
 procedure is_weapon(variable obj);
 procedure in_combat();
 procedure actual_ammo_count(variable crit, variable obj);
-procedure set_actual_ammo_count(variable invenobj, variable item, variable newcount);
-procedure set_item_count(variable invenobj, variable item, variable newcount);
-procedure inc_ammo_count(variable invenobj, variable ammopid, variable inc);
+procedure set_actual_ammo_count(variable target, variable item, variable newCount);
+procedure set_item_count(variable target, variable item, variable newCount);
+procedure inc_ammo_count(variable target, variable ammoPid, variable inc);
 procedure auto_reload();
 procedure start();
 
@@ -50,39 +50,58 @@ variable enabled;
 procedure actual_ammo_count(variable crit, variable obj) begin
     return (obj_is_carrying_obj_pid(crit, obj_pid(obj)) - 1) * get_proto_data(obj_pid(obj), PROTO_AM_PACK_SIZE) + get_weapon_ammo_count(obj);
 end
-procedure set_actual_ammo_count(variable invenobj, variable item, variable newcount) begin
-    if (newcount < 0) then begin
-        newcount = 0;
+/**
+ * Set actual ammo count, adjusting stack count as needed
+ * @param target who or what (inventory holder)
+ * @param item weapon in the inventory
+ * @param newCount new item count
+ */
+procedure set_actual_ammo_count(variable target, variable item, variable newCount) begin
+    if (newCount < 0) then begin
+        newCount = 0;
     end
     variable itemPid = obj_pid(item);
     variable packsize = get_proto_data(itemPid, PROTO_AM_PACK_SIZE);
-    call set_item_count(invenobj, item, ceil(1.0 * newcount / packsize));
-    item = obj_carrying_pid_obj(invenobj, itemPid);
-    if (item and newcount % packsize > 0) then begin
-        set_weapon_ammo_count(item, newcount % packsize);
+    call set_item_count(target, item, ceil(1.0 * newCount / packsize));
+    item = obj_carrying_pid_obj(target, itemPid);
+    if (item and newCount % packsize > 0) then begin
+        set_weapon_ammo_count(item, newCount % packsize);
     end
 end
-procedure set_item_count(variable invenobj, variable item, variable newcount) begin
+/**
+ * Set item count in inventory
+ * @param target who or what (inventory holder)
+ * @param item item in the inventory
+ * @param newCount new item count
+ * Note that `item` may get destroyed, breaking references to it.
+ */
+procedure set_item_count(variable target, variable item, variable newCount) begin
     variable itemPid = obj_pid(item);
-    variable count = obj_is_carrying_obj_pid(invenobj, itemPid);
-    if (newcount > count) then begin
+    variable count = obj_is_carrying_obj_pid(target, itemPid);
+    if (newCount > count) then begin
         variable newitem = create_object_sid(itemPid, 0, 0, -1);
-        add_mult_objs_to_inven(invenobj, newitem, newcount - count);
+        add_mult_objs_to_inven(target, newitem, newCount - count);
     end else begin
-        if (newcount < count) then begin
-            variable _ = rm_mult_objs_from_inven(invenobj, item, count - newcount);
+        if (newCount < count) then begin
+            variable _ = rm_mult_objs_from_inven(target, item, count - newCount);
             destroy_object(item);
         end
     end
 end
-procedure inc_ammo_count(variable invenobj, variable ammopid, variable inc) begin
+/**
+ * Change ammo amount by certain value
+ * @param target who or what (inventory holder)
+ * @param ammoPid ammo PID
+ * @param inc how much to add/remove
+ */
+procedure inc_ammo_count(variable target, variable ammoPid, variable inc) begin
     variable item;
-    item = obj_carrying_pid_obj(invenobj, ammopid);
+    item = obj_carrying_pid_obj(target, ammoPid);
     if (not item) then begin
-        item = create_object_sid(ammopid, 0, 0, -1);
-        add_obj_to_inven(invenobj, item);
+        item = create_object_sid(ammoPid, 0, 0, -1);
+        add_obj_to_inven(target, item);
     end
-    call set_actual_ammo_count(invenobj, item, actual_ammo_count(invenobj, item) + inc);
+    call set_actual_ammo_count(target, item, actual_ammo_count(target, item) + inc);
 end
 procedure auto_reload() begin
     variable weapon;
