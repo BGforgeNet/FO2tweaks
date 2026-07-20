@@ -35,10 +35,11 @@ function actual_ammo_count(crit: ObjectPtr, obj: ItemPtr): number {
 // Set actual ammo count, adjusting stack count as needed
 function set_actual_ammo_count(invenobj: ObjectPtr, item: ItemPtr, newcount: number) {
     if (newcount < 0) newcount = 0;
-    const packsize = get_proto_data(obj_pid(item), PROTO_AM_PACK_SIZE);
+    const itemPid = obj_pid(item);
+    const packsize = get_proto_data(itemPid, PROTO_AM_PACK_SIZE);
     set_item_count(invenobj, item, ceil(FLOAT1 * newcount / packsize));
     // if number of items reduced, object reference will be different
-    item = obj_carrying_pid_obj(invenobj, obj_pid(item));
+    item = obj_carrying_pid_obj(invenobj, itemPid);
     if (item && (newcount % packsize) > 0) {
         set_weapon_ammo_count(item, newcount % packsize);
     }
@@ -46,10 +47,11 @@ function set_actual_ammo_count(invenobj: ObjectPtr, item: ItemPtr, newcount: num
 
 // Set item count in inventory
 function set_item_count(invenobj: ObjectPtr, item: ItemPtr, newcount: number) {
-    const count = obj_is_carrying_obj_pid(invenobj, obj_pid(item));
+    const itemPid = obj_pid(item);
+    const count = obj_is_carrying_obj_pid(invenobj, itemPid);
     if (newcount > count) {
         // Cast: creating a copy of an item, so result is also an item
-        const newitem = create_object_sid(obj_pid(item), 0, 0, -1) as ItemPtr;
+        const newitem = create_object_sid(itemPid, 0, 0, -1) as ItemPtr;
         add_mult_objs_to_inven(invenobj, newitem, newcount - count);
     } else if (newcount < count) {
         const _ = rm_mult_objs_from_inven(invenobj, item, count - newcount);

@@ -54,17 +54,19 @@ procedure set_actual_ammo_count(variable invenobj, variable item, variable newco
     if (newcount < 0) then begin
         newcount = 0;
     end
-    variable packsize = get_proto_data(obj_pid(item), PROTO_AM_PACK_SIZE);
+    variable itemPid = obj_pid(item);
+    variable packsize = get_proto_data(itemPid, PROTO_AM_PACK_SIZE);
     call set_item_count(invenobj, item, ceil(1.0 * newcount / packsize));
-    item = obj_carrying_pid_obj(invenobj, obj_pid(item));
+    item = obj_carrying_pid_obj(invenobj, itemPid);
     if (item and newcount % packsize > 0) then begin
         set_weapon_ammo_count(item, newcount % packsize);
     end
 end
 procedure set_item_count(variable invenobj, variable item, variable newcount) begin
-    variable count = obj_is_carrying_obj_pid(invenobj, obj_pid(item));
+    variable itemPid = obj_pid(item);
+    variable count = obj_is_carrying_obj_pid(invenobj, itemPid);
     if (newcount > count) then begin
-        variable newitem = create_object_sid(obj_pid(item), 0, 0, -1);
+        variable newitem = create_object_sid(itemPid, 0, 0, -1);
         add_mult_objs_to_inven(invenobj, newitem, newcount - count);
     end else begin
         if (newcount < count) then begin
