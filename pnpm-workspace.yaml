@@ -1,4 +1,6 @@
 allowBuilds:
   esbuild: false
+minimumReleaseAgeExclude:
+  - folib@0.4.2
 onlyBuiltDependencies:
   - esbuild
