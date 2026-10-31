@@ -1,0 +1,390 @@
+# Describes FO2tweaks to mod managers that read f2mod.yml, such as ZAX. Format:
+# https://github.com/BGforgeNet/zax/blob/master/docs/mod-format.md
+#
+# The version comes from the release tag and the payload from the release's zip, so nothing here changes per
+# release. The settings describe mods/fo2tweaks.ini: each entry is section.key there, and its default is the
+# value the ini ships. A key renamed or added in the ini is renamed or added here in the same change.
+#
+# Five sections hold data rather than settings - their keys are pids or key names - and are left out:
+# [party_level_match], [party_level_maxstage], [damage_mod_ammo_dr], [damage_mod_ammo_type], [keymap].
+# Each component's section is gated on its [main] toggle, as the ini's own comments describe.
+
+spec: 1
+id: fo2tweaks
+name: FO2tweaks
+game: fallout2
+needs.sfall: "4.1.3"
+
+settings:
+  main.worldmap_key:
+    kind: text
+    default: W
+    label: Worldmap key
+    help: Hotkey to open the worldmap. Set to 0 to disable.
+  main.townmap_key:
+    kind: text
+    default: Y
+    label: Town map key
+    help: Hotkey to open the town map. Set to 0 or T to keep the default T key.
+  main.no_scope_penalty:
+    kind: bool
+    default: 1
+    label: No scope penalty
+    help: Don't penalize scoped weapons chance to hit at close range.
+  main.improved_grenades:
+    kind: bool
+    default: 1
+    label: Improved grenades
+    help: Ignore target AC when attacking with a grenade, and allow tossing grenades into empty hexes.
+  main.molotov_fire:
+    kind: bool
+    default: 1
+    label: Molotov fire damage
+    help: Molotov does fire damage.
+  main.max_knockback:
+    kind: int
+    min: -1
+    sentinels: { "-1": "Vanilla (unlimited)", "0": "No knockback" }
+    default: -1
+    label: Max knockback
+    help: Limit max knockback distance in hexes.
+  main.trunk_space:
+    kind: bool
+    default: 0
+    label: Bottomless trunk
+    help: Enable bottomless car trunk.
+  main.autodoors:
+    kind: choice
+    options:
+      - { value: 0, label: "Off" }
+      - { value: 1, label: "Open" }
+      - { value: 2, label: "Open and close" }
+    default: 1
+    label: Automatic doors
+    help: Automatically open and walk through unlocked doors when not in combat.
+  main.carry_weight:
+    kind: bool
+    default: 0
+    label: Unlimited carry weight
+    help: Virtually unlimited carry weight.
+  main.level5:
+    kind: bool
+    default: 0
+    label: Level 5 after the temple
+    help: Level 5 after completing the Temple of Trials.
+  main.ammobox:
+    kind: bool
+    default: 1
+    label: Ammo box
+    help: Display current ammo type in an infobox during combat.
+  main.modoc_brahmin:
+    kind: bool
+    default: 1
+    label: Protect Modoc brahmin
+    help: Modoc brahmin are on the player's team, to avoid party members killing them all accidentally.
+  main.healing_revision:
+    kind: bool
+    default: 1
+    label: Healing revision
+    help: Alternative healing implementation.
+  main.hp_over_head:
+    kind: bool
+    default: 0
+    label: HP over head
+    help: Display current HP over head for the player, party and nearby enemies in combat. Has some delay.
+  main.damage_mod:
+    kind: bool
+    default: 1
+    label: AP/JHP damage mod
+    help: AP/JHP damage mod. Needs sfall's DamageFormula at 0 to work correctly.
+    gated-by: { id: sfall.Misc.DamageFormula, is: [0] }
+  main.highlighting:
+    kind: bool
+    default: 1
+    label: Expanded highlighting
+    help: Expanded highlighting mod. Disable sfall's default highlighting if you use this.
+  main.auto_reload:
+    kind: bool
+    default: 1
+    label: Auto reload
+    help: Automatically reload both weapons at the end of combat.
+  main.party_level_match:
+    kind: bool
+    default: 0
+    label: Party level match
+    help: Party NPC level will match player level more closely. Includes all vanilla and RP companions.
+  main.unlimited_party:
+    kind: bool
+    default: 0
+    label: Unlimited party
+    help: Don't check the charisma limit when joining the party. All other checks are intact.
+  main.keymap:
+    kind: bool
+    default: 1
+    label: Key remapping
+    help: Remap keys according to the table in the keymap section of the ini.
+  main.min_light_level:
+    kind: int
+    min: 0
+    max: 100
+    sentinels: { "0": "Off" }
+    default: 0
+    label: Minimum light level
+    help: Map light level will never go below this percentage. Recommended value is 49.
+  main.speedup:
+    kind: bool
+    default: 0
+    label: Game speedup
+    help: Overall game speedup. Check the readme before enabling.
+  main.run_speed:
+    kind: bool
+    default: 0
+    label: Run speed increase
+    help: Increase run speed for the player and/or party members. Needs sfall's UseFileSystemOverride at 1.
+  main.no_drop_items_on_death:
+    kind: bool
+    default: 1
+    label: Keep inventory on gib
+    help: Critters getting melted, exploded or burned to ashes won't drop their inventory, allowing normal looting.
+  main.gigolo_limit:
+    kind: int
+    min: 0
+    sentinels: { "0": "Vanilla" }
+    default: 0
+    label: Gigolo limit
+    help: How many sexual encounters with different people it takes to be considered a Gigolo.
+  main.auto_cursor:
+    kind: bool
+    default: 0
+    label: Auto cursor
+    help: Automatic cursor change on mouseover in combat.
+  main.ap_rollover:
+    kind: int
+    min: 0
+    default: 2
+    label: AP rollover
+    help: Roll over this many unused action points to the next turn. Replaces the AC bonus.
+
+  no_scope_penalty.remove:
+    kind: text
+    default: "287"
+    label: Remove scope perk from
+    help: Weapon pids whose scope range perk is removed, with range increased to 150%. Default is the scoped hunting rifle.
+    gated-by: { id: fo2tweaks.main.no_scope_penalty, is: [1] }
+  no_scope_penalty.to_long:
+    kind: text
+    default: "143,350"
+    label: Scope perk becomes long range
+    help: Weapon pids whose scope range perk is replaced with long range. No effect in vanilla or RP; changes EcCo versions.
+    gated-by: { id: fo2tweaks.main.no_scope_penalty, is: [1] }
+
+  improved_grenades.weapons:
+    kind: text
+    default: "20,25,26,27,79,159,205,421,613,630,634"
+    label: Affected weapons
+    help: Weapon pids the grenade improvements apply to.
+    gated-by: { id: fo2tweaks.main.improved_grenades, is: [1] }
+  improved_grenades.ammo:
+    kind: text
+    default: "14"
+    label: Affected ammo
+    help: Ammo pids the grenade improvements apply to. Default is the explosive rocket.
+    gated-by: { id: fo2tweaks.main.improved_grenades, is: [1] }
+
+  ammobox.number:
+    kind: int
+    default: 9
+    label: Bar box number
+    help: Don't change if you don't know what this is.
+    gated-by: { id: fo2tweaks.main.ammobox, is: [1] }
+  ammobox.color:
+    kind: int
+    default: 3
+    label: Text color
+    help: Interface tag text color, as sfall defines them.
+    gated-by: { id: fo2tweaks.main.ammobox, is: [1] }
+
+  healing_revision.living_anatomy_min_doctor:
+    kind: int
+    min: 0
+    default: 135
+    label: Free Living Anatomy at Doctor
+    help: Free Living Anatomy once Doctor skill reaches this, applied on entering a map. Set over 300 to disable.
+    gated-by: { id: fo2tweaks.main.healing_revision, is: [1] }
+
+  highlighting.key:
+    kind: key
+    default: 42
+    label: Highlight key
+    help: DX scancode of the key that highlights items on the ground. 42 is Shift.
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.color_critters:
+    kind: choice
+    options: &highlight-colors
+      - { value: 0, label: "Disabled" }
+      - { value: 1, label: "Glowing red" }
+      - { value: 2, label: "Red" }
+      - { value: 4, label: "Grey" }
+      - { value: 8, label: "Glowing green" }
+      - { value: 16, label: "Bright yellow" }
+      - { value: 32, label: "Dark yellow" }
+      - { value: 64, label: "Purple" }
+    default: 32
+    label: Critters
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.color_corpses:
+    kind: choice
+    options: *highlight-colors
+    default: 16
+    label: Corpses
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.color_containers:
+    kind: choice
+    options: *highlight-colors
+    default: 8
+    label: Containers
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.color_locked_containers:
+    kind: choice
+    options: *highlight-colors
+    default: 2
+    label: Locked containers
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.color_locked_doors:
+    kind: choice
+    options: *highlight-colors
+    default: 2
+    label: Locked doors
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.color_traps:
+    kind: choice
+    options: *highlight-colors
+    default: 2
+    label: Traps
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.color_items:
+    kind: choice
+    options: *highlight-colors
+    default: 16
+    label: Items
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.color_party:
+    kind: choice
+    options: *highlight-colors
+    default: 8
+    label: Party
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.color_dude:
+    kind: choice
+    options: *highlight-colors
+    default: 0
+    label: Player
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.color_transitions:
+    kind: choice
+    options: *highlight-colors
+    default: 64
+    label: Transitions
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.check_los:
+    kind: bool
+    default: 0
+    label: Line of sight only
+    help: Only highlight objects in the player's line of sight.
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.skip_empty:
+    kind: bool
+    default: 1
+    label: Skip empty
+    help: Skip empty containers and corpses.
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.ignore_nohighlight:
+    kind: bool
+    default: 1
+    label: Ignore no-highlight flag
+    help: Highlight objects regardless of their NO_HIGHLIGHT flag.
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.motion_scanner:
+    kind: choice
+    options:
+      - { value: 0, label: "Ignored" }
+      - { value: 1, label: "Required" }
+      - { value: 2, label: "Required, uses a charge" }
+    default: 0
+    label: Motion Scanner
+    help: Whether highlighting requires a Motion Scanner in the inventory, and whether each use costs a charge.
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.skip_items:
+    kind: text
+    default: "148,150,154,156"
+    label: Skipped items
+    help: Item pids to skip. Mostly various bookshelves and bookcases.
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.traps:
+    kind: text
+    default: "33556185"
+    label: Additional traps
+    help: Additional trap pids, comma separated. Default is RP's Raiders Cavern pits.
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+  highlighting.transitions:
+    kind: text
+    default: "33554629"
+    label: Additional transitions
+    help: Additional pids of area transitions such as manholes and wells.
+    gated-by: { id: fo2tweaks.main.highlighting, is: [1] }
+
+  damage_mod.damage_difficulty:
+    kind: choice
+    options:
+      - { value: 0, label: "Vanilla (coupled)" }
+      - { value: 1, label: "Wimpy (75%)" }
+      - { value: 2, label: "Normal (100%)" }
+      - { value: 3, label: "Rough (125%)" }
+    default: 0
+    label: Damage difficulty
+    help: Decouple damage from combat difficulty - the game option then affects AI and chance to hit alone, this the damage multiplier.
+    gated-by: { id: fo2tweaks.main.damage_mod, is: [1] }
+  damage_mod.party_scale_damage:
+    kind: bool
+    default: 0
+    label: Scale party damage
+    help: Scale damage with difficulty for all combatants, not only enemies.
+    gated-by: { id: fo2tweaks.main.damage_mod, is: [1] }
+  damage_mod.ammo_pids:
+    kind: text
+    default: "610,614,615,631,632,633,641"
+    label: Ammo descriptions
+    help: Ammo pids whose new DMG mod shows when viewing the description. Cosmetic only.
+    gated-by: { id: fo2tweaks.main.damage_mod, is: [1] }
+
+  unlimited_party.npc_pids:
+    kind: text
+    label: Additional NPCs
+    help: Additional NPC pids, comma separated. All original game and RP NPCs are already included.
+    gated-by: { id: fo2tweaks.main.unlimited_party, is: [1] }
+
+  run_speed.dude:
+    kind: bool
+    default: 1
+    label: The Chosen One
+    help: Increase run speed for the player when wearing armor.
+    gated-by: { id: fo2tweaks.main.run_speed, is: [1] }
+  run_speed.party:
+    kind: bool
+    default: 1
+    label: Party members
+    help: Increase run speed for party members. Helps with Marcus, Lenny and Skynet lagging behind.
+    gated-by: { id: fo2tweaks.main.run_speed, is: [1] }
+
+  hp_over_head.key:
+    kind: text
+    default: V
+    label: Display key
+    help: With a key set, the floats display once per key tap. With an empty value they display all the time.
+    gated-by: { id: fo2tweaks.main.hp_over_head, is: [1] }
+  hp_over_head.only_party:
+    kind: bool
+    default: 0
+    label: Party only
+    help: Display only for party members.
+    gated-by: { id: fo2tweaks.main.hp_over_head, is: [1] }
