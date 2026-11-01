@@ -1,14 +1,36 @@
 /* Do not edit. This file is generated from gl_g_healing_revision.tssl. Make your changes there and regenerate this file. */
 
 #define SCRIPT_REALNAME "gl_g_healing_revision"
+#define set_healing_revision "healing_revision"
+#define sec_healing_revision "healing_revision"
+#define set_healing_living_anatomy_min_doctor "living_anatomy_min_doctor"
+
+#define FLOAT_MSG_WHITE 9
+#define TRAIT_PERK 0
+#define PERK_healer 19
+#define PERK_living_anatomy_perk 97
+#define STAT_max_hp 7
+#define STAT_current_hp 35
+#define SKILL_FIRST_AID 6
+#define SKILL_DOCTOR 7
+#define CRITTER_IS_DEAD 1
+#define DAM_CRIP_LEG_LEFT 0x4
+#define DAM_CRIP_LEG_RIGHT 0x8
+#define DAM_CRIP_ARM_LEFT 0x10
+#define DAM_CRIP_ARM_RIGHT 0x20
+#define DAM_BLIND 0x40
+#define DAM_PERFORM_REVERSE 0x800000
+#define HOOK_USESKILL 21
+#define HOOK_RESTTIMER 30
+#define GAME_MSG_SKILL 15
+#define CHAR_PERCENT 37
+#define fo2tweaks_ini "mods\\fo2tweaks.ini"
+#define sec_main "main"
 #define all_disabilities (DAM_CRIP_ARM_LEFT bwor DAM_CRIP_ARM_RIGHT bwor DAM_CRIP_LEG_LEFT bwor DAM_CRIP_LEG_RIGHT bwor DAM_BLIND)
 #define doctor_used_array "g_doctor_used"
 #define fa_used_array "g_fa_used"
 #define doctor_skill_name 107
 #define fa_skill_name 106
-#define set_healing_revision "healing_revision"
-#define sec_healing_revision "healing_revision"
-#define set_healing_living_anatomy_min_doctor "living_anatomy_min_doctor"
 #define msg_file "g_healing_revision.msg"
 #define msg_heal_disabilities 1
 #define msg_fail_disabilities 2
@@ -22,33 +44,13 @@
 #define msg_got_xp 10
 #define msg_healed_for 11
 #define msg_dead 12
+#define msg_fa_disabilities 13
 #define doctor_min 20
 #define doctor_mult 10
 #define fa_mult 5
 #define heal_max 15
-
-#define FLOAT_MSG_WHITE 9
-#define TRAIT_PERK 0
-#define PERK_healer 19
-#define PERK_living_anatomy_perk 97
-#define STAT_max_hp 7
-#define STAT_current_hp 35
-#define SKILL_FIRST_AID 6
-#define SKILL_DOCTOR 7
-#define CRITTER_IS_DEAD 1
-#define DAM_CRIP_LEG_LEFT 4
-#define DAM_CRIP_LEG_RIGHT 8
-#define DAM_CRIP_ARM_LEFT 16
-#define DAM_CRIP_ARM_RIGHT 32
-#define DAM_BLIND 64
-#define DAM_PERFORM_REVERSE 8388608
-#define HOOK_USESKILL 21
-#define HOOK_RESTTIMER 30
-#define GAME_MSG_SKILL 15
-#define CHAR_PERCENT 37
-#define fo2tweaks_ini "mods\\fo2tweaks.ini"
-#define sec_main "main"
 #define critter_skill_level(who, skill) has_skill(who, skill)
+#define is_critter_dead(who) ((critter_state(who) bwand CRITTER_IS_DEAD) != 0)
 #define critter_uninjure(who, flags) critter_injure(who, flags bwor DAM_PERFORM_REVERSE)
 #define ndebug(msg) debug_msg(SCRIPT_REALNAME + ": " + msg)
 #define dude_name obj_name(dude_obj)
@@ -57,7 +59,6 @@
 #define add_extra_msg_file(fileName) sfall_func1("add_extra_msg_file", fileName)
 #define mstr_skill(msgNum) message_str_game(GAME_MSG_SKILL, msgNum)
 
-procedure is_critter_dead(variable who);
 procedure is_in_array(variable item, variable array);
 procedure clear_array(variable array);
 procedure party_member_list_critters();
@@ -65,15 +66,22 @@ procedure array_push(variable array, variable item);
 procedure load_create_array(variable name, variable size);
 procedure parse_str_2(variable str, variable x1, variable x2);
 procedure fo2tweaks_setting(variable section, variable setting);
+procedure in_party(variable obj);
 procedure get_party_skill_level(variable skill);
 procedure is_disabled(variable x);
+procedure healing_init();
 procedure mymsg(variable x);
 procedure display_mymsg(variable x);
-procedure heal_disabilities(variable user, variable target, variable effective_skill);
+procedure is_player_side(variable user);
+procedure user_skill(variable user, variable skill);
+procedure tell(variable user, variable text);
+procedure heal_disabilities(variable user, variable target, variable effective_skill, variable interactive);
 procedure is_healthy(variable target);
-procedure get_healed_hp(variable target, variable doctor_level, variable fa_level);
+procedure get_healed_hp(variable user, variable target, variable doctor_level, variable fa_level);
 procedure get_fa_healed(variable target, variable fa_level);
 procedure missing_hp(variable target);
+procedure doctor_used_today(variable target);
+procedure fa_used_today(variable target);
 procedure use_doctor(variable user, variable target, variable skill_bonus, variable interactive = true);
 procedure use_first_aid(variable user, variable target, variable skill_bonus, variable interactive = true);
 procedure reset_heal_arrays();
@@ -88,9 +96,9 @@ procedure map_enter_p_proc();
 procedure start();
 
 /* ===== bundled ===== */
-procedure is_critter_dead(variable who) begin
-    return (critter_state(who) bwand CRITTER_IS_DEAD) != 0;
-end
+variable doctor_used;
+variable fa_used;
+variable msg;
 procedure is_in_array(variable item, variable array) begin
     return scan_array(array, item) != -1;
 end
@@ -120,7 +128,9 @@ procedure parse_str_2(variable str, variable x1, variable x2) begin
     variable line;
     variable result;
     variable n;
+
     line = tokenize(str, 0, CHAR_PERCENT);
+
     result = line;
     while (line != str) do begin
         token = tokenize(str, line, CHAR_PERCENT);
@@ -148,6 +158,12 @@ end
 procedure fo2tweaks_setting(variable section, variable setting) begin
     return get_ini_setting(fo2tweaks_ini + "|" + section + "|" + setting);
 end
+procedure in_party(variable obj) begin
+    if (is_in_array(obj, party_member_list_critters())) then begin
+        return true;
+    end
+    return false;
+end
 procedure get_party_skill_level(variable skill) begin
     variable who_best;
     variable skill_level = 0;
@@ -162,44 +178,53 @@ procedure get_party_skill_level(variable skill) begin
     ndebug(obj_name(who_best) + " has best skill level of " + skill_level);
     return [who_best, skill_level];
 end
-/* ===== end bundled ===== */
-
-/* ===== main body ===== */
-variable doctor_used;
-variable fa_used;
-variable enabled;
-variable living_anatomy_min_doctor;
-variable msg;
 procedure is_disabled(variable x) begin
     return (critter_state(x) bwand all_disabilities) != 0;
 end
-/**
- * Gets message `x` from **game** message file `msg`
- */
+procedure healing_init() begin
+    doctor_used = load_create_array(doctor_used_array, 0);
+    fa_used = load_create_array(fa_used_array, 0);
+    msg = add_extra_msg_file(msg_file);
+end
 procedure mymsg(variable x) begin
     return message_str_game(msg, x);
 end
-/**
- * Displays message `x` from **game** message file `msg`
- */
 procedure display_mymsg(variable x) begin
     display_msg(mymsg(x));
 end
-procedure heal_disabilities(variable user, variable target, variable effective_skill) begin
+procedure is_player_side(variable user) begin
+    return user == dude_obj or in_party(user);
+end
+procedure user_skill(variable user, variable skill) begin
+    if (is_player_side(user)) then begin
+        variable best = get_party_skill_level(skill);
+        return best[1];
+    end
+    return critter_skill_level(user, skill);
+end
+procedure tell(variable user, variable text) begin
+    if (is_player_side(user)) then begin
+        display_msg(text);
+    end
+end
+procedure heal_disabilities(variable user, variable target, variable effective_skill, variable interactive) begin
     variable chance = effective_skill - doctor_min;
     ndebug("user " + user + ", target " + target + ", eff. doctor " + effective_skill);
     ndebug("chance " + chance + " eff. skill " + effective_skill + " min. doctor " + doctor_min);
     if (chance < 1) then begin
-        call display_mymsg(msg_no_chance);
-    end else begin
-        variable r = random(1, 100);
-        if (r < chance) then begin
-            call display_mymsg(msg_heal_disabilities);
-            critter_uninjure(target, all_disabilities);
-        end else begin
-            call display_mymsg(msg_fail_disabilities);
+        if (interactive) then begin
+            call tell(user, mymsg(msg_no_chance));
         end
+        return false;
     end
+    variable r = random(1, 100);
+    if (r < chance) then begin
+        call tell(user, mymsg(msg_heal_disabilities));
+        critter_uninjure(target, all_disabilities);
+    end else begin
+        call tell(user, mymsg(msg_fail_disabilities));
+    end
+    return true;
 end
 procedure is_healthy(variable target) begin
     variable max_hp = get_critter_stat(target, STAT_max_hp);
@@ -210,7 +235,7 @@ procedure is_healthy(variable target) begin
         return false;
     end
 end
-procedure get_healed_hp(variable target, variable doctor_level, variable fa_level) begin
+procedure get_healed_hp(variable user, variable target, variable doctor_level, variable fa_level) begin
     variable mhp = missing_hp(target);
     variable healed = 0;
     if (doctor_level > 100) then begin
@@ -219,8 +244,10 @@ procedure get_healed_hp(variable target, variable doctor_level, variable fa_leve
     if (fa_level > 100) then begin
         fa_level = 100;
     end
-    healed = doctor_level / 100 * (fa_level / 100) * doctor_mult + random(-1, 1);
-    healed = healed + 2 * has_trait(TRAIT_PERK, dude_obj, PERK_healer);
+    healed = (doctor_level / 100.0) * (fa_level / 100.0) * doctor_mult + random(-1, 1);
+    if (user == dude_obj) then begin
+        healed = healed + 2 * has_trait(TRAIT_PERK, dude_obj, PERK_healer);
+    end
     if (healed < 0) then begin
         healed = 0;
     end
@@ -238,7 +265,7 @@ procedure get_fa_healed(variable target, variable fa_level) begin
     if (fa_level > 100) then begin
         fa_level = 100;
     end
-    healed = fa_mult * fa_level / 100 + random(-1, 1);
+    healed = fa_mult * fa_level / 100.0 + random(-1, 1);
     if (healed < 0) then begin
         healed = 0;
     end
@@ -256,86 +283,117 @@ procedure missing_hp(variable target) begin
     variable mhp = max_hp - cur_hp;
     return mhp;
 end
+procedure doctor_used_today(variable target) begin
+    return is_in_array(obj_pid(target), doctor_used);
+end
+procedure fa_used_today(variable target) begin
+    return is_in_array(obj_pid(target), fa_used);
+end
 procedure use_doctor(variable user, variable target, variable skill_bonus, variable interactive) begin
-    variable tmp = get_party_skill_level(SKILL_DOCTOR);
-    variable doctor_level = tmp[1];
-    tmp = get_party_skill_level(SKILL_FIRST_AID);
-    variable fa_level = tmp[1];
+    variable doctor_level = user_skill(user, SKILL_DOCTOR);
+    variable fa_level = user_skill(user, SKILL_FIRST_AID);
     variable effective_doctor = doctor_level + skill_bonus;
+    variable attempted = false;
+
     ndebug("doctor level " + doctor_level + ", skill bonus " + skill_bonus + ", effective " + effective_doctor);
+
     if (interactive) then begin
         if (is_critter_dead(target)) then begin
-            call display_mymsg(msg_dead);
+            call tell(user, mymsg(msg_dead));
             return false;
         end
         if (is_healthy(target)) then begin
-            display_msg(obj_name(target) + mymsg(msg_healthy));
+            call tell(user, obj_name(target) + mymsg(msg_healthy));
             return false;
         end else begin
-            if (is_in_array(obj_pid(target), doctor_used)) then begin
+            if (doctor_used_today(target)) then begin
                 variable skill_name = get_skill_name(SKILL_DOCTOR);
-                display_msg(parse_str_2(mymsg(msg_already_used), obj_name(target), skill_name));
+                call tell(user, parse_str_2(mymsg(msg_already_used), obj_name(target), skill_name));
                 return false;
             end
         end
     end
+
     ndebug("user " + user + ", target " + target + ", eff. doctor " + effective_doctor);
     ndebug("critter state " + sprintf("%d", critter_state(target)));
+
     if (is_disabled(target)) then begin
-        call heal_disabilities(user, target, effective_doctor);
+        attempted = heal_disabilities(user, target, effective_doctor, interactive);
     end
+
     if (missing_hp(target) > 0) then begin
         variable name = obj_name(target);
-        variable hp = get_healed_hp(target, effective_doctor, fa_level);
+        variable hp = get_healed_hp(user, target, effective_doctor, fa_level);
         ndebug("trying to heal " + name);
+        attempted = true;
+
+        if (hp < 1) then begin
+            call tell(user, mymsg(msg_fail));
+        end else begin
+            critter_heal(target, hp);
+            call tell(user, parse_str_2(mymsg(msg_healed_for), obj_name(target), hp));
+            if (is_player_side(user)) then begin
+                call grant_xp(hp, SKILL_DOCTOR);
+            end
+        end
+    end
+
+    if (attempted) then begin
         call array_push(doctor_used, obj_pid(target));
         set_sfall_global("g_heal_d", get_day);
-        game_time_advance(game_ticks(3600));
-        if (hp < 1) then begin
-            call display_mymsg(msg_fail);
-            return false;
+        if (is_player_side(user)) then begin
+            game_time_advance(game_ticks(3600));
         end
-        critter_heal(target, hp);
-        display_msg(parse_str_2(mymsg(msg_healed_for), obj_name(target), hp));
-        call grant_xp(hp, SKILL_DOCTOR);
     end
-    return true;
+    return attempted;
 end
 procedure use_first_aid(variable user, variable target, variable skill_bonus, variable interactive) begin
-    variable tmp = get_party_skill_level(SKILL_FIRST_AID);
-    variable fa_level = tmp[1];
+    variable fa_level = user_skill(user, SKILL_FIRST_AID);
     variable effective_fa = fa_level + skill_bonus;
     ndebug("fa level " + fa_level + ", skill bonus " + skill_bonus + ", effective " + effective_fa);
     ndebug("userfa " + user + " target " + target);
+
     if (interactive) then begin
         if (is_critter_dead(target)) then begin
-            call display_mymsg(msg_dead);
+            call tell(user, mymsg(msg_dead));
             return false;
         end
         if (is_healthy(target)) then begin
-            display_msg(obj_name(target) + mymsg(msg_healthy));
+            call tell(user, obj_name(target) + mymsg(msg_healthy));
             return false;
         end else begin
-            if (is_in_array(obj_pid(target), fa_used)) then begin
+            if (fa_used_today(target)) then begin
                 variable skill_name = get_skill_name(SKILL_FIRST_AID);
-                display_msg(parse_str_2(mymsg(msg_already_used), obj_name(target), skill_name));
+                call tell(user, parse_str_2(mymsg(msg_already_used), obj_name(target), skill_name));
                 return false;
             end
         end
     end
-    if (missing_hp(target) > 0) then begin
-        variable name = obj_name(target);
-        variable hp = get_fa_healed(target, effective_fa);
-        ndebug("trying to heal " + name);
-        call array_push(fa_used, obj_pid(target));
-        set_sfall_global("g_heal_d", get_day);
-        game_time_advance(game_ticks(1800));
-        if (hp < 1) then begin
-            call display_mymsg(msg_fail);
-            return false;
+
+    if (missing_hp(target) <= 0) then begin
+        if (interactive) then begin
+            call tell(user, mymsg(msg_fa_disabilities));
         end
-        critter_heal(target, hp);
-        display_msg(parse_str_2(mymsg(msg_healed_for), obj_name(target), hp));
+        return false;
+    end
+
+    variable name = obj_name(target);
+    variable hp = get_fa_healed(target, effective_fa);
+    ndebug("trying to heal " + name);
+
+    call array_push(fa_used, obj_pid(target));
+    set_sfall_global("g_heal_d", get_day);
+
+    if (is_player_side(user)) then begin
+        game_time_advance(game_ticks(1800));
+    end
+    if (hp < 1) then begin
+        call tell(user, mymsg(msg_fail));
+        return true;
+    end
+    critter_heal(target, hp);
+    call tell(user, parse_str_2(mymsg(msg_healed_for), obj_name(target), hp));
+    if (is_player_side(user)) then begin
         call grant_xp(hp, SKILL_FIRST_AID);
     end
     return true;
@@ -374,13 +432,18 @@ procedure use_skill(variable user, variable target, variable skill, variable ski
     call update_heal_arrays();
     ndebug("user1 " + user + " target " + target);
     if (skill == SKILL_DOCTOR) then begin
-        call use_doctor(user, target, skill_bonus);
-        set_sfall_return(0);
+        return use_doctor(user, target, skill_bonus);
     end
     if (skill == SKILL_FIRST_AID) then begin
-        call use_first_aid(user, target, skill_bonus);
+        return use_first_aid(user, target, skill_bonus);
     end
+    return false;
 end
+/* ===== end bundled ===== */
+
+/* ===== main body ===== */
+variable enabled;
+variable living_anatomy_min_doctor;
 procedure healing_handler() begin
     variable user = get_sfall_arg;
     variable target = get_sfall_arg;
@@ -401,10 +464,10 @@ procedure rest_handler() begin
     ndebug("rest ping");
     call update_heal_arrays();
     foreach (variable who in party_member_list_critters()) begin
-        if (not is_healthy(who) and not is_in_array(obj_pid(who), doctor_used)) then begin
+        if (not is_healthy(who) and not doctor_used_today(who)) then begin
             call use_doctor(dude_obj, who, 0, false);
         end
-        if (not is_healthy(who) and not is_in_array(obj_pid(who), fa_used)) then begin
+        if (not is_healthy(who) and not fa_used_today(who)) then begin
             call use_first_aid(dude_obj, who, 0, false);
         end
     end
@@ -413,10 +476,10 @@ end
 procedure travel_handler() begin
     ndebug("travel ping");
     foreach (variable who in party_member_list_critters()) begin
-        if (not is_healthy(who) and not is_in_array(obj_pid(who), doctor_used)) then begin
+        if (not is_healthy(who) and not doctor_used_today(who)) then begin
             call use_doctor(dude_obj, who, 0, false);
         end
-        if (not is_healthy(who) and not is_in_array(obj_pid(who), fa_used)) then begin
+        if (not is_healthy(who) and not fa_used_today(who)) then begin
             call use_first_aid(dude_obj, who, 0, false);
         end
     end
@@ -439,13 +502,15 @@ procedure start() begin
         enabled = fo2tweaks_setting(sec_main, set_healing_revision);
         if (enabled == 1) then begin
             living_anatomy_min_doctor = fo2tweaks_setting(sec_healing_revision, set_healing_living_anatomy_min_doctor);
-            doctor_used = load_create_array(doctor_used_array, 0);
-            fa_used = load_create_array(fa_used_array, 0);
+
+            call healing_init();
+
             register_hook_proc(HOOK_USESKILL, healing_handler);
             register_hook_proc(HOOK_RESTTIMER, rest_handler);
+
             set_global_script_type(3);
             set_global_script_repeat(1800);
-            msg = add_extra_msg_file(msg_file);
+
             ndebug("initialized");
         end
     end else begin

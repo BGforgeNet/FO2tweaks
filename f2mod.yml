@@ -5,8 +5,9 @@
 # release. The settings describe mods/fo2tweaks.ini: each entry is section.key there, and its default is the
 # value the ini ships. A key renamed or added in the ini is renamed or added here in the same change.
 #
-# Five sections hold data rather than settings - their keys are pids or key names - and are left out:
-# [party_level_match], [party_level_maxstage], [damage_mod_ammo_dr], [damage_mod_ammo_type], [keymap].
+# Six sections hold data rather than settings - their keys are pids or key names - and are left out:
+# [party_level_match], [party_level_maxstage], [damage_mod_ammo_dr], [damage_mod_ammo_type], [keymap],
+# [item_charges].
 # Each component's section is gated on its [main] toggle, as the ini's own comments describe.
 
 spec: 1
@@ -87,6 +88,12 @@ settings:
     default: 1
     label: Healing revision
     help: Alternative healing implementation.
+  main.item_charges:
+    kind: bool
+    default: 1
+    label: Medical kit charges
+    help: Medical kits have a fixed number of charges instead of running out randomly. Drop a kit on the same kind of kit in a hand to combine them.
+    gated-by: { id: fo2tweaks.main.healing_revision, is: [1] }
   main.hp_over_head:
     kind: bool
     default: 0

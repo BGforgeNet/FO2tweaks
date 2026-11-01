@@ -1,0 +1,263 @@
+import {
+    add_obj_to_inven,
+    create_object_sid,
+    CritterPtr,
+    destroy_object,
+    display_msg,
+    dude_obj,
+    ItemPtr,
+    ndebug,
+    obj_pid,
+    ObjectPtr,
+    rm_mult_objs_from_inven,
+    SfallList, SfallMap,
+    SKILL
+} from "folib";
+import { PID_DOCTORS_BAG, PID_FIELD_MEDIC_KIT, PID_FIRST_AID_KIT, PID_PARAMEDICS_BAG } from "folib/rpu/itempid";
+import {
+    array_push, create_array_list, fix_array,
+    GAME_MSG_PROTO,
+    game_loaded, get_game_mode, get_sfall_arg, get_sfall_arg_at, get_weapon_ammo_count,
+    HOOK_GAMEMODECHANGE, HOOK_INVENTORYMOVE, HOOK_USEOBJON,
+    intface_redraw, inven_ptr, INVENTORY,
+    list_as_array, LIST_CRITTERS, LIST_GROUNDITEMS,
+    message_str_game, obj_is_carrying_obj,
+    PROTO_MI_CHARGES,
+    register_hook_proc, resize_array,
+    set_proto_data, set_sfall_return, set_weapon_ammo_count,
+} from "folib/sfall";
+import {
+    fo2tweaks_ini, fo2tweaks_setting, get_ini_section_ints, in_combat, is_container, is_critter, mode_ended, sec_main
+} from "./fo2tweaks";
+import { healing_init, use_skill } from "./fo2tweaks/healing";
+
+const SCRIPT_REALNAME = "gl_g_item_charges";
+
+const set_item_charges = "item_charges";
+const sec_item_charges = "item_charges";
+const set_healing_revision = "healing_revision";
+
+// HOOK_INVENTORYMOVE target slots
+const slot_left_hand = 1;
+const slot_right_hand = 2;
+const slot_pick_up = 7;
+
+let enabled: number;
+/** Kit pid to its maximum charges, from the ini */
+let max_charges: SfallMap<number, number>;
+/**
+ * Kits taken out of the inventory by a merge. They are destroyed once the inventory screen closes, as the engine
+ * may still refer to the dragged object until then. Out of the inventory, no stacking can free them meanwhile.
+ */
+let taken_out: SfallList<ItemPtr>;
+
+// The kit's skill, bonus and "supplies run out" message are the engine's own: the script replaces its kit handler.
+function kit_skill(pid: number): SKILL {
+    if (pid == PID_DOCTORS_BAG || pid == PID_PARAMEDICS_BAG) return SKILL.DOCTOR;
+    return SKILL.FIRST_AID;
+}
+
+function kit_bonus(pid: number): number {
+    if (pid == PID_PARAMEDICS_BAG || pid == PID_FIELD_MEDIC_KIT) return 40;
+    return 20;
+}
+
+function kit_run_out_msg(pid: number): number {
+    if (pid == PID_DOCTORS_BAG) return 900;
+    if (pid == PID_FIRST_AID_KIT) return 901;
+    if (pid == PID_PARAMEDICS_BAG) return 910;
+    return 911;
+}
+
+function is_kit_pid(pid: number): boolean {
+    return pid == PID_FIRST_AID_KIT || pid == PID_DOCTORS_BAG || pid == PID_FIELD_MEDIC_KIT || pid == PID_PARAMEDICS_BAG;
+}
+
+function is_managed(item: ItemPtr): boolean {
+    const pid = obj_pid(item);
+    return is_kit_pid(pid) && max_charges[pid] > 0;
+}
+
+/**
+ * Gives a kit its charges. A kit made after the proto got its charges starts full; one made before has 0.
+ * The engine keeps identical kits as one object with a count, so this fills every kit of a stack.
+ */
+function fill(item: ItemPtr): void {
+    if (!is_managed(item)) return;
+    const max = max_charges[obj_pid(item)];
+    const charges = get_weapon_ammo_count(item);
+    if (charges == 0 || charges > max) set_weapon_ammo_count(item, max);
+}
+
+function fill_inventory(owner: ObjectPtr): void {
+    let i = 0;
+    let item = inven_ptr(owner, i);
+    while (item) {
+        fill(item);
+        if (is_container(item)) fill_inventory(item);
+        i += 1;
+        item = inven_ptr(owner, i);
+    }
+}
+
+function fill_map(): void {
+    for (const item of list_as_array(LIST_GROUNDITEMS)) {
+        fill(item);
+        if (is_container(item)) fill_inventory(item);
+    }
+    for (const critter of list_as_array(LIST_CRITTERS)) {
+        fill_inventory(critter);
+    }
+    intface_redraw();
+}
+
+function display_run_out(user: CritterPtr, pid: number): void {
+    if (user == dude_obj) display_msg(message_str_game(GAME_MSG_PROTO, kit_run_out_msg(pid)));
+}
+
+/**
+ * Adds a new kit with the given charges to the owner's inventory.
+ */
+function add_kit(owner: ObjectPtr, pid: number, charges: number): void {
+    const kit = create_object_sid(pid, 0, 0, -1) as ItemPtr;
+    set_weapon_ammo_count(kit, charges);
+    add_obj_to_inven(owner, kit);
+}
+
+function useobjon_handler(): void {
+    const target = get_sfall_arg() as ObjectPtr;
+    const user = get_sfall_arg() as CritterPtr;
+    const item = get_sfall_arg() as ItemPtr;
+    const pid = obj_pid(item);
+
+    if (!is_managed(item)) return;
+    // In combat, the engine refuses the kit with its own message.
+    if (in_combat()) return;
+    // On anything but a critter, the engine's kit handler would use the skill and could remove the kit at random.
+    if (!is_critter(target)) {
+        set_sfall_return(0);
+        return;
+    }
+
+    fill(item);
+    const attempted = use_skill(user, target, kit_skill(pid), kit_bonus(pid));
+    const charges = get_weapon_ammo_count(item);
+    ndebug("kit " + pid + " attempted " + attempted + ", charges " + charges);
+    if (!attempted) {
+        set_sfall_return(0);
+        return;
+    }
+    if (charges <= 1) {
+        display_run_out(user, pid);
+        set_sfall_return(1); // the engine removes one kit; the rest of a stack keeps its charges
+        intface_redraw();
+        return;
+    }
+    // Every kit of a stack has the stack's charges: the used one leaves the stack with one charge less.
+    // A kit taken out of the inventory for this use counts 0 here.
+    if (obj_is_carrying_obj(user, item) > 1) {
+        add_kit(user, pid, charges - 1);
+        set_sfall_return(1);
+    } else {
+        set_weapon_ammo_count(item, charges - 1);
+        set_sfall_return(0);
+    }
+    intface_redraw();
+}
+
+/**
+ * Pours the charges of one kit, dropped on the same kind of kit in a hand, into the one in hand.
+ * @returns true if the charges were merged and the move must be cancelled
+ */
+function merge_kits(source: ItemPtr, target: ItemPtr): boolean {
+    if (!target || obj_pid(source) != obj_pid(target)) return false;
+    // Hand items are outside the inventory list while the screen is open: a kit from the other hand counts 0.
+    const quantity = obj_is_carrying_obj(dude_obj, source);
+    if (quantity < 1) return false;
+
+    fill(target);
+    const pid = obj_pid(target);
+    const max = max_charges[pid];
+    const room = max - get_weapon_ammo_count(target);
+    if (room <= 0) return false;
+
+    const source_charges = get_weapon_ammo_count(source);
+    let poured = source_charges;
+    if (poured > room) poured = room;
+    const left = source_charges - poured;
+    set_weapon_ammo_count(target, get_weapon_ammo_count(target) + poured);
+    if (quantity == 1 && left > 0) {
+        set_weapon_ammo_count(source, left);
+    } else {
+        // One kit leaves the inventory (with a stack, the rest keeps its charges); a part left in it comes back as
+        // a new kit.
+        const _ = rm_mult_objs_from_inven(dude_obj, source, 1);
+        array_push(taken_out, source);
+        if (left > 0) add_kit(dude_obj, pid, left);
+    }
+    ndebug("merged kits, target charges " + get_weapon_ammo_count(target) + ", source left " + left);
+    intface_redraw();
+    return true;
+}
+
+function inventorymove_handler(): void {
+    const slot = get_sfall_arg() as number;
+    const item = get_sfall_arg() as ItemPtr;
+    const replaced = get_sfall_arg() as ItemPtr;
+
+    if (!is_managed(item)) return;
+    fill(item);
+    if (slot == slot_left_hand || slot == slot_right_hand) {
+        if (merge_kits(item, replaced)) set_sfall_return(1);
+    } else if (slot == slot_pick_up) {
+        intface_redraw();
+    }
+}
+
+function destroy_taken_out(): void {
+    for (const item of taken_out) {
+        destroy_object(item);
+    }
+    resize_array(taken_out, 0);
+}
+
+function gamemodechange_handler(): void {
+    const old_mode = get_sfall_arg_at(1);
+    if (mode_ended(INVENTORY, old_mode, get_game_mode())) destroy_taken_out();
+}
+
+function map_enter_p_proc() {
+    if (enabled == 1) fill_map();
+}
+
+function start() {
+    if (game_loaded()) {
+        enabled = fo2tweaks_setting(sec_main, set_item_charges);
+        if (enabled != 1) return;
+        // Charges replace the engine's kit handler, whose 1-in-10 kit removal no hook can skip while keeping the engine's
+        // skill use, with healing revision's Doctor and First Aid. Without revision there is no vanilla-rules version.
+        if (fo2tweaks_setting(sec_main, set_healing_revision) != 1) {
+            ndebug("healing revision is disabled, kits keep their vanilla behaviour");
+            enabled = 0;
+            return;
+        }
+
+        max_charges = get_ini_section_ints(fo2tweaks_ini, sec_item_charges);
+        fix_array(max_charges);
+        for (const [pid, count] of max_charges) {
+            if (is_kit_pid(pid)) {
+                set_proto_data(pid, PROTO_MI_CHARGES, count);
+            } else {
+                ndebug("pid " + pid + " is not a medical kit, ignored");
+            }
+        }
+        taken_out = create_array_list(0);
+
+        healing_init();
+        register_hook_proc(HOOK_USEOBJON, useobjon_handler);
+        register_hook_proc(HOOK_INVENTORYMOVE, inventorymove_handler);
+        register_hook_proc(HOOK_GAMEMODECHANGE, gamemodechange_handler);
+        fill_map();
+        ndebug("initialized");
+    }
+}

@@ -51,6 +51,7 @@ It is highly configurable, any component can be used with or without others. Som
     - [Autodoors](#autodoors)
     - [Healing revision](#healing-revision)
     - [Level 5 after Temple of Trials](#level-5-after-temple-of-trials)
+    - [Medical kit charges](#medical-kit-charges)
     - [Map hotkey](#map-hotkey)
     - [Keymap](#keymap)
     - [Modoc brahmin](#modoc-brahmin)
@@ -218,10 +219,18 @@ This is a massive change to Doctor and First Aid skills:
 - Effectiveness is capped at 100% for both skills.
 - Amount healed is proportional to skill level. Maximum amount to heal (100% both skills) is 5 with First Aid and 10 with Doctor, with a little random added. (Also, each level of Healer perk adds extra 2 HP healed.)
 - XP granted is 10 per HP healed.
-- For purposes of determining the amount healed, best skill level in _party_ is used.
+- For purposes of determining the amount healed, best skill level in _party_ is used. A critter outside the party, made to use a kit by a script, uses its own skill, takes no game time, and its healing grants no XP. The Healer perk only adds to the player's own treatments.
 - Healing is applied automatically during rest and travel, Baldur's Gate style.
-- Doctor's bags and First Aid kits are unchanged. They grant bonus to skill when used by dude explicitly, but they will randomly deplete as in original game. The items are not used in automatic healing described above.
+- Doctor's bags and First Aid kits grant bonus to skill when used by dude explicitly. They randomly deplete as in original game, unless [medical kit charges](#medical-kit-charges) are enabled. The items are not used in automatic healing described above.
 - As a final bonus, if Doctor skill is raised to 135+, dude will receive Living Anatomy for free. (Applied when entering the next map. Can be configured or disabled.).
+
+#### Medical kit charges
+
+Requires [healing revision](#healing-revision). Medical kits no longer run out at random: each kit has 10 charges (configurable), shown on the hand slot like a Motion Sensor's.
+
+- A charge is spent on every actual treatment, successful or not. A patient who is healthy or already treated today costs nothing.
+- Like in Jagged Alliance, partial kits can be combined: drop a kit from the backpack on the same kind of kit in a hand, and its charges move into the one in hand. An emptied kit is gone.
+- Applies to First Aid Kit, Doctor's Bag, Field Medic First Aid Kit and Paramedic's Bag.
 
 #### Map hotkey
 

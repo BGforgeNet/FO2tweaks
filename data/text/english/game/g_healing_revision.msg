@@ -10,3 +10,4 @@
 {10}{}{You receive %1% experience for successful use of %2% skill.}
 {11}{}{%1% healed for %2% HP.}
 {12}{}{Dead. Too late to help this one.}
+{13}{}{That's beyond first aid.}
