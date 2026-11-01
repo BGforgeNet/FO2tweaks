@@ -183,8 +183,8 @@ function update_dr_mod<K extends string | number>(dr_mod_list_arg: SfallMap<K, s
     for (const [pid, mod] of dr_mod_list_arg) {
         let pidInt = pid as number;
         let modInt = mod as number;
-        if (sfall_typeof(pid) != VALTYPE_INT) pidInt = atoi(pid as string);
-        if (sfall_typeof(mod) != VALTYPE_INT) modInt = atoi(mod as string);
+        if (sfall_typeof(pid) != VALTYPE_INT) pidInt = atoi(pid);
+        if (sfall_typeof(mod) != VALTYPE_INT) modInt = atoi(mod);
 
         if (!is_ammo_pid(pidInt)) {  // not ammo, how did it get here?
             ndebug("warning | item pid " + pidInt + " is not ammo");
