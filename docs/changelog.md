@@ -1,5 +1,18 @@
 ## Changelog
 
+### Version 15.0
+
+- Added charges to medical kits, on by default with healing revision: First Aid Kit, Doctor's Bag, Field Medic Kit and Paramedic's Bag have 10 charges each. Every attempted treatment spends one, and an empty kit is gone. Partial kits of the same kind can be combined by dropping one on the other in a hand.
+- Healing revision:
+  - Fixed Doctor healing only 0-1 HP (plus the Healer bonus) unless both Doctor and First Aid were at 100%, introduced in v14: it now heals in proportion to both skills again.
+  - A Doctor treatment of crippled limbs alone now takes an hour and counts as the day's treatment.
+  - First Aid on a crippled target at full HP now says it can't help.
+  - The "no chance" message no longer repeats during rest and travel.
+  - A critter outside the party, made to use a kit by a script, uses its own skill instead of the party's best.
+  - The Healer perk only adds to the player's own treatments.
+- Fixed a molotov critical miss against a critter not starting a fire, introduced in v14.
+- Updated sfall to 4.5.1.
+
 ### Version 14.7
 
 - [Fixed](https://github.com/BGforgeNet/FO2tweaks/pull/127) intermittent issues with auto reload.
