@@ -1,7 +1,6 @@
 *.tmp
 *.err
 *.int
-external
 extra/bin/*
 !extra/bin/dat2.exe
 *.rar
@@ -14,10 +13,6 @@ data/*
 **/.tmp.ssl
 # Written by the build from the .tssl sources
 source/*.ssl
-
-source/headers/party_orders
-source/headers/rp
-source/headers/sfall
 
 node_modules/
 **/_tmp.tssl.ts
