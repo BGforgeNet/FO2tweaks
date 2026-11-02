@@ -19,12 +19,13 @@ import {
     GAME_MSG_PROTO,
     game_loaded, get_game_mode, get_sfall_arg, get_sfall_arg_at, get_weapon_ammo_count,
     HOOK_GAMEMODECHANGE, HOOK_INVENTORYMOVE, HOOK_USEOBJON,
-    intface_redraw, inven_ptr, INVENTORY,
+    intface_redraw, inven_ptr, INVEN_TYPE_LEFT_HAND, INVEN_TYPE_RIGHT_HAND, INVENTORY,
     list_as_array, LIST_CRITTERS, LIST_GROUNDITEMS,
     message_str_game, obj_is_carrying_obj,
     PROTO_MI_CHARGES,
     register_hook_proc, resize_array,
     set_proto_data, set_sfall_return, set_weapon_ammo_count,
+    unwield_slot,
 } from "folib/sfall";
 import {
     fo2tweaks_ini, fo2tweaks_setting, get_ini_section_ints, in_combat, is_container, is_critter, mode_ended, sec_main
@@ -167,13 +168,15 @@ function useobjon_handler(): void {
 
 /**
  * Pours the charges of one kit, dropped on the same kind of kit in a hand, into the one in hand.
+ * @param slot the hand the target is in
  * @returns true if the charges were merged and the move must be cancelled
  */
-function merge_kits(source: ItemPtr, target: ItemPtr): boolean {
-    if (!target || obj_pid(source) != obj_pid(target)) return false;
+function merge_kits(source: ItemPtr, target: ItemPtr, slot: number): boolean {
+    if (!target || source == target || obj_pid(source) != obj_pid(target)) return false;
     // Hand items are outside the inventory list while the screen is open: a kit from the other hand counts 0.
-    const quantity = obj_is_carrying_obj(dude_obj, source);
-    if (quantity < 1) return false;
+    let quantity = obj_is_carrying_obj(dude_obj, source);
+    const from_hand = quantity < 1;
+    if (from_hand) quantity = 1;
 
     fill(target);
     const pid = obj_pid(target);
@@ -189,6 +192,19 @@ function merge_kits(source: ItemPtr, target: ItemPtr): boolean {
     if (quantity == 1 && left > 0) {
         set_weapon_ammo_count(source, left);
     } else {
+        // An emptied kit from the other hand goes back to the inventory list first: only from there can it be removed.
+        if (from_hand) {
+            if (slot == slot_left_hand) {
+                unwield_slot(dude_obj, INVEN_TYPE_RIGHT_HAND);
+            } else {
+                unwield_slot(dude_obj, INVEN_TYPE_LEFT_HAND);
+            }
+            if (obj_is_carrying_obj(dude_obj, source) < 1) {
+                ndebug("could not take the emptied kit out of the hand, merge cancelled");
+                set_weapon_ammo_count(target, get_weapon_ammo_count(target) - poured);
+                return false;
+            }
+        }
         // One kit leaves the inventory (with a stack, the rest keeps its charges); a part left in it comes back as
         // a new kit.
         const _ = rm_mult_objs_from_inven(dude_obj, source, 1);
@@ -208,7 +224,7 @@ function inventorymove_handler(): void {
     if (!is_managed(item)) return;
     fill(item);
     if (slot == slot_left_hand || slot == slot_right_hand) {
-        if (merge_kits(item, replaced)) set_sfall_return(1);
+        if (merge_kits(item, replaced, slot)) set_sfall_return(1);
     } else if (slot == slot_pick_up) {
         intface_redraw();
     }

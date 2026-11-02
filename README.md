@@ -229,7 +229,7 @@ This is a massive change to Doctor and First Aid skills:
 Requires [healing revision](#healing-revision). Medical kits no longer run out at random: each kit has 10 charges (configurable), shown on the hand slot like a Motion Sensor's.
 
 - A charge is spent on every actual treatment, successful or not. A patient who is healthy or already treated today costs nothing.
-- Like in Jagged Alliance, partial kits can be combined: drop a kit from the backpack on the same kind of kit in a hand, and its charges move into the one in hand. An emptied kit is gone.
+- Like in Jagged Alliance, partial kits can be combined: drop a kit from the backpack or the other hand on the same kind of kit in a hand, and its charges move into the one in hand. An emptied kit is gone.
 - Applies to First Aid Kit, Doctor's Bag, Field Medic First Aid Kit and Paramedic's Bag.
 
 #### Map hotkey
