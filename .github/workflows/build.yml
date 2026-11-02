@@ -9,9 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor != 'bgforge-hive' && github.actor != 'github-actions[bot]'
     timeout-minutes: 10
+    permissions:
+      contents: write # the release step publishes on a tag push
     steps:
       - name: Checkout
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
 
       - name: ShellCheck
         uses: ludeeus/action-shellcheck@00cae500b08a931fb5698e11e79bfbd38e612a38 # 2.0.0
