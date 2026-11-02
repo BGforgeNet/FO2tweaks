@@ -1,7 +1,7 @@
 allowBuilds:
   esbuild: false
 minimumReleaseAgeExclude:
-  - folib@0.4.2 || 0.4.3
-  - "@bgforge/tssl@0.5.0"
+  - folib@0.6.0
+  - "@bgforge/tssl@0.5.1"
 onlyBuiltDependencies:
   - esbuild

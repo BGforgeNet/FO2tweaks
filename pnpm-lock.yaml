@@ -167,12 +167,12 @@ importers:
   .:
     dependencies:
       folib:
-        specifier: ^0.4.3
-        version: 0.4.3(eslint-plugin-unused-imports@4.4.1(@typescript-eslint/eslint-plugin@8.72.1(@typescript-eslint/parser@8.72.1(eslint@10.14.0)(typescript@6.0.3))(eslint@10.14.0)(typescript@6.0.3))(eslint@10.14.0))(eslint@10.14.0)(typescript-eslint@8.72.1(eslint@10.14.0)(typescript@6.0.3))
+        specifier: ^0.6.0
+        version: 0.6.0(eslint-plugin-unused-imports@4.4.1(@typescript-eslint/eslint-plugin@8.72.1(@typescript-eslint/parser@8.72.1(eslint@10.14.0)(typescript@6.0.3))(eslint@10.14.0)(typescript@6.0.3))(eslint@10.14.0))(eslint@10.14.0)(typescript-eslint@8.72.1(eslint@10.14.0)(typescript@6.0.3))
     devDependencies:
       '@bgforge/tssl':
-        specifier: 0.5.0
-        version: 0.5.0
+        specifier: 0.5.1
+        version: 0.5.1
       '@typescript-eslint/parser':
         specifier: ^8.72.1
         version: 8.72.1(eslint@10.14.0)(typescript@6.0.3)
@@ -194,8 +194,8 @@ importers:
 
 packages:
 
-  '@bgforge/tssl@0.5.0':
-    resolution: {integrity: sha512-d8ETI9eUfWgPsHAZY3cuaGfJ50LmIBY0BtbDTMObXAP7Cm2e4ckTi0o2DbadEXlI8N90FrcD2AIKYd+MMtaOOw==}
+  '@bgforge/tssl@0.5.1':
+    resolution: {integrity: sha512-xT5OELtpamOBCYDVTc2xRxabZhnBgGnqVOnxrKNoONQFkY0lwBJn2aib2344fuT4o9FIQs/l9b58kGekw19sBA==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -633,8 +633,8 @@ packages:
   flatted@3.4.4:
     resolution: {integrity: sha512-5+ybhBZANEJxaH3X5evAFatUxLfEHSr7n6kYJ+1Qd0mUqr4eu9gIf6GDbWHf8RJijHrjjO8G+la14SlL2SeS1Q==}
 
-  folib@0.4.3:
-    resolution: {integrity: sha512-x5BNUkNoR1Ormw2nVGUezhR0xDAJSict5/npZu5v1sn91VmthGQXfbfvFrY/VEcLvh4U276FR7rLpufL/mRUww==}
+  folib@0.6.0:
+    resolution: {integrity: sha512-lRkYfeGYGW0B5A56LcAvMWHs+rC8ockJ9v19xohxk6LZzGfjiCn3TLjUCOiNArKDK2xyJMgBaIjlnnnyUQvMUw==}
     peerDependencies:
       eslint: ^9.0.0 || ^10.0.0
       eslint-plugin-unused-imports: ^4.0.0
@@ -810,7 +810,7 @@ packages:
 
 snapshots:
 
-  '@bgforge/tssl@0.5.0':
+  '@bgforge/tssl@0.5.1':
     dependencies:
       cac: 7.1.0
       diff: 9.0.0
@@ -1236,7 +1236,7 @@ snapshots:
 
   flatted@3.4.4: {}
 
-  folib@0.4.3(eslint-plugin-unused-imports@4.4.1(@typescript-eslint/eslint-plugin@8.72.1(@typescript-eslint/parser@8.72.1(eslint@10.14.0)(typescript@6.0.3))(eslint@10.14.0)(typescript@6.0.3))(eslint@10.14.0))(eslint@10.14.0)(typescript-eslint@8.72.1(eslint@10.14.0)(typescript@6.0.3)):
+  folib@0.6.0(eslint-plugin-unused-imports@4.4.1(@typescript-eslint/eslint-plugin@8.72.1(@typescript-eslint/parser@8.72.1(eslint@10.14.0)(typescript@6.0.3))(eslint@10.14.0)(typescript@6.0.3))(eslint@10.14.0))(eslint@10.14.0)(typescript-eslint@8.72.1(eslint@10.14.0)(typescript@6.0.3)):
     optionalDependencies:
       eslint: 10.14.0
       eslint-plugin-unused-imports: 4.4.1(@typescript-eslint/eslint-plugin@8.72.1(@typescript-eslint/parser@8.72.1(eslint@10.14.0)(typescript@6.0.3))(eslint@10.14.0)(typescript@6.0.3))(eslint@10.14.0)

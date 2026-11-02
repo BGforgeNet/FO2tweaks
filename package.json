@@ -5,7 +5,7 @@
     "lint": "eslint source/"
   },
   "devDependencies": {
-    "@bgforge/tssl": "0.5.0",
+    "@bgforge/tssl": "0.5.1",
     "@typescript-eslint/parser": "^8.72.1",
     "esbuild": "^0.28.2",
     "eslint": "^10.14.0",
@@ -14,6 +14,6 @@
     "typescript-eslint": "^8.72.1"
   },
   "dependencies": {
-    "folib": "^0.4.3"
+    "folib": "^0.6.0"
   }
 }
