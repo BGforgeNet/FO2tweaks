@@ -12,6 +12,8 @@ extra/bin/*
 data/*
 !data/text
 **/.tmp.ssl
+# Written by the build from the .tssl sources
+source/*.ssl
 
 source/headers/party_orders
 source/headers/rp

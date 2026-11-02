@@ -8,6 +8,9 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=./env.sh
 . "$script_dir/env.sh" >/dev/null 2>&1
 
+# The tssl compiler and the libraries the scripts import
+pnpm install --frozen-lockfile
+
 # Ensure bin directory exists
 mkdir -p "$BIN_DIR"
 

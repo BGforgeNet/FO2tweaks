@@ -42,10 +42,19 @@ update_headers rpu rp "$RPU_REPO_URL" "$RPU_HEADERS_PATH" "$RPU_VERSION"
 update_headers party_orders party_orders "$PARTY_ORDERS_REPO_URL" "$PARTY_ORDERS_HEADERS_PATH" "$PARTY_ORDERS_VERSION"
 update_headers sfall sfall "$SFALL_REPO_URL" "$SFALL_HEADERS_PATH" "$SFALL_GIT_VERSION"
 
-# Compile SSL scripts
+# Compile the scripts with tssl. It also writes each script's .ssl, which sslc compiles as a cross-check:
+# the two compilers must produce identical bytecode.
 SCRIPTS_DIR_ABS="$(realpath "$SCRIPTS_DIR")"
+pnpm exec tssl source -r --opt 2 -s --ssl -q
+check_dir="$(mktemp -d)"
 cd source
-for f in $(ls | grep "\.ssl$"); do
-    int_name="$(echo "$f" | sed 's|\.ssl$|.int|')"
-    "$COMPILE" -l -O2 -p -s -q -n "$f" -o "$SCRIPTS_DIR_ABS/$int_name"
+for f in *.tssl; do
+    name="${f%.tssl}"
+    "$COMPILE" -l -O2 -p -s -q -n "$name.ssl" -o "$check_dir/$name.int"
+    if ! cmp -s "$name.int" "$check_dir/$name.int"; then
+        echo "tssl and sslc produced different bytecode for $name" >&2
+        exit 1
+    fi
+    mv "$name.int" "$SCRIPTS_DIR_ABS/"
 done
+rm -r "$check_dir"
