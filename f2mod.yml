@@ -91,9 +91,8 @@ settings:
   main.item_charges:
     kind: bool
     default: 1
-    label: Medical kit charges
-    help: Medical kits have a fixed number of charges instead of running out randomly. Drop a kit on the same kind of kit in a hand to combine them.
-    gated-by: { id: fo2tweaks.main.healing_revision, is: [1] }
+    label: Item charges
+    help: Medical kits (with healing revision) and the Super Tool Kit (on sfall) have a fixed number of charges. Drop an item on the same kind of item in a hand to combine them.
   main.hp_over_head:
     kind: bool
     default: 0

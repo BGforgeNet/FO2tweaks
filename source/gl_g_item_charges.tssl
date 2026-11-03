@@ -10,21 +10,24 @@ import {
     obj_pid,
     ObjectPtr,
     rm_mult_objs_from_inven,
+    roll_vs_skill,
     SfallList, SfallMap,
     SKILL
 } from "folib";
-import { PID_DOCTORS_BAG, PID_FIELD_MEDIC_KIT, PID_FIRST_AID_KIT, PID_PARAMEDICS_BAG } from "folib/rpu/itempid";
 import {
-    array_push, create_array_list, fix_array,
+    PID_DOCTORS_BAG, PID_FIELD_MEDIC_KIT, PID_FIRST_AID_KIT, PID_PARAMEDICS_BAG, PID_SUPER_TOOL_KIT
+} from "folib/rpu/itempid";
+import {
+    add_extra_msg_file, array_push, create_array_list, fix_array,
     GAME_MSG_PROTO,
     game_loaded, get_game_mode, get_sfall_arg, get_sfall_arg_at, get_weapon_ammo_count,
-    HOOK_GAMEMODECHANGE, HOOK_INVENTORYMOVE, HOOK_USEOBJON,
+    HOOK_GAMEMODECHANGE, HOOK_INVENTORYMOVE, HOOK_ROLLCHECK, HOOK_USEOBJON,
     intface_redraw, inven_ptr, INVEN_TYPE_LEFT_HAND, INVEN_TYPE_RIGHT_HAND, INVENTORY,
     list_as_array, LIST_CRITTERS, LIST_GROUNDITEMS,
     message_str_game, obj_is_carrying_obj,
     PROTO_MI_CHARGES,
     register_hook_proc, resize_array,
-    set_proto_data, set_sfall_return, set_weapon_ammo_count,
+    set_global_script_repeat, set_proto_data, set_sfall_return, set_weapon_ammo_count,
     unwield_slot,
 } from "folib/sfall";
 import {
@@ -43,14 +46,37 @@ const slot_left_hand = 1;
 const slot_right_hand = 2;
 const slot_pick_up = 7;
 
+// HOOK_ROLLCHECK event type of a skill roll other than the engine's own Repair, Doctor and Steal checks: the one
+// scripts make with roll_vs_skill and skill_success.
+const rollcheck_skill = 3;
+
+const charges_msg_file = "g_item_charges.msg";
+const msg_tool_worn_out = 1;
+
 let enabled: number;
-/** Kit pid to its maximum charges, from the ini */
+/** Medical kits need healing revision */
+let kits_enabled: boolean;
+/** Tools need HOOK_ROLLCHECK, which not every engine fires */
+let tools_enabled: boolean;
+let charges_msg: number;
+/** Item pid to its maximum charges, from the ini */
 let max_charges: SfallMap<number, number>;
 /**
  * Kits taken out of the inventory by a merge. They are destroyed once the inventory screen closes, as the engine
  * may still refer to the dragged object until then. Out of the inventory, no stacking can free them meanwhile.
  */
 let taken_out: SfallList<ItemPtr>;
+
+let probing_rollcheck = false;
+let rollcheck_works = false;
+/**
+ * A tool in use: its target's script runs right after HOOK_USEOBJON, and a skill roll it makes spends a charge on the
+ * next frame, once the script is done with the tool.
+ */
+let tool_in_use = false;
+let tool_rolled = false;
+let tool: ItemPtr;
+let tool_user: CritterPtr;
 
 // The kit's skill, bonus and "supplies run out" message are the engine's own: the script replaces its kit handler.
 function kit_skill(pid: number): SKILL {
@@ -74,20 +100,29 @@ function is_kit_pid(pid: number): boolean {
     return pid == PID_FIRST_AID_KIT || pid == PID_DOCTORS_BAG || pid == PID_FIELD_MEDIC_KIT || pid == PID_PARAMEDICS_BAG;
 }
 
+function is_tool_pid(pid: number): boolean {
+    return pid == PID_SUPER_TOOL_KIT;
+}
+
+function is_supported_pid(pid: number): boolean {
+    return (kits_enabled && is_kit_pid(pid)) || (tools_enabled && is_tool_pid(pid));
+}
+
 function is_managed(item: ItemPtr): boolean {
     const pid = obj_pid(item);
-    return is_kit_pid(pid) && max_charges[pid] > 0;
+    return is_supported_pid(pid) && max_charges[pid] > 0;
 }
 
 /**
- * Gives a kit its charges. A kit made after the proto got its charges starts full; one made before has 0.
+ * Gives a kit its charges. A kit made after the proto got its charges starts full; one made before has the vanilla
+ * proto's value: 0 for medical kits, uninitialized memory (0xCCCCCCCC, negative) for the Super Tool Kit.
  * The engine keeps identical kits as one object with a count, so this fills every kit of a stack.
  */
 function fill(item: ItemPtr): void {
     if (!is_managed(item)) return;
     const max = max_charges[obj_pid(item)];
     const charges = get_weapon_ammo_count(item);
-    if (charges == 0 || charges > max) set_weapon_ammo_count(item, max);
+    if (charges <= 0 || charges > max) set_weapon_ammo_count(item, max);
 }
 
 function fill_inventory(owner: ObjectPtr): void {
@@ -132,6 +167,16 @@ function useobjon_handler(): void {
     const pid = obj_pid(item);
 
     if (!is_managed(item)) return;
+    if (is_tool_pid(pid)) {
+        // The engine has no handler for tools: the target's script decides what the use does.
+        fill(item);
+        tool_in_use = true;
+        tool_rolled = false;
+        tool = item;
+        tool_user = user;
+        set_global_script_repeat(1);
+        return;
+    }
     // In combat, the engine refuses the kit with its own message.
     if (in_combat()) return;
     // On anything but a critter, the engine's kit handler would use the skill and could remove the kit at random.
@@ -230,6 +275,39 @@ function inventorymove_handler(): void {
     }
 }
 
+function rollcheck_handler(): void {
+    if (get_sfall_arg() != rollcheck_skill) return;
+    if (probing_rollcheck) rollcheck_works = true;
+    if (tool_in_use) tool_rolled = true;
+}
+
+/**
+ * Spends one charge of the tool used on the last frame. A target's script may have taken the tool meanwhile.
+ */
+function spend_tool_charge(): void {
+    const quantity = obj_is_carrying_obj(tool_user, tool);
+    if (quantity < 1) {
+        ndebug("the tool left its user's inventory during the use, no charge spent");
+        return;
+    }
+    const pid = obj_pid(tool);
+    const charges = get_weapon_ammo_count(tool);
+    ndebug("tool " + pid + " used with a skill roll, charges " + charges);
+    if (charges <= 1 || quantity > 1) {
+        // One tool leaves the inventory; with a stack, the rest keeps its charges.
+        const _ = rm_mult_objs_from_inven(tool_user, tool, 1);
+        destroy_object(tool);
+        if (charges > 1) {
+            add_kit(tool_user, pid, charges - 1);
+        } else if (tool_user == dude_obj) {
+            display_msg(message_str_game(charges_msg, msg_tool_worn_out));
+        }
+    } else {
+        set_weapon_ammo_count(tool, charges - 1);
+    }
+    intface_redraw();
+}
+
 function destroy_taken_out(): void {
     for (const item of taken_out) {
         destroy_object(item);
@@ -252,8 +330,19 @@ function start() {
         if (enabled != 1) return;
         // Charges replace the engine's kit handler, whose 1-in-10 kit removal no hook can skip while keeping the engine's
         // skill use, with healing revision's Doctor and First Aid. Without revision there is no vanilla-rules version.
-        if (fo2tweaks_setting(sec_main, set_healing_revision) != 1) {
-            ndebug("healing revision is disabled, kits keep their vanilla behaviour");
+        kits_enabled = fo2tweaks_setting(sec_main, set_healing_revision) == 1;
+        if (!kits_enabled) ndebug("healing revision is disabled, kits keep their vanilla behaviour");
+
+        // A tool spends a charge only when its target's script rolls a skill. Some engines (fallout2-ce) accept the
+        // hook but never fire it: without it, tools keep their vanilla behaviour.
+        register_hook_proc(HOOK_ROLLCHECK, rollcheck_handler);
+        probing_rollcheck = true;
+        const _ = roll_vs_skill(dude_obj, SKILL.REPAIR, 0);
+        probing_rollcheck = false;
+        tools_enabled = rollcheck_works;
+        if (!tools_enabled) ndebug("HOOK_ROLLCHECK does not fire, tools keep their vanilla behaviour");
+
+        if (!kits_enabled && !tools_enabled) {
             enabled = 0;
             return;
         }
@@ -261,19 +350,24 @@ function start() {
         max_charges = get_ini_section_ints(fo2tweaks_ini, sec_item_charges);
         fix_array(max_charges);
         for (const [pid, count] of max_charges) {
-            if (is_kit_pid(pid)) {
+            if (is_supported_pid(pid)) {
                 set_proto_data(pid, PROTO_MI_CHARGES, count);
             } else {
-                ndebug("pid " + pid + " is not a medical kit, ignored");
+                ndebug("pid " + pid + " is not supported, ignored");
             }
         }
         taken_out = create_array_list(0);
+        charges_msg = add_extra_msg_file(charges_msg_file);
 
-        healing_init();
+        if (kits_enabled) healing_init();
         register_hook_proc(HOOK_USEOBJON, useobjon_handler);
         register_hook_proc(HOOK_INVENTORYMOVE, inventorymove_handler);
         register_hook_proc(HOOK_GAMEMODECHANGE, gamemodechange_handler);
         fill_map();
-        ndebug("initialized");
+        ndebug("initialized, kits " + kits_enabled + ", tools " + tools_enabled);
+    } else if (tool_in_use) {
+        tool_in_use = false;
+        set_global_script_repeat(0);
+        if (tool_rolled) spend_tool_charge();
     }
 }
