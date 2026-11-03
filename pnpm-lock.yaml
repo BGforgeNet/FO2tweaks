@@ -171,8 +171,8 @@ importers:
         version: 0.6.0(eslint-plugin-unused-imports@4.4.1(@typescript-eslint/eslint-plugin@8.72.1(@typescript-eslint/parser@8.72.1(eslint@10.14.0)(typescript@6.0.3))(eslint@10.14.0)(typescript@6.0.3))(eslint@10.14.0))(eslint@10.14.0)(typescript-eslint@8.72.1(eslint@10.14.0)(typescript@6.0.3))
     devDependencies:
       '@bgforge/tssl':
-        specifier: 0.5.1
-        version: 0.5.1
+        specifier: 0.6.0
+        version: 0.6.0
       '@typescript-eslint/parser':
         specifier: ^8.72.1
         version: 8.72.1(eslint@10.14.0)(typescript@6.0.3)
@@ -194,8 +194,8 @@ importers:
 
 packages:
 
-  '@bgforge/tssl@0.5.1':
-    resolution: {integrity: sha512-xT5OELtpamOBCYDVTc2xRxabZhnBgGnqVOnxrKNoONQFkY0lwBJn2aib2344fuT4o9FIQs/l9b58kGekw19sBA==}
+  '@bgforge/tssl@0.6.0':
+    resolution: {integrity: sha512-T6W5VyBM332SIaYxyGDpU28sBeCZciLScNi6h5aFyQa+Ty4Jj9+cVjZyRDsBhuJ2NG1YgPPnzJ66DsbpOQ8Aww==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -810,7 +810,7 @@ packages:
 
 snapshots:
 
-  '@bgforge/tssl@0.5.1':
+  '@bgforge/tssl@0.6.0':
     dependencies:
       cac: 7.1.0
       diff: 9.0.0

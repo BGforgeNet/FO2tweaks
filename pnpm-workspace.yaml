@@ -1,7 +1,8 @@
 allowBuilds:
   esbuild: false
+# BGforge's own packages are exempt from the release-age window: they are installed on release.
 minimumReleaseAgeExclude:
-  - folib@0.6.0
-  - "@bgforge/tssl@0.5.1"
+  - folib
+  - "@bgforge/*"
 onlyBuiltDependencies:
   - esbuild
