@@ -3,11 +3,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-04-12:22+0000\n"
+"POT-Creation-Date: 2026-11-04-13:56+0000\n"
 "PO-Revision-Date: 2023-08-23 20:27+0000\n"
 "Last-Translator: Charles Dexter Ward <graffias@quantentunnel.de>\n"
-"Language-Team: German <https://hive.bgforge.net/projects/fallout/fo2tweaks/de/"
-">\n"
+"Language-Team: German <https://hive.bgforge.net/projects/fallout/fo2tweaks/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,8 +36,7 @@ msgstr " ist bereits gesund."
 
 #: game/g_healing_revision.msg:6
 msgid "%1% has already been healed with %2% skill today. Try tomorrow."
-msgstr ""
-"%1% wurde heute bereits mit %2% Fertigkeit geheilt. Versuch es morgen wieder."
+msgstr "%1% wurde heute bereits mit %2% Fertigkeit geheilt. Versuch es morgen wieder."
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
@@ -54,9 +52,7 @@ msgstr "hat \"Lebendige Anatomie\"-Bonus verdient."
 
 #: game/g_healing_revision.msg:10
 msgid "You receive %1% experience for successful use of %2% skill."
-msgstr ""
-"Du erhältst %1% Erfahrung für den erfolgreichen Einsatz von %2% deiner "
-"Fertigkeit."
+msgstr "Du erhältst %1% Erfahrung für den erfolgreichen Einsatz von %2% deiner Fertigkeit."
 
 #: game/g_healing_revision.msg:11
 msgid "%1% healed for %2% HP."
@@ -66,17 +62,21 @@ msgstr "%1% geheilt für %2% der TP."
 msgid "Dead. Too late to help this one."
 msgstr "Tot. Zuspät, um hier zu helfen."
 
-#: game/g_level5.msg:1
-msgid ""
-"You receive 9500 experience points, because you're a cheating little "
-"bastard."
+#: game/g_healing_revision.msg:13
+msgid "That's beyond first aid."
 msgstr ""
-"Du erhältst 9500 Erfahrungspunkte, weil du cheatest, du kleiner Scheißer."
+
+#: game/g_item_charges.msg:1
+msgid "The Super Tool Kit wears out."
+msgstr ""
+
+#: game/g_level5.msg:1
+msgid "You receive 9500 experience points, because you're a cheating little bastard."
+msgstr "Du erhältst 9500 Erfahrungspunkte, weil du cheatest, du kleiner Scheißer."
 
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."
 msgstr "Nö... Ich denke, ich werde die Leiter benutzen."
 
 #~ msgid "You have already used this skill on this critter today."
-#~ msgstr ""
-#~ "Du hast diese Fertigkeit heute bereits bei diesem Lebewesen eingesetzt."
+#~ msgstr "Du hast diese Fertigkeit heute bereits bei diesem Lebewesen eingesetzt."

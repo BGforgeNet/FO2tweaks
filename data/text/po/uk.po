@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-04-12:22+0000\n"
+"POT-Creation-Date: 2026-11-04-13:56+0000\n"
 "PO-Revision-Date: 2021-10-19 19:46+0300\n"
 "Last-Translator: IllusiveMan196\n"
 "Language-Team: \n"
@@ -62,10 +62,17 @@ msgstr "%1% зцілено на %2% здоров'я."
 msgid "Dead. Too late to help this one."
 msgstr "Мертвий. Допомагати занадто пізно."
 
+#: game/g_healing_revision.msg:13
+msgid "That's beyond first aid."
+msgstr ""
+
+#: game/g_item_charges.msg:1
+msgid "The Super Tool Kit wears out."
+msgstr ""
+
 #: game/g_level5.msg:1
 msgid ""
-"You receive 9500 experience points, because you're a cheating little "
-"bastard."
+"You receive 9500 experience points, because you're a cheating little bastard."
 msgstr "Ви отримуєте 9500 очок досвіду, бо ви брудний читер."
 
 #: game/g_map_hotkey.msg:1

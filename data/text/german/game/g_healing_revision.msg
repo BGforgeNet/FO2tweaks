@@ -10,3 +10,4 @@
 {10}{}{Du erhältst %1% Erfahrung für den erfolgreichen Einsatz von %2% deiner Fertigkeit.}
 {11}{}{%1% geheilt für %2% der TP.}
 {12}{}{Tot. Zuspät, um hier zu helfen.}
+{13}{}{That's beyond first aid.}

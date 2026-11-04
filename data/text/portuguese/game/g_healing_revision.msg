@@ -10,3 +10,4 @@
 {10}{}{Você recebe %1% de experiência pelo uso bem-sucedido da técnica %2%.}
 {11}{}{O %1% curou %2% de HP.}
 {12}{}{Morto. Tarde demais pra ajudar esta pessoa.}
+{13}{}{That's beyond first aid.}

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-04-12:22+0000\n"
+"POT-Creation-Date: 2026-11-04-13:56+0000\n"
 "PO-Revision-Date: 2022-10-02 13:30+0000\n"
 "Last-Translator: McNelly <valeriobuzi87@gmail.com>\n"
 "Language-Team: Italian <https://hive.bgforge.net/projects/fallout/fo2tweaks/it/>\n"
@@ -52,8 +52,7 @@ msgstr "hai imparato la strenna Anatomia Vivente."
 
 #: game/g_healing_revision.msg:10
 msgid "You receive %1% experience for successful use of %2% skill."
-msgstr ""
-"Ricevi %1% punti esperienza per aver usato con successo dell'abilita' %2%."
+msgstr "Ricevi %1% punti esperienza per aver usato con successo dell'abilita' %2%."
 
 #: game/g_healing_revision.msg:11
 msgid "%1% healed for %2% HP."
@@ -63,12 +62,17 @@ msgstr "%1% curato di %2% HP."
 msgid "Dead. Too late to help this one."
 msgstr "Morto. Ormai e' troppo tardi."
 
-#: game/g_level5.msg:1
-msgid ""
-"You receive 9500 experience points, because you're a cheating little "
-"bastard."
+#: game/g_healing_revision.msg:13
+msgid "That's beyond first aid."
 msgstr ""
-"Ricevi 9500 punti esperienza, perche' sei un piccolo bastardo cheater."
+
+#: game/g_item_charges.msg:1
+msgid "The Super Tool Kit wears out."
+msgstr ""
+
+#: game/g_level5.msg:1
+msgid "You receive 9500 experience points, because you're a cheating little bastard."
+msgstr "Ricevi 9500 punti esperienza, perche' sei un piccolo bastardo cheater."
 
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."

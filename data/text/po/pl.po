@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-04-12:22+0000\n"
+"POT-Creation-Date: 2026-11-04-13:56+0000\n"
 "PO-Revision-Date: 2021-09-20 12:40+0000\n"
 "Last-Translator: Full Name <jadedjade@tutanota.com>\n"
 "Language-Team: Polish <https://hive.bgforge.net/projects/fallout/fo2tweaks/pl/>\n"
@@ -37,8 +37,7 @@ msgstr " jest już wyleczony."
 #: game/g_healing_revision.msg:6
 msgid "%1% has already been healed with %2% skill today. Try tomorrow."
 msgstr ""
-"%1% zostało już dzisiaj wylecznone za pomocą umiejętności %2%. Spróbuj "
-"jutro."
+"%1% zostało już dzisiaj wylecznone za pomocą umiejętności %2%. Spróbuj jutro."
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
@@ -64,10 +63,17 @@ msgstr "%1% wyleczył %2% HP."
 msgid "Dead. Too late to help this one."
 msgstr "Nie żyje. Jest za późno żeby pomóc."
 
+#: game/g_healing_revision.msg:13
+msgid "That's beyond first aid."
+msgstr ""
+
+#: game/g_item_charges.msg:1
+msgid "The Super Tool Kit wears out."
+msgstr ""
+
 #: game/g_level5.msg:1
 msgid ""
-"You receive 9500 experience points, because you're a cheating little "
-"bastard."
+"You receive 9500 experience points, because you're a cheating little bastard."
 msgstr ""
 "Otrzymasz 9500 punktów doświadczenia, ponieważ jesteś małym, oszukującym "
 "draniem."

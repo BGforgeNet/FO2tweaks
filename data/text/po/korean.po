@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Korean (Fallout)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-04-12:22+0000\n"
+"POT-Creation-Date: 2026-11-04-13:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Korean <https://hive.bgforge.net/projects/fallout/fo2tweaks/ko/>\n"
@@ -62,22 +62,24 @@ msgstr ""
 msgid "Dead. Too late to help this one."
 msgstr ""
 
+#: game/g_healing_revision.msg:13
+msgid "That's beyond first aid."
+msgstr ""
+
+#: game/g_item_charges.msg:1
+msgid "The Super Tool Kit wears out."
+msgstr ""
+
 #: game/g_level5.msg:1
-msgid ""
-"You receive 9500 experience points, because you're a cheating little "
-"bastard."
+msgid "You receive 9500 experience points, because you're a cheating little bastard."
 msgstr ""
 
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."
 msgstr ""
 
-#~ msgid ""
-#~ "You must have either Killap's patch OR restoration project installed before "
-#~ "installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
-#~ msgstr ""
-#~ "=FO2tweaks을 설치하기 전에 Killap의 패치 혹은 복원 계획(Restoration Project)을 설치하셔야 합니다. "
-#~ "http://killap.net/fallout2/web/Downloads.html"
+#~ msgid "You must have either Killap's patch OR restoration project installed before installing FO2tweaks. http://killap.net/fallout2/web/Downloads.html"
+#~ msgstr "=FO2tweaks을 설치하기 전에 Killap의 패치 혹은 복원 계획(Restoration Project)을 설치하셔야 합니다. http://killap.net/fallout2/web/Downloads.html"
 
 #~ msgid "Party"
 #~ msgstr "=동료"
@@ -181,38 +183,25 @@ msgstr ""
 #~ msgid "Automatically walk through unlocked doors"
 #~ msgstr "=자동으로 잠기지 않은 문을 지나감"
 
-#~ msgid ""
-#~ "The archives list only two vaults: Vault 8 (this Vault) and Vault 15, "
-#~ "located far to the south."
+#~ msgid "The archives list only two vaults: Vault 8 (this Vault) and Vault 15, located far to the south."
 #~ msgstr "=기록된 목록은 두 볼트 뿐이다: 볼트 8 (현재 볼트) 그리고 볼트 15. 남쪽 멀리 위치해있다."
 
-#~ msgid ""
-#~ "The archives list only two vaults: Vault 8 (this Vault) and Vault 15. "
-#~ "Unfortunately, coordinates are not recorded."
+#~ msgid "The archives list only two vaults: Vault 8 (this Vault) and Vault 15. Unfortunately, coordinates are not recorded."
 #~ msgstr "=기록된 목록은 두 볼트 뿐이다: 볼트 8 (현재 볼트) 그리고 볼트 15 안타깝게도, 위치는 기록되어있지 않다."
 
-#~ msgid ""
-#~ "Hello there. I'm Lou. Owner of the Malamute Saloon, finest house north of "
-#~ "San Fran."
+#~ msgid "Hello there. I'm Lou. Owner of the Malamute Saloon, finest house north of San Fran."
 #~ msgstr "=안녕하세요. 저는 루. 샌프란시스코 최고의 주점인 말라뮤트의 주인이죠."
 
 #~ msgid "Hello there. I'm Lou, owner of the Malamute Saloon."
 #~ msgstr "=안녕하세요. 저는 루. 여기 말라뮤트 주점의 주인이죠."
 
-#~ msgid ""
-#~ "You access the computer and quickly scan all available files. You find the "
-#~ "location of Vault 13%WNL% and copy it to your PIP-Boy."
-#~ msgstr ""
-#~ "=당신은 컴퓨터에 접속하고 재빠르게 가능한 모든 파일을 뒤진다. 당신은 볼트 13%WNL%의 위치를 찾아내고 PiP-Boy에 복사한다."
+#~ msgid "You access the computer and quickly scan all available files. You find the location of Vault 13%WNL% and copy it to your PIP-Boy."
+#~ msgstr "=당신은 컴퓨터에 접속하고 재빠르게 가능한 모든 파일을 뒤진다. 당신은 볼트 13%WNL%의 위치를 찾아내고 PiP-Boy에 복사한다."
 
-#~ msgid ""
-#~ "You access the computer and quickly scan all available files. Unfortunately,"
-#~ " you can't find location of Vault 13."
+#~ msgid "You access the computer and quickly scan all available files. Unfortunately, you can't find location of Vault 13."
 #~ msgstr "=당신은 컴퓨터에 접속하고 재빠르게 가능한 모든 파일을 뒤진다. 안타깝지만, 당신은 볼트 13의 위치를 찾지 못 한다."
 
-#~ msgid ""
-#~ "Other than the location of Vault 13, the computer contains no useful "
-#~ "information."
+#~ msgid "Other than the location of Vault 13, the computer contains no useful information."
 #~ msgstr "=볼트 13의 위치 이외에는, 컴퓨터엔 쓸만한 정보가 하나도 없다."
 
 #~ msgid "The computer contains no useful information."

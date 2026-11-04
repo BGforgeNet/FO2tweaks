@@ -10,3 +10,4 @@
 {10}{}{Ganas %1% puntos de experiencia por el uso de %2%.}
 {11}{}{%1% curado para %2% PS.}
 {12}{}{Muerto. Demasiado tarde para ayudarlo.}
+{13}{}{That's beyond first aid.}

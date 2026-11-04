@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-04-12:22+0000\n"
+"POT-Creation-Date: 2026-11-04-13:56+0000\n"
 "PO-Revision-Date: 2022-01-06 12:40+0000\n"
 "Last-Translator: Felipe <felipefplzx@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hive.bgforge.net/projects/fallout/fo2tweaks/pt_BR/>\n"
@@ -28,8 +28,7 @@ msgstr "Você não pode fazer isto em combate."
 
 #: game/g_healing_revision.msg:4
 msgid "You don't think there's any chance you could heal this."
-msgstr ""
-"Você não acha que há qualquer chance de que você conseguiria curar isto."
+msgstr "Você não acha que há qualquer chance de que você conseguiria curar isto."
 
 #: game/g_healing_revision.msg:5
 msgid " is already healthy."
@@ -63,13 +62,17 @@ msgstr "O %1% curou %2% de HP."
 msgid "Dead. Too late to help this one."
 msgstr "Morto. Tarde demais pra ajudar esta pessoa."
 
-#: game/g_level5.msg:1
-msgid ""
-"You receive 9500 experience points, because you're a cheating little "
-"bastard."
+#: game/g_healing_revision.msg:13
+msgid "That's beyond first aid."
 msgstr ""
-"Você recebe 9500 pontos de experiência porque você é um bastardinho "
-"trapaceiro."
+
+#: game/g_item_charges.msg:1
+msgid "The Super Tool Kit wears out."
+msgstr ""
+
+#: game/g_level5.msg:1
+msgid "You receive 9500 experience points, because you're a cheating little bastard."
+msgstr "Você recebe 9500 pontos de experiência porque você é um bastardinho trapaceiro."
 
 #: game/g_map_hotkey.msg:1
 msgid "Nah... I think I'm gonna take the ladder."

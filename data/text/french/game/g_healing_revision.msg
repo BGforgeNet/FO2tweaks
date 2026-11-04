@@ -10,3 +10,4 @@
 {10}{}{Tu reçoit %1% points d'expérience pour l'utilisation réussie de ta compétence %2%.}
 {11}{}{%1% a récupéré %2% PI.}
 {12}{}{Mort. Trop tard pour aider celui-là.}
+{13}{}{That's beyond first aid.}

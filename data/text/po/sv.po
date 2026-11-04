@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-04-12:22+0000\n"
+"POT-Creation-Date: 2026-11-04-13:56+0000\n"
 "PO-Revision-Date: 2025-08-08 21:22+0000\n"
 "Last-Translator: tygyh <jonis9898@hotmail.com>\n"
 "Language-Team: none\n"
@@ -28,8 +28,7 @@ msgstr "Du kan inte göra detta i strid."
 
 #: game/g_healing_revision.msg:4
 msgid "You don't think there's any chance you could heal this."
-msgstr ""
-"Du tror inte att det finns någon chans att du skulle kunna läka detta."
+msgstr "Du tror inte att det finns någon chans att du skulle kunna läka detta."
 
 #: game/g_healing_revision.msg:5
 msgid " is already healthy."
@@ -37,8 +36,7 @@ msgstr " är redan hälsosam."
 
 #: game/g_healing_revision.msg:6
 msgid "%1% has already been healed with %2% skill today. Try tomorrow."
-msgstr ""
-"%1% har redan blivit läkt med %2% fädigheten idag. Försök igen imorgon."
+msgstr "%1% har redan blivit läkt med %2% fädigheten idag. Försök igen imorgon."
 
 #: game/g_healing_revision.msg:7
 msgid "You fail to do any healing."
@@ -64,10 +62,16 @@ msgstr "%1% läkte %2% HP."
 msgid "Dead. Too late to help this one."
 msgstr "Död. För sent för att hjälpa den här."
 
+#: game/g_healing_revision.msg:13
+msgid "That's beyond first aid."
+msgstr ""
+
+#: game/g_item_charges.msg:1
+msgid "The Super Tool Kit wears out."
+msgstr ""
+
 #: game/g_level5.msg:1
-msgid ""
-"You receive 9500 experience points, because you're a cheating little "
-"bastard."
+msgid "You receive 9500 experience points, because you're a cheating little bastard."
 msgstr "Du får 9500 enfarenhetspoäng, eftersom du är en fuskande liten jävel."
 
 #: game/g_map_hotkey.msg:1

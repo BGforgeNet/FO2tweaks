@@ -10,3 +10,4 @@
 {10}{}{Otrzymujesz %1% doświadczenia za udane użycie umiejętności %2%.}
 {11}{}{%1% wyleczył %2% HP.}
 {12}{}{Nie żyje. Jest za późno żeby pomóc.}
+{13}{}{That's beyond first aid.}

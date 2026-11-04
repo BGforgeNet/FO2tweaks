@@ -10,3 +10,4 @@
 {10}{}{Du får %1% erfarenhet för att du lyckas använda din %2% färdighet.}
 {11}{}{%1% läkte %2% HP.}
 {12}{}{Död. För sent för att hjälpa den här.}
+{13}{}{That's beyond first aid.}
