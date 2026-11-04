@@ -6,7 +6,7 @@ set -xeu -o pipefail
 export SFALL_VERSION="4.5.1"
 SSLC_VERSION="2026-09-17-13-26-18"
 export SSLC_URL="https://github.com/sfall-team/sslc/releases/download/${SSLC_VERSION}/sslc-linux"
-DAT3_VERSION="v0.11.2"
+DAT3_VERSION="v0.11.3"
 export DAT3_URL="https://github.com/BGforgeNet/dat3/releases/download/${DAT3_VERSION}/dat3"
 
 # Directories
