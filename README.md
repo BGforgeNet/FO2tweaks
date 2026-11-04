@@ -21,7 +21,6 @@ It is highly configurable, any component can be used with or without others. Som
 - [Installation](#installation)
 - [Unistallation](#uninstallation)
 - [Reporting issues](#reporting-issues)
-- [Author](#author)
 - [Changelog](docs/changelog.md)
 
 ## Components
@@ -229,8 +228,8 @@ This is a massive change to Doctor and First Aid skills:
 Some items have a fixed number of charges (configurable), shown on the hand slot like a Motion Sensor's. An emptied item is gone.
 
 - Medical kits: 10 charges. Requires [healing revision](#healing-revision). Kits no longer run out at random: a charge is spent on every actual treatment, successful or not. A patient who is healthy or already treated today costs nothing. Applies to First Aid Kit, Doctor's Bag, Field Medic First Aid Kit and Paramedic's Bag.
-- Super Tool Kit: 20 charges. A charge is spent when using it on something makes a skill roll, successful or not. Requires sfall: Fallout CE lacks the hook for this, so there the kit lasts forever, as in the original game.
-- Like in Jagged Alliance, partial items can be combined: drop one from the backpack or the other hand on the same kind of item in a hand, and its charges move into the one in hand.
+- Super Tool Kit: 20 charges. A charge is spent when using it on something makes a skill roll, successful or not. (sfall only, not supported in Fallout CE yet).
+- Partial items can be combined for refill, Jagged Alliance style: drop one from the backpack or the other hand on the same kind of item in a hand, and its charges  into the one in hand. Only the same kind of item can recharge.
 
 #### Map hotkey
 
@@ -301,7 +300,3 @@ Delete `mods/fo2tweaks.*` files.
     - note versions: FO2tweaks, `ddraw.dll`, any other mods you have installed. _Actual_ versions, don't just say "latest".
     - also attach [`debug.log`](https://github.com/BGforgeNet/Fallout2_Unofficial_Patch/blob/master/docs/debug.md)
 1. For feature requests: free form, but please be descriptive.
-
-## Author
-
-- [Magus at BGforge](https://forums.bgforge.net/viewforum.php?f=26)
